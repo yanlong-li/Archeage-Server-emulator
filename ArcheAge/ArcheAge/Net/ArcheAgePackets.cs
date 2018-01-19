@@ -29,9 +29,17 @@ namespace ArcheAge.ArcheAge.Net
         {
             ns.Write((short)0x00);
             ns.Write((byte)0x00);
-            ns.Write((int)0x00); //Undefined IP ??? Web Ip?
-            ns.Write((short)0x00); //Undefined Port ??? Web Port ?
-            ns.Write((int)0x00); //Undefined
+            //主地址
+            ns.Write((byte)0x01);
+            ns.Write((byte)0x00);
+            ns.Write((byte)0x00);
+            ns.Write((byte)0x7f); //Undefined IP ??? Web Ip?
+            ns.Write((short)0x4e2); //Undefined Port ??? Web Port ?
+                                    //主地址
+            ns.Write((byte)0x01);
+            ns.Write((byte)0x00);
+            ns.Write((byte)0x00);
+            ns.Write((byte)0x7f);
             ns.Write((int)0x00000000); //Undefined
         }
     }

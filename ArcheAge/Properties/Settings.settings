@@ -1,0 +1,39 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ArcheAge.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Game_Id" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="Game_Password" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="LoginServer_IP" Type="System.String" Scope="User">
+      <Value Profile="(Default)">127.0.0.1</Value>
+    </Setting>
+    <Setting Name="LoginServer_Port" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1231</Value>
+    </Setting>
+    <Setting Name="ArcheAge_Port" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1239</Value>
+    </Setting>
+    <Setting Name="ArcheAge_IP" Type="System.String" Scope="User">
+      <Value Profile="(Default)">127.0.0.1</Value>
+    </Setting>
+    <Setting Name="DataBase_Host" Type="System.String" Scope="User">
+      <Value Profile="(Default)">127.0.0.1</Value>
+    </Setting>
+    <Setting Name="DataBase_Port" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">3306</Value>
+    </Setting>
+    <Setting Name="DataBase_User" Type="System.String" Scope="User">
+      <Value Profile="(Default)">root</Value>
+    </Setting>
+    <Setting Name="DataBase_Name" Type="System.String" Scope="User">
+      <Value Profile="(Default)">archeage_world</Value>
+    </Setting>
+    <Setting Name="DataBase_Password" Type="System.String" Scope="User">
+      <Value Profile="(Default)">root</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -1,0 +1,37 @@
+﻿<Controls:MetroWindow x:Class="ArcheAgeLauncher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        Title="上古世纪启动器/开发版" Height="350" Width="613" ResizeMode="NoResize">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="161*"/>
+            <ColumnDefinition Width="446*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox x:Name="ipaddress" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Адрес Логин Сервера" HorizontalAlignment="Left" Height="23" Margin="119,167,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="209" Text="127.0.0.1" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="port" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Порт Логин Сервера" HorizontalAlignment="Left" Height="23" Margin="265,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="61" Text="1237" Grid.Column="1"/>
+        <Button Style="{DynamicResource SquareButtonStyle}" Content="启动" HorizontalAlignment="Left" Margin="265,246,0,0" VerticalAlignment="Top" Width="134" Grid.Column="1" Click="Button_Click"/>
+        <Image  HorizontalAlignment="Center" Height="136" Margin="10,10,0,0" VerticalAlignment="Top" Width="587" Grid.ColumnSpan="2" Source="archeage-logo.png"/>
+        <CheckBox x:Name="turn_slscrn" Content="禁用飞溅屏幕吗？" HorizontalAlignment="Left" Margin="10,246,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="170" Height="19"/>
+        <Label Content="服务器地址" HorizontalAlignment="Left" Margin="24,167,0,0" VerticalAlignment="Top"/>
+        <Label Content="端口号" HorizontalAlignment="Left" Margin="199,168,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Label Content="账户&#xD;&#xA;" HorizontalAlignment="Left" Margin="24,205,0,0" VerticalAlignment="Top"/>
+        <TextBlock x:Name="uid" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="13" Margin="119,213,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="209" Text="1"/>
+        <Label Content="token&#xD;&#xA;" HorizontalAlignment="Left" Margin="56,205,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <TextBox x:Name="userToken" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Порт Логин Сервера" HorizontalAlignment="Left" Height="23" Margin="129,205,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="234" Text="e10adc3949ba59abbe56e057f20f883e" Grid.Column="1" TextChanged="port_Copy_TextChanged"/>
+
+    </Grid>
+</Controls:MetroWindow>

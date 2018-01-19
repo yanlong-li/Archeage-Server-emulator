@@ -1,0 +1,42 @@
+﻿<Controls:MetroWindow x:Class="ArcheAge_Packet_Builder.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        Title="ArcheAge Packet Builder" Height="608" Width="1138" ResizeMode="NoResize">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="155*"/>
+            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="273*"/>
+        </Grid.ColumnDefinitions>
+        <Button Style="{DynamicResource SquareButtonStyle}" Content="Загрузить .pcap" HorizontalAlignment="Left" Margin="10,9,0,0" VerticalAlignment="Top" Width="208" Click="Button_Click_1"/>
+        <ListBox x:Name="PacketList" HorizontalAlignment="Left" Height="527" Margin="10,42,0,0" VerticalAlignment="Top" Width="465" Grid.ColumnSpan="2" FontStyle="Italic" SelectionChanged="PacketList_SelectionChanged"/>
+        <Button Style="{DynamicResource SquareButtonStyle}" x:Name="DefinePacket" Content="Определить Пакет" Grid.Column="2" HorizontalAlignment="Left" Margin="411,9,0,0" VerticalAlignment="Top" Width="226" Height="28" Click="DefinePacket_Click"/>
+        <RichTextBox IsReadOnly="True" x:Name="HexBox" Grid.Column="2" HorizontalAlignment="Left" Height="238" Margin="10,42,0,0" VerticalAlignment="Top" Width="627">
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text=""/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+        <TreeView x:Name="PartView" Grid.Column="2" HorizontalAlignment="Left" Height="284" Margin="10,285,0,0" VerticalAlignment="Top" Width="627"/>
+        <Label x:Name="PacketsDefined" Content="Распозанных:" Margin="245,10,40,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <Label x:Name="PacketsCurrent" Content="Текущий:" Grid.Column="1" HorizontalAlignment="Left" Margin="60,10,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="140"/>
+        <TextBox x:Name="mSearchBox" Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Поиск По Имени" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="206,11,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="165"/>
+        <Button x:Name="mSearch" Style="{DynamicResource SquareButtonStyle}" Content="Run" Grid.Column="2" HorizontalAlignment="Left" Margin="376,9,0,0" VerticalAlignment="Top" Width="30" Click="mSearch_Click"/>
+        <Button Style="{DynamicResource SquareButtonStyle}" Content="Сохранить Протокол" Grid.Column="2" HorizontalAlignment="Left" Margin="55,10,0,0" VerticalAlignment="Top" Width="146" Click="Button_Click_3"/>
+    </Grid>
+</Controls:MetroWindow>

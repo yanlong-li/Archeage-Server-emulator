@@ -98,6 +98,8 @@ namespace ArcheAge.ArcheAge.Net
             //模拟回馈数据验证
             net.SendAsync(new NP_Client01());
             //紧跟返回数据
+            //net.SendAsync(new NP_ClientConnected());
+            /*
             net.SendAsync(new NP_Client02());
             net.SendAsync(new NP_Clientdd05002());
             net.SendAsync(new NP_Clientdd02001());
@@ -119,7 +121,7 @@ namespace ArcheAge.ArcheAge.Net
             net.SendAsync(new NP_Clientdd05018());
             net.SendAsync(new NP_Clientdd05019());
             net.SendAsync(new NP_Client02002());
-
+            */
 
         }
         public static void Onpacket0201(ClientConnection net,PacketReader reader)

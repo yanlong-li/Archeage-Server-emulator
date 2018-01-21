@@ -22,7 +22,7 @@ namespace ArcheAgeLogin
         // .method private hidebysig static void Main(string[] args) cil managed
         static void Main(string[] args)
         {
-            Console.Title = "上古世纪登陆服务器";
+            Console.Title = "上古世纪登陆服务Login Server";
             Console.CancelKeyPress += Console_CancelKeyPress;
             Stopwatch watch = Stopwatch.StartNew();
             watch.Start();

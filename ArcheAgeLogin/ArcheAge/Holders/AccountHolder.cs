@@ -60,10 +60,28 @@ namespace ArcheAgeLogin.ArcheAge.Holders
                 command = null;
                 reader = null;
             }
+            catch(Exception e)
+            {
+                if(e.Message.IndexOf("using password: YES") >= 0)
+                {
+                    Logger.Trace("Error:账号或密码错误");
+                }else if (e.Message.IndexOf("Unable to connect to any of the specified MySQL hosts.")>=0){
+                    Logger.Trace("Error:无法连接到数据库");
+                }
+                else
+                {
+                    Logger.Trace("Error:未知错误");
+                }
+
+                //Message = "Authentication to host '127.0.0.1' for user 'root' using method 'mysql_native_password' failed with message: Access denied for user 'root'@'localhost' (using password: YES)"
+            }
             finally
             {
                 con.Close();
                 con = null;
+                Console.WriteLine("按Ctrl+C退出...");
+                Console.ReadKey();
+
             }
 
             Logger.Trace("加载到 {0} 个账户", m_DbAccounts.Count);

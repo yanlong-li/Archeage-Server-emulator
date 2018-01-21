@@ -22,13 +22,15 @@ namespace LocalCommons.Native.Significant
         public static void InitializeStruct(string[] args)
         {
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Logger.Section("程序集启动 修复+汉化By：烟笼里");
-
+            Logger.Section("info");
+            Logger.Trace("修正By：Yanlongli  email:ahlyl94@gmail.com");
+            Logger.Trace("website:www.yanlongli.com");
+            Logger.Trace("本软体仅用于学习交流，不得用于任何公开活动使用");
             Version ver = Assembly.GetExecutingAssembly().GetName().Version;
 
             Logger.Trace("ArcheAge Emu - 版本号 {0}.{1}, Build {2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision);
-            Logger.Trace("Main: Running On .NET Framework (C#) Version {0}.{1}.{2}", Environment.Version.Major, Environment.Version.Minor, Environment.Version.Build);
-            Logger.Trace("如果你想停止该服务请直接按下 Ctrl + C");
+            //Logger.Trace("Main: Running On .NET Framework (C#) Version {0}.{1}.{2}", Environment.Version.Major, Environment.Version.Minor, Environment.Version.Build);
+            //Logger.Trace("如果你想停止该服务请直接按下 Ctrl + C");
             int platform = (int)Environment.OSVersion.Platform;
             if (platform == 4 || platform == 128)
             {

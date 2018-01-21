@@ -6,8 +6,9 @@ Server simulator in the last century (based on the North American clothing (Chin
 
 
 update log：
-
-
+2018年1月21日
+修正服务器列表不支持非英文问题
+增加1250验证服务器
 
 2017年11月21日
 新增服务器列表显示禁用的种族

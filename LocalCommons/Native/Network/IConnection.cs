@@ -264,12 +264,12 @@ namespace LocalCommons.Native.Network
 
             
 
-            string path = "D:\\1.txt";//文件的路径，保证文件存在。
-            FileStream fs = new FileStream(path, FileMode.Append);
-            StreamWriter sw = new StreamWriter(fs);
-            sw.WriteLine(builder.ToString());
-            sw.Close();
-            fs.Close();
+            //string path = "d:\\1.txt";//文件的路径，保证文件存在。
+            //filestream fs = new filestream(path, filemode.append);
+            //streamwriter sw = new streamwriter(fs);
+            //sw.writeline(builder.tostring());
+            //sw.close();
+            //fs.close();
 
             PacketReader reader = new PacketReader(m_RecvBuffer, 0);
             //for (int i = 0; i < 10; i++)

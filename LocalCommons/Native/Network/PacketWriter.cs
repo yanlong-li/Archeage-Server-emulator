@@ -297,14 +297,35 @@ namespace LocalCommons.Native.Network
 
             if (length >= size)
                 m_Stream.Position += Encoding.ASCII.GetBytes(value, 0, size, m_Stream.GetBuffer(), (int)m_Stream.Position);
-
+            
             else
             {
                 Encoding.ASCII.GetBytes(value, 0, length, m_Stream.GetBuffer(), (int)m_Stream.Position);
                 m_Stream.Position += size;
             }
         }
+        public void WriteUTF8Fixed(string value, int size)
+        {
+            
+            if (value == null)
+            {
+                Console.WriteLine("Network: Attempted to WriteAsciiFixed() with null value");
+                value = String.Empty;
+            }
 
+            int length = value.Length;
+            Write((short)size);
+            m_Stream.SetLength(m_Stream.Length + size);
+
+            if (length >= size)
+                m_Stream.Position += UTF8Encoding.UTF8.GetBytes(value, 0, size, m_Stream.GetBuffer(), (int)m_Stream.Position);
+
+            else
+            {
+                UTF8Encoding.UTF8.GetBytes(value, 0, length, m_Stream.GetBuffer(), (int)m_Stream.Position);
+                m_Stream.Position += length*3;
+            }
+        }
         /// <summary>
         /// Writes a dynamic-length ASCII-encoded string value to the underlying stream, followed by a 1-byte null character.
         /// 写一个动态长度的ASCII编码的字符串值基础流，其次是一个字节的空字符。

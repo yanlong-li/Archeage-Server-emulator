@@ -1,0 +1,11 @@
+C:\Users\netcast5e3\documents\visual studio 2012\Projects\ArcheAge\LocalCommons\bin\Debug\LocalCommons.dll
+C:\Users\netcast5e3\documents\visual studio 2012\Projects\ArcheAge\LocalCommons\bin\Debug\LocalCommons.pdb
+C:\Users\netcast5e3\documents\visual studio 2012\Projects\ArcheAge\LocalCommons\obj\Debug\LocalCommons.dll
+C:\Users\netcast5e3\documents\visual studio 2012\Projects\ArcheAge\LocalCommons\obj\Debug\LocalCommons.pdb
+C:\Users\netcast5e3\documents\visual studio 2012\Projects\ArcheAge\LocalCommons\obj\Debug\LocalCommons.csprojResolveAssemblyReference.cache
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\LocalCommons\bin\Debug\LocalCommons.dll
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\LocalCommons\bin\Debug\LocalCommons.pdb
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\LocalCommons\obj\Debug\LocalCommons.csprojResolveAssemblyReference.cache
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\LocalCommons\obj\Debug\LocalCommons.dll
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\LocalCommons\obj\Debug\LocalCommons.pdb
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\LocalCommons\bin\Debug\protobuf-net.dll

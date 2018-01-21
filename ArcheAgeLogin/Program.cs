@@ -23,6 +23,7 @@ namespace ArcheAgeLogin
         static void Main(string[] args)
         {
             Console.Title = "上古世纪登陆服务Login Server";
+            //Console.Write(System.Text.UTF8Encoding.UTF8.GetByteCount("장미장원"));
             Console.CancelKeyPress += Console_CancelKeyPress;
             Stopwatch watch = Stopwatch.StartNew();
             watch.Start();

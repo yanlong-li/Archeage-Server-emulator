@@ -1,0 +1,67 @@
+C:\Users\netcast5e3\documents\visual studio 2012\Projects\ArcheAge\ArcheAge\bin\Debug\ArcheAge.exe
+C:\Users\netcast5e3\documents\visual studio 2012\Projects\ArcheAge\ArcheAge\bin\Debug\ArcheAge.pdb
+C:\Users\netcast5e3\documents\visual studio 2012\Projects\ArcheAge\ArcheAge\bin\Debug\LocalCommons.dll
+C:\Users\netcast5e3\documents\visual studio 2012\Projects\ArcheAge\ArcheAge\bin\Debug\LocalCommons.pdb
+C:\Users\netcast5e3\documents\visual studio 2012\Projects\ArcheAge\ArcheAge\obj\Debug\ArcheAge.exe
+C:\Users\netcast5e3\documents\visual studio 2012\Projects\ArcheAge\ArcheAge\obj\Debug\ArcheAge.pdb
+C:\Users\netcast5e3\documents\visual studio 2012\Projects\ArcheAge\ArcheAge\obj\Debug\ArcheAge.csprojResolveAssemblyReference.cache
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAge\obj\Debug\ArcheAge.exe
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAge\obj\Debug\ArcheAge.pdb
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAge\obj\Debug\ArcheAge.csprojResolveAssemblyReference.cache
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAge\bin\Debug\ArcheAge.exe
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAge\bin\Debug\ArcheAge.pdb
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAge\bin\Debug\LocalCommons.dll
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAge\bin\Debug\LocalCommons.pdb
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAge\bin\Debug\protobuf-net.dll
+C:\Users\Raphail\Desktop\archeage_emu\trunk\ArcheAge\bin\Debug\ArcheAge.exe
+C:\Users\Raphail\Desktop\archeage_emu\trunk\ArcheAge\bin\Debug\ArcheAge.pdb
+C:\Users\Raphail\Desktop\archeage_emu\trunk\ArcheAge\bin\Debug\LocalCommons.dll
+C:\Users\Raphail\Desktop\archeage_emu\trunk\ArcheAge\bin\Debug\protobuf-net.dll
+C:\Users\Raphail\Desktop\archeage_emu\trunk\ArcheAge\bin\Debug\LocalCommons.pdb
+C:\Users\Raphail\Desktop\archeage_emu\trunk\ArcheAge\obj\Debug\ArcheAge.csprojResolveAssemblyReference.cache
+C:\Users\Raphail\Desktop\archeage_emu\trunk\ArcheAge\obj\Debug\ArcheAge.exe
+C:\Users\Raphail\Desktop\archeage_emu\trunk\ArcheAge\obj\Debug\ArcheAge.pdb
+C:\Users\Raphail\Desktop\archeage_emu\trunk\ArcheAge\bin\Debug\ArcheAge.exe.config
+C:\Users\Yanlongli.TCMCARES\Desktop\trunk\ArcheAge\bin\Debug\LocalCommons.dll
+C:\Users\Yanlongli.TCMCARES\Desktop\trunk\ArcheAge\bin\Debug\protobuf-net.dll
+C:\Users\Yanlongli.TCMCARES\Desktop\trunk\ArcheAge\bin\Debug\LocalCommons.pdb
+C:\Users\Yanlongli.TCMCARES\Desktop\trunk\ArcheAge\obj\Debug\ArcheAge.csprojResolveAssemblyReference.cache
+C:\Users\Yanlongli.TCMCARES\Desktop\trunk\ArcheAge\obj\Debug\ArcheAge.csproj.CoreCompileInputs.cache
+C:\Users\Yanlongli.TCMCARES\Desktop\trunk\ArcheAge\bin\Debug\ArcheAgeGameServer.exe.config
+C:\Users\Yanlongli.TCMCARES\Desktop\trunk\ArcheAge\bin\Debug\ArcheAgeGameServer.exe
+C:\Users\Yanlongli.TCMCARES\Desktop\trunk\ArcheAge\bin\Debug\ArcheAgeGameServer.pdb
+C:\Users\Yanlongli.TCMCARES\Desktop\trunk\ArcheAge\obj\Debug\ArcheAgeGameServer.exe
+C:\Users\Yanlongli.TCMCARES\Desktop\trunk\ArcheAge\obj\Debug\ArcheAgeGameServer.pdb
+C:\Users\Yanlongli.TCMCARES\Desktop\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\ArcheAgeGameServer.exe.config
+C:\Users\Yanlongli.TCMCARES\Desktop\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\ArcheAgeGameServer.exe
+C:\Users\Yanlongli.TCMCARES\Desktop\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\ArcheAgeGameServer.pdb
+C:\Users\Yanlongli.TCMCARES\Desktop\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\LocalCommons.dll
+C:\Users\Yanlongli.TCMCARES\Desktop\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\protobuf-net.dll
+C:\Users\Yanlongli.TCMCARES\Desktop\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\LocalCommons.pdb
+C:\Users\Yanlongli.TCMCARES\Desktop\Archeage-Server-emulator-or-files\ArcheAge\obj\Debug\ArcheAge.csprojResolveAssemblyReference.cache
+C:\Users\Yanlongli.TCMCARES\Desktop\Archeage-Server-emulator-or-files\ArcheAge\obj\Debug\ArcheAge.csproj.CoreCompileInputs.cache
+C:\Users\Yanlongli.TCMCARES\Desktop\Archeage-Server-emulator-or-files\ArcheAge\obj\Debug\ArcheAgeGameServer.exe
+C:\Users\Yanlongli.TCMCARES\Desktop\Archeage-Server-emulator-or-files\ArcheAge\obj\Debug\ArcheAgeGameServer.pdb
+C:\Users\Yanlongli.TCMCARES\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\ArcheAgeGameServer.exe.config
+C:\Users\Yanlongli.TCMCARES\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\ArcheAgeGameServer.exe
+C:\Users\Yanlongli.TCMCARES\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\ArcheAgeGameServer.pdb
+C:\Users\Yanlongli.TCMCARES\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\LocalCommons.dll
+C:\Users\Yanlongli.TCMCARES\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\protobuf-net.dll
+C:\Users\Yanlongli.TCMCARES\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\LocalCommons.pdb
+C:\Users\Yanlongli.TCMCARES\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\obj\Debug\ArcheAge.csprojResolveAssemblyReference.cache
+C:\Users\Yanlongli.TCMCARES\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\obj\Debug\ArcheAge.csproj.CoreCompileInputs.cache
+C:\Users\Yanlongli.TCMCARES\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\obj\Debug\ArcheAgeGameServer.exe
+C:\Users\Yanlongli.TCMCARES\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\obj\Debug\ArcheAgeGameServer.pdb
+C:\Users\yanlo\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\ArcheAgeGameServer.exe.config
+C:\Users\yanlo\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\ArcheAgeGameServer.exe
+C:\Users\yanlo\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\ArcheAgeGameServer.pdb
+C:\Users\yanlo\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\LocalCommons.dll
+C:\Users\yanlo\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\protobuf-net.dll
+C:\Users\yanlo\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\LocalCommons.pdb
+C:\Users\yanlo\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\obj\Debug\ArcheAge.csprojResolveAssemblyReference.cache
+C:\Users\yanlo\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\obj\Debug\ArcheAge.csproj.CoreCompileInputs.cache
+C:\Users\yanlo\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\obj\Debug\ArcheAgeGameServer.exe
+C:\Users\yanlo\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\obj\Debug\ArcheAgeGameServer.pdb
+C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\ArcheAge\bin\Debug\ArcheAgeGameServer.exe.config
+C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\ArcheAge\obj\Debug\ArcheAgeGameServer.exe
+C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\ArcheAge\obj\Debug\ArcheAgeGameServer.pdb

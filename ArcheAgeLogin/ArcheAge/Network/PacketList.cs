@@ -83,6 +83,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
 
             bool success = GameServerController.RegisterGameServer(id, password, net, port, ip);
             net.SendAsync(new NET_GameRegistrationResult(success));
+            //net.SendAsync(new NP_ServerList());
         }
 
         #endregion

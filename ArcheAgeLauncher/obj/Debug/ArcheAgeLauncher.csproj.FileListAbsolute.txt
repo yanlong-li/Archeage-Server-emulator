@@ -1,0 +1,15 @@
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAgeLauncher\bin\Debug\ArcheAgeLauncher.exe
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAgeLauncher\bin\Debug\ArcheAgeLauncher.pdb
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAgeLauncher\bin\Debug\MahApps.Metro.dll
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAgeLauncher\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAgeLauncher\obj\Debug\ArcheAgeLauncher.csprojResolveAssemblyReference.cache
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAgeLauncher\obj\Debug\MainWindow.baml
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAgeLauncher\obj\Debug\MainWindow.g.cs
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAgeLauncher\obj\Debug\App.g.cs
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAgeLauncher\obj\Debug\ArcheAgeLauncher_MarkupCompile.cache
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAgeLauncher\obj\Debug\ArcheAgeLauncher.g.resources
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAgeLauncher\obj\Debug\ArcheAgeLauncher.Properties.Resources.resources
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAgeLauncher\obj\Debug\ArcheAgeLauncher.csproj.GenerateResource.Cache
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAgeLauncher\obj\Debug\ArcheAgeLauncher.exe
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAgeLauncher\obj\Debug\ArcheAgeLauncher.pdb
+C:\Users\netcast5e3\Desktop\svns\archeage_emu\trunk\ArcheAgeLauncher\obj\Debug\Resources\Icons.baml

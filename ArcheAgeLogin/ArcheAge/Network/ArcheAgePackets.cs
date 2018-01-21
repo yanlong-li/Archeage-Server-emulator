@@ -87,7 +87,8 @@ namespace ArcheAgeLogin.ArcheAge.Network
             {
                 ns.Write((byte)server.Id);
                 ns.Write((short)0x00);
-                ns.WriteASCIIFixed(server.Name, server.Name.Length);
+                ns.WriteUTF8Fixed(server.Name,System.Text.UTF8Encoding.UTF8.GetByteCount(server.Name));
+                //ns.WriteASCIIFixed(server.Name, server.Name.Length);
                 byte online = server.IsOnline() ? (byte)0x01 : (byte)0x02; //1在线 2离线
                 ns.Write((byte)online); //Server Status - 0x00 
                 int status = server.CurrentAuthorized.Count >= server.MaxPlayers ? 0x01 : 0x00; 

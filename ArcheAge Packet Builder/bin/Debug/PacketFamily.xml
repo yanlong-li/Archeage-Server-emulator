@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This File Represents Current Defined Packets -->
+<!-- Allowed Only : Int16, Int32, Single, Byte[], DynamicString, FixedString, Byte, Boolean, Double - Types -->
+<!-- Byte[] Syntax: Byte[]:ArrayLength Example: Byte[]:10 -->
+<!-- If you're Using Arrays, Delete Type Mandatory! -->
+<!-- Created By Raphail -->
+<PacketFamily xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<PacketWay Port="3724">
+		<TypeWay type="CLIENT">
+			<packet id="0x01" name="Handle_SignIn">
+				<part Name="ProtocolData" ArrayId="0" ByteArrayLength="10" Type="ByteArray" />
+				<part Name="Login" ArrayId="0" ByteArrayLength="0" Type="FixedString" />
+			</packet>
+			<packet id="0x04" name="Handle_Password">
+				<part Name="Undefined" ArrayId="0" ByteArrayLength="0" Type="Int16" />
+			</packet>
+			<packet id="0x08" name="Handle_RequestServerList">
+				<part Name="Undefined" ArrayId="0" ByteArrayLength="0" Type="Int32" />
+				<part Name="Undefined" ArrayId="0" ByteArrayLength="0" Type="Int32" />
+			</packet>
+			<packet id="0x09" name="Handle_ServerSelected">
+				<part Name="Undefined" ByteArrayLength="0" Type="Int32" />
+				<part Name="Undefined" ByteArrayLength="0" Type="Int32" />
+				<part Name="ServerId" ByteArrayLength="0" Type="Byte" />
+			</packet>
+			<packet id="0x00" level="1" name="Handle_ClientAuthorized">
+				<part Name="Protocol" ByteArrayLength="0" Type="Int64" />
+				<part Name="Session" ByteArrayLength="0" Type="Int32" />
+				<part Name="Account Id" ByteArrayLength="0" Type="Int32" />
+			</packet>
+			<packet id="0x12" level="2" name="Handle_ClientAction">
+				<part Name="Undefined" ByteArrayLength="0" Type="Byte" />
+				<part Name="Undefined" ByteArrayLength="0" Type="Byte" />
+				<part Name="Port?" ByteArrayLength="0" Type="Int16" />
+				<part Name="Undefined" ByteArrayLength="0" Type="Int32" />
+				<part Name="Undefined" ByteArrayLength="0" Type="Byte" />
+				<part Name="Undefined" ByteArrayLength="0" Type="Byte" />
+				<part Name="Undefined" ByteArrayLength="0" Type="Byte" />
+				<part Name="Undefined" ByteArrayLength="0" Type="Byte" />
+				<part Name="Undefined" ByteArrayLength="0" Type="Int32" />
+				<part Name="Undefined" ByteArrayLength="0" Type="Int16" />
+				<part Name="Undefined" ByteArrayLength="0" Type="Int16" />
+			</packet>
+			<packet id="0x01" level="2" name="Handle_WebInit">
+				<part Name="Undefined" ByteArrayLength="0" Type="Int32" />
+			</packet>
+		</TypeWay>
+		<TypeWay type="SERVER">
+			<packet id="0x00" name="NP_LoginAccept">
+				<part Name="Undefined" ArrayId="0" ByteArrayLength="0" Type="Int16" />
+				<part Name="Undefined" ArrayId="0" ByteArrayLength="0" Type="Int32" />
+				<part Name="Undefined" ArrayId="0" ByteArrayLength="0" Type="Int32" />
+			</packet>
+			<packet id="0x04" name="NP_AESKey">
+				<part Name="Undefined" ArrayId="0" ByteArrayLength="0" Type="Int16" />
+				<part Name="Undefined" ArrayId="0" ByteArrayLength="0" Type="Int16" />
+				<part Name="Key" ByteArrayLength="0" Type="FixedString" />
+				<part Name="ByteArray" ByteArrayLength="32" Type="ByteArray" />
+			</packet>
+			<packet id="0x0C" name="NP_FailLogin">
+				<part Name="Reason?" ArrayId="0" ByteArrayLength="0" Type="Byte" />
+				<part Name="Undefined" ArrayId="0" ByteArrayLength="0" Type="Int32" />
+			</packet>
+			<packet id="0x03" name="NP_PasswordCorrect">
+				<part Name="Undefined" ArrayId="0" ByteArrayLength="0" Type="Int32" />
+			</packet>
+			<packet id="0x08" name="NP_ServerList">
+				<part Name="ListLength" ArrayId="1" ByteArrayLength="0" Type="Byte" />
+				<part Name="Last Server?" ByteArrayLength="0" Type="Byte" />
+				<part Name="Current Users?" ByteArrayLength="0" Type="Int16" />
+				<part Name="Undefined" ByteArrayLength="0" Type="Int16" />
+				<part Name="Undefined" ByteArrayLength="0" Type="Int16" />
+				<part Name="Undefined" ByteArrayLength="0" Type="Int16" />
+				<part Name="Undefined" ByteArrayLength="0" Type="Byte" />
+				<part Name="Last Character?" ByteArrayLength="0" Type="FixedString" />
+				<part Name="Undefined" ByteArrayLength="0" Type="Byte" />
+				<part Name="Undefined" ByteArrayLength="0" Type="Byte" />
+				<part Name="Undefined" ByteArrayLength="0" Type="FixedString" />
+				<part Name="Undefined" ByteArrayLength="0" Type="Int32" />
+				<part Name="Undefined" ByteArrayLength="0" Type="Int32" />
+				<array ArrayId="1">
+					<part Name="Id" ArrayId="1" ByteArrayLength="0" Type="Byte" />
+					<part Name="Name" ArrayId="1" ByteArrayLength="0" Type="FixedString" />
+					<part Name="0x01 Always" ArrayId="1" ByteArrayLength="0" Type="Byte" />
+					<part Name="Status" ArrayId="1" ByteArrayLength="0" Type="Int32" />
+					<part Name="Undefined" ArrayId="1" ByteArrayLength="0" Type="Int32" />
+					<part Name="Undefined" ArrayId="1" ByteArrayLength="0" Type="Int16" />
+				</array>
+			</packet>
+			<packet id="0x0A" name="NP_SendGameAuthorization">
+				<part Name="Undefined" ByteArrayLength="4" Type="ByteArray" />
+				<part Name="IPAddress" ByteArrayLength="0" Type="FixedString" />
+				<part Name="Port" ByteArrayLength="0" Type="Int16" />
+			</packet>
+			<packet id="0x00" level="1" name="NP_ClientAuthorized">
+				<part Name="Undefined" ByteArrayLength="0" Type="Int16" />
+				<part Name="Undefined" ByteArrayLength="0" Type="Byte" />
+				<part Name="Web IPAddress?" ByteArrayLength="0" Type="Int32" />
+				<part Name="Web Port?" ByteArrayLength="0" Type="Int16" />
+				<part Name="Undefined" ByteArrayLength="0" Type="Int32" />
+				<part Name="Undefined" ByteArrayLength="0" Type="Int32" />
+			</packet>
+		</TypeWay>
+	</PacketWay>
+</PacketFamily>

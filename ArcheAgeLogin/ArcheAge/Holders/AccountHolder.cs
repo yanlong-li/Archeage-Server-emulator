@@ -73,14 +73,15 @@ namespace ArcheAgeLogin.ArcheAge.Holders
                     Logger.Trace("Error:未知错误");
                 }
 
+                //Console.ReadKey();
+
                 //Message = "Authentication to host '127.0.0.1' for user 'root' using method 'mysql_native_password' failed with message: Access denied for user 'root'@'localhost' (using password: YES)"
             }
             finally
             {
                 con.Close();
                 con = null;
-                Console.WriteLine("按Ctrl+C退出...");
-                Console.ReadKey();
+                
 
             }
 

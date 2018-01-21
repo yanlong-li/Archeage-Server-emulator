@@ -165,7 +165,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
     {
         public NP_03key() : base(0x03, true)
         {
-            //中国区版（不知道作用，但是后面会用到，可能是密钥之类的）经测试并非sessionID，此值多账号多服务器固定（中国区）
+            //账号ID
             //ns.Write((short)0xeb63);
             ns.Write((byte)0xeb);
             ns.Write((byte)0x63);

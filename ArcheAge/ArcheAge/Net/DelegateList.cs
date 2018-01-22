@@ -95,8 +95,9 @@ namespace ArcheAge.ArcheAge.Net
         public static void OnPacketReceive_Client01(ClientConnection net,PacketReader reader)
         {
             //net.CurrentAccount = m_Authorized;
+            net.SendAsync(new NP_ClientConnected());
             //模拟回馈数据验证
-            net.SendAsync(new NP_Client01());
+            //net.SendAsync(new NP_Client01());
             //紧跟返回数据
             //net.SendAsync(new NP_ClientConnected());
             /*

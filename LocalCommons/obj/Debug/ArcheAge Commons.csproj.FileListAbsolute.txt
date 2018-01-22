@@ -42,3 +42,4 @@ C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server
 C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\LocalCommons\bin\Debug\protobuf-net.dll
 C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\LocalCommons\obj\Debug\LocalCommons.dll
 C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\LocalCommons\obj\Debug\LocalCommons.pdb
+C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\LocalCommons\obj\Debug\ArcheAge Commons.csprojResolveAssemblyReference.cache

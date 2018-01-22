@@ -40,7 +40,7 @@ namespace ArcheAge.ArcheAge.Net
             ns.Write((byte)0x00);
             ns.Write((byte)0x00);
             ns.Write((byte)0x7f);
-            ns.Write((int)0x00000000); //Undefined
+            ns.Write((int)0x0); //Undefined
         }
     }
 

@@ -12,14 +12,27 @@ namespace ArcheAgeLogin.ArcheAge.Network
     /// </summary>
     public sealed class NP_AcceptLogin : NetPacket
     {
-        public NP_AcceptLogin() : base(0x00, true)
+        public NP_AcceptLogin(string clientVersion) : base(0x00, true)
         {
-            ns.Write((short)0x14);
-            ns.Write((byte)0x00);
-            ns.Write((byte)0xff);
-            ns.Write((byte)0xff);
-            ns.Write((short)0x1e);
-            ns.Write((int)0x00);
+
+           
+            if (clientVersion == "1")
+            {
+                ns.Write((short)0x14);
+                ns.Write((byte)0x00);
+                ns.Write((byte)0xff);
+                ns.Write((byte)0xff);
+                ns.Write((short)0x1e);
+                ns.Write((int)0x00);
+            }
+            else
+            {
+                ns.Write((short)0x00);
+                ns.Write((short)0x306);
+                ns.Write((short)0x48);
+                ns.Write((int)0x0);
+            }
+            
         }
     }
 
@@ -77,7 +90,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
         /// <summary>
         /// 发送服务器列表
         /// </summary>
-        public NP_ServerList() : base(0x08, true)
+        public NP_ServerList(string clientVersion) : base(0x08, true)
         {
             List<GameServer> m_Current = GameServerController.CurrentGameServers.Values.ToList<GameServer>();
 
@@ -86,6 +99,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
             foreach (GameServer server in m_Current)
             {
                 ns.Write((byte)server.Id);
+                if(clientVersion=="1")
                 ns.Write((short)0x00);
                 ns.WriteUTF8Fixed(server.Name,System.Text.UTF8Encoding.UTF8.GetByteCount(server.Name));
                 //ns.WriteASCIIFixed(server.Name, server.Name.Length);
@@ -163,7 +177,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
     }
     public sealed class NP_03key : NetPacket
     {
-        public NP_03key() : base(0x03, true)
+        public NP_03key(string clientVersion) : base(0x03, true)
         {
             //账号ID
             //ns.Write((short)0xeb63);
@@ -171,9 +185,18 @@ namespace ArcheAgeLogin.ArcheAge.Network
             ns.Write((byte)0x63);
             ns.Write((byte)0x4a);
             ns.Write((byte)0x1d);
+            //ns.Write((byte)0x00);
+            //ns.Write((int)0x00);
+            ns.Write((int)0x00);
+            if (clientVersion == "1")
+            {
+                ns.Write((int)0x00);
+            }
+            else
+            {
+                ns.WriteUTF8Fixed("e10adc3949ba59abbe56e057f20f883e", "e10adc3949ba59abbe56e057f20f883e".Length);
+            }
             ns.Write((byte)0x00);
-            ns.Write((int)0x00);
-            ns.Write((int)0x00);
         }
     }
 

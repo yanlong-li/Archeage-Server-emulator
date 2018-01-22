@@ -20,6 +20,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
         private static int m_Maintained;
         private static PacketHandler<GameConnection>[] m_GHandlers;
         private static PacketHandler<ArcheAgeConnection>[] m_LHandlers;
+        private static string   clientVersion;
 
         public static PacketHandler<GameConnection>[] GHandlers
         {
@@ -31,8 +32,9 @@ namespace ArcheAgeLogin.ArcheAge.Network
             get { return m_LHandlers; }
         }
 
-        public static void Initialize()
+        public static void Initialize(string clientVersion)
         {
+            PacketList.clientVersion = clientVersion;
             m_GHandlers = new PacketHandler<GameConnection>[0x20];
             m_LHandlers = new PacketHandler<ArcheAgeConnection>[0x30];
 
@@ -53,9 +55,20 @@ namespace ArcheAgeLogin.ArcheAge.Network
             Register(0x06, new OnPacketReceive<ArcheAgeConnection>(Handle_Token_Continue)); //token验证服务 -r模式    中服
             //Register(0x05, new OnPacketReceive<ArcheAgeConnection>(Handle_SignIn)); //登机登陆服务
             //Register(0x05, new OnPacketReceive<ArcheAgeConnection>(Handle_05));//登陆验证
-            Register(0x0c, new OnPacketReceive<ArcheAgeConnection>(Handle_RequestServerList)); //返回服务器列表
+            if (clientVersion == "1")
+            {
+                Register(0x0c, new OnPacketReceive<ArcheAgeConnection>(Handle_RequestServerList)); //返回服务器列表>= 3.0
+                Register(0x0d, new OnPacketReceive<ArcheAgeConnection>(Handle_ServerSelected));//根据服务器id返回服务器地址
+
+            }
+            else
+            {
+                Register(0x0b, new OnPacketReceive<ArcheAgeConnection>(Handle_RequestServerList)); //返回服务器列表<=2.9
+                Register(0x0c, new OnPacketReceive<ArcheAgeConnection>(Handle_ServerSelected));//根据服务器id返回服务器地址
+
+            }
+
             //Register(0x0d, new OnPacketReceive<ArcheAgeConnection>(Handle_0d));//根据服务器id返回服务器地址//0b 00 0d 00 00 00 00 00 00 00 00 36（36可能时服务器id）
-            Register(0x0d, new OnPacketReceive<ArcheAgeConnection>(Handle_ServerSelected));//根据服务器id返回服务器地址
 
             //Register(0x08, new OnPacketReceive<ArcheAgeConnection>(Handle_RequestServerList)); //返回服务器列表
             //Register(0x09, new OnPacketReceive<ArcheAgeConnection>(Handle_ServerSelected)); //服务器查询
@@ -96,7 +109,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
             reader.Offset += 2;
             string m_RLogin = reader.ReadString(m_RLoginLength); //Reading Login
 
-            
+
 
             Account n_Current = AccountHolder.AccountList.FirstOrDefault(n => n.Name == m_RLogin);
             if (n_Current == null)
@@ -122,7 +135,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
                 net.CurrentAccount = n_Current;
             }
             // net.SendAsync(new NP_PasswordCorrect(1));
-            net.SendAsync(new NP_ServerList());
+            net.SendAsync(new NP_ServerList( clientVersion));
 
         }
 
@@ -154,7 +167,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
                 }
             }
             */
-            net.SendAsync(new NP_AcceptLogin());
+            net.SendAsync(new NP_AcceptLogin(clientVersion));
             net.CurrentAccount.Session = net.GetHashCode();
             net.SendAsync(new NP_PasswordCorrect(net.CurrentAccount.Session));
             Logger.Trace("账户登陆: " + net.CurrentAccount.Name);
@@ -184,8 +197,8 @@ namespace ArcheAgeLogin.ArcheAge.Network
                     //将账号信息写入在线账户列表
                     GameServerController.AuthorizedAccounts.Add(net.CurrentAccount.AccountId, net.CurrentAccount);
                     Logger.Trace("账号: < "+n_Current.AccountId+":" + n_Current.Name+">登陆成功");
-                    net.SendAsync(new NP_AcceptLogin());
-                    net.SendAsync(new NP_03key());
+                    net.SendAsync(new NP_AcceptLogin(clientVersion));
+                    net.SendAsync(new NP_03key(clientVersion));
                     //返回服务器列表
                     //net.SendAsync(new NP_ServerList());
                     return;
@@ -220,8 +233,8 @@ namespace ArcheAgeLogin.ArcheAge.Network
                     //将账号信息写入在线账户列表
                     GameServerController.AuthorizedAccounts.Add(net.CurrentAccount.AccountId, net.CurrentAccount);
                     Logger.Trace("账号登陆成功: " + net.CurrentAccount.Name);
-                    net.SendAsync(new NP_AcceptLogin());
-                    net.SendAsync(new NP_03key());
+                    net.SendAsync(new NP_AcceptLogin(clientVersion));
+                    net.SendAsync(new NP_03key(clientVersion));
                     //返回服务器列表
                     //net.SendAsync(new NP_ServerList());
                     return;
@@ -253,7 +266,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
         private static void Handle_RequestServerList(ArcheAgeConnection net, PacketReader reader)
         {
             byte[] unknown = reader.ReadByteArray(8); //unk?
-            net.SendAsync(new NP_ServerList());
+            net.SendAsync(new NP_ServerList(clientVersion));
         }
 
         /**

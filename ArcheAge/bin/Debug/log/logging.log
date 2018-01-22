@@ -1,24 +1,39 @@
 -----------------------------------------------------------------------[ info ]
-2018/1/21 18:04 - 修正By：Yanlongli  email:ahlyl94@gmail.com
-2018/1/21 18:04 - website:www.yanlongli.com
-2018/1/21 18:04 - 本软体仅用于学习交流，不得用于任何公开活动使用
-2018/1/21 18:04 - ArcheAge Emu - 版本号 2.0, Build 6595.31329
+2018/1/22 13:58 - 修正By：Yanlongli  email:ahlyl94@gmail.com
+2018/1/22 13:58 - website:www.yanlongli.com
+2018/1/22 13:58 - 本软体仅用于学习交流，不得用于任何公开活动使用
+2018/1/22 13:58 - ArcheAge Emu - 版本号 2.0, Build 6596.23571
 -----------------------------------------------------------------------[ 网络连接 ]
-2018/1/21 18:04 - 连接服务器，安装数据…
-2018/1/21 18:04 - Installed ClientConnection At 127.0.0.1:1239
-2018/1/21 18:04 - ArcheAge 启动  2.00 秒.
-2018/1/21 18:04 - 收到：00 03 00 00 01 
-2018/1/21 18:04 - 成功安装登陆服务器
-2018/1/21 18:04 - 收到：58 00 08 00 03 01 00 00 0C 00 E7 8E AB E7 91 B0 E5 BA 84 E5 9B AD 01 00 00 00 00 00 00 00 00 00 00 02 00 00 0C 00 E7 8E AB E7 91 B0 E5 BA 84 E5 9B AD 02 00 00 00 00 00 00 00 00 00 00 03 00 00 0C 00 EC 9E A5 EB AF B8 EC 9E A5 EC 9B 90 02 00 00 00 00 00 00 00 00 00 00 00 
-2018/1/21 18:04 - 未处理的异常: AppDomain , Exception - 
-System.ArgumentException: 偏移量和长度超出数组的界限，或者计数大于从索引到源集合结尾处的元素数量。
-   在 System.Buffer.BlockCopy(Array src, Int32 srcOffset, Array dst, Int32 dstOffset, Int32 count)
-   在 LocalCommons.Native.Network.IConnection.ProceedReceiving(SocketAsyncEventArgs e) 位置 C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\LocalCommons\Native\Network\IConnection.cs:行号 286
-   在 LocalCommons.Native.Network.IConnection.m_AsyncReceive_Completed(Object sender, SocketAsyncEventArgs e) 位置 C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\LocalCommons\Native\Network\IConnection.cs:行号 320
-   在 System.Net.Sockets.SocketAsyncEventArgs.OnCompleted(SocketAsyncEventArgs e)
-   在 System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
-   在 System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
-   在 System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)
-   在 System.Net.Sockets.SocketAsyncEventArgs.FinishOperationSuccess(SocketError socketError, Int32 bytesTransferred, SocketFlags flags)
-   在 System.Net.Sockets.SocketAsyncEventArgs.CompletionPortCallback(UInt32 errorCode, UInt32 numBytes, NativeOverlapped* nativeOverlapped)
-   在 System.Threading._IOCompletionCallback.PerformIOCompletionCallback(UInt32 errorCode, UInt32 numBytes, NativeOverlapped* pOVERLAP)
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 无法连接登陆服务器，1秒后重试
+2018/1/22 13:58 - 连接服务器，安装数据…
+2018/1/22 13:58 - Installed ClientConnection At 127.0.0.1:1239
+2018/1/22 13:58 - 收到：00 03 00 00 01 
+2018/1/22 13:58 - 成功安装登陆服务器
+2018/1/22 13:58 - ArcheAge 启动  28.00 秒.
+2018/1/22 14:00 - 收到：00 23 00 01 00 00 00 01 01 01 74 65 73 74 00 00 00 02 7A 77 AC 44 1C 61 01 00 00 31 32 37 2E 30 2E 30 2E 31 00 
+2018/1/22 14:00 - 账户《 test》: 授权
+2018/1/22 14:00 - 客户端 127.0.0.1: 连接
+2018/1/22 14:00 - 收到：28 00 4E 01 00 00 00 00 3E 05 00 00 3E 05 00 00 EB 63 4A 1D 00 00 00 00 6A C6 34 C0 FF FF FF FF 00 A6 74 04 00 00 00 00 00 00 
+2018/1/22 14:00 - 客户端 127.0.0.1 :  断开

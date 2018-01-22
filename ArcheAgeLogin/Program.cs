@@ -19,6 +19,7 @@ namespace ArcheAgeLogin
     /// </summary>
     class Program
     {
+        static string ServerClientVersion = "1";
         // .method private hidebysig static void Main(string[] args) cil managed
         static void Main(string[] args)
         {
@@ -28,13 +29,22 @@ namespace ArcheAgeLogin
             Stopwatch watch = Stopwatch.StartNew();
             watch.Start();
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            selectVersion();
             LoadExecutingAssembly(args);
             watch.Stop();
             Logger.Trace("ArcheAge Login Server Started In {0} sec.", (watch.ElapsedMilliseconds / 1000.0).ToString("0.00"));
             watch = null;
             Key_Pressed();
+           
         }
 
+        static void selectVersion()
+        {
+            Console.WriteLine("Select Client Version:");
+            Console.WriteLine("1:   3.0+");
+            Console.WriteLine("2:   2.9-");
+            Program.ServerClientVersion = Console.ReadLine();
+        }
         static void Key_Pressed()
         {
            ConsoleKeyInfo info = Console.ReadKey();
@@ -97,7 +107,7 @@ namespace ArcheAgeLogin
 
             //----------------Network ---------------------------
             Logger.Section("Network");
-            PacketList.Initialize();
+            PacketList.Initialize(Program.ServerClientVersion);
             new AsyncListener(m_Current.Main_IP, m_Current.Game_Port, defined: typeof(GameConnection)); //Waiting For Game Server Connections
             new AsyncListener(m_Current.Main_IP, m_Current.ArcheAge_Port, defined: typeof(ArcheAgeConnection)); //Waiting For ArcheAge Connections
 

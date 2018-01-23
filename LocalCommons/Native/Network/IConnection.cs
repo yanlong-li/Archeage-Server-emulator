@@ -139,27 +139,24 @@ namespace LocalCommons.Native.Network
         {
             if (CoalesceSleep != -1)
                 Thread.Sleep(CoalesceSleep);
-            byte[] compiled;
-            compiled = new byte[15];
-            compiled[0] = 0x0d;
-            compiled[1] = 0x00;
-            compiled[2] = 0x00;
-            compiled[3] = 0x00;
-            compiled[4] = 0x01;
-            compiled[5] = 0x00;
-            compiled[6] = 0x00;
-            compiled[7] = 0x02;
-            compiled[8] = 0x04;
-            compiled[9] = 0x14;
-            compiled[10] = 0x00;
-            compiled[11] = 0x00;
-            compiled[12] = 0x00;
-            compiled[13] = 0x00;
-            compiled[14] = 0x00;
+            
+            byte[] compiled = packet.Compile2();
+   
             StringBuilder builder = new StringBuilder();
             foreach (byte b in compiled)
                 builder.AppendFormat("{0:X2} ", b);
-            Console.WriteLine("发送: " + builder.ToString());
+            Console.WriteLine("Send: " + builder.ToString());
+
+            string path = "d:\\1.txt";//文件的路径，保证文件存在。
+            FileStream fs = new FileStream(path, FileMode.Append);
+            StreamWriter sw = new StreamWriter(fs);
+            //filestream fs = new filestream(path, filemode.append);
+            //streamwriter sw = new streamwriter(fs);
+            sw.WriteLine(builder.ToString());
+            sw.Close();
+            fs.Close();
+
+
             m_Current.Send(compiled, compiled.Length, SocketFlags.None);
         }
 
@@ -204,7 +201,7 @@ namespace LocalCommons.Native.Network
             StringBuilder builder = new StringBuilder();
             foreach (byte b in compiled)
                 builder.AppendFormat("{0:X2} ", b);
-            Console.WriteLine("发送:服务器地址端口号：" + builder.ToString());
+            Console.WriteLine("SSendServerIP PORT：" + builder.ToString());
             m_Current.Send(compiled, compiled.Length, SocketFlags.None);
         }
 
@@ -222,7 +219,18 @@ namespace LocalCommons.Native.Network
                     StringBuilder builder = new StringBuilder();
                     foreach (byte b in compiled)
                         builder.AppendFormat("{0:X2} ", b);
-                    Console.WriteLine("Send: " + builder.ToString());
+                    Console.WriteLine("Send: \n" + builder.ToString());
+
+                    string path = "d:\\1.txt";//文件的路径，保证文件存在。
+                    FileStream fs = new FileStream(path, FileMode.Append);
+                    StreamWriter sw = new StreamWriter(fs);
+                    //filestream fs = new filestream(path, filemode.append);
+                    //streamwriter sw = new streamwriter(fs);
+                    sw.WriteLine(builder.ToString());
+                    sw.Close();
+                    fs.Close();
+
+
                     m_Current.Send(compiled, compiled.Length, SocketFlags.None);
                 }
             }
@@ -251,7 +259,7 @@ namespace LocalCommons.Native.Network
 #if DEBUG
             //--- Console Hexadecimal 
             StringBuilder builder = new StringBuilder();
-            builder.Append("收到：");
+            builder.Append("收到：\n");
             for (int i = 0; i < transfered; i++)
                 builder.AppendFormat("{0:x2} ".ToUpper(), m_RecvBuffer[i]);
             
@@ -264,12 +272,14 @@ namespace LocalCommons.Native.Network
 
             
 
-            //string path = "d:\\1.txt";//文件的路径，保证文件存在。
+            string path = "d:\\1.txt";//文件的路径，保证文件存在。
+            FileStream fs = new FileStream(path, FileMode.Append);
+            StreamWriter sw = new StreamWriter(fs);
             //filestream fs = new filestream(path, filemode.append);
             //streamwriter sw = new streamwriter(fs);
-            //sw.writeline(builder.tostring());
-            //sw.close();
-            //fs.close();
+            sw.WriteLine(builder.ToString());
+            sw.Close();
+            fs.Close();
 
             PacketReader reader = new PacketReader(m_RecvBuffer, 0);
             //for (int i = 0; i < 10; i++)

@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArcheAge\Net\ArcheAgePackets.cs" />
+    <Compile Include="ArcheAge\Net\Connections\ArcheAgeConnection.cs" />
     <Compile Include="ArcheAge\Net\Connections\ClientConnection.cs" />
     <Compile Include="ArcheAge\Net\DelegateList.cs" />
     <Compile Include="ArcheAge\Net\Connections\LoginConnection.cs" />

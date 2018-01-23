@@ -1,0 +1,8 @@
+C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\ArcheAgeAuth\bin\Debug\ArcheAgeLogin.exe.config
+C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\ArcheAgeAuth\obj\Debug\ArcheAgeLogin.exe
+C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\ArcheAgeAuth\obj\Debug\ArcheAgeLogin.pdb
+C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\ArcheAgeAuth\obj\Debug\ArcheAge Auth Server.csprojResolveAssemblyReference.cache
+C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\ArcheAgeAuth\bin\Debug\ArcheAgeLogin.exe
+C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\ArcheAgeAuth\bin\Debug\ArcheAgeLogin.pdb
+C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\ArcheAgeAuth\bin\Debug\LocalCommons.dll
+C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\ArcheAgeAuth\bin\Debug\LocalCommons.pdb

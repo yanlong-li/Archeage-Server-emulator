@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArcheAge Packet Builder", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AALauncher", "AALauncher\AALauncher.csproj", "{57727C9B-4FB1-4DDE-8B3E-40D87ACF97E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArcheAgeAuth", "ArcheAgeAuth\ArcheAgeAuth.csproj", "{30DCA9DA-948C-46F3-9723-491A905D5163}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArcheAge Auth Server", "ArcheAgeAuth\ArcheAge Auth Server.csproj", "{FEC91545-C2EB-48C5-8EE3-F87E894D21AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +47,10 @@ Global
 		{57727C9B-4FB1-4DDE-8B3E-40D87ACF97E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57727C9B-4FB1-4DDE-8B3E-40D87ACF97E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57727C9B-4FB1-4DDE-8B3E-40D87ACF97E8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{30DCA9DA-948C-46F3-9723-491A905D5163}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{30DCA9DA-948C-46F3-9723-491A905D5163}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{30DCA9DA-948C-46F3-9723-491A905D5163}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{30DCA9DA-948C-46F3-9723-491A905D5163}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEC91545-C2EB-48C5-8EE3-F87E894D21AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEC91545-C2EB-48C5-8EE3-F87E894D21AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEC91545-C2EB-48C5-8EE3-F87E894D21AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEC91545-C2EB-48C5-8EE3-F87E894D21AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

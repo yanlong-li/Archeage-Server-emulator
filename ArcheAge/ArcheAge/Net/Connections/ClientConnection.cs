@@ -43,7 +43,11 @@ namespace ArcheAge.ArcheAge.Net.Connections
             packet.IsArcheAgePacket = true;
             base.SendAsync(packet);
         }
-
+        public  void SendAsyncd(NetPacket packet)
+        {
+            packet.IsArcheAgePacket = false;
+            base.SendAsync(packet);
+        }
         void ClientConnection_DisconnectedEvent(object sender, EventArgs e)
         {
             Dispose();
@@ -53,22 +57,23 @@ namespace ArcheAge.ArcheAge.Net.Connections
         public override void HandleReceived(byte[] data)
         {
             PacketReader reader = new PacketReader(data, 0);
-            reader.Offset += 1; //Undefined Random Byte
+            //reader.Offset += 1; //Undefined Random Byte
+            byte rc = reader.ReadByte();
             byte level = reader.ReadByte(); //Packet Level
             short opcode = reader.ReadLEInt16(); //Packet Opcode
 
-            if (level==0x01)
-            {
-                reader.Offset += 2; //Undefined Random Byte
-                short opcode2 = reader.ReadLEInt16(); //Packet Opcode
-                if (opcode2 == 0x4cc || opcode2 == 0x4cd) { 
-                    opcode = 0x77;
-                }
-                reader.Offset -= 2; //Undefined Random Byte
-            }
+            //if (level==0x01)
+            //{
+            //    reader.Offset += 2; //Undefined Random Byte
+            //    short opcode2 = reader.ReadLEInt16(); //Packet Opcode
+            //    if (opcode2 == 0x4cc || opcode2 == 0x4cd) { 
+            //        opcode = 0x77;
+            //    }
+            //    reader.Offset -= 2; //Undefined Random Byte
+            //}
             if (!DelegateList.ClientHandlers.ContainsKey(level))
             {
-                Logger.Trace("收到未定义的 Level {0} - Opcode 0x{1:X2}", level, opcode);
+                Logger.Trace("收到未定义的rc{0} Level {1} - Opcode 0x{2:X2}",rc, level, opcode);
                 return;
             }
             try { 
@@ -76,11 +81,11 @@ namespace ArcheAge.ArcheAge.Net.Connections
                 if (handler != null)
                     handler.OnReceive(this, reader);
                 else
-                    Logger.Trace("收到未定义的包 Level - {0} Op - 0x{1:X2}", level, opcode);
+                    Logger.Trace("收到未定义的rc{0}包 Level - {1} Op - 0x{2:X2}",rc, level, opcode);
                 }
             catch(Exception exp)
             {
-                Logger.Trace("收到未定义的包 Level - {0} Op - 0x{1:X2}", level, opcode);
+                Logger.Trace("收到未定义的rc{0}包 Level2 - {1} Op - 0x{2:X2}",rc, level, opcode);
                 throw exp;
             }
         }

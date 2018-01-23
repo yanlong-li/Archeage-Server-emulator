@@ -39,7 +39,7 @@ namespace ArcheAgeAuth.ArcheAge.Net
         public static void Initialize()
         {
             m_LHandlers = new PacketHandler<LoginConnection>[0x20];
-            //m_LHandlers = new PacketHandler<ClientConnection>[0x30];
+            m_LHandlers = new PacketHandler<A>[0x30];
             levels = new Dictionary<int, PacketHandler<ClientConnection>[]>();
 
             RegisterDelegates();

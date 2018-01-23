@@ -322,9 +322,38 @@ namespace LocalCommons.Native.Network
 
             else
             {
+ 
                 UTF8Encoding.UTF8.GetBytes(value, 0, length, m_Stream.GetBuffer(), (int)m_Stream.Position);
                 m_Stream.Position += length*3;
             }
+        }
+        public void WriteHex(string value)
+        {
+            if (value.Length %2 != 0) {
+                Console.Write("Hex写入失败，字节不为整数");
+                return;
+            }
+
+            int length = value.Length / 2;
+            //Write((short)length);
+            m_Stream.SetLength(m_Stream.Length + length);
+
+            byte[] bytes = new byte[value.Length / 2];
+
+                       for (int i = 0; i < bytes.Length; i++)
+            {
+                
+                    // 每两个字符是一个 byte。 
+                    bytes[i] = byte.Parse(value.Substring(i * 2, 2),
+                                             System.Globalization.NumberStyles.HexNumber);
+                
+            }
+            bytes.CopyTo(m_Stream.GetBuffer(),0);
+
+
+               // UTF8Encoding.UTF8.GetBytes(value, 0, length, m_Stream.GetBuffer(), (int)m_Stream.Position);
+                //m_Stream.Position += length ;
+            
         }
         /// <summary>
         /// Writes a dynamic-length ASCII-encoded string value to the underlying stream, followed by a 1-byte null character.

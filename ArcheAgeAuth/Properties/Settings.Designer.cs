@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ArcheAgeAuth.Properties {
+namespace ArcheAgeLogin.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -25,55 +25,7 @@ namespace ArcheAgeAuth.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int Game_Id {
-            get {
-                return ((int)(this["Game_Id"]));
-            }
-            set {
-                this["Game_Id"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Game_Password {
-            get {
-                return ((string)(this["Game_Password"]));
-            }
-            set {
-                this["Game_Password"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
-        public string LoginServer_IP {
-            get {
-                return ((string)(this["LoginServer_IP"]));
-            }
-            set {
-                this["LoginServer_IP"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1231")]
-        public int LoginServer_Port {
-            get {
-                return ((int)(this["LoginServer_Port"]));
-            }
-            set {
-                this["LoginServer_Port"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1239")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1237")]
         public int ArcheAge_Port {
             get {
                 return ((int)(this["ArcheAge_Port"]));
@@ -85,13 +37,13 @@ namespace ArcheAgeAuth.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
-        public string ArcheAge_IP {
+        [global::System.Configuration.DefaultSettingValueAttribute("1231")]
+        public int Game_Port {
             get {
-                return ((string)(this["ArcheAge_IP"]));
+                return ((int)(this["Game_Port"]));
             }
             set {
-                this["ArcheAge_IP"] = value;
+                this["Game_Port"] = value;
             }
         }
         
@@ -133,13 +85,25 @@ namespace ArcheAgeAuth.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("archeage_world")]
+        [global::System.Configuration.DefaultSettingValueAttribute("archeage")]
         public string DataBase_Name {
             get {
                 return ((string)(this["DataBase_Name"]));
             }
             set {
                 this["DataBase_Name"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Account_AutoCreation {
+            get {
+                return ((bool)(this["Account_AutoCreation"]));
+            }
+            set {
+                this["Account_AutoCreation"] = value;
             }
         }
         
@@ -157,13 +121,25 @@ namespace ArcheAgeAuth.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1250")]
-        public int ArcheAgeAuth_Port {
+        [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
+        public string Main_IP {
             get {
-                return ((int)(this["ArcheAgeAuth_Port"]));
+                return ((string)(this["Main_IP"]));
             }
             set {
-                this["ArcheAgeAuth_Port"] = value;
+                this["Main_IP"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public string ServerClientVersion {
+            get {
+                return ((string)(this["ServerClientVersion"]));
+            }
+            set {
+                this["ServerClientVersion"] = value;
             }
         }
         
@@ -176,6 +152,18 @@ namespace ArcheAgeAuth.Properties {
             }
             set {
                 this["ArcheAgeAuth_IP"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1250")]
+        public int ArcheAgeAuth_PORT {
+            get {
+                return ((int)(this["ArcheAgeAuth_PORT"]));
+            }
+            set {
+                this["ArcheAgeAuth_PORT"] = value;
             }
         }
     }

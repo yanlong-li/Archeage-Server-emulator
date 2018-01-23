@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("ArcheAge World Server Emulator")]
-[assembly: AssemblyDescription("Emulator For ArcheAge Game")]
+[assembly: AssemblyTitle("ArcheAge Login Server")]
+[assembly: AssemblyDescription("Emulator For ArcheAge Login Server")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ArcheAge Emulator")]
+[assembly: AssemblyProduct("ArcheAge Login Server")]
 [assembly: AssemblyCopyright("Copyright © netcastiel 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
-[assembly: Guid("6196facf-cbd5-4118-ba85-abf9393fe5da")]
+[assembly: Guid("15ea942f-9212-4de2-a47e-b3b914760443")]
 
 // Сведения о версии сборки состоят из следующих четырех значений:
 //

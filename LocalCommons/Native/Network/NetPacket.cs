@@ -73,7 +73,25 @@ namespace LocalCommons.Native.Network
                 temporary.Write((short)packetId);
             }
             else
-                temporary.Write((short) packetId);
+                temporary.Write((short)packetId);
+            byte[] redata = ns.ToArray();
+            PacketWriter.ReleaseInstance(ns);
+            ns = null;
+            temporary.Write(redata, 0, redata.Length);
+            byte[] compiled = temporary.ToArray();
+            PacketWriter.ReleaseInstance(temporary);
+            temporary = null;
+            return compiled;
+        }
+
+        /// <summary>
+        /// Compiles Data And Return Compiled byte[]
+        /// </summary>
+        /// <returns></returns>
+        public byte[] Compile2()
+        {
+            PacketWriter temporary = PacketWriter.CreateInstance(8192 * 4, m_littleEndian);
+          
             byte[] redata = ns.ToArray();
             PacketWriter.ReleaseInstance(ns);
             ns = null;

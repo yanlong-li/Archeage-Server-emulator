@@ -1,27 +1,34 @@
-﻿using ArcheAgeAuth.ArcheAge.Net.Connections;
+﻿using ArcheAgeLogin.ArcheAge.Network;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ArcheAgeAuth.ArcheAge.Structuring
+namespace ArcheAgeLogin.ArcheAge.Structuring
 {
     /// <summary>
-    /// Stucture That Contains Information About Account
+    /// Structure For Accounts.
     /// </summary>
     public class Account
     {
         private int m_AccountId;
         private string m_PassHash;
+        private string m_Token;
         private byte m_Access;
         private byte m_Membership;
         private string m_LastIp;
         private long m_LastLogged;
         private string m_Name;
-        private ClientConnection m_Connection;
+        private ArcheAgeConnection m_Connection;
         private bool m_WaitingReAuthorization;
         private int sessionId;
         private int characters;
+
+        public int Characters
+        {
+            get { return characters; }
+            set { characters = value; }
+        }
 
         public int Session
         {
@@ -35,7 +42,7 @@ namespace ArcheAgeAuth.ArcheAge.Structuring
             set { m_WaitingReAuthorization = value; }
         }
 
-        public ClientConnection Connection
+        public ArcheAgeConnection Connection
         {
             get { return m_Connection; }
             set { m_Connection = value; }
@@ -57,6 +64,12 @@ namespace ArcheAgeAuth.ArcheAge.Structuring
         {
             get { return m_PassHash; }
             set { m_PassHash = value; }
+        }
+
+        public string Token
+        {
+            get { return m_Token; }
+            set { m_Token = value; }
         }
 
         public byte AccessLevel

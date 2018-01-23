@@ -49,10 +49,10 @@ namespace ArcheAgeLogin.ArcheAge.Network
             {
                 //写入sessionid
                 //ns.Write(sessionId);
-                ns.Write((byte)0x6a);//未知
-                ns.Write((byte)0xc6);//未知
-                ns.Write((byte)0x34);//未知
-                ns.Write((byte)0xc0);//未知
+                ns.Write((byte)0x5b);//未知
+                ns.Write((byte)0x4f);//未知
+                ns.Write((byte)0xdd);//未知
+                ns.Write((byte)0x4e);//未知
 
                 for (int i = 3; i > -1; i--)
                 {
@@ -175,18 +175,17 @@ namespace ArcheAgeLogin.ArcheAge.Network
             ns.Write((int)0x00);
         }
     }
+    //将账号Id发送回客户端
     public sealed class NP_03key : NetPacket
     {
         public NP_03key(string clientVersion) : base(0x03, true)
         {
             //账号ID
-            //ns.Write((short)0xeb63);
-            ns.Write((byte)0xeb);
-            ns.Write((byte)0x63);
-            ns.Write((byte)0x4a);
-            ns.Write((byte)0x1d);
-            //ns.Write((byte)0x00);
-            //ns.Write((int)0x00);
+            
+            ns.Write((byte)0x1);
+            ns.Write((byte)0x0);
+            ns.Write((byte)0x0);
+            ns.Write((byte)0x0);
             ns.Write((int)0x00);
             if (clientVersion == "1")
             {

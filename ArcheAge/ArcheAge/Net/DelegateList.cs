@@ -57,7 +57,7 @@ namespace ArcheAge.ArcheAge.Net
 
 
             Register(0x01, 0x00, new OnPacketReceive<ClientConnection>(OnPacketReceive_ClientAuthorized));
-            Register(0x01, 0x77, new OnPacketReceive<ClientConnection>(OnPacketReceive_Client01));
+            Register(0x01, 0x1b7f, new OnPacketReceive<ClientConnection>(OnPacketReceive_Client01));
             Register(0x02, 0x01, new OnPacketReceive<ClientConnection>(Onpacket0201));
             //Register(0x02, 0x01, new OnPacketReceive<ClientConnection>(Onpacket0201));
             Register(0x02, 0x12, new OnPacketReceive<ClientConnection>(Onpacket0212));
@@ -71,19 +71,24 @@ namespace ArcheAge.ArcheAge.Net
         public static void OnPacketReceive_ClientAuthorized(ClientConnection net, PacketReader reader)
         {
             //B3 04 00 00 B3 04 00 00 8C 28 22 00 E7 F0 0C C6 FF FF FF FF 00 
+            reader.Offset += 2;
             long protocol = reader.ReadLEInt64(); //Protocols?
-            int sessionId = reader.ReadLEInt32(); //User Session Id
+            
             int accountId = reader.ReadLEInt32(); //Account Id
+            reader.Offset += 4;
+            int sessionId = reader.ReadLEInt32(); //User Session Id
             Account m_Authorized = ClientConnection.CurrentAccounts.FirstOrDefault(kv => kv.Value.Session == sessionId && kv.Value.AccountId == accountId).Value;
-            if (m_Authorized != null)
+            if (m_Authorized == null)
             {
                 net.Dispose();
-                Logger.Trace("账户 {0} 已登陆：无法继续。", net);
+                Logger.Trace("账户 {0} 未登录：无法继续。", net);
             }
             else
             {
                 net.CurrentAccount = m_Authorized;
-                net.SendAsync(new NP_ClientConnected());
+                net.SendAsync(new NP_ClientConnected2());
+                net.SendAsync(new NP_Client02());
+                //net.SendAsync(new NP_ClientConnected());
             }
         }
 
@@ -94,41 +99,25 @@ namespace ArcheAge.ArcheAge.Net
          * */
         public static void OnPacketReceive_Client01(ClientConnection net,PacketReader reader)
         {
-            //net.CurrentAccount = m_Authorized;
-            net.SendAsync(new NP_ClientConnected());
-            //模拟回馈数据验证
-            //net.SendAsync(new NP_Client01());
-            //紧跟返回数据
-            //net.SendAsync(new NP_ClientConnected());
-            /*
-            net.SendAsync(new NP_Client02());
-            net.SendAsync(new NP_Clientdd05002());
-            net.SendAsync(new NP_Clientdd02001());
-            net.SendAsync(new NP_Clientdd05003());
-            net.SendAsync(new NP_Clientdd05004());
-            net.SendAsync(new NP_Clientdd05005());
-            net.SendAsync(new NP_Clientdd05006());
-            net.SendAsync(new NP_Clientdd05007());
-            net.SendAsync(new NP_Clientdd05008());
-            net.SendAsync(new NP_Clientdd05009());
-            net.SendAsync(new NP_Clientdd05010());
-            net.SendAsync(new NP_Clientdd05011());
-            net.SendAsync(new NP_Clientdd05012());
-            net.SendAsync(new NP_Clientdd05013());
-            net.SendAsync(new NP_Clientdd05014());
-            net.SendAsync(new NP_Clientdd05015());
-            net.SendAsync(new NP_Clientdd05016());
-            net.SendAsync(new NP_Clientdd05017());
-            net.SendAsync(new NP_Clientdd05018());
-            net.SendAsync(new NP_Clientdd05019());
-            net.SendAsync(new NP_Client02002());
-            */
+            net.SendAsyncHex(new NP_Hex("0700dd05f2bdb150102a00dd056f6fcc01d3a2724213e3b3e05321512c00dd0205d012452606e6b6865727f7c797704010e0b081512c00dd021300157f26060000000060bee1d96c0100000000058ef05d96663707d219375020f0b62d01007dd3e50ffe00dd058ef95d96663707d7a7775020f0c090613101d1a1724212e2b2835323f3c494643404d5a5754515e6b6865626f7c7976737fed0a0704011e1b1815122f2c292623303d3a3734414e4b4845525f5c596663606d6a7774717e7c0906030fed1a1714111e2b2825222f3c393633304d4a4744415e5b5855526f6c696663707d7a7774010e0b0815121f1c192623202d2a3734313e3b4845424f4c595653505d6a6764616e7b7875727fed0a0704011e1b1815122f2c292623303d3a3744414e4b4855525f5c596663606d6a7774717e7b0805020f0c191613101d2a2724212e3b3835323f4c494643405d5a5754516e6b680b08151860800dd0520b181510f00dd0552379ac797704010e0b08151860800dd0520a188501140"));
+
 
         }
         public static void Onpacket0201(ClientConnection net,PacketReader reader)
         {
-            //net.SendAsync(new NP_Client0200());//同样返回报错
-            //net.SendAsync(new NP_Clientdd0537e7());
+            byte b3 = reader.ReadByte();
+            if ( b3== 0x0)
+            {
+
+
+                net.SendAsync(new NP_Client0200());//同样返回报错
+                net.SendAsyncHex(new NP_Hex("1400dd05fee767865627f6cf97087265899fe9242175"));
+                net.SendAsyncHex(new NP_Hex("1e00dd020f000f00735f7069726174655f69736c616e640000000000000000014d00dd05e1606b03c3a31536778cd1e4324092a4fb031865b9ca6f4768d0bf8f29288d0aa62032df76266a421005dc04e238f2c494643405d5a5754516e6b7875626f6c797704010e0b0815152f322a900dd05e1936731ffe0a119356592c1b87d0d80a6e0105a6bba8a10367483c1ab3c4882a3f1145673bec8196e6492d9ee3f4690acf7111c72a0ca052a138bc0f02457ceeaba044766bec3172173c9d3f536418afec91e347486c3e0254b9dacbc16416abccd13257981c7ab25579cb3b905596bbbc2052472c8c0f5224398a0e2041e62a0c7162b66909cf3265197acf5175128b6d710217f92c5ab314b98b0b911236489dfef51e717472a00dd050e65cc01d2a2724212e3b3835323f4c4946434053561754516e6b6865727f7c797704010e0b081517700dd057997103300eea3724212e2b4845524f4c595643505d7a6764616e7b7875767bed0a0704011e1b1815122f2c292623303d3a3744414e4b4855525f5c596663606d6a7774717e7b0805020f0c191613101d2a2724212e3b3835323f4c49465340ac6a5754566a4b3865727f7c781348ddcac8f8b99f20900dd05a9b6e5511041701c00dd05d0635d04d5af754516e6b9895827f7c897704010e0b0815ec4f40e00dd057a2fb0c797704010e0b081510900dd059db9ac531142700e00dd05282df0c797704010e0b081512300dd0523e85c835223f4c494643405d5a5754516e6b6865727f7c797704010e0b08151420a00dd058b7cf511e0b08151"));
+
+            }else if (b3 == 0x01)
+            {
+                net.SendAsync(new NP_Client02002());
+            }
             //net.SendAsync(new NP_Clientdd05bae9());
         }
 

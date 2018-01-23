@@ -1,43 +1,71 @@
-﻿using ArcheAgeAuth.ArcheAge.Net;
-using ArcheAgeAuth.ArcheAge.Net.Connections;
-using ArcheAgeAuth.Properties;
+﻿using ArcheAgeLogin.ArcheAge;
+using ArcheAgeLogin.ArcheAge.Holders;
+using ArcheAgeLogin.ArcheAge.Network;
+using ArcheAgeLogin.ArcheAge.Structuring;
+using ArcheAgeLogin.Properties;
 using LocalCommons.Native.Logging;
 using LocalCommons.Native.Network;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 
-namespace ArcheAgeAuth
+namespace ArcheAgeLogin
 {
     /// <summary>
-    /// Main Application Enter Point.
+    /// Main Class For Program Entering.
     /// </summary>
     class Program
     {
+        static string ServerClientVersion = "1";
+        // .method private hidebysig static void Main(string[] args) cil managed
         static void Main(string[] args)
         {
-            Console.Title = "上古世纪验证授权服务器";
+            Console.Title = "ArcheAgeAuthServer";
+            //Console.Write(System.Text.UTF8Encoding.UTF8.GetByteCount("장미장원"));
             Console.CancelKeyPress += Console_CancelKeyPress;
             Stopwatch watch = Stopwatch.StartNew();
+            watch.Start();
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            selectVersion();
             LoadExecutingAssembly(args);
             watch.Stop();
-            Logger.Trace("ArcheAge 启动  {0} 秒.", (watch.ElapsedMilliseconds / 1000).ToString("0.00"));
+            Logger.Trace("ArcheAge Auth Server Started In {0} sec.", (watch.ElapsedMilliseconds / 1000.0).ToString("0.00"));
             watch = null;
             Key_Pressed();
+           
         }
 
+        static void selectVersion()
+        {
+            Console.WriteLine("Select Client Version: Default 1");
+            Console.WriteLine("1:   3.0+");
+            Console.WriteLine("2:   2.9-");
+            if (Settings.Default.ServerClientVersion == "0")
+            {
+                
+                Program.ServerClientVersion = Console.ReadLine();
+                if (Program.ServerClientVersion == "")
+                {
+
+                    Program.ServerClientVersion = "1";
+                }
+            }
+            else {
+                Console.WriteLine("AutoSelectServerClientVersion:" + Settings.Default.ServerClientVersion);
+                Program.ServerClientVersion = Settings.Default.ServerClientVersion;
+            }
+
+        }
         static void Key_Pressed()
         {
-            ConsoleKeyInfo info = Console.ReadKey();
-            if (info != null)
-            {
-                Key_Pressed();
-            }
+           ConsoleKeyInfo info = Console.ReadKey();
+           if (info != null)
+           {
+               Key_Pressed();
+           }
         }
 
         static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
@@ -46,77 +74,57 @@ namespace ArcheAgeAuth
             {
                 Shutdown();
             }
+            else
+            {
+                return;
+            }
         }
 
         static void Shutdown()
         {
-            //HERE SHUTDOWN.
+            //TODO : Here Shutdowning.
         }
 
+        /// <summary>
+        /// Calls When Program Catches a Exception That Wasn't Catched By Try-Catch Block. (Unhandled)
+        /// </summary>
+        /// <param name="sender">Exception Sender - AppDomain</param>
+        /// <param name="e">Event Arguments</param>
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            Logger.Trace("未处理的异常: {0} , Exception - \n{1}", sender.GetType().Name, ((Exception)e.ExceptionObject).ToString());
+            Logger.Trace("Unhandled Exception - Sender: {0} , Exception - \n{1}", sender.GetType().Name, ((Exception)e.ExceptionObject).ToString());
             Console.WriteLine();
-            Console.WriteLine("按 任 意 键 退 出");
+            Console.WriteLine("按任意键退出");
             Console.ReadKey();
-            Environment.Exit(0);
+            Shutdown();
         }
 
+        //.method hidebysig static void LoadExecutngAssembly(string[] args) cil managed
         static void LoadExecutingAssembly(string[] args)
         {
-            //----- Initialize Commons --------------------------------
-            Logger.Init(); //Load Logger
-            LocalCommons.Native.Significant.Main.InitializeStruct(args); //Initializing LocalCommons.dll
+            Logger.Init();
+			
+			//Logger.Trace("TODO: REMAKE ALL CONTAINSKEY [] - TO TRYGETVALUE");
 
-            //------ Binary ------------------------------------------
-            //Logger.Section("二进制数据");
+            Settings m_Current = Settings.Default;
 
-            //------ Network ------------------------------------------
-            Logger.Section("网络连接");
-            DelegateList.Initialize();
-            //InstallLoginServer();
-            new AsyncListener(Settings.Default.ArcheAgeAuth_IP, Settings.Default.ArcheAgeAuth_Port, typeof(ClientConnection)); //Waiting For ArcheAge Connections
+            //--------------- Init Commons ----------------------
+            LocalCommons.Native.Significant.Main.InitializeStruct(args);
+
+            //------------- Controllers -------------------------
+            Logger.Section("Controllers");
+            GameServerController.LoadAvailableGameServers();
+
+            //--------------- MySQL ---------------------------
+            Logger.Section("MySQL");
+            AccountHolder.LoadAccountData();
+
+            //----------------Network ---------------------------
+            Logger.Section("Network");
+            PacketList.Initialize(Program.ServerClientVersion);
+            //new AsyncListener(m_Current.Main_IP, m_Current.Game_Port, defined: typeof(GameConnection)); //Waiting For Game Server Connections
+            new AsyncListener(m_Current.Main_IP, m_Current.ArcheAgeAuth_PORT, defined: typeof(ArcheAgeConnection)); //Waiting For ArcheAge Connections
+
         }
-
-        //原版
-        
-        static void InstallLoginServer()
-        {
-            IPEndPoint point = new IPEndPoint(IPAddress.Parse(Settings.Default.LoginServer_IP), Settings.Default.LoginServer_Port);
-            Socket con = new Socket(point.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            try { 
-                con.Connect(point);
-            }catch(Exception exp)
-            {
-                //throw exp;
-                Logger.Trace("无法连接登陆服务器，1秒后重试");
-            }
-            if (con.Connected)
-                new LoginConnection(con);
-            else
-                InstallLoginServer();
-        }
-        
-
-        //用来测试的数据
-        //static void InstallLoginServer()
-        //{
-        //    IPEndPoint point = new IPEndPoint(IPAddress.Parse("101.226.100.108"), 1239);
-        //    Socket con = new Socket(point.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-        //    try
-        //    {
-        //        con.Connect(point);
-        //    }
-        //    catch (Exception exp)
-        //    {
-        //        //throw exp;
-        //        Logger.Trace("无法连接登陆服务器，1秒后重试");
-        //    }
-        //    if (con.Connected)
-        //        new LoginConnection(con);
-        //    else
-        //        InstallLoginServer();
-        //}
-
     }
 }

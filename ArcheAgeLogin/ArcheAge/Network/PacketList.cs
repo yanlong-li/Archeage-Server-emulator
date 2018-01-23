@@ -292,7 +292,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
                     //create session
                     Random random = new Random();
                     int num = random.Next(255) + random.Next(255) + random.Next(255) + random.Next(255);
-                    net.CurrentAccount.Session = num;
+                    net.CurrentAccount.Session = num= 1323126619;//指定session
 
                     net.movedToGame = true;
                     GameServerController.AuthorizedAccounts.Remove(net.CurrentAccount.AccountId);

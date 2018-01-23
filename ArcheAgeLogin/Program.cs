@@ -40,10 +40,24 @@ namespace ArcheAgeLogin
 
         static void selectVersion()
         {
-            Console.WriteLine("Select Client Version:");
+            Console.WriteLine("Select Client Version: Default 1");
             Console.WriteLine("1:   3.0+");
             Console.WriteLine("2:   2.9-");
-            Program.ServerClientVersion = Console.ReadLine();
+            if (Settings.Default.ServerClientVersion == "0")
+            {
+                
+                Program.ServerClientVersion = Console.ReadLine();
+                if (Program.ServerClientVersion == "")
+                {
+
+                    Program.ServerClientVersion = "1";
+                }
+            }
+            else {
+                Console.WriteLine("AutoSelectServerClientVersion:" + Settings.Default.ServerClientVersion);
+                Program.ServerClientVersion = Settings.Default.ServerClientVersion;
+            }
+
         }
         static void Key_Pressed()
         {

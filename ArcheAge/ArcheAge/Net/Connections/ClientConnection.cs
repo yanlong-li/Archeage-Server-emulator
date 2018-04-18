@@ -35,7 +35,7 @@ namespace ArcheAge.ArcheAge.Net.Connections
         public ClientConnection(Socket socket) : base(socket) {
             DisconnectedEvent += ClientConnection_DisconnectedEvent;
             m_LittleEndian = true;
-            Logger.Trace("客户端 {0}: 连接", this);
+            Logger.Trace("Client {0}: Connect", this);
         }
 
         public override void SendAsync(NetPacket packet)
@@ -51,7 +51,7 @@ namespace ArcheAge.ArcheAge.Net.Connections
         void ClientConnection_DisconnectedEvent(object sender, EventArgs e)
         {
             Dispose();
-            Logger.Trace("客户端 {0} :  断开", this);
+            Logger.Trace("Client {0} :  Disconnect", this);
         }
 
         public override void HandleReceived(byte[] data)
@@ -73,7 +73,7 @@ namespace ArcheAge.ArcheAge.Net.Connections
             //}
             if (!DelegateList.ClientHandlers.ContainsKey(level))
             {
-                Logger.Trace("收到未定义的rc{0} Level {1} - Opcode 0x{2:X2}",rc, level, opcode);
+                Logger.Trace("Receive undefined rc{0} Level {1} - Opcode 0x{2:X2}", rc, level, opcode);
                 return;
             }
             try { 
@@ -81,11 +81,11 @@ namespace ArcheAge.ArcheAge.Net.Connections
                 if (handler != null)
                     handler.OnReceive(this, reader);
                 else
-                    Logger.Trace("收到未定义的rc{0}包 Level - {1} Op - 0x{2:X2}",rc, level, opcode);
+                    Logger.Trace("Receive undefined rc{0}包 Level - {1} Op - 0x{2:X2}", rc, level, opcode);
                 }
             catch(Exception exp)
             {
-                Logger.Trace("收到未定义的rc{0}包 Level2 - {1} Op - 0x{2:X2}",rc, level, opcode);
+                Logger.Trace("Receive undefined rc{0}包 Level2 - {1} Op - 0x{2:X2}", rc, level, opcode);
                 throw exp;
             }
         }

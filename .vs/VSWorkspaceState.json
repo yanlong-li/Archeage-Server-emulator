@@ -1,11 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\ArcheAge",
-    "\\ArcheAgeLogin",
+    "\\ArcheAgeLogin\\ArcheAge",
+    "\\ArcheAgeLogin\\ArcheAge\\Network",
     "\\ArcheAge\\ArcheAge",
     "\\ArcheAge\\ArcheAge\\Net"
   ],
-  "SelectedNode": "\\readme.textile",
+  "SelectedNode": "\\ArcheAgeLauncher",
   "PreviewInSolutionExplorer": false
 }

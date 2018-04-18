@@ -8,6 +8,7 @@ using System.Text;
 namespace ArcheAgeLogin.ArcheAge.Network
 {
     /// <summary>
+    /// 发送登录正确信息
     /// Sends Information About That Login Was right and we can continue =)
     /// </summary>
     public sealed class NP_AcceptLogin : NetPacket
@@ -16,7 +17,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
         {
 
            
-            if (clientVersion == "1")
+            if (clientVersion == "4")
             {
                 ns.Write((short)0x14);
                 ns.Write((byte)0x00);
@@ -25,9 +26,18 @@ namespace ArcheAgeLogin.ArcheAge.Network
                 ns.Write((short)0x1e);
                 ns.Write((int)0x00);
             }
+            else if(clientVersion=="3")
+            {
+                ns.Write((byte)0x01);//3.0.0.7版本新增字节  作用未知
+                ns.Write((short)0x00);
+                ns.Write((short)0x306);
+                ns.Write((short)0x48);
+                ns.Write((int)0x0);
+            }
             else
             {
                 ns.Write((short)0x00);
+                //ns.Write((byte)0x01);
                 ns.Write((short)0x306);
                 ns.Write((short)0x48);
                 ns.Write((int)0x0);
@@ -99,8 +109,14 @@ namespace ArcheAgeLogin.ArcheAge.Network
             foreach (GameServer server in m_Current)
             {
                 ns.Write((byte)server.Id);
-                if(clientVersion=="1")
-                ns.Write((short)0x00);
+                if (clientVersion == "4")
+                {
+                    ns.Write((short)0x00);
+                }
+                if (clientVersion == "3")
+                {
+                    ns.Write((short)0x01);
+                }
                 ns.WriteUTF8Fixed(server.Name,System.Text.UTF8Encoding.UTF8.GetByteCount(server.Name));
                 //ns.WriteASCIIFixed(server.Name, server.Name.Length);
                 byte online = server.IsOnline() ? (byte)0x01 : (byte)0x02; //1在线 2离线
@@ -181,19 +197,22 @@ namespace ArcheAgeLogin.ArcheAge.Network
         public NP_03key(string clientVersion) : base(0x03, true)
         {
             //账号ID
+            //ns.WriteHex("5ac80000000000002000454342423843393636343931423436423146373131354342454345314335314100");
             
-            ns.Write((byte)0x1);
-            ns.Write((byte)0x0);
+            ns.Write((byte)0x5a);
+            ns.Write((byte)0xc8);
             ns.Write((byte)0x0);
             ns.Write((byte)0x0);
             ns.Write((int)0x00);
-            if (clientVersion == "1")
+            if (clientVersion == "4")
             {
                 ns.Write((int)0x00);
             }
             else
             {
                 ns.WriteUTF8Fixed("e10adc3949ba59abbe56e057f20f883e", "e10adc3949ba59abbe56e057f20f883e".Length);
+                //ns.Write((byte)0x20);
+                //ns.WriteHex("e10adc3949ba59abbe56e057f20f883e");
             }
             ns.Write((byte)0x00);
         }
@@ -227,6 +246,20 @@ namespace ArcheAgeLogin.ArcheAge.Network
             ns.Write((byte)0x02); // Reason
             ns.Write((short)0x00);//Undefined
             ns.Write((short)0x00);//Undefined
+        }
+    }
+
+    /// <summary>
+    /// 账号被封禁时提示
+    /// 
+    /// </summary>
+    public sealed class NP_BanLogin : NetPacket
+    {
+        public NP_BanLogin() : base(0x0C, true)
+        {
+            ns.Write((byte)0x06); // Reason
+            ns.Write((int)0x00);//Undefined
+            //ns.Write((short)0x00);//Undefined
         }
     }
 

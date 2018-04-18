@@ -23,7 +23,7 @@ namespace ArcheAgeLogin
         // .method private hidebysig static void Main(string[] args) cil managed
         static void Main(string[] args)
         {
-            Console.Title = "上古世纪登陆服务Login Server";
+            Console.Title = "ArcheAge Login Server";
             //Console.Write(System.Text.UTF8Encoding.UTF8.GetByteCount("장미장원"));
             Console.CancelKeyPress += Console_CancelKeyPress;
             Stopwatch watch = Stopwatch.StartNew();
@@ -40,23 +40,27 @@ namespace ArcheAgeLogin
 
         static void selectVersion()
         {
-            Console.WriteLine("Select Client Version: Default 1");
-            Console.WriteLine("1:   3.0+");
-            Console.WriteLine("2:   2.9-");
+            Console.WriteLine("Select Client Version: Default 4");
+            
+            Console.WriteLine("2:   2.9");
+            Console.WriteLine("3:   3.0");
+            Console.WriteLine("4:   4.0");
+            //0为手动选择
             if (Settings.Default.ServerClientVersion == "0")
             {
                 
                 Program.ServerClientVersion = Console.ReadLine();
                 if (Program.ServerClientVersion == "")
                 {
-
-                    Program.ServerClientVersion = "1";
+                    //默认为4
+                    Program.ServerClientVersion = "4";
                 }
             }
             else {
                 Console.WriteLine("AutoSelectServerClientVersion:" + Settings.Default.ServerClientVersion);
                 Program.ServerClientVersion = Settings.Default.ServerClientVersion;
             }
+            //Program.
 
         }
         static void Key_Pressed()

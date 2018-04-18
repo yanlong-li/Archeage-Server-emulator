@@ -55,9 +55,9 @@ namespace ArcheAgeLogin.ArcheAge.Network
             Register(0x06, new OnPacketReceive<ArcheAgeConnection>(Handle_Token_Continue)); //token验证服务 -r模式    中服
             //Register(0x05, new OnPacketReceive<ArcheAgeConnection>(Handle_SignIn)); //登机登陆服务
             //Register(0x05, new OnPacketReceive<ArcheAgeConnection>(Handle_05));//登陆验证
-            if (clientVersion == "1")
+            if (clientVersion == "4" || clientVersion == "3")
             {
-                Register(0x0c, new OnPacketReceive<ArcheAgeConnection>(Handle_RequestServerList)); //返回服务器列表>= 3.0
+                Register(0x0c, new OnPacketReceive<ArcheAgeConnection>(Handle_RequestServerList)); //返回服务器列表>= 4.0
                 Register(0x0d, new OnPacketReceive<ArcheAgeConnection>(Handle_ServerSelected));//根据服务器id返回服务器地址
 
             }
@@ -263,6 +263,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
             //net.SendAsync(new NP_ServerList());
         }
 
+        //返回服务器列表
         private static void Handle_RequestServerList(ArcheAgeConnection net, PacketReader reader)
         {
             byte[] unknown = reader.ReadByteArray(8); //unk?

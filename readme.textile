@@ -5,7 +5,20 @@ Language: Chinese
 Server simulator in the last century (based on the North American clothing (Chinese area server may also apply))
 
 
+说明：
+	我希望大家能知道，这是一个被放弃的项目，不再继续。或者因其他性质不再公开继续。
+	另：archerag.to将他们的服务版本提升到了 3.0 但该模拟器并不支持这一版本。我可能将在后续修正该问题。SQL也进行了更新
+	create database archeage
+	import sql
+	mysql account archeage password archeage
+
+
 update log：
+2018年4月18日
+测试目前状况
+调整默认服务器选项为3.0+
+修正sql增加token
+
 2018年1月21日
 修正服务器列表不支持非英文问题
 增加1250验证服务器
@@ -34,7 +47,7 @@ But 我可能很少阅读邮件，不能随时随地回复你
 
 <s>我在源码中引入了第三方AALauncher启动器，最终一切归原作者所有，当然我们后期会替换该启动器</s>
 如果你想直接启动请cmd  code ：
-    
+```    
     -{g} +auth_ip 127.0.0.1:1237 -uid {id} -token {token}
     
     archeage.exe  -r +auth_ip 127.0.0.1:1237 -uid 1 -token e10adc3949ba59abbe56e057f20f883e
@@ -52,7 +65,7 @@ id：
 token：
     
     32长度的16进制字符：e10adc3949ba59abbe56e057f20f883e
-    
+```    
 本程序的版权 netcastiel 我不知道是一个人还是组织 name，but 修复版权请归属于I，Yanlongli。
 
 当我在尝试修复改程序时发现，很多数据都未定义

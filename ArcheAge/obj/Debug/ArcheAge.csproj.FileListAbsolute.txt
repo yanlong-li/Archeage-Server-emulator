@@ -71,3 +71,14 @@ C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server
 C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\ArcheAge\obj\Debug\ArcheAge.csprojResolveAssemblyReference.cache
 C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\ArcheAge\obj\Debug\ArcheAgeGameServer.exe
 C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\ArcheAge\obj\Debug\ArcheAgeGameServer.pdb
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\ArcheAgeGameServer.exe.config
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\ArcheAgeGameServer.exe
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\ArcheAgeGameServer.pdb
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\LocalCommons.dll
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\protobuf-net.dll
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\LocalCommons.pdb
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\obj\Debug\ArcheAge.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\obj\Debug\ArcheAge.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\obj\Debug\ArcheAge.csproj.CopyComplete
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\obj\Debug\ArcheAgeGameServer.exe
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAge\obj\Debug\ArcheAgeGameServer.pdb

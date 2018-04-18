@@ -2,6 +2,10 @@ Language: Chinese
 
 
 #上古世纪服务端模拟器（基于北美服（中国区服务器可能同样适用））4.0版本
+archeRage 2.9
+archeRage 3.0.0.7
+archeage 4.0+
+
 Server simulator in the last century (based on the North American clothing (Chinese area server may also apply))
 
 
@@ -14,6 +18,13 @@ Server simulator in the last century (based on the North American clothing (Chin
 
 
 update log：
+2018年4月18日
+修正3.0版本数据传输不正确问题
+about:
+	因开发阶段，只有2.9和4.0版本，so 没有考虑到3.0版本问题。现在3.0版本放出，数据传输方式介于4.0和2.9之间
+	现在已经修复了3.0版本的登录数据不正确问题
+
+
 2018年4月18日
 测试目前状况
 调整默认服务器选项为3.0+

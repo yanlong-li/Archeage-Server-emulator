@@ -199,8 +199,6 @@ namespace ArcheAgeLogin.ArcheAge.Network
                     Logger.Trace("账号: < "+n_Current.AccountId+":" + n_Current.Name+">登陆成功");
                     net.SendAsync(new NP_AcceptLogin(clientVersion));
                     net.SendAsync(new NP_03key(clientVersion));
-                    //返回服务器列表
-                    //net.SendAsync(new NP_ServerList());
                     return;
                 }
                 Logger.Trace("账号: <"+n_Current.AccountId+":" + n_Current.Name+">TOKEN验证失败："+m_RToken.ToLower());
@@ -235,8 +233,6 @@ namespace ArcheAgeLogin.ArcheAge.Network
                     Logger.Trace("账号登陆成功: " + net.CurrentAccount.Name);
                     net.SendAsync(new NP_AcceptLogin(clientVersion));
                     net.SendAsync(new NP_03key(clientVersion));
-                    //返回服务器列表
-                    //net.SendAsync(new NP_ServerList());
                     return;
               //  }
                // Logger.Trace("账号: " + net.CurrentAccount.Name + "/密码不正确：" + m_RToken.ToLower());
@@ -280,7 +276,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
          * */
         private static void Handle_ServerSelected(ArcheAgeConnection net, PacketReader reader)
         {
-            //net.SendAsync(new NP_EditMessage2("systemTest"));
+            //net.SendAsyncHex(new NP_Hex("6f000c005100006700e682a8e79a84e5b8b3e8999fe59ba0e98195e58f8de9818ae688b2e7aea1e79086e8a68fe7aba0e88887e6a29de4be8be69585e5819ce6ac8a34e697a52c20e5a682e69c89e79691e5958fe8ab8be6b4bde5aea2e69c8de4b8ade5bf83313a31e8a9a2e5958f2e01"));
             //return;
             reader.Offset += 8; //00 00 00 00 00 00 00 00  Undefined Data
             byte serverId = reader.ReadByte();
@@ -304,7 +300,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
             }
             else
             {
-                Logger.Trace("请求了不存在的服务器ID："+serverId);
+                Logger.Trace("no server ID："+serverId);
                 net.Dispose();
             }
         }

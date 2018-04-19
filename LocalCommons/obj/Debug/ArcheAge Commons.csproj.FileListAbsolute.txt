@@ -43,3 +43,11 @@ C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server
 C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\LocalCommons\obj\Debug\LocalCommons.dll
 C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\LocalCommons\obj\Debug\LocalCommons.pdb
 C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\LocalCommons\obj\Debug\ArcheAge Commons.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\LocalCommons\bin\Debug\LocalCommons.dll
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\LocalCommons\bin\Debug\LocalCommons.pdb
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\LocalCommons\bin\Debug\mysql.data.dll
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\LocalCommons\bin\Debug\protobuf-net.dll
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\LocalCommons\obj\Debug\ArcheAge Commons.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\LocalCommons\obj\Debug\ArcheAge Commons.csproj.CopyComplete
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\LocalCommons\obj\Debug\LocalCommons.dll
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\LocalCommons\obj\Debug\LocalCommons.pdb

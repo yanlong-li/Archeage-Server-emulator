@@ -147,14 +147,14 @@ namespace LocalCommons.Native.Network
                 builder.AppendFormat("{0:X2} ", b);
             Console.WriteLine("Send: " + builder.ToString());
 
-            string path = "d:\\1.txt";//文件的路径，保证文件存在。
-            FileStream fs = new FileStream(path, FileMode.Append);
-            StreamWriter sw = new StreamWriter(fs);
+            //string path = "d:\\1.txt";//文件的路径，保证文件存在。
+            //FileStream fs = new FileStream(path, FileMode.Append);
+            //StreamWriter sw = new StreamWriter(fs);
             //filestream fs = new filestream(path, filemode.append);
             //streamwriter sw = new streamwriter(fs);
-            sw.WriteLine(builder.ToString());
-            sw.Close();
-            fs.Close();
+            //sw.WriteLine(builder.ToString());
+            //sw.Close();
+            //fs.Close();
 
 
             m_Current.Send(compiled, compiled.Length, SocketFlags.None);
@@ -221,14 +221,14 @@ namespace LocalCommons.Native.Network
                         builder.AppendFormat("{0:X2} ", b);
                     Console.WriteLine("Send: \n" + builder.ToString());
 
-                    string path = "d:\\1.txt";//文件的路径，保证文件存在。
-                    FileStream fs = new FileStream(path, FileMode.Append);
-                    StreamWriter sw = new StreamWriter(fs);
+                    //string path = "d:\\1.txt";//文件的路径，保证文件存在。
+                    //FileStream fs = new FileStream(path, FileMode.Append);
+                    //StreamWriter sw = new StreamWriter(fs);
                     //filestream fs = new filestream(path, filemode.append);
                     //streamwriter sw = new streamwriter(fs);
-                    sw.WriteLine(builder.ToString());
-                    sw.Close();
-                    fs.Close();
+                    //sw.WriteLine(builder.ToString());
+                    //sw.Close();
+                    //fs.Close();
 
 
                     m_Current.Send(compiled, compiled.Length, SocketFlags.None);
@@ -272,14 +272,14 @@ namespace LocalCommons.Native.Network
 
             
 
-            string path = "d:\\1.txt";//文件的路径，保证文件存在。
-            FileStream fs = new FileStream(path, FileMode.Append);
-            StreamWriter sw = new StreamWriter(fs);
-            //filestream fs = new filestream(path, filemode.append);
-            //streamwriter sw = new streamwriter(fs);
-            sw.WriteLine(builder.ToString());
-            sw.Close();
-            fs.Close();
+            //string path = "d:\\1.txt";//文件的路径，保证文件存在。
+            //FileStream fs = new FileStream(path, FileMode.Append);
+            //StreamWriter sw = new StreamWriter(fs);
+            ////filestream fs = new filestream(path, filemode.append);
+            ////streamwriter sw = new streamwriter(fs);
+            //sw.WriteLine(builder.ToString());
+            //sw.Close();
+            //fs.Close();
 
             PacketReader reader = new PacketReader(m_RecvBuffer, 0);
             //for (int i = 0; i < 10; i++)

@@ -86,9 +86,9 @@ namespace ArcheAge.ArcheAge.Net
             else
             {
                 net.CurrentAccount = m_Authorized;
-                net.SendAsync(new NP_ClientConnected2());
-                net.SendAsync(new NP_Client02());
-                //net.SendAsync(new NP_ClientConnected());
+                //net.SendAsync(new NP_ClientConnected2());
+                //net.SendAsync(new NP_Client02());
+                net.SendAsync(new NP_ClientConnected());
             }
         }
 

@@ -76,3 +76,19 @@ C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server
 C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\ArcheAgeLauncher\obj\Debug\ArcheAge Launcher.csproj.GenerateResource.Cache
 C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\ArcheAgeLauncher\obj\Debug\ArcheAgeLauncher.exe
 C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\ArcheAgeLauncher\obj\Debug\ArcheAgeLauncher.pdb
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLauncher\bin\Debug\ArcheAgeLauncher.exe
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLauncher\bin\Debug\ArcheAgeLauncher.pdb
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLauncher\bin\Debug\MahApps.Metro.dll
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLauncher\bin\Debug\System.Windows.Interactivity.dll
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\MainWindow.baml
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\Resources\Icons.baml
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\MainWindow.g.cs
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\App.g.cs
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\ArcheAgeLauncher_MarkupCompile.cache
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\ArcheAgeLauncher.g.resources
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\ArcheAgeLauncher.Properties.Resources.resources
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\ArcheAge Launcher.csproj.GenerateResource.cache
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\ArcheAge Launcher.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\ArcheAge Launcher.csproj.CopyComplete
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\ArcheAgeLauncher.exe
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\ArcheAgeLauncher.pdb

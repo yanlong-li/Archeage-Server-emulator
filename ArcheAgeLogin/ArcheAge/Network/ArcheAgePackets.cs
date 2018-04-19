@@ -9,6 +9,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
 {
     /// <summary>
     /// 发送登录正确信息
+    /// 此处测试非允许登录数据包
     /// Sends Information About That Login Was right and we can continue =)
     /// </summary>
     public sealed class NP_AcceptLogin : NetPacket
@@ -192,6 +193,9 @@ namespace ArcheAgeLogin.ArcheAge.Network
         }
     }
     //将账号Id发送回客户端
+    /// <summary>
+    /// 标志登录成功返回信息
+    /// </summary>
     public sealed class NP_03key : NetPacket
     {
         public NP_03key(string clientVersion) : base(0x03, true)
@@ -199,8 +203,8 @@ namespace ArcheAgeLogin.ArcheAge.Network
             //账号ID
             //ns.WriteHex("5ac80000000000002000454342423843393636343931423436423146373131354342454345314335314100");
             
-            ns.Write((byte)0x5a);
-            ns.Write((byte)0xc8);
+            ns.Write((byte)0x01);///两字节的账号id
+            ns.Write((byte)0x00);
             ns.Write((byte)0x0);
             ns.Write((byte)0x0);
             ns.Write((int)0x00);
@@ -210,7 +214,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
             }
             else
             {
-                ns.WriteUTF8Fixed("e10adc3949ba59abbe56e057f20f883e", "e10adc3949ba59abbe56e057f20f883e".Length);
+                ns.WriteUTF8Fixed("00000000000000000000000000000000", "e10adc3949ba59abbe56e057f20f883e".Length);
                 //ns.Write((byte)0x20);
                 //ns.WriteHex("e10adc3949ba59abbe56e057f20f883e");
             }
@@ -244,8 +248,8 @@ namespace ArcheAgeLogin.ArcheAge.Network
         public NP_FailLogin() : base(0x0C, true)
         {
             ns.Write((byte)0x02); // Reason
-            ns.Write((short)0x00);//Undefined
-            ns.Write((short)0x00);//Undefined
+            ns.Write((int)0x00);//Undefined
+            //ns.Write((short)0x00);//Undefined
         }
     }
 
@@ -299,5 +303,13 @@ namespace ArcheAgeLogin.ArcheAge.Network
             ns.Write((short)0x03);//Undefined
         }
 
+    }
+    //自定义写入流
+    public sealed class NP_Hex : NetPacket
+    {
+        public NP_Hex(string value) : base(0, 0x0)
+        {
+            ns.WriteHex(value);
+        }
     }
 }

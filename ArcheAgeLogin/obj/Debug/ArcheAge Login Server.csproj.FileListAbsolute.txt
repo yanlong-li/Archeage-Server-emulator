@@ -57,3 +57,13 @@ C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server
 C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\ArcheAgeLogin\obj\Debug\ArcheAge Login Server.csprojResolveAssemblyReference.cache
 C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\ArcheAgeLogin\obj\Debug\ArcheAgeLogin.exe
 C:\Users\sdjk\Downloads\Archeage-Server-emulator-or-files-master\Archeage-Server-emulator-or-files-master\ArcheAgeLogin\obj\Debug\ArcheAgeLogin.pdb
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLogin\bin\Debug\ArcheAgeLogin.exe.config
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLogin\bin\Debug\ArcheAgeLogin.exe
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLogin\bin\Debug\ArcheAgeLogin.pdb
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLogin\bin\Debug\LocalCommons.dll
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLogin\bin\Debug\LocalCommons.pdb
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLogin\obj\Debug\ArcheAge Login Server.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLogin\obj\Debug\ArcheAge Login Server.csproj.CopyComplete
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLogin\obj\Debug\ArcheAgeLogin.exe
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLogin\obj\Debug\ArcheAgeLogin.pdb
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\ArcheAgeLogin\obj\Debug\ArcheAge Login Server.csprojResolveAssemblyReference.cache

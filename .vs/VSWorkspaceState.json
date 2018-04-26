@@ -3,8 +3,11 @@
     "",
     "\\ArcheAgeLogin",
     "\\ArcheAgeLogin\\ArcheAge",
-    "\\ArcheAgeLogin\\ArcheAge\\Network"
+    "\\ArcheAgeLogin\\ArcheAge\\Network",
+    "\\LocalCommons",
+    "\\LocalCommons\\Native",
+    "\\LocalCommons\\Native\\Network"
   ],
-  "SelectedNode": "\\readme.textile",
+  "SelectedNode": "\\ArcheAgeLogin\\ArcheAge\\Network\\PacketList.cs",
   "PreviewInSolutionExplorer": false
 }

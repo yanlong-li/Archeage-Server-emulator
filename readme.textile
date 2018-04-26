@@ -18,6 +18,12 @@ Server simulator in the last century (based on the North American clothing (Chin
 
 
 update log：
+
+2018年4月26日
+本期并没有什么改变，只是看了一下中文无法显示问题
+找到我的文档》archeage》system.cfg》最后添加一行 locale="zh_cn"  
+这样便可显示中文服务器列表
+同样也带来了问题，因非正统汉化，游戏内的韩文无法显示，也即使提示信息都变成了？？？？？？
 2018年4月18日
 修正3.0版本数据传输不正确问题
 about:

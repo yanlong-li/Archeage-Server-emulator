@@ -3,7 +3,10 @@
 <!-- 服务器名支持英文韩文，暂不支持中文 -->
 <!-- All Servers Must Be Strictly In Order! Means - 1,2,3 ! Not 1,5,10 -->
 <servers>
-     <server Id="1" Name="archeage" MaxPlayers="4000" password=""/>
-	 <server Id="2" Name="玫瑰庄园" MaxPlayers="4000" password=""/>
-	 <server Id="3" Name="장미장원" MaxPlayers="4000" password=""/>
+	 <server Id="1" Name="亚洲服务器" MaxPlayers="4000" password=""/>
+	 <server Id="2" Name="欧洲服务器" MaxPlayers="4000" password=""/>
+	 <server Id="3" Name="美洲服务器" MaxPlayers="4000" password=""/>
+	 <server Id="4" Name="南美服务器" MaxPlayers="4000" password=""/>
+	 <server Id="5" Name="大洋洲服务器" MaxPlayers="4000" password=""/>
+	 <server Id="6" Name="全球同服内测" MaxPlayers="4000" password=""/>
 </servers>

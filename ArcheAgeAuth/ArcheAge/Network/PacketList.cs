@@ -20,7 +20,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
         private static int m_Maintained;
         private static PacketHandler<GameConnection>[] m_GHandlers;
         private static PacketHandler<ArcheAgeConnection>[] m_LHandlers;
-        private static string   clientVersion;
+        private static string   clientVersion = "1";
 
         public static PacketHandler<GameConnection>[] GHandlers
         {
@@ -32,9 +32,9 @@ namespace ArcheAgeLogin.ArcheAge.Network
             get { return m_LHandlers; }
         }
 
-        public static void Initialize(string clientVersion)
+        public static void Initialize()
         {
-            PacketList.clientVersion = clientVersion;
+
             m_GHandlers = new PacketHandler<GameConnection>[0x20];
             m_LHandlers = new PacketHandler<ArcheAgeConnection>[0x30];
 

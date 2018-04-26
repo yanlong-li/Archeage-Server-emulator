@@ -51,3 +51,4 @@ C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\LocalCommo
 C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\LocalCommons\obj\Debug\ArcheAge Commons.csproj.CopyComplete
 C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\LocalCommons\obj\Debug\LocalCommons.dll
 C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\LocalCommons\obj\Debug\LocalCommons.pdb
+C:\Users\Administrator\Source\Repos\Archeage-Server-emulator-or-files\LocalCommons\obj\Debug\ArcheAge Commons.csprojResolveAssemblyReference.cache

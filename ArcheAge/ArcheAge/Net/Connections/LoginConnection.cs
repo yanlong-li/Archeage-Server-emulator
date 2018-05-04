@@ -14,7 +14,7 @@ namespace ArcheAge.ArcheAge.Net.Connections
     public class LoginConnection : IConnection
     {
         public LoginConnection(Socket socket) : base(socket) {
-            Logger.Trace("连接服务器，安装数据…");
+            Logger.Trace("Connection server, installation data...");
             DisconnectedEvent += LoginConnection_DisconnectedEvent;
             SendAsync(new Net_RegisterGameServer());
             //SendAsync(new test());
@@ -22,19 +22,19 @@ namespace ArcheAge.ArcheAge.Net.Connections
 
         void LoginConnection_DisconnectedEvent(object sender, EventArgs e)
         {
-            Logger.Trace("登录服务器{0}：断开连接", this);
+            Logger.Trace("Login server {0}: disconnected", this);
             Dispose();
         }
 
         public override void HandleReceived(byte[] data)
         {
             PacketReader reader = new PacketReader(data, 0);
-            short opcode = reader.ReadInt16();
+            short opcode = reader.ReadLEInt16();
             PacketHandler<LoginConnection> handler = DelegateList.LHandlers[opcode];
             if (handler != null)
                 handler.OnReceive(this, reader);
             else
-                Logger.Trace("收到未定义数据包 0x{0:x2", opcode);
+                Logger.Trace("Undefined packet received 0x{0:x2", opcode);
         }
     }
 }

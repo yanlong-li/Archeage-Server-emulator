@@ -1,6 +1,4 @@
-﻿using ArcheAgeLogin.ArcheAge.Holders;
-using ArcheAgeLogin.ArcheAge.Structuring;
-using LocalCommons.Native.Logging;
+﻿using LocalCommons.Native.Logging;
 using LocalCommons.Native.Network;
 using LocalCommons.Native.Significant;
 using LocalCommons.Native.Utilities;
@@ -9,8 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using ArcheAgeAuth.ArcheAge.Structuring;
 
-namespace ArcheAgeLogin.ArcheAge.Network
+namespace ArcheAgeAuth.ArcheAge.Network
 {
     /// <summary>
     /// Connection For ArcheAge Client - Using Only Fpr Authorization.
@@ -32,7 +31,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
         public ArcheAgeConnection(Socket s) : base(s)
         {
             CurrentAccount =  AccountHolder.AccountList.FirstOrDefault(n => n.Name =="a");
-            Logger.Trace("Client  :《{0}》 connection", this);
+            Logger.Trace("Client: <<{0}>>connection", this);
             DisconnectedEvent += ArcheAgeConnection_DisconnectedEvent;
             m_LittleEndian = true;
         }
@@ -56,8 +55,8 @@ namespace ArcheAgeLogin.ArcheAge.Network
                     AccountHolder.InsertOrUpdate(m_CurrentAccount);
                 }
             }
-            string arg = movedToGame ? "进入游戏" : "断开连接";
-            Logger.Trace("客户端 {0} : {1}", m_CurrentAccount == null ? this.ToString() : m_CurrentAccount.Name, arg);
+            string arg = movedToGame ? "entered the game " : "disconnect";
+            Logger.Trace("Clients {0} : {1}", m_CurrentAccount == null ? this.ToString() : m_CurrentAccount.Name, arg);
             Dispose();
         }
 
@@ -67,7 +66,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
             short opcode = reader.ReadLEInt16();
             if (opcode > PacketList.LHandlers.Length)
             {
-                Logger.Trace("没有足够的长度来处理.");
+                Logger.Trace("Not enough length to handle.");
                 Dispose();
                 return;
             }
@@ -76,7 +75,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
             if (handler != null)
                 handler.OnReceive(this, reader);
             else
-                Logger.Trace("收到未定义的包 0x{0:x2}", opcode);
+                Logger.Trace("Received undefined package 0x{0:x2}", opcode);
 
             reader = null;
         }

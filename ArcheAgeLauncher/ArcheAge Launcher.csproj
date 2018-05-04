@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>20170925100532906_easyicon_net_128.ico</ApplicationIcon>
+    <ApplicationIcon>AA.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -115,7 +115,7 @@
     <Resource Include="archeage-logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="20170925100532906_easyicon_net_128.ico" />
+    <Resource Include="AA.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

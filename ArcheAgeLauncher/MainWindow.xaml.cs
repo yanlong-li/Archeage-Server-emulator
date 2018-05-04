@@ -1,23 +1,12 @@
-﻿using MahApps.Metro.Controls;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
+﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using MahApps.Metro.Controls;
 
 namespace ArcheAgeLauncher
 {
     /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
+    ///     Логика взаимодействия для MainWindow.xaml
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
@@ -28,10 +17,10 @@ namespace ArcheAgeLauncher
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string ip = ipaddress.Text;
-            int port = Int32.Parse(this.port.Text);
-            string token = userToken.Text;
-            string args = "";
+            var ip = ipaddress.Text;
+            var port = int.Parse(this.port.Text);
+            var token = userToken.Text;
+            var args = "";
             if (turn_slscrn.IsChecked != null)
                 args += "-nosplash";
 
@@ -39,22 +28,21 @@ namespace ArcheAgeLauncher
             {
                 var info = new ProcessStartInfo("archeage.exe");
                 info.Arguments = string.Format(" -r +auth_ip {0} -uid {1} -token {2}",
-                    ip.ToString()+":"+port.ToString(),
+                    ip + ":" + port,
                     uid.Text,
                     token
-                    );
+                );
                 info.Verb = "runas"; //admin
                 game.StartInfo = info;
                 game.Start();
             }
-            
 
-            this.Close();
+
+            Close();
         }
 
         private void port_Copy_TextChanged(object sender, TextChangedEventArgs e)
         {
-
         }
     }
 }

@@ -1,6 +1,4 @@
 ﻿using ArcheAgeLogin.ArcheAge.Holders;
-using ArcheAgeLogin.ArcheAge.Network;
-using ArcheAgeLogin.ArcheAge.Structuring;
 using LocalCommons.Native.Logging;
 using System;
 using System.Collections.Generic;
@@ -9,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using ArcheAgeLogin.ArcheAge.Network;
+using ArcheAgeLogin.ArcheAge.Structuring;
 
 namespace ArcheAgeLogin.ArcheAge
 {
@@ -35,7 +35,7 @@ namespace ArcheAgeLogin.ArcheAge
         {
             if (!gameservers.ContainsKey(id))
             {
-                Logger.Trace("服务器未定义- {0}-，请检查", id);
+                Logger.Trace("Server is not defined - {0}-, please check", id);
                 return false;
             }
 
@@ -48,7 +48,7 @@ namespace ArcheAgeLogin.ArcheAge
 
             if (template.password != password) //Checking Password
             {
-                Logger.Trace("世界服务器- {0}- 密码错误", id);
+                Logger.Trace("World Server - {0} - bad password", id);
                 return false;
             }
 
@@ -60,7 +60,7 @@ namespace ArcheAgeLogin.ArcheAge
             //Update
             gameservers.Remove(id);
             gameservers.Add(id, server);
-            Logger.Trace("世界服务器 - id：{0} - 注册", id);
+            Logger.Trace("World server - id: {0} - register", id);
             return true;
         }
         public static bool DisconnecteGameServer(byte id)
@@ -83,7 +83,7 @@ namespace ArcheAgeLogin.ArcheAge
                 gameservers.Add(game.Id, game);
             }
 
-            Logger.Trace("从-- Servers.xml --加载- {0} -个 服务器", gameservers.Count);
+            Logger.Trace("From -- Servers.xml -- loading - {0} - servers", gameservers.Count);
         }
     }
 

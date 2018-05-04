@@ -1,0 +1,886 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GoogleTranslateAPI</name>
+    </assembly>
+    <members>
+        <member name="T:Google.API.HttpUtility">
+            <summary>
+            Provides methods for encoding and decoding URLs when processing Web requests. This class cannot be inherited.
+            </summary>
+        </member>
+        <member name="M:Google.API.HttpUtility.HtmlDecode(System.String)">
+            <summary>
+            Converts a string that has been HTML-encoded for HTTP transmission into a decoded string.
+            </summary>
+            <param name="s">The string to decode.</param>
+            <returns>A decoded string.</returns>
+        </member>
+        <member name="M:Google.API.HttpUtility.RemoveHtmlTags(System.String)">
+            <summary>
+            Capture the text content from a html formatted string.
+            </summary>
+            <param name="s">The html formatted string.</param>
+            <returns>The plane text.</returns>
+        </member>
+        <member name="T:Google.API.Translate.TranslateFormat">
+            <summary>
+            Translate format.
+            </summary>
+        </member>
+        <member name="T:Google.API.Enumeration`1">
+            <summary>
+            The enumeration. Provide more static methods and properties for every concrete enumeration.
+            </summary>
+            <typeparam name="T">The type of concrete enumeration.</typeparam>
+        </member>
+        <member name="T:Google.API.Enumeration">
+            <summary>
+            The enumeration. For parameters of Google APIs.
+            </summary>
+        </member>
+        <member name="M:Google.API.Enumeration.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Google.API.Enumeration"/> class.
+            </summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:Google.API.Enumeration.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Google.API.Enumeration"/> class.
+            </summary>
+            <param name="name">The name.</param>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:Google.API.Enumeration.#ctor(System.String,System.String,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Google.API.Enumeration"/> class.
+            </summary>
+            <param name="name">The name.</param>
+            <param name="value">The value.</param>
+            <param name="isDefault">if set to <c>true</c> it is default value.</param>
+        </member>
+        <member name="M:Google.API.Enumeration.op_Implicit(Google.API.Enumeration)~System.String">
+            <summary>
+            Performs an implicit conversion from <see cref="T:Google.API.Enumeration"/> to <see cref="T:System.String"/>.
+            </summary>
+            <param name="enumeration">The enumeration.</param>
+            <returns>The result of the conversion.</returns>
+        </member>
+        <member name="M:Google.API.Enumeration.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents this instance.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents this instance.
+            </returns>
+        </member>
+        <member name="M:Google.API.Enumeration.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+            </summary>
+            <param name="obj">The <see cref="T:System.Object"/> to compare with this instance.</param>
+            <returns>
+                <c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+            </returns>
+            <exception cref="T:System.NullReferenceException">
+            The <paramref name="obj"/> parameter is null.
+            </exception>
+        </member>
+        <member name="M:Google.API.Enumeration.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+            </returns>
+        </member>
+        <member name="P:Google.API.Enumeration.IsDefault">
+            <summary>
+            Gets a value indicating whether this instance is default.
+            </summary>
+            <value>
+                <c>true</c> if this instance is default; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Google.API.Enumeration.Value">
+            <summary>
+            Gets the value.
+            </summary>
+            <value>The value.</value>
+        </member>
+        <member name="P:Google.API.Enumeration.Name">
+            <summary>
+            Gets the name.
+            </summary>
+            <value>The name.</value>
+        </member>
+        <member name="M:Google.API.Enumeration`1.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Google.API.Enumeration`1"/> class.
+            </summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:Google.API.Enumeration`1.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Google.API.Enumeration`1"/> class.
+            </summary>
+            <param name="name">The name.</param>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:Google.API.Enumeration`1.#ctor(System.String,System.String,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Google.API.Enumeration`1"/> class.
+            </summary>
+            <param name="name">The name.</param>
+            <param name="value">The value.</param>
+            <param name="isDefault">if set to <c>true</c> it is default value.</param>
+        </member>
+        <member name="M:Google.API.Enumeration`1.GetDefault">
+            <summary>
+            Gets the default enumeration.
+            </summary>
+            <returns>The default enumeration</returns>
+        </member>
+        <member name="M:Google.API.Enumeration`1.GetEnums">
+            <summary>
+            Gets all enumerations.
+            </summary>
+            <returns>All enumerations</returns>
+        </member>
+        <member name="M:Google.API.Enumeration`1.Equals(`0)">
+            <summary>
+            Indicates whether the current object is equal to another object of the same type.
+            </summary>
+            <param name="other">An object to compare with this object.</param>
+            <returns>
+            true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:Google.API.Enumeration`1.Initialize">
+            <summary>
+            Initializes this instance.
+            </summary>
+        </member>
+        <member name="M:Google.API.Enumeration`1.Convert(System.String,System.Func{System.String,`0})">
+            <summary>
+            Converts the specified value to this enumeration.
+            </summary>
+            <param name="value">The value.</param>
+            <param name="construct">The constructor function.</param>
+            <returns>The enumeration.</returns>
+        </member>
+        <member name="P:Google.API.Enumeration`1.Dictionary">
+            <summary>
+            Gets the dictionary of value and enumeration.
+            </summary>
+            <value>The dictionary.</value>
+        </member>
+        <member name="F:Google.API.Translate.TranslateFormat.Text">
+            <summary>
+            Text format. Default value.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.TranslateFormat.Html">
+            <summary>
+            Html format.
+            </summary>
+        </member>
+        <member name="M:Google.API.Translate.TranslateFormat.op_Implicit(System.String)~Google.API.Translate.TranslateFormat">
+            <summary>
+            Performs an implicit conversion from <see cref="T:System.String"/> to <see cref="T:Google.API.Translate.TranslateFormat"/>.
+            </summary>
+            <param name="value">The value.</param>
+            <returns>The result of the conversion.</returns>
+        </member>
+        <member name="T:Google.API.Translate.Language">
+            <summary>
+            Languanges for translate API.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Unknown">
+            <summary>
+            The Unknown. Default value.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Afrikaans">
+            <summary>
+            The Afrikaans.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Albanian">
+            <summary>
+            The Albanian.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Amharic">
+            <summary>
+            The Amharic.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Arabic">
+            <summary>
+            The Arabic.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Armenian">
+            <summary>
+            The Armenian.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Azerbaijani">
+            <summary>
+            The Azerbaijani.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Basque">
+            <summary>
+            The Basque.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Belarusian">
+            <summary>
+            The Belarusian.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Bengali">
+            <summary>
+            The Bengali.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Bihari">
+            <summary>
+            The Bihari.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Bulgarian">
+            <summary>
+            The Bulgarian.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Burmese">
+            <summary>
+            The Burmese.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Catalan">
+            <summary>
+            The Catalan.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Cherokee">
+            <summary>
+            The Cherokee.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Chinese">
+            <summary>
+            The Chinese.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.ChineseSimplified">
+            <summary>
+            The Simplified Chinese.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.ChineseTraditional">
+            <summary>
+            The Traditional Chinese.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Croatian">
+            <summary>
+            The Croatian.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Czech">
+            <summary>
+            The Czech.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Danish">
+            <summary>
+            The Danish.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Dhivehi">
+            <summary>
+            The Dhivehi.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Dutch">
+            <summary>
+            The Dutch.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.English">
+            <summary>
+            The English.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Esperanto">
+            <summary>
+            The Esperanto.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Estonian">
+            <summary>
+            The Estonian.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Filipino">
+            <summary>
+            The Filipino.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Finnish">
+            <summary>
+            The Finnish.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.French">
+            <summary>
+            The French.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Galician">
+            <summary>
+            The Galician.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Georgian">
+            <summary>
+            The Georgian.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.German">
+            <summary>
+            The German.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Greek">
+            <summary>
+            The Greek.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Guarani">
+            <summary>
+            The Guarani.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Gujarati">
+            <summary>
+            The Gujarati.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Hebrew">
+            <summary>
+            The Hebrew.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Hindi">
+            <summary>
+            The Hindi.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Hungarian">
+            <summary>
+            The Hungarian.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Icelandic">
+            <summary>
+            The Icelandic.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Indonesian">
+            <summary>
+            The Indonesian.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Inuktitut">
+            <summary>
+            The Inuktitut.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Irish">
+            <summary>
+            The Irish.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Italian">
+            <summary>
+            The Italian.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Japanese">
+            <summary>
+            The Japanese.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Kannada">
+            <summary>
+            The Kannada.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Kazakh">
+            <summary>
+            The Kazakh.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Khmer">
+            <summary>
+            The Khmer.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Korean">
+            <summary>
+            The Korean.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Kurdish">
+            <summary>
+            The Kurdish.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Kyrgyz">
+            <summary>
+            The Kyrgyz.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Laothian">
+            <summary>
+            The Laothian.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Latvian">
+            <summary>
+            The Latvian.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Lithuanian">
+            <summary>
+            The Lithuanian.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Macedonian">
+            <summary>
+            The Macedonian.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Malay">
+            <summary>
+            The Malay.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Malayalam">
+            <summary>
+            The Malayalam.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Maltese">
+            <summary>
+            The Maltese.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Marathi">
+            <summary>
+            The Marathi.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Mongolian">
+            <summary>
+            The Mongolian.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Nepali">
+            <summary>
+            The Nepali.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Norwegian">
+            <summary>
+            The Norwegian.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Oriya">
+            <summary>
+            The Oriya.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Pashto">
+            <summary>
+            The Pashto.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Persian">
+            <summary>
+            The Persian.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Polish">
+            <summary>
+            The Polish.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Portuguese">
+            <summary>
+            The Portuguese.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Punjabi">
+            <summary>
+            The Punjabi.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Romanian">
+            <summary>
+            The Romanian.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Russian">
+            <summary>
+            The Russian.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Sanskrit">
+            <summary>
+            The Sanskrit.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Serbian">
+            <summary>
+            The Serbian.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Sindhi">
+            <summary>
+            The Sindhi.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Sinhalese">
+            <summary>
+            The Sinhalese.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Slovak">
+            <summary>
+            The Slovak.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Slovenian">
+            <summary>
+            The Slovenian.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Spanish">
+            <summary>
+            The Spanish.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Swahili">
+            <summary>
+            The Swahili.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Swedish">
+            <summary>
+            The Swedish.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Tajik">
+            <summary>
+            The Tajik.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Tamil">
+            <summary>
+            The Tamil.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Tagalog">
+            <summary>
+            The Tagalog.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Telugu">
+            <summary>
+            The Telugu.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Thai">
+            <summary>
+            The Thai.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Tibetan">
+            <summary>
+            The Tibetan.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Turkish">
+            <summary>
+            The Turkish.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Ukrainian">
+            <summary>
+            The Ukrainian.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Urdu">
+            <summary>
+            The Urdu.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Uzbek">
+            <summary>
+            The Uzbek.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Uighur">
+            <summary>
+            The Uighur.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Vietnamese">
+            <summary>
+            The Vietnamese.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Welsh">
+            <summary>
+            The Welsh.
+            </summary>
+        </member>
+        <member name="F:Google.API.Translate.Language.Yiddish">
+            <summary>
+            The Yiddish.
+            </summary>
+        </member>
+        <member name="M:Google.API.Translate.Language.op_Implicit(System.String)~Google.API.Translate.Language">
+            <summary>
+            Performs an implicit conversion from <see cref="T:System.String"/> to <see cref="T:Google.API.Translate.Language"/>.
+            </summary>
+            <param name="value">The value.</param>
+            <returns>The result of the conversion.</returns>
+        </member>
+        <member name="P:Google.API.Translate.Language.TranslatableCollection">
+            <summary>
+            Gets translatable language collection.
+            </summary>
+        </member>
+        <member name="P:Google.API.Translate.Language.IsTranslatable">
+            <summary>
+            Gets a value indicating whether this language is translatable.
+            </summary>
+            <value>
+                <c>true</c> if this language is translatable; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:Google.API.GoogleClient">
+            <summary>
+            The abstract base class for all google service client classes.
+            </summary>
+        </member>
+        <member name="P:Google.API.GoogleClient.AcceptLanguage">
+            <summary>
+            This optional argument supplies the host language of the application making the request.
+            If this argument is not present then the system will choose a value based on the value of the <b>Accept-Language</b> http header. If this header is not present, a value of <b>en</b> is assumed.
+            </summary>
+            <value>The accept language.</value>
+        </member>
+        <member name="P:Google.API.GoogleClient.ApiKey">
+            <summary>
+            This optional argument supplies the application's key.
+            If specified, it must be a valid key associated with your site which is validated against the passed referer header. The advantage of supplying a key is so that we can identify and contact you should something go wrong with your application. Without a key, we will still take the same appropriate measures on our side, but we will not be able to contact you. It is definitely best for you to pass a key.
+            </summary>
+            <value>The API key.</value>
+        </member>
+        <member name="P:Google.API.GoogleClient.Referrer">
+            <summary>
+            Gets or sets the http referrer header.
+            </summary>
+            <value>The referrer.</value>
+            <remarks>Applications MUST always include a valid and accurate http referer header in their requests.</remarks>
+        </member>
+        <member name="P:Google.API.GoogleClient.OpenTimeout">
+            <summary>
+            Gets or sets the interval of time after which the open method, invoked by a communication object, times out.
+            </summary>
+            <returns>The <see cref="T:System.TimeSpan"/> that specifies the interval of time to wait for the open method to time out.</returns>
+        </member>
+        <member name="P:Google.API.GoogleClient.CloseTimeout">
+            <summary>
+            Gets or sets the interval of time after which the close method, invoked by a communication object, times out.
+            </summary>
+            <returns>The <see cref="T:System.TimeSpan"/> that specifies the interval of time to wait for the close method to time out.</returns>
+        </member>
+        <member name="P:Google.API.GoogleClient.SendTimeout">
+            <summary>
+            Gets or sets the interval of time after which the send method, invoked by a communication object, times out.
+            </summary>
+            <returns>The <see cref="T:System.TimeSpan"/> that specifies the interval of time to wait for the send method to time out.</returns>
+        </member>
+        <member name="P:Google.API.GoogleClient.ReceiveTimeout">
+            <summary>
+            Gets or sets the interval of time after which the receive method, invoked by a communication object, times out.
+            </summary>
+            <returns>The <see cref="T:System.TimeSpan"/> that specifies the interval of time to wait for the receive method to time out.</returns>
+        </member>
+        <member name="P:Google.API.Translate.DetectData.LanguageCode">
+            <summary>
+            Gets the detected language.
+            </summary>
+        </member>
+        <member name="P:Google.API.Translate.DetectData.IsReliable">
+            <summary>
+            The reliability of the detect.
+            </summary>
+        </member>
+        <member name="P:Google.API.Translate.DetectData.Confidence">
+            <summary>
+            Gets the confidence level of the detect.
+            </summary>
+        </member>
+        <member name="T:Google.API.Translate.TranslateClient">
+            <summary>
+            The client for translate and detect.
+            </summary>
+            <remarks>
+            You can use public static fields of <see cref="T:Google.API.Translate.Language"/> and <see cref="T:Google.API.Translate.TranslateFormat"/> as your parameters.
+            </remarks>
+            <seealso cref="T:Google.API.Translate.Language"/>
+            <seealso cref="T:Google.API.Translate.TranslateFormat"/>
+        </member>
+        <member name="M:Google.API.Translate.TranslateClient.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Google.API.Translate.TranslateClient"/> class.
+            </summary>
+            <param name="referrer">The http referrer header.</param>
+            <remarks>Applications MUST always include a valid and accurate http referer header in their requests.</remarks>
+        </member>
+        <member name="M:Google.API.Translate.TranslateClient.Translate(System.String,System.String,System.String)">
+            <summary>
+            Translate the text from <paramref name="from"/> to <paramref name="to"/>.
+            </summary>
+            <param name="text">The content to translate.</param>
+            <param name="from">The language of the original text. You can set it as <c>Language.Unknown</c> to the auto detect it.</param>
+            <param name="to">The target language you want to translate to.</param>
+            <returns>The translate result.</returns>
+            <exception cref="T:Google.API.GoogleAPIException">Translate failed.</exception>
+            <example>
+            This is the c# code example.
+            <code>
+            string text = "我喜欢跑步。";
+            TranslateClient client = new TranslateClient(/* Enter the URL of your site here */);
+            string translated = client.Translate(text, Language.ChineseSimplified, Language.English);
+            Console.WriteLine(translated);
+            // I like running.
+            </code>
+            </example>
+        </member>
+        <member name="M:Google.API.Translate.TranslateClient.Translate(System.String,System.String,System.String,System.String)">
+            <summary>
+            Translate the text from <paramref name="from"/> to <paramref name="to"/>.
+            </summary>
+            <param name="text">The content to translate.</param>
+            <param name="from">The language of the original text. You can set it as <c>Language.Unknown</c> to the auto detect it.</param>
+            <param name="to">The target language you want to translate to.</param>
+            <param name="format">The format of the text.</param>
+            <returns>The translate result.</returns>
+            <exception cref="T:Google.API.GoogleAPIException">Translate failed.</exception>
+            <example>
+            This is the c# code example.
+            <code>
+            string text = GetYourHtmlString();
+            TranslateClient client = new TranslateClient(/* Enter the URL of your site here */);
+            string translated = client.Translate(text, Language.English, Language.French, TranslateFormat.Html);
+            </code>
+            </example>
+        </member>
+        <member name="M:Google.API.Translate.TranslateClient.TranslateAndDetect(System.String,System.String,System.String@)">
+            <summary>
+            Translate the text to <paramref name="to"/> and auto detect which language the text is from.
+            </summary>
+            <param name="text">The content to translate.</param>
+            <param name="to">The target language you want to translate to.</param>
+            <param name="from">The detected language of the original text.</param>
+            <returns>The translate result.</returns>
+            <exception cref="T:Google.API.GoogleAPIException">Translate failed.</exception>
+            <example>
+            This is the c# code example.
+            <code>
+            string text = "Je t'aime.";
+            string from;
+            TranslateClient client = new TranslateClient(/* Enter the URL of your site here */);
+            string translated = client.TranslateAndDetect(text, Language.English, out from);
+            Language fromLanguage = from;
+            Console.WriteLine("\"{0}\" is \"{1}\" in {2}", text, translated, fromLanguage);
+            // "Je t'aime." is "I love you." in French.
+            </code>
+            </example>
+        </member>
+        <member name="M:Google.API.Translate.TranslateClient.TranslateAndDetect(System.String,System.String,System.String,System.String@)">
+            <summary>
+            Translate the text to <paramref name="to"/> and auto detect which language the text is from.
+            </summary>
+            <param name="text">The content to translate.</param>
+            <param name="to">The target language you want to translate to.</param>
+            <param name="format">The format of the text.</param>
+            <param name="from">The detected language of the original text.</param>
+            <returns>The translate result.</returns>
+            <exception cref="T:Google.API.GoogleAPIException">Translate failed.</exception>
+        </member>
+        <member name="M:Google.API.Translate.TranslateClient.Detect(System.String,System.Boolean@,System.Double@)">
+            <summary>
+            Detect the language for this text.
+            </summary>
+            <param name="text">The text you want to test.</param>
+            <param name="isReliable">Whether the result is reliable</param>
+            <param name="confidence">The confidence percent of the result.</param>
+            <returns>The detected language.</returns>
+            <exception cref="T:Google.API.GoogleAPIException">Detect failed.</exception>
+        </member>
+        <member name="T:Google.API.GoogleAPIException">
+            <summary>
+            Google API exception.
+            </summary>
+        </member>
+        <member name="M:Google.API.GoogleAPIException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Google.API.GoogleAPIException"/> class.
+            </summary>
+        </member>
+        <member name="M:Google.API.GoogleAPIException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Google.API.GoogleAPIException"/> class with a specified error message.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="M:Google.API.GoogleAPIException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Google.API.GoogleAPIException"/> class with a specified error message and a reference to the inner exception that is the cause of this exception.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="innerException">The exception that is the cause of the current exception, or a null reference (<b>Nothing</b> in Visual Basic) if no inner exception is specified.</param>
+        </member>
+        <member name="M:Google.API.GoogleAPIException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Google.API.GoogleAPIException"/> class with serialized data.
+            </summary>
+            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the serialized object data about the exception being thrown.</param>
+            <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext"/> that contains contextual information about the source or destination.</param>
+        </member>
+        <member name="P:Google.API.Translate.TranslateData.TranslatedText">
+            <summary>
+            Gets the translated text.
+            </summary>
+        </member>
+        <member name="P:Google.API.Translate.TranslateData.DetectedSourceLanguage">
+            <summary>
+            Gets the source language.
+            </summary>
+        </member>
+    </members>
+</doc>

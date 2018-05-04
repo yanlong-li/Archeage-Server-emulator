@@ -35,7 +35,7 @@ namespace ArcheAge.ArcheAge.Net.Connections
         public ClientConnection(Socket socket) : base(socket) {
             DisconnectedEvent += ClientConnection_DisconnectedEvent;
             m_LittleEndian = true;
-            Logger.Trace("Client {0}: Connect", this);
+            Logger.Trace("Client {0}: connection", this);
         }
 
         public override void SendAsync(NetPacket packet)
@@ -51,7 +51,7 @@ namespace ArcheAge.ArcheAge.Net.Connections
         void ClientConnection_DisconnectedEvent(object sender, EventArgs e)
         {
             Dispose();
-            Logger.Trace("Client {0} :  Disconnect", this);
+            Logger.Trace("Client {0}: disconnect", this);
         }
 
         public override void HandleReceived(byte[] data)
@@ -60,8 +60,8 @@ namespace ArcheAge.ArcheAge.Net.Connections
             //reader.Offset += 1; //Undefined Random Byte
             byte rc = reader.ReadByte();
             byte level = reader.ReadByte(); //Packet Level
-            short opcode = reader.ReadLEInt16(); //Packet Opcode
-
+            ushort opcode = reader.ReadLEUInt16(); //Packet Opcode
+            
             //if (level==0x01)
             //{
             //    reader.Offset += 2; //Undefined Random Byte
@@ -73,7 +73,7 @@ namespace ArcheAge.ArcheAge.Net.Connections
             //}
             if (!DelegateList.ClientHandlers.ContainsKey(level))
             {
-                Logger.Trace("Receive undefined rc{0} Level {1} - Opcode 0x{2:X2}", rc, level, opcode);
+                Logger.Trace("received undefined rc{0} packet Level - {1} - Opcode 0x{2:X2}", rc, level, opcode);
                 return;
             }
             try { 
@@ -81,11 +81,11 @@ namespace ArcheAge.ArcheAge.Net.Connections
                 if (handler != null)
                     handler.OnReceive(this, reader);
                 else
-                    Logger.Trace("Receive undefined rc{0}包 Level - {1} Op - 0x{2:X2}", rc, level, opcode);
-                }
+                    Logger.Trace("received undefined rc{0} packet Level - {1} - Opcode 0x{2:X2}", rc, level, opcode);
+            }
             catch(Exception exp)
             {
-                Logger.Trace("Receive undefined rc{0}包 Level2 - {1} Op - 0x{2:X2}", rc, level, opcode);
+                Logger.Trace("received undefined rc{0} packet Level2 - {1} - Opcode 0x{2:X2}", rc, level, opcode);
                 throw exp;
             }
         }

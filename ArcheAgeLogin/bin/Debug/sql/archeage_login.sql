@@ -38,7 +38,7 @@ CREATE TABLE `accounts`  (
 -- Records of accounts
 -- ----------------------------
 BEGIN;
-INSERT INTO `accounts` VALUES (1, 'test', 1, 1, 'e10adc3949ba59abbe56e057f20f883e', 'e10adc3949ba59abbe56e057f20f883e', '127.0.0.1', 8388607, 0);
+INSERT INTO `accounts` VALUES (1, 'test', 1, 1, 'e10adc3949ba59abbe56e057f20f883e', '', '127.0.0.1', 8388607, 0);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

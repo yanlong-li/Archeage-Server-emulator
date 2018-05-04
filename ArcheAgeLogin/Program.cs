@@ -1,8 +1,4 @@
-﻿using ArcheAgeLogin.ArcheAge;
-using ArcheAgeLogin.ArcheAge.Holders;
-using ArcheAgeLogin.ArcheAge.Network;
-using ArcheAgeLogin.ArcheAge.Structuring;
-using ArcheAgeLogin.Properties;
+﻿using ArcheAgeLogin.ArcheAge.Structuring;
 using LocalCommons.Native.Logging;
 using LocalCommons.Native.Network;
 using System;
@@ -11,6 +7,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using ArcheAgeLogin.ArcheAge;
+using ArcheAgeLogin.ArcheAge.Holders;
+using ArcheAgeLogin.ArcheAge.Network;
+using ArcheAgeLogin.Properties;
 
 namespace ArcheAgeLogin
 {
@@ -23,8 +23,8 @@ namespace ArcheAgeLogin
         // .method private hidebysig static void Main(string[] args) cil managed
         static void Main(string[] args)
         {
-            Console.Title = "ArcheAge Login Server";
-            //Console.Write(System.Text.UTF8Encoding.UTF8.GetByteCount("장미장원"));
+            Console.Title = "ARCHEAGE LOGIN SERVER";
+            //Console.Write(System.Text.UTF8Encoding.UTF8.GetByteCount("jangmi"));
             Console.CancelKeyPress += Console_CancelKeyPress;
             Stopwatch watch = Stopwatch.StartNew();
             watch.Start();
@@ -40,27 +40,23 @@ namespace ArcheAgeLogin
 
         static void selectVersion()
         {
-            Console.WriteLine("Select Client Version: Default 4");
-            
-            Console.WriteLine("2:   2.9");
-            Console.WriteLine("3:   3.0");
-            Console.WriteLine("4:   4.0");
-            //0为手动选择
+            Console.WriteLine("Select Client Version: Default 1");
+            Console.WriteLine("1:   3.0+");
+            Console.WriteLine("2:   2.9-");
             if (Settings.Default.ServerClientVersion == "0")
             {
                 
                 Program.ServerClientVersion = Console.ReadLine();
                 if (Program.ServerClientVersion == "")
                 {
-                    //默认为4
-                    Program.ServerClientVersion = "4";
+
+                    Program.ServerClientVersion = "1";
                 }
             }
             else {
                 Console.WriteLine("AutoSelectServerClientVersion:" + Settings.Default.ServerClientVersion);
                 Program.ServerClientVersion = Settings.Default.ServerClientVersion;
             }
-            //Program.
 
         }
         static void Key_Pressed()
@@ -98,7 +94,7 @@ namespace ArcheAgeLogin
         {
             Logger.Trace("Unhandled Exception - Sender: {0} , Exception - \n{1}", sender.GetType().Name, ((Exception)e.ExceptionObject).ToString());
             Console.WriteLine();
-            Console.WriteLine("按任意键退出");
+            Console.WriteLine("Press any key to exit");
             Console.ReadKey();
             Shutdown();
         }
@@ -128,7 +124,6 @@ namespace ArcheAgeLogin
             PacketList.Initialize(Program.ServerClientVersion);
             new AsyncListener(m_Current.Main_IP, m_Current.Game_Port, defined: typeof(GameConnection)); //Waiting For Game Server Connections
             new AsyncListener(m_Current.Main_IP, m_Current.ArcheAge_Port, defined: typeof(ArcheAgeConnection)); //Waiting For ArcheAge Connections
-
         }
     }
 }

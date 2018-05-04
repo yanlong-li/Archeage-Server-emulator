@@ -52,7 +52,7 @@ namespace LocalCommons.Native.Network
                 Logger.Trace(e.ToString());
             }
 
-            Logger.Trace("Installed {0} At {1}", defined.Name, point);
+            Logger.Trace("Installed {0} at {1}", defined.Name, point);
             m_SyncArgs = new SocketAsyncEventArgs();
             m_SyncArgs.Completed += m_SyncArgs_Completed;
             RunAccept();

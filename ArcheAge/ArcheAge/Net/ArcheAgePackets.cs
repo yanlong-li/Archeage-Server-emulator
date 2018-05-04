@@ -10,8 +10,63 @@ using System.Text;
 namespace ArcheAge.ArcheAge.Net
 {
 
+    public sealed class NP_ChangeState : NetPacket
+    {
+        public NP_ChangeState(int id) : base(02, 0x0)
+        {
+            //08 00 DD 02 00 00 {00 00 00 00} //ChangeState
+            id += 1;
+            ns.Write(id);
+        }
+    }
+
+    public sealed class NP_SetGameType : NetPacket
+    {
+        public NP_SetGameType() : base(02, 0x0F)
+        {
+            /*
+[10]            S>c             0ms.            23:56:47 .221      10.03.18
+               -------------------------------------------------------------------------------
+               TType: ArcheageServer: undef   Parse: 6           EnCode: off         
+               ------- 0  1  2  3  4  5  6  7 -  8  9  A  B  C  D  E  F    -------------------
+               000000 17 00 DD 02 0F 00 08 00 | 6F 5F 74 65 6D 70 5F 62     ..Э.....o_temp_b
+               000010 00 00 00 00 00 00 00 00 | 01                          .........
+               -------------------------------------------------------------------------------
+               Archeage: "SetGameType"                      size: 25     prot: 2  $002
+               Addr:  Size:    Type:         Description:     Value:
+               0000     2   word          psize             23         | $0017
+               0002     2   word          type              733        | $02DD
+               0004     2   word          ID                15         | $000F
+               0006    10   WideStr[byte] name              o_temp_b  ($)
+               0010     8   int64         __                0          | $00000000
+               0018     1   byte          __                1          | $01
+             */
+            //1700DD020F00
+            ns.WriteHex("08006F5F74656D705F62000000000000000001");
+        }
+    }
+
+    /// <summary>
+    ///     Ответ на пакеты Ping клиента
+    /// </summary>
+    public sealed class NP_Pong : NetPacket
+    {
+        public NP_Pong(long n1, long n2, int n3) : base(2, 0x0013)
+        {
+            ns.Write(n1); //tm
+            ns.Write(n2); //when
+            ns.Write((long)0x00); //elapsed
+            ns.Write(0x45D2A48DD8); //remote
+            ns.Write(n3); //local
+            ns.Write(0x11DFE897); //world
+        }
+    }
+
     public sealed class NP_Undefined : NetPacket
     {
+        /// <summary>
+        /// Undefined Packet.
+        /// </summary>
         public NP_Undefined() : base(1, 0x1AB)
         {
             ns.Write((int)0x00);
@@ -20,22 +75,19 @@ namespace ArcheAge.ArcheAge.Net
         }
     }
 
-    /// <summary>
-    /// Undefined Packet.
-    /// </summary>
     public sealed class NP_ClientConnected : NetPacket
     {
         public NP_ClientConnected() : base(1, 0x00)
         {
             ns.Write((short)0x00);
             ns.Write((byte)0x00);
-            //主地址
+            //Main address
             ns.Write((byte)0x01);
             ns.Write((byte)0x00);
             ns.Write((byte)0x00);
-            ns.Write((byte)0x7f); //Undefined IP ??? Web Ip?
-            ns.Write((short)0x4e2); //Undefined Port ??? Web Port ?
-                                    //主地址
+            ns.Write((byte)0x7f); // IP 127.0.0.1
+            ns.Write((short)0x4e2); //= 1250, 0x04D5 = 1237 Port
+            //Main address
             ns.Write((byte)0x01);
             ns.Write((byte)0x00);
             ns.Write((byte)0x00);
@@ -70,11 +122,11 @@ namespace ArcheAge.ArcheAge.Net
          * */
         public NP_Client01() : base(05, 0x3540)
         {
-            #region 历史返回结果  失败
-            //ns.Write((byte)0xc4); //未知随机数
+            #region History returns results Failed
+            //ns.Write((byte)0xc4); //Unknown random number
             //ns.Write((int)0x3505d5a5);//3505d5a576
             //ns.Write((byte)0x76);
-            //ns.Write(0x1a2047956553ce0c);//未知随机数
+            //ns.Write(0x1a2047956553ce0c);//Unknown random number
             //ns.Write((long)0x0fc96030fed1a171);//0fc96030fed1a1714111e6b3865322f7c393
             //ns.Write((long)0x4111e6b3865322f7);
             //ns.Write((byte)0xC3);
@@ -117,7 +169,7 @@ namespace ArcheAge.ArcheAge.Net
             //ns.Write(0x805194c4);
             #endregion
 
-            #region 模拟返回结果集
+            #region Simulation returns a result set
             //ns.Write((byte)0x2c);
             //ns.Write((byte)0x01);
             //ns.Write((byte)0xdd);
@@ -421,7 +473,7 @@ namespace ArcheAge.ArcheAge.Net
             //ns.Write((byte)0x94);
             //ns.Write((byte)0xc4);
             #endregion
-            #region 中国区固定编码测试
+            #region China hard-coded test
             ns.Write((byte)0x05);
             ns.Write((byte)0xd5);
             ns.Write((byte)0xa5);

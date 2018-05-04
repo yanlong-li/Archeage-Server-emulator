@@ -3,6 +3,8 @@ using System.IO;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO.Compression;
+using System.Text;
 
 namespace LocalCommons.Native.Network
 {
@@ -15,6 +17,408 @@ namespace LocalCommons.Native.Network
         private static Stack<PacketWriter> m_Pool = new Stack<PacketWriter>();
         private bool m_LittleEndian;
 
+        // --------------------------------------------------------------------------------------------------------
+        private static readonly string DirectoryPath = @"c:\temp";
+        // --------------------------------------------------------------------------------------------------------
+
+        private static byte Inline(ref uint cry)
+        {
+            cry += 3532013U;
+            var n = (byte)(cry >> 16);
+            return (byte)((int)n == 0 ? 254 : n);
+        }
+
+        public static byte[] CtoSDecrypt(byte[] bodyPacket, uint unkKey)
+        {
+            var array = new byte[bodyPacket.Length];
+            var cry = ((uint)(unkKey + (ulong)bodyPacket.Length) * unkKey) ^ 1973428001u;
+            var n = 4 * (bodyPacket.Length / 4);
+            for (var i = n - 1; i >= 0; i--)
+                array[i] = (byte)(bodyPacket[i] ^ (uint)Inline(ref cry));
+            for (var i = n; i < bodyPacket.Length; i++)
+                array[i] = (byte)(bodyPacket[i] ^ (uint)Inline(ref cry));
+            return array;
+        }
+
+        public static byte[] StoCDecrypt(byte[] bodyPacket)
+        {
+            var array = new byte[bodyPacket.Length];
+            var cry = (uint)(bodyPacket.Length ^ 522286496);
+            var n = 4 * (bodyPacket.Length / 4);
+            for (var i = n - 1; i >= 0; i--)
+                array[i] = (byte)(bodyPacket[i] ^ (uint)Inline(ref cry));
+            for (var i = n; i < bodyPacket.Length; i++)
+                array[i] = (byte)(bodyPacket[i] ^ (uint)Inline(ref cry));
+            return array;
+        }
+
+
+        // --------------------------------------------------------------------------------------------------------
+        /*
+Sample Code: Compressing ViewState with Deflate
+As usual, we intercept the handling of ViewState by overriding two public virtual method:
+
+Hide   Copy Code
+public class BasePage : System.Web.UI.Page
+{
+    protected override void SavePageStateToPersistenceMedium(object viewState)
+    {
+        LosFormatter formatter = new LosFormatter();
+        StringWriter writer = new StringWriter();
+        formatter.Serialize(writer, viewState);
+        string viewStateString = writer.ToString();
+        byte[] bytes = Convert.FromBase64String(viewStateString);
+        bytes = Compress(bytes);
+        ClientScript.RegisterHiddenField("__VIEWSTATE__", Convert.ToBase64String(bytes));
+    }
+
+    protected override object LoadPageStateFromPersistenceMedium()
+    {
+        string viewState = Request.Form["__VIEWSTATE__"];
+        byte[] bytes = Convert.FromBase64String(viewState);
+        bytes = Decompress(bytes);
+        LosFormatter formatter = new LosFormatter();
+        return formatter.Deserialize(Convert.ToBase64String(bytes));
+    }
+}
+        */
+        public static byte[] Compress(byte[] data)
+        {
+            var output = new MemoryStream();
+            using (var dstream = new DeflateStream(output, CompressionMode.Compress))
+            {
+                dstream.Write(data, 0, data.Length);
+                dstream.Close();
+            }
+
+            return output.ToArray();
+        }
+
+        public static byte[] Decompress(byte[] data)
+        {
+            var input = new MemoryStream(data);
+            var output = new MemoryStream();
+            using (var dstream = new DeflateStream(input, CompressionMode.Decompress))
+            {
+                dstream.CopyTo(output);
+                dstream.Close();
+            }
+
+            return output.ToArray();
+        }
+        /* CRC32 Adler32
+public class Adler32Computer
+{
+    private int a = 1;
+    private int b = 0;
+
+    public int Checksum
+    {
+        get
+        {
+            return ((b * 65536) + a);
+        }
+    }
+
+    private static readonly int Modulus = 65521;
+
+    public void Update(byte[] data, int offset, int length)
+    {
+        for (int counter = 0; counter < length; ++counter)
+        {
+            a = (a + (data[offset + counter])) % Modulus;
+            b = (b + a) % Modulus;
+        }
+    }
+}
+*/
+        /*
+           The following C code computes the Adler-32 checksum of a data buffer.
+           It is written for clarity, not for speed.  The sample code is in the
+           ANSI C programming language. Non C users may find it easier to read
+           with these hints:
+
+              &      Bitwise AND operator.
+              >>     Bitwise right shift operator. When applied to an
+                     unsigned quantity, as here, right shift inserts zero bit(s)
+                     at the left.
+              <<     Bitwise left shift operator. Left shift inserts zero
+                     bit(s) at the right.
+              ++     "n++" increments the variable n.
+              %      modulo operator: a % b is the remainder of a divided by b.
+
+              #define BASE 65521 /* largest prime smaller than 65536 */
+
+        /*
+           Update a running Adler-32 checksum with the bytes buf[0..len-1]
+         and return the updated checksum. The Adler-32 checksum should be
+         initialized to 1.
+
+         Usage example:
+
+           unsigned long adler = 1L;
+
+           while (read_buffer(buffer, length) != EOF) {
+             adler = update_adler32(adler, buffer, length);
+           }
+           if (adler != original_adler) error();
+        */
+        /*        unsigned long update_adler32(unsigned long adler,
+                   unsigned char* buf, int len)
+                {
+                    unsigned long s1 = adler & 0xffff;
+                    unsigned long s2 = (adler >> 16) & 0xffff;
+                    int n;
+
+                    for (n = 0; n < len; n++)
+                    {
+                        s1 = (s1 + buf[n]) % BASE;
+                        s2 = (s2 + s1) % BASE;
+                    }
+                    return (s2 << 16) + s1;
+                }
+        */
+        /* Return the adler32 of the bytes buf[0..len-1] */
+        /*
+        unsigned long adler32(unsigned char* buf, int len)
+        {
+            return update_adler32(1L, buf, len);
+        }
+        */
+        /*
+        1)
+        public static void Main()
+        {
+
+            DirectoryInfo directorySelected = new DirectoryInfo(directoryPath);
+            Compress(directorySelected);
+
+
+            foreach (FileInfo fileToDecompress in directorySelected.GetFiles("*.cmp"))
+            {
+                Decompress(fileToDecompress);
+            }
+        }
+        */
+
+        public static void Compress(DirectoryInfo directorySelected)
+        {
+            foreach (var file in directorySelected.GetFiles("*.xml"))
+                using (var originalFileStream = file.OpenRead())
+                {
+                    if (((File.GetAttributes(file.FullName) & FileAttributes.Hidden)
+                         != FileAttributes.Hidden) & (file.Extension != ".cmp"))
+                    {
+                        using (var compressedFileStream = File.Create(file.FullName + ".cmp"))
+                        {
+                            using (var compressionStream =
+                                new DeflateStream(compressedFileStream, CompressionMode.Compress))
+                            {
+                                originalFileStream.CopyTo(compressionStream);
+                            }
+                        }
+
+                        var info = new FileInfo(DirectoryPath + "\\" + file.Name + ".cmp");
+                        Console.WriteLine("Compressed {0} from {1} to {2} bytes.", file.Name, file.Length, info.Length);
+                    }
+                }
+        }
+
+        public static void Decompress(FileInfo fileToDecompress)
+        {
+            using (var originalFileStream = fileToDecompress.OpenRead())
+            {
+                var currentFileName = fileToDecompress.FullName;
+                var newFileName = currentFileName.Remove(currentFileName.Length - fileToDecompress.Extension.Length);
+
+                using (var decompressedFileStream = File.Create(newFileName))
+                {
+                    using (var decompressionStream = new DeflateStream(originalFileStream, CompressionMode.Decompress))
+                    {
+                        decompressionStream.CopyTo(decompressedFileStream);
+                        Console.WriteLine("Decompressed: {0}", fileToDecompress.Name);
+                    }
+                }
+            }
+        }
+
+        /*
+
+        2)
+        public static void Main()
+        {
+            // Path to directory of files to compress and decompress.
+            string dirpath = @"c:\users\public\reports";
+
+            DirectoryInfo di = new DirectoryInfo(dirpath);
+
+            // Compress the directory's files.
+            foreach (FileInfo fi in di.GetFiles())
+            {
+                Compress(fi);
+            }
+
+            // Decompress all *.cmp files in the directory.
+            foreach (FileInfo fi in di.GetFiles("*.cmp"))
+            {
+                Decompress(fi);
+            }
+
+
+        }
+        */
+
+        public static void Compress2(FileInfo fi)
+        {
+            // Get the stream of the source file.
+            using (var inFile = fi.OpenRead())
+            {
+                // Prevent compressing hidden and already compressed files.
+                if (((File.GetAttributes(fi.FullName) & FileAttributes.Hidden) != FileAttributes.Hidden) &
+                    (fi.Extension != ".cmp"))
+                    using (var outFile = File.Create(fi.FullName + ".cmp"))
+                    {
+                        using (var compress = new DeflateStream(outFile, CompressionMode.Compress))
+                        {
+                            // Copy the source file into 
+                            // the compression stream.
+                            inFile.CopyTo(compress);
+
+                            Console.WriteLine("Compressed {0} from {1} to {2} bytes.", fi.Name, fi.Length,
+                                outFile.Length);
+                        }
+                    }
+            }
+        }
+
+        public static void Decompress2(FileInfo fi)
+        {
+            // Get the stream of the source file.
+            using (var inFile = fi.OpenRead())
+            {
+                // Get original file extension, 
+                // for example "doc" from report.doc.cmp.
+                var curFile = fi.FullName;
+                var origName = curFile.Remove(curFile.Length - fi.Extension.Length);
+
+                //Create the decompressed file.
+                using (var outFile = File.Create(origName))
+                {
+                    using (var decompress = new DeflateStream(inFile, CompressionMode.Decompress))
+                    {
+                        // Copy the decompression stream 
+                        // into the output file.
+                        decompress.CopyTo(outFile);
+
+                        Console.WriteLine("Decompressed: {0}", fi.Name);
+                    }
+                }
+            }
+        }
+
+        // ---------------------------------------------------------------------------------------------------------                    
+
+        /*
+    public static void TestCompression()
+    {
+        byte[] test = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        byte[] result = DecompressString(CompressString(test));
+        // This will fail, result.Length is 0
+        Debug.Assert(result.Length == test.Length);
+    }
+     */
+
+        /// <summary>
+        ///     Сжатие (архивирование) строки. Функция возвращает запакованную версию строки в виде байтового массива.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static byte[] CompressString(string value)
+        {
+            var byteArray = new byte[0];
+            if (!string.IsNullOrEmpty(value))
+            {
+                byteArray = Encoding.UTF8.GetBytes(value);
+                using (var stream = new MemoryStream())
+                {
+                    using (var zip = new GZipStream(stream, CompressionMode.Compress))
+                    {
+                        zip.Write(byteArray, 0, byteArray.Length);
+                    }
+
+                    byteArray = stream.ToArray();
+                }
+            }
+
+            return byteArray;
+        }
+
+        /// <summary>
+        ///     Сжатие (архивирование) строки байт. Функция возвращает запакованную версию строки в виде байтового массива.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static byte[] CompressString(byte[] data)
+        {
+            using (var compressedStream = new MemoryStream())
+            using (var zipStream = new GZipStream(compressedStream, CompressionMode.Compress))
+            {
+                zipStream.Write(data, 0, data.Length);
+                zipStream.Close();
+                return compressedStream.ToArray();
+            }
+        }
+
+        /// <summary>
+        ///     Сжатие (архивирование) строки. Функция возвращает запакованную версию строки в виде строки.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="mode"></param>
+        /// <param name="encoding"></param>
+        /// <returns></returns>
+        public static string GZipCompress(string s, CompressionMode mode, Encoding encoding)
+        {
+            if (mode == CompressionMode.Compress)
+                using (var outputStream = new MemoryStream())
+                {
+                    using (var compressionStream = new GZipStream(outputStream, CompressionMode.Compress))
+                    using (var inputStream = new MemoryStream(encoding.GetBytes(s)))
+                    {
+                        inputStream.CopyTo(compressionStream);
+                    }
+
+                    return Convert.ToBase64String(outputStream.ToArray());
+                }
+            else
+                using (var outputStream = new MemoryStream())
+                {
+                    using (var inputStream = new MemoryStream(Convert.FromBase64String(s)))
+                    using (var compressionStream = new GZipStream(inputStream, mode))
+                    {
+                        compressionStream.CopyTo(outputStream);
+                    }
+
+                    return encoding.GetString(outputStream.ToArray());
+                }
+        }
+
+        /*        Пример использования:
+                static void Main()
+                {
+                    var encoding = new UTF8Encoding();
+
+                    string sourceText = "“ ... ”";
+                    string compressedText = sourceText.GZipCompress(CompressionMode.Compress, encoding);
+                    string decompressedText = compressedText.GZipCompress(CompressionMode.Decompress, encoding);
+                }
+
+                public static PacketWriter CreateInstance()
+                {
+                    return CreateInstance(32, false);
+                }
+        */
+
+        //======================================================================================================
         public static PacketWriter CreateInstance()
         {
             return CreateInstance(32, false);
@@ -252,7 +656,7 @@ namespace LocalCommons.Native.Network
 
 
         /// <summary>
-        /// Ѕ«№М¶Ёі¤¶ИµДASCII±аВлЧЦ·ыґ®ЦµРґИлµЧІгБчЎЈОЄБЛЖҐЕдЈЁґуРЎЈ©Ј¬ЧЦ·ыґ®ДЪИЭТЄГґ±»ЅШ¶ПЈ¬ТЄГґУГїХЧЦ·ыМоідЎЈ
+        /// Write ASCII Fixed No Size
         /// </summary>
         public void WriteASCIIFixedNoSize(string value, int size)
         {
@@ -279,7 +683,6 @@ namespace LocalCommons.Native.Network
 
         /// <summary>
         /// Writes a fixed-length ASCII-encoded string value to the underlying stream. To fit (size), the string content is either truncated or padded with null characters.
-        /// Ѕ«№М¶Ёі¤¶ИµДASCII±аВлЧЦ·ыґ®ЦµРґИлµЧІгБчЎЈОЄБЛЖҐЕдЈЁґуРЎЈ©Ј¬ЧЦ·ыґ®ДЪИЭТЄГґ±»ЅШ¶ПЈ¬ТЄГґУГїХЧЦ·ыМоідЎЈ
         /// </summary>
 
         public void WriteASCIIFixed(string value, int size)

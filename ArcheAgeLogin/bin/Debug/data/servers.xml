@@ -1,12 +1,7 @@
 <!-- Made By netcastiel -->
 <!-- This File Contains Information About Game Server -->
-<!-- 服务器名支持英文韩文，暂不支持中文 -->
+<!-- The server name supports English and Korean. It does not support Chinese. -->
 <!-- All Servers Must Be Strictly In Order! Means - 1,2,3 ! Not 1,5,10 -->
 <servers>
-	 <server Id="1" Name="亚洲服务器" MaxPlayers="4000" password=""/>
-	 <server Id="2" Name="欧洲服务器" MaxPlayers="4000" password=""/>
-	 <server Id="3" Name="美洲服务器" MaxPlayers="4000" password=""/>
-	 <server Id="4" Name="南美服务器" MaxPlayers="4000" password=""/>
-	 <server Id="5" Name="大洋洲服务器" MaxPlayers="4000" password=""/>
-	 <server Id="6" Name="全球同服内测" MaxPlayers="4000" password=""/>
+     <server Id="1" Name="ArcheRage" MaxPlayers="10" password=""/>
 </servers>

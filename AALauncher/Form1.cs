@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
+using Mono.Math;
 
 namespace AALauncher
 {
@@ -55,6 +57,7 @@ namespace AALauncher
 
         private void button1_Click(object sender, EventArgs e)
         {
+            /*
             var a = new MailAuthentificator(emailBox.Text, passwordText.Text);
             a.Completed += a_Completed;
             a.StartAuthAsync();
@@ -63,6 +66,18 @@ namespace AALauncher
             button1.Enabled = false;
             startGameButton.Visible = false;
             textBox1.Visible = false;
+            */
+            Encryption ee = new Encryption();
+            ee.MakePrivateKey();
+            BigInteger key =  new BigInteger(0); 
+            BigInteger key2 = ee.GetKeyExchangeClient();
+            byte[] rez = ee.GenerateKeyClient2(key, key2, emailBox.Text, passwordText.Text);
+            //byte[] inVAR = System.Text.Encoding.ASCII.GetBytes(textBox1.Text);
+            StringBuilder sb = new StringBuilder();
+            foreach (var b in rez)
+                sb.Append(b);
+            
+            textBox2.Text = sb.ToString();
         }
 
         void a_Completed(object sender, AuthorizationCompletedEventArgs e)

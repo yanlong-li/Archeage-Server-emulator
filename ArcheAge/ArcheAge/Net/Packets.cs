@@ -13,12 +13,11 @@ namespace ArcheAge.ArcheAge.Net
     /// </summary>
     public sealed class Net_RegisterGameServer : NetPacket
     {
-        public Net_RegisterGameServer() : base(0x00, false)
+        public Net_RegisterGameServer() : base(0x00, true)
         {
             Settings m_Default = Settings.Default;
             ns.Write((byte)m_Default.Game_Id);
             ns.Write((short)m_Default.ArcheAge_Port);
-
             ns.WriteDynamicASCII(m_Default.ArcheAge_IP);
             ns.WriteDynamicASCII(m_Default.Game_Password);
         }
@@ -29,17 +28,16 @@ namespace ArcheAge.ArcheAge.Net
     /// </summary>
     public sealed class Net_UpdateCharacterCount : NetPacket
     {
-        public Net_UpdateCharacterCount(int accountId, int characters) : base(0x02, false)
+        public Net_UpdateCharacterCount(int accountId, int characters) : base(0x02, true)
         {
             ns.Write((int)accountId);
             ns.Write((int)characters);
         }
     }
 
-
     public sealed class test : NetPacket
     {
-        public test() : base(0x0100, false)
+        public test() : base(0x0100, true)
         {
             //ns.Write((byte)0x00);
             //ns.Write((byte)0x01);

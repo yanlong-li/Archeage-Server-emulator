@@ -1,12 +1,16 @@
 -----------------------------------------------------------------------[ info ]
-2018/4/26/星期四 上午 9:06 - 修正By：Yanlongli  email:ahlyl94@gmail.com
-2018/4/26/星期四 上午 9:06 - website:www.yanlongli.com
-2018/4/26/星期四 上午 9:06 - 本软体仅用于学习交流，不得用于任何公开活动使用
-2018/4/26/星期四 上午 9:06 - ArcheAge Emu - 版本号 2.0, Build 6690.15410
-----------------------------------------------------------------[ Controllers ]
-2018/4/26/星期四 上午 9:06 - 从-- Servers.xml --加载- 3 -个 服务器
-----------------------------------------------------------------------[ MySQL ]
-2018/4/26/星期四 上午 9:06 - 加载到 1 个账户
+01.05.2018 23:13 [INFO] - Modified by：NLObP email:gigastep@yandex.ru
+01.05.2018 23:13 [INFO]  - ArcheAge Emu - version number 2.0, Build 6680.36251
+01.05.2018 23:13 [INFO]  - Main: Running On .NET Framework (C#) Version 4.0.30319
+01.05.2018 23:13 [INFO] - Allocated Memory = 12 MB
 --------------------------------------------------------------------[ Network ]
-2018/4/26/星期四 上午 9:06 - Installed ArcheAgeConnection At 127.0.0.1:1250
-2018/4/26/星期四 上午 9:06 - ArcheAge Auth Server Started In 0.77 sec.
+01.05.2018 23:13 [INFO]  - Installed ProxyConnection at 127.0.0.1:1250
+01.05.2018 23:13 [INFO]  - ArcheAge Proxy Server Started In 0,05 sec.
+01.05.2018 23:21 [INFO]  - Proxy Server 127.0.0.1 - Connected
+01.05.2018 23:21 [INFO] - Recv: 0E 00 01 00 01 00 00 00 00 00 00 00 B9 2E 30 7A 
+01.05.2018 23:21 [INFO] - Send: 03 00 01 00 00 
+01.05.2018 23:26 [INFO]  - Proxy Server 127.0.0.1 : Disconnected
+01.05.2018 23:49 [INFO]  - Proxy Server 127.0.0.1 - Connected
+01.05.2018 23:49 [INFO] - Recv: 0E 00 01 00 01 00 00 00 00 00 00 00 B9 2E 30 7A 
+01.05.2018 23:49 [INFO] - Send: 03 00 01 00 00 
+01.05.2018 23:56 [INFO]  - Proxy Server 127.0.0.1 : Disconnected

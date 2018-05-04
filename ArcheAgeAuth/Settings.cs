@@ -1,4 +1,4 @@
-﻿namespace ArcheAgeLogin.Properties {
+﻿namespace ArcheAgeProxy.Properties {
     
     
     // Этот класс позволяет обрабатывать определенные события в классе параметров:
@@ -17,14 +17,14 @@
             //
         }
 
-        public string DataBaseConnectionString
-        {
-            get
-            {
-                string connection = "server=" + Settings.Default.DataBase_Host + ";user=" + Settings.Default.DataBase_User + ";database=" + Settings.Default.DataBase_Name + ";port=" + Settings.Default.DataBase_Port + ";password=" + Settings.Default.DataBase_Password + ";";
-                return connection;
-            }
-        }
+        //public string DataBaseConnectionString
+        //{
+        //    get
+        //    {
+        //        string connection = "server=";//+ Settings.Default.DataBase_Host + ";user=" + Settings.Default.DataBase_User + ";database=" + Settings.Default.DataBase_Name + ";port=" + Settings.Default.DataBase_Port + ";password=" + Settings.Default.DataBase_Password + ";";
+        //        return connection;
+        //    }
+        //}
         
         private void SettingChangingEventHandler(object sender, System.Configuration.SettingChangingEventArgs e) {
             // Добавьте здесь код для обработки события SettingChangingEvent.

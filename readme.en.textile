@@ -1,0 +1,67 @@
+Language: Chinese
+
+# Ancient century server-side simulator (based on the North American service (Chinese server may also apply) 4.0 version
+Server simulator in the last century (based on the North American clothing (Chinese area server may also apply))
+
+update log:
+January 21, 2018
+Fix server list does not support non-English issues
+Add 1250 authentication server
+
+November 21, 2017
+Added server list shows disabled race
+
+Noah
+Elf
+Dwarf family
+Haliland
+Animal clan
+War Mozu
+
+Repair token errors read thread account information error caused the problem
+
+November 7, 2017 at 15:45
+
+## Explain Explain
+As you can see, I'm working on a fix for it, and I do not know where its source comes from, but it does make sense to start the basic simulation. Obviously this is an abandoned project, a lot of functions have not been realized. I was fortunate enough to find this project and have now started a basic restoration of it. In addition to the verification section of the account, I've fixed the server list display and asked to connect to the game server, which is a great start. However, the simulation workload for the game is too large, there is no source code for the client I can not go deeper to repair.
+Now looking for more people to join this impossible project, while seeking ways to start the client need to completely separate the GLYPH platform, because I directly run archeage.exe is not responding, I do not know how to solve this problem.
+Any questions can be contacted by mail: ahlyl94@gmail.com
+But I may read my email rarely and can not reply to you anytime anywhere
+I introduced in the source third-party AALauncher launcher, and ultimately all the original author of all, of course, we will later replace the starter
+If you want to start directly please cmd code:
+
+- {g} + auth_ip 127.0.0.1:1237 -uid {id} -token {token} archeage.exe -r + auth_ip 127.0.0.1:1237 -uid 1 -token e10adc3949ba59abbe56e057f20f883e
+g:
+
+r: Russia (normal) t: America (failure) k: Korea (failure) eu: EU (failure) ...
+id:
+
+Account id in the database
+token:
+
+32 hexadecimal characters of length: e10adc3949ba59abbe56e057f20f883e
+The copyright of the program netcastiel I do not know is a person or organization name, but repair copyright belongs to I, Yanlongli.
+
+When I tried to fix the program, I found that a lot of data was undefined
+I use Glyph platform North American server 208.94.25.230 help me to resume work
+I got the communication between the two through the capture tool, and then sent a fake list of servers using the emulator, and I'm honored that I succeeded, but! ! !
+When we selected the server after the client disconnected the login server, start connecting to the game server, and the large amount of communication between the unexpected and I began to understand that this is not a person's job.
+However, I submitted the source code again, hoping to come to continue this project
+
+Debugging process
+Through the Microsoft Visual Studio 2015+ version
+After editing, modify ArcheAgeLogin and ArcheAge
+Configure MYSQL, account: root, password: root, and import the following sql ArcheAgeLogin
+Installation number Glyph platform archeage Open the software root directory Glyph \ Library \ GlyphLibrary.xml and modify the IP address of about 178 lines to 127.0.0.1 and set the file to read-only mode (to restore simply turn off read-only or direct Delete the file)
+Then you can continue my work
+
+Analysis log:
+Taiwan service:
+November 27, 2017
+Data sum 0c00510000 6700 // total data validation "string" / / message 01 / / terminator (English removal)
+6f000c005100006700e682a8e79a84e5b8b3e8999fe59ba0e98195e58f8de9818ae688b2e7aea1e79086e8a68fe7aba0e88887e6a29de4be8be69585e5819ce6ac8a34e697a52c20e5a682e69c89e79691e5958fe8ab8be6b4bde5aea2e69c8de4b8ade5bf83313a31e8a9a2e5958f2e01
+
+0c 51 0000 failed to login
+0c 0105000000000000 You have not joined the membership, please go to the official website to join
+
+0c004c05000000000000 (Normal) password error login failed but will not terminate the program to continue running / / append additional 00 but still terminated

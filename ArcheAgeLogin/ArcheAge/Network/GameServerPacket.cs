@@ -1,9 +1,9 @@
-﻿using ArcheAgeLogin.ArcheAge.Structuring;
-using LocalCommons.Native.Network;
+﻿using LocalCommons.Native.Network;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ArcheAgeLogin.ArcheAge.Structuring;
 
 namespace ArcheAgeLogin.ArcheAge.Network
 {
@@ -12,7 +12,8 @@ namespace ArcheAgeLogin.ArcheAge.Network
     /// </summary>
     public sealed class NET_GameRegistrationResult : NetPacket
     {
-        public NET_GameRegistrationResult(bool success) : base(0x00, false)
+        //TCJoinResponse - ответ Логин сервера на пает от Гейм сервера
+        public NET_GameRegistrationResult(bool success) : base(0x00, true)
         {
             ns.Write(success);
         }
@@ -23,9 +24,9 @@ namespace ArcheAgeLogin.ArcheAge.Network
     /// </summary>
     public sealed class NET_AccountInfo : NetPacket
     {
-        public NET_AccountInfo(Account account) : base(0x01, false)
+        public NET_AccountInfo(Account account) : base(0x01, true)
         {
-            ns.Write((int)account.AccountId);
+            ns.Write((int)account.AccId); //вместо AccountID
             ns.Write((byte)account.AccessLevel);
             ns.Write((byte)account.Membership);
             ns.WriteDynamicASCII(account.Name);

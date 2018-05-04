@@ -1,13 +1,13 @@
-﻿using ArcheAgeLogin.ArcheAge.Structuring;
-using ArcheAgeLogin.Properties;
-using LocalCommons.Native.Logging;
+﻿using LocalCommons.Native.Logging;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ArcheAgeAuth.ArcheAge.Structuring;
+using ArcheAgeAuth.Properties;
 
-namespace ArcheAgeLogin.ArcheAge.Holders
+namespace ArcheAgeAuth.ArcheAge.Holders
 {
     public class AccountHolder
     {

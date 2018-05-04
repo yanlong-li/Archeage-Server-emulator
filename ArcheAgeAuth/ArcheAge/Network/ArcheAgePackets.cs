@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ArcheAgeLogin.ArcheAge.Network
+namespace ArcheAgeAuth.ArcheAge.Network
 {
     /// <summary>
     /// Sends Information About That Login Was right and we can continue =)

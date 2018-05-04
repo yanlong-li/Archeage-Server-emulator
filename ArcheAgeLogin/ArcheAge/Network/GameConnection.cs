@@ -25,7 +25,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
         {
             Logger.Trace("Game Server {0} - Connected", this);
             DisconnectedEvent += GameConnection_DisconnectedEvent;
-            m_LittleEndian = false;
+            m_LittleEndian = true;
         }
 
         void GameConnection_DisconnectedEvent(object sender, EventArgs e)
@@ -34,13 +34,13 @@ namespace ArcheAgeLogin.ArcheAge.Network
             Dispose();
             GameServerController.DisconnecteGameServer(m_CurrentInfo != null ? m_CurrentInfo.Id : this.CurrentInfo.Id);
             m_CurrentInfo = null;
-            //将游戏服务器对应的状态离线
+            //Game server will be corresponding status offline
         }
 
         public override void HandleReceived(byte[] data)
         {
             PacketReader reader = new PacketReader(data, 0);
-            short opcode = reader.ReadInt16();
+            short opcode = reader.ReadLEInt16();
             PacketHandler<GameConnection> handler = PacketList.GHandlers[opcode];
             if (handler != null) {
                 handler.OnReceive(this, reader);

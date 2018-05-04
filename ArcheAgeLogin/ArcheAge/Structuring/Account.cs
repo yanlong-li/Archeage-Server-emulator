@@ -1,8 +1,8 @@
-﻿using ArcheAgeLogin.ArcheAge.Network;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ArcheAgeLogin.ArcheAge.Network;
 
 namespace ArcheAgeLogin.ArcheAge.Structuring
 {
@@ -11,6 +11,7 @@ namespace ArcheAgeLogin.ArcheAge.Structuring
     /// </summary>
     public class Account
     {
+        private int m_AccId;
         private int m_AccountId;
         private string m_PassHash;
         private string m_Token;
@@ -52,6 +53,12 @@ namespace ArcheAgeLogin.ArcheAge.Structuring
         {
             get { return m_Name; }
             set { m_Name = value; }
+        }
+
+        public int AccId
+        {
+            get { return m_AccId; }
+            set { m_AccId = value; }
         }
 
         public int AccountId

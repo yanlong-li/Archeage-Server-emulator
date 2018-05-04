@@ -20,13 +20,13 @@ namespace ArcheAge
     {
         static void Main(string[] args)
         {
-            Console.Title = "上古世纪游戏服务器";
+            Console.Title = "ARCHEAGE GAME SERVER";
             Console.CancelKeyPress += Console_CancelKeyPress;
             Stopwatch watch = Stopwatch.StartNew();
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             LoadExecutingAssembly(args);
             watch.Stop();
-            Logger.Trace("ArcheAge 启动  {0} 秒.", (watch.ElapsedMilliseconds / 1000).ToString("0.00"));
+            Logger.Trace("ArcheAge starts {0} seconds.", (watch.ElapsedMilliseconds / 1000).ToString("0.00"));
             watch = null;
             Key_Pressed();
         }
@@ -55,9 +55,9 @@ namespace ArcheAge
 
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            Logger.Trace("未处理的异常: {0} , Exception - \n{1}", sender.GetType().Name, ((Exception)e.ExceptionObject).ToString());
+            Logger.Trace("Unhandled exceptions: {0} , Exception - \n{1}", sender.GetType().Name, ((Exception)e.ExceptionObject).ToString());
             Console.WriteLine();
-            Console.WriteLine("按 任 意 键 退 出");
+            Console.WriteLine("Press any key to exit");
             Console.ReadKey();
             Environment.Exit(0);
         }
@@ -69,17 +69,17 @@ namespace ArcheAge
             LocalCommons.Native.Significant.Main.InitializeStruct(args); //Initializing LocalCommons.dll
 
             //------ Binary ------------------------------------------
-            //Logger.Section("二进制数据");
+            //Logger.Section("Binary data");
 
             //------ Network ------------------------------------------
-            Logger.Section("网络连接");
+            Logger.Section("network connection");
             DelegateList.Initialize();
             InstallLoginServer();
             new AsyncListener(Settings.Default.ArcheAge_IP, Settings.Default.ArcheAge_Port, typeof(ClientConnection)); //Waiting For ArcheAge Connections
         }
 
-        //原版
-        
+        //Original
+
         static void InstallLoginServer()
         {
             IPEndPoint point = new IPEndPoint(IPAddress.Parse(Settings.Default.LoginServer_IP), Settings.Default.LoginServer_Port);
@@ -89,16 +89,16 @@ namespace ArcheAge
             }catch(Exception exp)
             {
                 //throw exp;
-                Logger.Trace("无法连接登陆服务器，1秒后重试");
+                Logger.Trace("Unable to connect to login server, retry after 1 second");
             }
             if (con.Connected)
                 new LoginConnection(con);
             else
                 InstallLoginServer();
         }
-        
 
-        //用来测试的数据
+
+        //Data used for testing
         //static void InstallLoginServer()
         //{
         //    IPEndPoint point = new IPEndPoint(IPAddress.Parse("101.226.100.108"), 1239);
@@ -110,7 +110,7 @@ namespace ArcheAge
         //    catch (Exception exp)
         //    {
         //        //throw exp;
-        //        Logger.Trace("无法连接登陆服务器，1秒后重试");
+        //        Logger.Trace("Unable to connect to login server, retry after 1 second");
         //    }
         //    if (con.Connected)
         //        new LoginConnection(con);

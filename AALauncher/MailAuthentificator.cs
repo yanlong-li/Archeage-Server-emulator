@@ -19,13 +19,13 @@ namespace AALauncher
         {
             if (email.Length == 0)
             {
-                MessageBox.Show("请输入邮箱", "账户错误");
+                MessageBox.Show("please input your email", "Account error");
                 return;
             }
 
             if (string.IsNullOrEmpty(password))
             {
-                MessageBox.Show("密码不能为空", "账户错误");
+                MessageBox.Show("password can not be blank", "Account error");
                 return;
             }
                 

@@ -1,6 +1,8 @@
 using System;
 using System.Text;
 using System.IO;
+using System.IO.Compression;
+using System.Text;
 
 namespace LocalCommons.Native.Network
 {
@@ -26,10 +28,7 @@ namespace LocalCommons.Native.Network
         /// </summary>
 		public byte[] Buffer
 		{
-			get
-			{
-				return m_Data;
-			}
+			get { return m_Data; }
 		}
 
         /// <summary>
@@ -37,10 +36,7 @@ namespace LocalCommons.Native.Network
         /// </summary>
 		public int Size
 		{
-			get
-			{
-				return m_Size;
-			}
+			get { return m_Size; }
 		}
 
         /// <summary>
@@ -48,10 +44,7 @@ namespace LocalCommons.Native.Network
         /// </summary>
         public int Offset
         {
-            get
-            {
-                return m_Index;
-            }
+            get { return m_Index; }
             set { m_Index = value; }
         }
 
@@ -60,11 +53,47 @@ namespace LocalCommons.Native.Network
         /// </summary>
         public int Remaining
         {
-            get
-            {
-                return m_Size - m_Index;
-            }
+            get { return m_Size - m_Index; }
         }
+
+	    //Добавил функции для работы со сжатием строк
+	    /// <summary>
+	    ///     Распаковка(разархивирование) сжатой строки.На входе — данные, предварительно сжатые предыдущей функцией
+	    ///     CompressString.
+	    ///     На выходе — распакованная строка.
+	    /// </summary>
+	    /// <param name="value"></param>
+	    /// <returns></returns>
+	    public static string DecompressString(byte[] value)
+	    {
+	        var resultString = string.Empty;
+	        if (value != null && value.Length > 0)
+	            using (var stream = new MemoryStream(value))
+	            using (var zip = new GZipStream(stream, CompressionMode.Decompress))
+	            using (var reader = new StreamReader(zip))
+	            {
+	                resultString = reader.ReadToEnd();
+	            }
+
+	        return resultString;
+	    }
+
+	    /// <summary>
+	    /// </summary>
+	    /// <param name="data"></param>
+	    /// <returns></returns>
+	    public static byte[] DecompressString2(byte[] data)
+	    {
+	        using (var compressedStream = new MemoryStream(data))
+	        using (var zipStream = new GZipStream(compressedStream, CompressionMode.Decompress))
+	        using (var resultStream = new MemoryStream())
+	        {
+	            var buffer = new byte[4096];
+	            int read;
+	            while ((read = zipStream.Read(buffer, 0, buffer.Length)) > 0) resultStream.Write(buffer, 0, read);
+	            return resultStream.ToArray();
+	        }
+	    }
 
         /// <summary>
         /// Reading Byte[] From Stream.
@@ -294,13 +323,23 @@ namespace LocalCommons.Native.Network
         {
             if ((m_Index + 2) > m_Size)
                 return 0;
-
-            
             short value = BitConverter.ToInt16(m_Data, m_Index);
             m_Index += 2;
             return value;
         }
 
+	    /// <summary>
+	    /// Reading Little Endian 2 - Bytes - Short.
+	    /// </summary>
+	    /// <returns>Readed Short</returns>
+	    public ushort ReadLEUInt16()
+	    {
+	        if ((m_Index + 2) > m_Size)
+	            return 0;
+	        ushort value = BitConverter.ToUInt16(m_Data, m_Index);
+	        m_Index += 2;
+	        return value;
+	    }
 
         /// <summary>
         /// Reading Little Endian 4 - Bytes - Int.

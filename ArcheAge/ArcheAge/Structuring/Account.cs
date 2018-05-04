@@ -11,8 +11,10 @@ namespace ArcheAge.ArcheAge.Structuring
     /// </summary>
     public class Account
     {
+        private int m_AccId;
         private int m_AccountId;
         private string m_PassHash;
+        private string m_Token;
         private byte m_Access;
         private byte m_Membership;
         private string m_LastIp;
@@ -20,13 +22,13 @@ namespace ArcheAge.ArcheAge.Structuring
         private string m_Name;
         private ClientConnection m_Connection;
         private bool m_WaitingReAuthorization;
-        private int sessionId;
-        private int characters;
+        private int m_SessionId;
+        private int m_Characters;
 
         public int Session
         {
-            get { return sessionId; }
-            set { sessionId = value; }
+            get { return m_SessionId; }
+            set { m_SessionId = value; }
         }
 
         public bool IsWaitingForReAuthorization
@@ -47,6 +49,12 @@ namespace ArcheAge.ArcheAge.Structuring
             set { m_Name = value; }
         }
 
+        public int AccId
+        {
+            get { return m_AccId; }
+            set { m_AccId = value; }
+        }
+
         public int AccountId
         {
             get { return m_AccountId; }
@@ -57,6 +65,12 @@ namespace ArcheAge.ArcheAge.Structuring
         {
             get { return m_PassHash; }
             set { m_PassHash = value; }
+        }
+
+        public string Token
+        {
+            get { return m_Token; }
+            set { m_Token = value; }
         }
 
         public byte AccessLevel

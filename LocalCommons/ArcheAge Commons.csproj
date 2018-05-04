@@ -11,6 +11,7 @@
     <AssemblyName>LocalCommons</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,6 +59,7 @@
     <Compile Include="Native\Network\PacketReader.cs" />
     <Compile Include="Native\Network\PacketWriter.cs" />
     <Compile Include="Native\Significant\Main.cs" />
+    <Compile Include="Native\Threading\ThreadManager.cs" />
     <Compile Include="Native\Utilities\Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -27,13 +27,13 @@
       <Value Profile="(Default)">3306</Value>
     </Setting>
     <Setting Name="DataBase_User" Type="System.String" Scope="User">
-      <Value Profile="(Default)">archeage</Value>
+      <Value Profile="(Default)">root</Value>
     </Setting>
     <Setting Name="DataBase_Name" Type="System.String" Scope="User">
-      <Value Profile="(Default)">archeage</Value>
+      <Value Profile="(Default)">archeage_world</Value>
     </Setting>
     <Setting Name="DataBase_Password" Type="System.String" Scope="User">
-      <Value Profile="(Default)">archeage</Value>
+      <Value Profile="(Default)">root</Value>
     </Setting>
   </Settings>
 </SettingsFile>

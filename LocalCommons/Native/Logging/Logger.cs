@@ -32,8 +32,8 @@ namespace LocalCommons.Native.Logging
         /// <param name="prms">Parameters</param>
         public static void Trace(string data, params object[] prms)
         {
-            Console.WriteLine(DateTime.Now.ToString("g") + " - " + data, prms);
-            writer.WriteLine(DateTime.Now.ToString("g") + " - " + data, prms);
+            Console.WriteLine(DateTime.Now.ToString("g") + " [INFO] - " + data, prms);
+            writer.WriteLine(DateTime.Now.ToString("g") + " [INFO]  - " + data, prms);
         }
 
         /// <summary>
@@ -42,8 +42,8 @@ namespace LocalCommons.Native.Logging
         /// <param name="data">Information String</param>
         public static void Trace(string data)
         {
-            Console.WriteLine(DateTime.Now.ToString("g") + " - " + data);
-            writer.WriteLine(DateTime.Now.ToString("g") + " - " + data);
+            Console.WriteLine(DateTime.Now.ToString("g") + " [INFO] - " + data);
+            writer.WriteLine(DateTime.Now.ToString("g") + " [INFO] - " + data);
         }
 
         /// <summary>

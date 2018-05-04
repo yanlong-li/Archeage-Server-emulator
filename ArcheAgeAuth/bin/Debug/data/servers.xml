@@ -3,7 +3,5 @@
 <!-- 服务器名支持英文韩文，暂不支持中文 -->
 <!-- All Servers Must Be Strictly In Order! Means - 1,2,3 ! Not 1,5,10 -->
 <servers>
-     <server Id="1" Name="archeage" MaxPlayers="4000" password=""/>
-	 <server Id="2" Name="玫瑰庄园" MaxPlayers="4000" password=""/>
-	 <server Id="3" Name="장미장원" MaxPlayers="4000" password=""/>
+     <server Id="1" Name="ArcheRage" MaxPlayers="4000" password=""/>
 </servers>

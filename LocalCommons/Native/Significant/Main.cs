@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Diagnostics;
 
 namespace LocalCommons.Native.Significant
 {
@@ -23,14 +24,16 @@ namespace LocalCommons.Native.Significant
         {
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Logger.Section("info");
-            Logger.Trace("修正By：Yanlongli  email:ahlyl94@gmail.com");
-            Logger.Trace("website:www.yanlongli.com");
-            Logger.Trace("本软体仅用于学习交流，不得用于任何公开活动使用");
+            Logger.Trace("Modified by：NLObP email:gigastep@yandex.ru");
+            //Logger.Trace("Fix by：Yanlongli  email:ahlyl94@gmail.com");
+            //Logger.Trace("website:www.yanlongli.com");
+            //Logger.Trace("This software is for learning communication only and must not be used for any public activity");
             Version ver = Assembly.GetExecutingAssembly().GetName().Version;
 
-            Logger.Trace("ArcheAge Emu - 版本号 {0}.{1}, Build {2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision);
-            //Logger.Trace("Main: Running On .NET Framework (C#) Version {0}.{1}.{2}", Environment.Version.Major, Environment.Version.Minor, Environment.Version.Build);
-            //Logger.Trace("如果你想停止该服务请直接按下 Ctrl + C");
+            Logger.Trace("ArcheAge Emu - version number {0}.{1}, Build {2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision);
+            Logger.Trace("Main: Running On .NET Framework (C#) Version {0}.{1}.{2}", Environment.Version.Major, Environment.Version.Minor, Environment.Version.Build);
+            Logger.Trace("Allocated Memory = " + (Process.GetCurrentProcess().PrivateMemorySize64 / 1000000) + " MB");
+            //Logger.Trace("If you want to stop the service, please press Ctrl + C");
             int platform = (int)Environment.OSVersion.Platform;
             if (platform == 4 || platform == 128)
             {

@@ -131,32 +131,35 @@ namespace LocalCommons.Native.Network
             m_PacketQueue.Enqueue(packet);
             m_AsyncSend_Do();
         }
+
         /// <summary>
-        /// 返回服务器列表
+        /// return server list
         /// </summary>
         /// <param name="packet"></param>
         public virtual void SendAsyncHex(NetPacket packet)
         {
             if (CoalesceSleep != -1)
                 Thread.Sleep(CoalesceSleep);
-            
             byte[] compiled = packet.Compile2();
-   
-            StringBuilder builder = new StringBuilder();
-            foreach (byte b in compiled)
-                builder.AppendFormat("{0:X2} ", b);
-            Console.WriteLine("Send: " + builder.ToString());
-
-            //string path = "d:\\1.txt";//文件的路径，保证文件存在。
-            //FileStream fs = new FileStream(path, FileMode.Append);
-            //StreamWriter sw = new StreamWriter(fs);
-            //filestream fs = new filestream(path, filemode.append);
-            //streamwriter sw = new streamwriter(fs);
-            //sw.WriteLine(builder.ToString());
-            //sw.Close();
-            //fs.Close();
-
-
+            //не выводим Ping и Pong
+            if (compiled[4] != 0x13)
+            {
+                StringBuilder builder = new StringBuilder();
+                builder.Append("Send: ");
+                //Logger.Trace(builder.ToString());
+                //builder.Clear();
+                foreach (byte b in compiled)
+                    builder.AppendFormat("{0:X2} ", b);
+                Logger.Trace(builder.ToString());
+#if DEBUG
+                string path = "d:\\dump.txt"; //The path to the file, ensure that files exist.
+                FileStream fs = new FileStream(path, FileMode.Append);
+                StreamWriter sw = new StreamWriter(fs);
+                sw.WriteLine(builder.ToString());
+                sw.Close();
+                fs.Close();
+#endif
+            }
             m_Current.Send(compiled, compiled.Length, SocketFlags.None);
         }
 
@@ -170,10 +173,10 @@ namespace LocalCommons.Native.Network
             compiled[1] = 0x00;
             compiled[2] = 0x0a;
             compiled[3] = 0x00;
-            compiled[4] = 0x5c;//未知
-            compiled[5] = 0x4b;//未知
-            compiled[6] = 0xe8;//未知
-            compiled[7] = 0xf6;//未知
+            compiled[4] = 0x5c;//unknown
+            compiled[5] = 0x4b;//unknown
+            compiled[6] = 0xe8;//unknown
+            compiled[7] = 0xf6;//unknown
             compiled[8] = 0x18;
             compiled[9] = 0x19;
             compiled[10] = 0x5e;
@@ -199,9 +202,13 @@ namespace LocalCommons.Native.Network
             compiled[30] = 0x00;
             compiled[31] = 0x00;//
             StringBuilder builder = new StringBuilder();
+            builder.Append("SSendServerIP PORT:");
+            Logger.Trace(builder.ToString());
+            builder.Clear();
             foreach (byte b in compiled)
                 builder.AppendFormat("{0:X2} ", b);
-            Console.WriteLine("SSendServerIP PORT：" + builder.ToString());
+            //Console.WriteLine("SSendServerIP PORT：" + builder.ToString());
+            Logger.Trace(builder.ToString());
             m_Current.Send(compiled, compiled.Length, SocketFlags.None);
         }
 
@@ -216,21 +223,26 @@ namespace LocalCommons.Native.Network
                 {
                     NetPacket packet = m_PacketQueue.Dequeue();
                     byte[] compiled = packet.Compile();
-                    StringBuilder builder = new StringBuilder();
-                    foreach (byte b in compiled)
-                        builder.AppendFormat("{0:X2} ", b);
-                    Console.WriteLine("Send: \n" + builder.ToString());
+                    //не выводим Ping и Pong
+                    if (compiled[4] != 0x13)
+                    {
+                        StringBuilder builder = new StringBuilder();
+                        builder.Append("Send: ");
+                        //                    Logger.Trace(builder.ToString());
+                        //                    builder.Clear();
+                        foreach (byte b in compiled)
+                            builder.AppendFormat("{0:X2} ", b);
+                        Logger.Trace(builder.ToString());
 
-                    //string path = "d:\\1.txt";//文件的路径，保证文件存在。
-                    //FileStream fs = new FileStream(path, FileMode.Append);
-                    //StreamWriter sw = new StreamWriter(fs);
-                    //filestream fs = new filestream(path, filemode.append);
-                    //streamwriter sw = new streamwriter(fs);
-                    //sw.WriteLine(builder.ToString());
-                    //sw.Close();
-                    //fs.Close();
-
-
+#if DEBUG
+                        string path = "d:\\dump.txt"; //The path to the file, ensure that files exist.
+                        FileStream fs = new FileStream(path, FileMode.Append);
+                        StreamWriter sw = new StreamWriter(fs);
+                        sw.WriteLine(builder.ToString());
+                        sw.Close();
+                        fs.Close();
+#endif
+                    }
                     m_Current.Send(compiled, compiled.Length, SocketFlags.None);
                 }
             }
@@ -256,53 +268,49 @@ namespace LocalCommons.Native.Network
                 return;
             }
 
+            //не выводим Ping и Pong
+            if (m_RecvBuffer[4] != 0x12)
+            {
+                //--- Console Hexadecimal 
+                StringBuilder builder = new StringBuilder();
+                builder.Append("Recv: ");
+                //Logger.Trace(builder.ToString());
+                //builder.Clear();
+                for (int i = 0; i < transfered; i++)
+                    builder.AppendFormat("{0:x2} ".ToUpper(), m_RecvBuffer[i]);
+                Logger.Trace(builder.ToString());
+                //--- Console Hexadecimal
+                //Here added a layer of cycle, but who are sometimes more data to and together receive.
+                //That has more than one data splitting address here
 #if DEBUG
-            //--- Console Hexadecimal 
-            StringBuilder builder = new StringBuilder();
-            builder.Append("收到：\n");
-            for (int i = 0; i < transfered; i++)
-                builder.AppendFormat("{0:x2} ".ToUpper(), m_RecvBuffer[i]);
-            
-            Logger.Trace(builder.ToString());
-            //--- Console Hexadecimal
+                string path = "d:\\dump.txt"; //The path to the file, ensure that files exist.
+                FileStream fs = new FileStream(path, FileMode.Append);
+                StreamWriter sw = new StreamWriter(fs);
+                sw.WriteLine(builder.ToString());
+                sw.Close();
+                fs.Close();
 #endif
-            //此处加了一层循环，因有时  多条数据会并和一起接收到。此处将多条数据拆分处理
+            }
             short rest = 0;
             short end = 0x00;
-
-            
-
-            //string path = "d:\\1.txt";//文件的路径，保证文件存在。
-            //FileStream fs = new FileStream(path, FileMode.Append);
-            //StreamWriter sw = new StreamWriter(fs);
-            ////filestream fs = new filestream(path, filemode.append);
-            ////streamwriter sw = new streamwriter(fs);
-            //sw.WriteLine(builder.ToString());
-            //sw.Close();
-            //fs.Close();
-
             PacketReader reader = new PacketReader(m_RecvBuffer, 0);
             //for (int i = 0; i < 10; i++)
             //{
-                short length = m_LittleEndian ? reader.ReadLEInt16() : reader.ReadInt16();
-                //if (length == end)
-                //{
-                //    reader = null;
-                //    m_RecvBuffer = null;
-                //    break;
-                    
-                //}
-                byte[] data = new byte[length];
-                Buffer.BlockCopy(m_RecvBuffer, 2, data, rest, length);
-                HandleReceived(data);
+            //short length = m_LittleEndian ? reader.ReadLEInt16() : reader.ReadInt16();
+            //if (length == end)
+            //{
+            //    reader = null;
+            //    m_RecvBuffer = null;
+            //    break;
+            //}
+            short length = reader.ReadLEInt16(); //длину пакета считываем всегда LittleEndian
+            byte[] data = new byte[length];
+            Buffer.BlockCopy(m_RecvBuffer, 2, data, rest, length);
+            HandleReceived(data);
             //reader.Offset= length+3;
             //rest = length;
             // }
-
             reader = null;
-
-
-
         }
 
         /// <summary>

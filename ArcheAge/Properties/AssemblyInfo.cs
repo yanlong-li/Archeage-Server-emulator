@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
 [assembly: AssemblyTitle("ArcheAge World Server Emulator")]
-[assembly: AssemblyDescription("Emulator For ArcheAge Game")]
+[assembly: AssemblyDescription("ArcheAge World Server Emulator")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ArcheAge Emulator")]
-[assembly: AssemblyCopyright("Copyright © netcastiel 2013")]
+[assembly: AssemblyCopyright("Copyright © NLObP 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

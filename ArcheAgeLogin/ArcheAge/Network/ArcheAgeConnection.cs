@@ -9,6 +9,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using ArcheAgeLogin.ArcheAge;
+using ArcheAgeLogin.ArcheAge.Holders;
+using ArcheAgeLogin.ArcheAge.Network;
+using ArcheAgeLogin.ArcheAge.Structuring;
 
 namespace ArcheAgeLogin.ArcheAge.Network
 {
@@ -31,8 +35,8 @@ namespace ArcheAgeLogin.ArcheAge.Network
 
         public ArcheAgeConnection(Socket s) : base(s)
         {
-            CurrentAccount =  AccountHolder.AccountList.FirstOrDefault(n => n.Name =="a");
-            Logger.Trace("客户端  :《{0}》 连接", this);
+            CurrentAccount =  AccountHolder.AccountList.FirstOrDefault(n => n.Name =="-=zZZz=-");
+            Logger.Trace("Client: <<{0}>> connection", this);
             DisconnectedEvent += ArcheAgeConnection_DisconnectedEvent;
             m_LittleEndian = true;
         }
@@ -41,14 +45,15 @@ namespace ArcheAgeLogin.ArcheAge.Network
         {
             if (m_CurrentAccount != null)
             {
-                if(GameServerController.AuthorizedAccounts.ContainsKey(m_CurrentAccount.AccountId)){
-                    GameServerController.AuthorizedAccounts.Remove(m_CurrentAccount.AccountId);
+                if(GameServerController.AuthorizedAccounts.ContainsKey(m_CurrentAccount.AccId)) //AccountId
+                {
+                    GameServerController.AuthorizedAccounts.Remove(m_CurrentAccount.AccId);
                 }
                 //Removing Account From All GameServers
                 foreach (GameServer server in GameServerController.CurrentGameServers.Values)
                 {
-                    if (server.CurrentAuthorized.Contains(m_CurrentAccount.AccountId))
-                        server.CurrentAuthorized.Remove(m_CurrentAccount.AccountId);
+                    if (server.CurrentAuthorized.Contains(m_CurrentAccount.AccId))
+                        server.CurrentAuthorized.Remove(m_CurrentAccount.AccId);
                 }
                 if (m_CurrentAccount.Password != null) //If you been fully authroized.
                 {
@@ -56,8 +61,8 @@ namespace ArcheAgeLogin.ArcheAge.Network
                     AccountHolder.InsertOrUpdate(m_CurrentAccount);
                 }
             }
-            string arg = movedToGame ? "进入游戏" : "断开连接";
-            Logger.Trace("客户端 {0} : {1}", m_CurrentAccount == null ? this.ToString() : m_CurrentAccount.Name, arg);
+            string arg = movedToGame ? "entered the game " : "disconnect";
+            Logger.Trace("Client {0} : {1}", m_CurrentAccount == null ? this.ToString() : m_CurrentAccount.Name, arg);
             Dispose();
         }
 
@@ -67,7 +72,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
             short opcode = reader.ReadLEInt16();
             if (opcode > PacketList.LHandlers.Length)
             {
-                Logger.Trace("没有足够的长度来处理.");
+                Logger.Trace("Not enough length to handle.");
                 Dispose();
                 return;
             }
@@ -76,7 +81,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
             if (handler != null)
                 handler.OnReceive(this, reader);
             else
-                Logger.Trace("收到未定义的包 0x{0:x2}", opcode);
+                Logger.Trace("Received undefined package 0x{0:x2}", opcode);
 
             reader = null;
         }

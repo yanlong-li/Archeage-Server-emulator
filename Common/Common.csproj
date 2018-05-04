@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D2F2E853-9897-4261-8B83-1204149102C4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SagaBNS.Common</RootNamespace>
+    <AssemblyName>Common</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BigInteger">
+      <HintPath>..\Dependencies\BigInteger.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Dependencies\NLog\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Account\Account.cs" />
+    <Compile Include="Actors\ActorExt.cs" />
+    <Compile Include="Actors\ActorNPC.cs" />
+    <Compile Include="Actors\ActorPC.cs" />
+    <Compile Include="Actors\BNSActorEventHandler.cs" />
+    <Compile Include="Actors\Enums.cs" />
+    <Compile Include="Actors\NPCData.cs" />
+    <Compile Include="Actors\ActorMapObj.cs" />
+    <Compile Include="Actors\ActorItem.cs" />
+    <Compile Include="Actors\ActorPortal.cs" />
+    <Compile Include="Actors\Status.cs" />
+    <Compile Include="Actors\ActorCorpse.cs" />
+    <Compile Include="Actors\ActorQuest.cs" />
+    <Compile Include="BNSLoginNetwork.cs" />
+    <Compile Include="Encryption\BNSKeyExchange.cs" />
+    <Compile Include="Encryption\BNSXorEncryption.cs" />
+    <Compile Include="Encryption\BNSAESEncryption.cs" />
+    <Compile Include="Inventory\EquipSlot.cs" />
+    <Compile Include="Inventory\Inventory.cs" />
+    <Compile Include="Inventory\OperationResults.cs" />
+    <Compile Include="Item\Item.cs" />
+    <Compile Include="Item\ItemData.cs" />
+    <Compile Include="Item\ItemType.cs" />
+    <Compile Include="Network\AccountSession.Account.cs" />
+    <Compile Include="Network\AccountSession.cs" />
+    <Compile Include="Network\AccountSession.Login.cs" />
+    <Compile Include="Network\CharacterSession.Char.cs" />
+    <Compile Include="Network\CharacterSession.cs" />
+    <Compile Include="Network\CharacterSession.Item.cs" />
+    <Compile Include="Network\CharacterSession.Login.cs" />
+    <Compile Include="Network\SessionStates.cs" />
+    <Compile Include="Network\CharacterSession.Quest.cs" />
+    <Compile Include="Network\CharacterSession.Skill.cs" />
+    <Compile Include="Network\CharacterSession.Teleport.cs" />
+    <Compile Include="Packets\AccountServer\AccountLoginResult.cs" />
+    <Compile Include="Packets\AccountServer\CM_LOGIN_REQUEST.cs" />
+    <Compile Include="Packets\AccountServer\SM_LOGIN_RESULT.cs" />
+    <Compile Include="Packets\AccountServer\CM_ACCOUNT_INFO_REQUEST.cs" />
+    <Compile Include="Packets\AccountServer\SM_ACCOUNT_INFO.cs" />
+    <Compile Include="Packets\AccountServer\CM_ACCOUNT_LOGIN.cs" />
+    <Compile Include="Packets\AccountServer\SM_ACCOUNT_LOGIN_RESULT.cs" />
+    <Compile Include="Packets\AccountServer\CM_ACCOUNT_LOGOUT.cs" />
+    <Compile Include="Packets\AccountServer\CM_ACCOUNT_SAVE.cs" />
+    <Compile Include="Packets\AccountServer\SM_ACCOUNT_LOGOUT_NOTIFY.cs" />
+    <Compile Include="Packets\AccountServer\CM_ACCOUNT_INFO_REQUEST_ID.cs" />
+    <Compile Include="Packets\BNSLoginPacket.cs" />
+    <Compile Include="Packets\CharacterServer\CM_CHAR_LIST_REQUEST.cs" />
+    <Compile Include="Packets\CharacterServer\CM_LOGIN_REQUEST.cs" />
+    <Compile Include="Packets\CharacterServer\CM_SKILL_SAVE.cs" />
+    <Compile Include="Packets\CharacterServer\CM_SKILL_GET.cs" />
+    <Compile Include="Packets\CharacterServer\CM_TELEPORT_GET.cs" />
+    <Compile Include="Packets\CharacterServer\CM_TELEPORT_SAVE.cs" />
+    <Compile Include="Packets\CharacterServer\CM_ACTOR_INFO_REQUEST.cs" />
+    <Compile Include="Packets\CharacterServer\SM_ACTOR_INFO.cs" />
+    <Compile Include="Packets\CharacterServer\SM_TELEPORT_INFO.cs" />
+    <Compile Include="Packets\CharacterServer\SM_SKILL_INFO.cs" />
+    <Compile Include="Packets\CharacterServer\SM_LOGIN_RESULT.cs" />
+    <Compile Include="Packets\CharacterServer\SM_CHAR_LIST.cs" />
+    <Compile Include="Packets\CharacterServer\CM_CHAR_CREATE.cs" />
+    <Compile Include="Packets\CharacterServer\SM_CHAR_CREATE_RESULT.cs" />
+    <Compile Include="Packets\CharacterServer\CM_CHAR_SAVE.cs" />
+    <Compile Include="Packets\CharacterServer\CM_ITEM_CREATE.cs" />
+    <Compile Include="Packets\CharacterServer\SM_ITEM_CREATE_RESULT.cs" />
+    <Compile Include="Packets\CharacterServer\CM_ITEM_SAVE.cs" />
+    <Compile Include="Packets\CharacterServer\CM_ITEM_INVENTORY_GET.cs" />
+    <Compile Include="Packets\CharacterServer\SM_ITEM_INVENTORY_ITEM.cs" />
+    <Compile Include="Packets\CharacterServer\CM_QUEST_GET.cs" />
+    <Compile Include="Packets\CharacterServer\SM_QUEST_INFO.cs" />
+    <Compile Include="Packets\CharacterServer\CM_QUEST_SAVE.cs" />
+    <Compile Include="Packets\CharacterServer\CM_CHAR_DELETE.cs" />
+    <Compile Include="Packets\CharacterServer\SM_CHAR_DELETE_RESULT.cs" />
+    <Compile Include="Packets\CharacterServer\CM_ITEM_LIST_SAVE.cs" />
+    <Compile Include="Packets\CharacterServer\CM_ITEM_DELETE.cs" />
+    <Compile Include="Packets\GamePacketOpcodeCBT3.cs" />
+    <Compile Include="Packets\GamePacketOpcodeCBT2.cs" />
+    <Compile Include="Packets\GameServer\PacketParameterCBT2.cs" />
+    <Compile Include="Packets\LobbyPacketOpcode.cs" />
+    <Compile Include="Packets\GameServer\ActorUpdateParameter.cs" />
+    <Compile Include="Packets\GameServer\PacketParameter.cs" />
+    <Compile Include="Packets\GameServer\ParameterData.cs" />
+    <Compile Include="Packets\GameServer\Parameters.cs" />
+    <Compile Include="Packets\GameServer\PacketParameterCBT1.cs" />
+    <Compile Include="Packets\LoginPacketOpcode.cs" />
+    <Compile Include="Packets\AccountPacketOpcode.cs" />
+    <Compile Include="Packets\CharacterPacketOpcode.cs" />
+    <Compile Include="Packets\GamePacketOpcode.cs" />
+    <Compile Include="Packets\GamePacketOpcodeCBT1.cs" />
+    <Compile Include="Party\Party.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BNSGameNetwork.cs" />
+    <Compile Include="Quests\Quest.cs" />
+    <Compile Include="Skills\Skill.cs" />
+    <Compile Include="Skills\SkillAffectedActor.cs" />
+    <Compile Include="Skills\SkillArg.cs" />
+    <Compile Include="Skills\SkillAttackResult.cs" />
+    <Compile Include="Skills\SkillData.cs" />
+    <Compile Include="Skills\SkillType.cs" />
+    <Compile Include="Utils.cs" />
+    <Compile Include="BNSChatNetwork.cs" />
+    <Compile Include="Worlds\World.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SmartEngine.Core\Core.csproj">
+      <Project>{95D5A697-719F-42DD-8F9A-823F35B0748C}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SmartEngine.Network\Network.csproj">
+      <Project>{48A58130-3777-444E-B92D-D7169A7FD75D}</Project>
+      <Name>Network</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Packets\LobbyServer\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

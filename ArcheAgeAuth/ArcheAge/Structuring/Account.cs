@@ -1,10 +1,10 @@
-﻿using ArcheAgeLogin.ArcheAge.Network;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ArcheAgeAuth.ArcheAge.Network;
 
-namespace ArcheAgeLogin.ArcheAge.Structuring
+namespace ArcheAgeAuth.ArcheAge.Structuring
 {
     /// <summary>
     /// Structure For Accounts.

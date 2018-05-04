@@ -41,68 +41,71 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.startGameButton = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // emailBox
             // 
-            this.emailBox.Location = new System.Drawing.Point(15, 23);
+            this.emailBox.Location = new System.Drawing.Point(15, 25);
             this.emailBox.Name = "emailBox";
-            this.emailBox.Size = new System.Drawing.Size(203, 21);
+            this.emailBox.Size = new System.Drawing.Size(203, 20);
             this.emailBox.TabIndex = 0;
-            this.emailBox.Text = "123@yanlongli.com";
+            this.emailBox.Text = "aatest";
             this.emailBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // passwordText
             // 
-            this.passwordText.Location = new System.Drawing.Point(15, 72);
+            this.passwordText.Location = new System.Drawing.Point(15, 78);
             this.passwordText.Name = "passwordText";
-            this.passwordText.Size = new System.Drawing.Size(203, 21);
+            this.passwordText.Size = new System.Drawing.Size(203, 20);
             this.passwordText.TabIndex = 1;
-            this.passwordText.Text = "123456";
+            this.passwordText.Text = "aatestaa";
             this.passwordText.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(93, 8);
+            this.label1.Location = new System.Drawing.Point(93, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 12);
+            this.label1.Size = new System.Drawing.Size(33, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "Login";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(83, 57);
+            this.label2.Location = new System.Drawing.Point(83, 62);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 12);
+            this.label2.Size = new System.Drawing.Size(53, 13);
             this.label2.TabIndex = 3;
             this.label2.Text = "Password";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(462, 40);
+            this.button1.Location = new System.Drawing.Point(462, 43);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(133, 30);
+            this.button1.Size = new System.Drawing.Size(133, 33);
             this.button1.TabIndex = 4;
             this.button1.Text = "Auth";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // gamePathBox
             // 
-            this.gamePathBox.Location = new System.Drawing.Point(268, 72);
+            this.gamePathBox.Location = new System.Drawing.Point(268, 78);
             this.gamePathBox.Name = "gamePathBox";
-            this.gamePathBox.Size = new System.Drawing.Size(179, 21);
+            this.gamePathBox.Size = new System.Drawing.Size(179, 20);
             this.gamePathBox.TabIndex = 6;
-            this.gamePathBox.Text = "D:\\Program Files (x86)\\Glyph\\Games\\ArcheAge\\bin32\\archeage.exe";
+            this.gamePathBox.Text = "D:\\Program Files (x86)\\ArcheRage\\bin32\\archeage.exe";
             this.gamePathBox.Click += new System.EventHandler(this.gamePathBox_Click);
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(159, 130);
+            this.progressBar1.Location = new System.Drawing.Point(159, 141);
             this.progressBar1.Maximum = 10;
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(303, 12);
+            this.progressBar1.Size = new System.Drawing.Size(303, 13);
             this.progressBar1.Step = 1;
             this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.progressBar1.TabIndex = 7;
@@ -110,9 +113,9 @@
             // 
             // loginServerIpBox
             // 
-            this.loginServerIpBox.Location = new System.Drawing.Point(268, 23);
+            this.loginServerIpBox.Location = new System.Drawing.Point(268, 25);
             this.loginServerIpBox.Name = "loginServerIpBox";
-            this.loginServerIpBox.Size = new System.Drawing.Size(179, 21);
+            this.loginServerIpBox.Size = new System.Drawing.Size(179, 20);
             this.loginServerIpBox.TabIndex = 8;
             this.loginServerIpBox.Text = "127.0.0.1:1237";
             this.loginServerIpBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -120,18 +123,18 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(285, 8);
+            this.label3.Location = new System.Drawing.Point(285, 9);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(155, 12);
+            this.label3.Size = new System.Drawing.Size(144, 13);
             this.label3.TabIndex = 9;
             this.label3.Text = "Game Login Server IP:PORT";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(314, 57);
+            this.label4.Location = new System.Drawing.Point(314, 62);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(77, 12);
+            this.label4.Size = new System.Drawing.Size(70, 13);
             this.label4.TabIndex = 10;
             this.label4.Text = "Path to game";
             // 
@@ -139,11 +142,11 @@
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(14, 119);
+            this.textBox1.Location = new System.Drawing.Point(14, 129);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(580, 37);
+            this.textBox1.Size = new System.Drawing.Size(580, 40);
             this.textBox1.TabIndex = 11;
             this.textBox1.Visible = false;
             // 
@@ -151,9 +154,9 @@
             // 
             this.startGameButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.startGameButton.Location = new System.Drawing.Point(179, 195);
+            this.startGameButton.Location = new System.Drawing.Point(179, 211);
             this.startGameButton.Name = "startGameButton";
-            this.startGameButton.Size = new System.Drawing.Size(248, 32);
+            this.startGameButton.Size = new System.Drawing.Size(248, 35);
             this.startGameButton.TabIndex = 12;
             this.startGameButton.Text = "Start game";
             this.startGameButton.UseVisualStyleBackColor = true;
@@ -161,17 +164,35 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(285, 159);
+            this.label5.Location = new System.Drawing.Point(285, 172);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(317, 12);
+            this.label5.Size = new System.Drawing.Size(284, 13);
             this.label5.TabIndex = 13;
             this.label5.Text = "Author: m0nax3@yandex.ru //汉化：admin@yanlongli.com";
             // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(96, 104);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(479, 20);
+            this.textBox2.TabIndex = 14;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 107);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(78, 13);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "PasswordHash";
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(609, 239);
+            this.ClientSize = new System.Drawing.Size(609, 259);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.startGameButton);
             this.Controls.Add(this.label4);
@@ -209,6 +230,8 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button startGameButton;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label6;
     }
 }
 

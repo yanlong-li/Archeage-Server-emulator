@@ -1,13 +1,11 @@
 {
   "ExpandedNodes": [
     "",
+    "\\ArcheAge",
     "\\ArcheAgeLogin",
-    "\\ArcheAgeLogin\\ArcheAge",
-    "\\ArcheAgeLogin\\ArcheAge\\Network",
-    "\\LocalCommons",
-    "\\LocalCommons\\Native",
-    "\\LocalCommons\\Native\\Network"
+    "\\ArcheAge\\ArcheAge",
+    "\\ArcheAge\\ArcheAge\\Net"
   ],
-  "SelectedNode": "\\ArcheAgeLogin\\ArcheAge\\Network\\PacketList.cs",
+  "SelectedNode": "\\readme.textile",
   "PreviewInSolutionExplorer": false
 }

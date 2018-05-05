@@ -1,16 +1,8 @@
 -----------------------------------------------------------------------[ info ]
-01.05.2018 23:13 [INFO] - Modified by：NLObP email:gigastep@yandex.ru
-01.05.2018 23:13 [INFO]  - ArcheAge Emu - version number 2.0, Build 6680.36251
-01.05.2018 23:13 [INFO]  - Main: Running On .NET Framework (C#) Version 4.0.30319
-01.05.2018 23:13 [INFO] - Allocated Memory = 12 MB
+05.05.2018 0:04 [INFO] - Modified by：NLObP email:gigastep@yandex.ru
+05.05.2018 0:04 [INFO]  - ArcheAge Emu - version number 2.0, Build 6680.36251
+05.05.2018 0:04 [INFO]  - Main: Running On .NET Framework (C#) Version 4.0.30319
+05.05.2018 0:04 [INFO] - Allocated Memory = 12 MB
 --------------------------------------------------------------------[ Network ]
-01.05.2018 23:13 [INFO]  - Installed ProxyConnection at 127.0.0.1:1250
-01.05.2018 23:13 [INFO]  - ArcheAge Proxy Server Started In 0,05 sec.
-01.05.2018 23:21 [INFO]  - Proxy Server 127.0.0.1 - Connected
-01.05.2018 23:21 [INFO] - Recv: 0E 00 01 00 01 00 00 00 00 00 00 00 B9 2E 30 7A 
-01.05.2018 23:21 [INFO] - Send: 03 00 01 00 00 
-01.05.2018 23:26 [INFO]  - Proxy Server 127.0.0.1 : Disconnected
-01.05.2018 23:49 [INFO]  - Proxy Server 127.0.0.1 - Connected
-01.05.2018 23:49 [INFO] - Recv: 0E 00 01 00 01 00 00 00 00 00 00 00 B9 2E 30 7A 
-01.05.2018 23:49 [INFO] - Send: 03 00 01 00 00 
-01.05.2018 23:56 [INFO]  - Proxy Server 127.0.0.1 : Disconnected
+05.05.2018 0:04 [INFO]  - Installed ProxyConnection at 127.0.0.1:1250
+05.05.2018 0:04 [INFO]  - ArcheAge Proxy Server Started In 0,03 sec.

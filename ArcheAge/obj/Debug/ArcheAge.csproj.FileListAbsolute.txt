@@ -82,3 +82,14 @@ d:\DEVELOPMENT\archeage\SRC\AAServer\ArcheAge\obj\Debug\ArcheAge.csproj.CoreComp
 d:\DEVELOPMENT\archeage\SRC\AAServer\ArcheAge\obj\Debug\ArcheAge.csproj.CopyComplete
 d:\DEVELOPMENT\archeage\SRC\AAServer\ArcheAge\obj\Debug\ArcheAgeGameServer.exe
 d:\DEVELOPMENT\archeage\SRC\AAServer\ArcheAge\obj\Debug\ArcheAgeGameServer.pdb
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\ArcheAgeGameServer.exe.config
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\ArcheAgeGameServer.exe
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\ArcheAgeGameServer.pdb
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\LocalCommons.dll
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\protobuf-net.dll
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge\bin\Debug\LocalCommons.pdb
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge\obj\Debug\ArcheAge.csprojResolveAssemblyReference.cache
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge\obj\Debug\ArcheAge.csproj.CoreCompileInputs.cache
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge\obj\Debug\ArcheAge.csproj.CopyComplete
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge\obj\Debug\ArcheAgeGameServer.exe
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge\obj\Debug\ArcheAgeGameServer.pdb

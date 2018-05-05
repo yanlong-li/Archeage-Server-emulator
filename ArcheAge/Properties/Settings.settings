@@ -30,7 +30,7 @@
       <Value Profile="(Default)">root</Value>
     </Setting>
     <Setting Name="DataBase_Name" Type="System.String" Scope="User">
-      <Value Profile="(Default)">archeage_world</Value>
+      <Value Profile="(Default)">archeage</Value>
     </Setting>
     <Setting Name="DataBase_Password" Type="System.String" Scope="User">
       <Value Profile="(Default)">root</Value>

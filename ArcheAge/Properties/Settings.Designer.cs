@@ -133,7 +133,7 @@ namespace ArcheAge.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("archeage_world")]
+        [global::System.Configuration.DefaultSettingValueAttribute("archeage")]
         public string DataBase_Name {
             get {
                 return ((string)(this["DataBase_Name"]));

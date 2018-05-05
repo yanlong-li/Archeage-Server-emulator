@@ -93,3 +93,20 @@ d:\DEVELOPMENT\archeage\SRC\AAServer\ArcheAgeLauncher\obj\Debug\ArcheAge Launche
 d:\DEVELOPMENT\archeage\SRC\AAServer\ArcheAgeLauncher\obj\Debug\ArcheAgeLauncher.exe
 d:\DEVELOPMENT\archeage\SRC\AAServer\ArcheAgeLauncher\obj\Debug\ArcheAgeLauncher.pdb
 d:\DEVELOPMENT\archeage\SRC\AAServer\ArcheAgeLauncher\obj\Debug\ArcheAge Launcher.csprojResolveAssemblyReference.cache
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLauncher\bin\Debug\ArcheAgeLauncher.exe
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLauncher\bin\Debug\ArcheAgeLauncher.pdb
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLauncher\bin\Debug\MahApps.Metro.dll
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLauncher\bin\Debug\System.Windows.Interactivity.dll
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\ArcheAge Launcher.csprojResolveAssemblyReference.cache
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\MainWindow.baml
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\Resources\Icons.baml
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\MainWindow.g.cs
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\App.g.cs
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\ArcheAgeLauncher_MarkupCompile.cache
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\ArcheAgeLauncher.g.resources
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\ArcheAgeLauncher.Properties.Resources.resources
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\ArcheAge Launcher.csproj.GenerateResource.cache
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\ArcheAge Launcher.csproj.CoreCompileInputs.cache
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\ArcheAge Launcher.csproj.CopyComplete
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\ArcheAgeLauncher.exe
+d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLauncher\obj\Debug\ArcheAgeLauncher.pdb

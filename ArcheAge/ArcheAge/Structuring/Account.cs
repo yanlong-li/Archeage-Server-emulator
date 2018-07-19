@@ -11,8 +11,8 @@ namespace ArcheAge.ArcheAge.Structuring
     /// </summary>
     public class Account
     {
-        private int m_AccId;
-        private int m_AccountId;
+        private long m_AccId;
+        private long m_AccountId;
         private string m_PassHash;
         private string m_Token;
         private byte m_Access;
@@ -25,6 +25,11 @@ namespace ArcheAge.ArcheAge.Structuring
         private int m_SessionId;
         private int m_Characters;
 
+        public int Characters
+        {
+            get { return m_Characters; }
+            set { m_Characters = value; }
+        }
         public int Session
         {
             get { return m_SessionId; }
@@ -49,13 +54,13 @@ namespace ArcheAge.ArcheAge.Structuring
             set { m_Name = value; }
         }
 
-        public int AccId
+        public long AccId
         {
             get { return m_AccId; }
             set { m_AccId = value; }
         }
 
-        public int AccountId
+        public long AccountId
         {
             get { return m_AccountId; }
             set { m_AccountId = value; }

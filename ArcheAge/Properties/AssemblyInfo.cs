@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("ArcheAge World Server Emulator")]
-[assembly: AssemblyDescription("ArcheAge World Server Emulator")]
+[assembly: AssemblyTitle("WorldServer")]
+[assembly: AssemblyDescription("ArcheAge World Server")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ArcheAge Emulator")]
-[assembly: AssemblyCopyright("Copyright © NLObP 2018")]
+[assembly: AssemblyProduct("WorldServer")]
+[assembly: AssemblyCopyright("Copyright © 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // Можно задать все значения или принять номер построения и номер редакции по умолчанию, 
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyFileVersion("1.0.*")]
+[assembly: AssemblyVersion("2.0.*")]
+[assembly: AssemblyFileVersion("2.0.0.0")]

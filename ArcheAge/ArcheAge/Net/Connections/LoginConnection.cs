@@ -1,5 +1,5 @@
-﻿using LocalCommons.Native.Logging;
-using LocalCommons.Native.Network;
+﻿using LocalCommons.Logging;
+using LocalCommons.Network;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +17,6 @@ namespace ArcheAge.ArcheAge.Net.Connections
             Logger.Trace("Connection server, installation data...");
             DisconnectedEvent += LoginConnection_DisconnectedEvent;
             SendAsync(new Net_RegisterGameServer());
-            //SendAsync(new test());
         }
 
         void LoginConnection_DisconnectedEvent(object sender, EventArgs e)

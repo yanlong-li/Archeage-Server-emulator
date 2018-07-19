@@ -1,6 +1,6 @@
 ﻿using ArcheAgeLogin.ArcheAge.Structuring;
-using LocalCommons.Native.Logging;
-using LocalCommons.Native.Network;
+using LocalCommons.Logging;
+using LocalCommons.Network;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -19,7 +19,7 @@ namespace ArcheAgeLogin
     /// </summary>
     class Program
     {
-        static string ServerClientVersion = "1";
+        static string ServerClientVersion = "3";
         // .method private hidebysig static void Main(string[] args) cil managed
         static void Main(string[] args)
         {
@@ -40,17 +40,17 @@ namespace ArcheAgeLogin
 
         static void selectVersion()
         {
-            Console.WriteLine("Select Client Version: Default 1");
-            Console.WriteLine("1:   3.0+");
-            Console.WriteLine("2:   2.9-");
+            Console.WriteLine("Select Client Version: Default 3");
+            Console.WriteLine("3:   3.0");
+            Console.WriteLine("4:   4.0");
+            //0 is manually selected
             if (Settings.Default.ServerClientVersion == "0")
             {
-                
                 Program.ServerClientVersion = Console.ReadLine();
                 if (Program.ServerClientVersion == "")
                 {
-
-                    Program.ServerClientVersion = "1";
+                    //The default is 3
+                    Program.ServerClientVersion = "3";
                 }
             }
             else {
@@ -109,7 +109,7 @@ namespace ArcheAgeLogin
             Settings m_Current = Settings.Default;
 
             //--------------- Init Commons ----------------------
-            LocalCommons.Native.Significant.Main.InitializeStruct(args);
+            LocalCommons.Main.InitializeStruct(args);
 
             //------------- Controllers -------------------------
             Logger.Section("Controllers");

@@ -1,10 +1,4 @@
-﻿using ArcheAgeLogin.ArcheAge.Holders;
-using ArcheAgeLogin.ArcheAge.Structuring;
-using LocalCommons.Native.Logging;
-using LocalCommons.Native.Network;
-using LocalCommons.Native.Significant;
-using LocalCommons.Native.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -13,6 +7,11 @@ using ArcheAgeLogin.ArcheAge;
 using ArcheAgeLogin.ArcheAge.Holders;
 using ArcheAgeLogin.ArcheAge.Network;
 using ArcheAgeLogin.ArcheAge.Structuring;
+using LocalCommons.Logging;
+using LocalCommons.Network;
+using LocalCommons;
+using LocalCommons.Utilities;
+using System.Diagnostics;
 
 namespace ArcheAgeLogin.ArcheAge.Network
 {
@@ -21,17 +20,8 @@ namespace ArcheAgeLogin.ArcheAge.Network
     /// </summary>
     public class ArcheAgeConnection : IConnection
     {
-        private Account m_CurrentAccount;
-
-        public bool movedToGame = false;    
-        public Account CurrentAccount
-        {
-            get
-            {
-                return m_CurrentAccount;
-            }
-            set { m_CurrentAccount = value; }
-        }
+        public bool movedToGame = false;
+        public Account CurrentAccount { get; set; }
 
         public ArcheAgeConnection(Socket s) : base(s)
         {
@@ -43,32 +33,36 @@ namespace ArcheAgeLogin.ArcheAge.Network
 
         void ArcheAgeConnection_DisconnectedEvent(object sender, EventArgs e)
         {
-            if (m_CurrentAccount != null)
+            if (CurrentAccount != null)
             {
-                if(GameServerController.AuthorizedAccounts.ContainsKey(m_CurrentAccount.AccId)) //AccountId
+                if(GameServerController.AuthorizedAccounts.ContainsKey(CurrentAccount.AccountId)) //AccountId
                 {
-                    GameServerController.AuthorizedAccounts.Remove(m_CurrentAccount.AccId);
+                    GameServerController.AuthorizedAccounts.Remove(CurrentAccount.AccountId);
                 }
                 //Removing Account From All GameServers
                 foreach (GameServer server in GameServerController.CurrentGameServers.Values)
                 {
-                    if (server.CurrentAuthorized.Contains(m_CurrentAccount.AccId))
-                        server.CurrentAuthorized.Remove(m_CurrentAccount.AccId);
+                    if (server.CurrentAuthorized.Contains(CurrentAccount.AccountId))
+                        server.CurrentAuthorized.Remove(CurrentAccount.AccountId);
                 }
-                if (m_CurrentAccount.Password != null) //If you been fully authroized.
+                if (CurrentAccount.Password != null) //If you been fully authroized.
                 {
-                    m_CurrentAccount.LastEnteredTime = Utility.CurrentTimeMilliseconds();
-                    AccountHolder.InsertOrUpdate(m_CurrentAccount);
+                    CurrentAccount.LastEnteredTime = Utility.CurrentTimeMilliseconds();
+                    AccountHolder.InsertOrUpdate(CurrentAccount);
                 }
             }
             string arg = movedToGame ? "entered the game " : "disconnect";
-            Logger.Trace("Client {0} : {1}", m_CurrentAccount == null ? this.ToString() : m_CurrentAccount.Name, arg);
+            ArcheAgeConnection archeAgeConnection = this;
+            Logger.Trace("Client {0} : {1}", archeAgeConnection.CurrentAccount == null ? archeAgeConnection.ToString() : archeAgeConnection.CurrentAccount.Name, arg);
             Dispose();
         }
 
         public override void HandleReceived(byte[] data)
         {
             PacketReader reader = new PacketReader(data, 0);
+
+            //Logger.Trace("Allocated Memory = " + (Process.GetCurrentProcess().PrivateMemorySize64 / 1000000) + " MB");
+
             short opcode = reader.ReadLEInt16();
             if (opcode > PacketList.LHandlers.Length)
             {

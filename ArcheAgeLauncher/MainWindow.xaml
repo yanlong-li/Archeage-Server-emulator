@@ -1,14 +1,15 @@
-﻿<Controls:MetroWindow x:Class="ArcheAgeLauncher.MainWindow"
+﻿<Controls:MetroWindow
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      xmlns:controlzex="urn:controlzex" x:Class="ArcheAgeLauncher.MainWindow"
                       Title="Ancient century start up ARCHEAGE / development version" Height="350" Width="613"
                       ResizeMode="NoResize" FontFamily="Century">
 
-    <Window.Resources>
+    <Controls:MetroWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />-->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
@@ -16,40 +17,61 @@
                     Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </Window.Resources>
+    </Controls:MetroWindow.Resources>
 
-    <Grid>
+    <Grid Margin="0,0,4,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="161*" />
             <ColumnDefinition Width="446*" />
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="ipaddress" Controls:TextboxHelper.ClearTextButton="True"
-                 Controls:TextboxHelper.Watermark="Адрес Логин Сервера" HorizontalAlignment="Left" Height="23"
-                 Margin="115,167,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="166" Text="127.0.0.1"
-                 Grid.ColumnSpan="2" FontFamily="Century" />
-        <TextBox x:Name="port" Controls:TextboxHelper.ClearTextButton="True"
-                 Controls:TextboxHelper.Watermark="Порт Логин Сервера" HorizontalAlignment="Left" Height="23"
-                 Margin="226,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="61" Text="1237"
-                 Grid.Column="1" FontFamily="Century" />
+        <TextBox x:Name="ipaddress" 
+                 HorizontalAlignment="Left" Height="23"
+                 Margin="137,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="118" Text="127.0.0.1"
+                 Grid.ColumnSpan="2" FontFamily="Century" Background="{x:Null}" Controls:TextBoxHelper.Watermark="Адрес логин сервера" >
+            <TextBox.BorderBrush>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
+            </TextBox.BorderBrush>
+        </TextBox>
+        <TextBox x:Name="port"
+                 HorizontalAlignment="Left" Height="23" Margin="361,168,0,0" TextWrapping="Wrap" VerticalAlignment="Top"
+                 Width="42" Text="1237" Grid.Column="1" FontFamily="Century" Background="{x:Null}" Controls:TextBoxHelper.Watermark="Порт логин сервера" >
+            <TextBox.BorderBrush>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
+            </TextBox.BorderBrush>
+        </TextBox>
         <Button x:Name="BtnOK" Style="{DynamicResource SquareButtonStyle}" Content="start up" HorizontalAlignment="Left"
-                Margin="120,246,0,0" VerticalAlignment="Top" Width="279" Grid.Column="1" Click="Button_Click"
-                Height="65" IsDefault="True" FontSize="24" FontFamily="Century" FontWeight="Bold" />
-        <Image HorizontalAlignment="Center" Height="136" Margin="111,18,110,0" VerticalAlignment="Top" Width="386"
+                Margin="101,246,0,0" VerticalAlignment="Top" Width="302" Grid.Column="1" Click="Button_Click"
+                Height="65" IsDefault="True" FontSize="24" FontFamily="Century" FontWeight="Bold" BorderBrush="Black" >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <GradientStop Color="{DynamicResource {x:Static SystemColors.ControlLightColorKey}}"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Image HorizontalAlignment="Center" Height="136" Margin="136,20,87,0" VerticalAlignment="Top" Width="380"
                Grid.ColumnSpan="2" Source="archeage-logo.png" />
-        <CheckBox x:Name="turn_slscrn" Content="splash screen disabled?" HorizontalAlignment="Left" Margin="24,246,0,0"
-                  VerticalAlignment="Top" Width="151" Height="28" Grid.ColumnSpan="2" FontFamily="Century" />
-        <Label Content="Server address:" HorizontalAlignment="Left" Margin="14,167,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.295,0.557" />
-        <Label Content="Port number:" HorizontalAlignment="Left" Margin="142,167,0,0" VerticalAlignment="Top"
+        <CheckBox x:Name="turn_slscrn" Content="no splash" HorizontalAlignment="Left" Margin="74,246,0,0"
+                  VerticalAlignment="Top" Width="83" Height="28" FontFamily="Century" Background="White" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" />
+        <Label Content="Server address:" Margin="36,167,29,0" VerticalAlignment="Top" RenderTransformOrigin="0.295,0.557" />
+        <Label Content="Port number:" HorizontalAlignment="Left" Margin="272,168,0,0" VerticalAlignment="Top"
                Grid.Column="1" />
-        <Label Content="Account:" HorizontalAlignment="Left" Margin="48,206,0,0" VerticalAlignment="Top" Height="26" />
-        <TextBox x:Name="uid" Controls:TextboxHelper.ClearTextButton="True" HorizontalAlignment="Left" Height="26"
-                 Margin="115,207,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="56" Text="1" Grid.ColumnSpan="2" FontFamily="Century" />
-        <Label Content="Token:" HorizontalAlignment="Left" Margin="75,206,0,0" VerticalAlignment="Top" Grid.Column="1"
+        <Label Content="Account ID:" HorizontalAlignment="Left" Margin="61,205,0,0" VerticalAlignment="Top" Height="26" />
+        <TextBox x:Name="uid" HorizontalAlignment="Left" Height="26"
+                 Margin="137,207,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="56" Text="1" Grid.ColumnSpan="2" FontFamily="Century" Background="{x:Null}" Controls:TextBoxHelper.Watermark="ID акаунта" >
+            <TextBox.BorderBrush>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
+            </TextBox.BorderBrush>
+        </TextBox>
+        <Label Content="Token:" HorizontalAlignment="Left" Margin="101,206,0,0" VerticalAlignment="Top" Grid.Column="1"
                Height="26" RenderTransformOrigin="1.776,0.437" />
-        <TextBox x:Name="userToken" Controls:TextboxHelper.ClearTextButton="True"
-                 Controls:TextboxHelper.Watermark="Порт Логин Сервера" HorizontalAlignment="Left" Height="23"
-                 Margin="120,206,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="279"
-                 Text="31E34F2B72D93BB25D5F27BE8A94C478" Grid.Column="1" TextChanged="port_Copy_TextChanged" FontFamily="Century" />
+        <TextBox x:Name="userToken" HorizontalAlignment="Left" Height="23"
+                 Margin="149,206,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="254"
+                 Text="31E34F2B72D93BB25D5F27BE8A94C478" Grid.Column="1" TextChanged="port_Copy_TextChanged" FontFamily="Century" Background="{x:Null}" Controls:TextBoxHelper.Watermark="MD5 токен пароля" >
+            <TextBox.BorderBrush>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
+            </TextBox.BorderBrush>
+        </TextBox>
 
     </Grid>
 </Controls:MetroWindow>

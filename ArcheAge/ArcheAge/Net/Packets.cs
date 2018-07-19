@@ -1,6 +1,6 @@
 ﻿using ArcheAge.ArcheAge.Net.Connections;
 using ArcheAge.Properties;
-using LocalCommons.Native.Network;
+using LocalCommons.Network;
 using System;
 using System.Collections.Generic;
 using System.Linq;

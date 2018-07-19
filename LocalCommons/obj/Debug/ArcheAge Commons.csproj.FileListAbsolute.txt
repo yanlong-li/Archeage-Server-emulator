@@ -51,13 +51,4 @@ d:\DEVELOPMENT\archeage\SRC\AAServer\LocalCommons\obj\Debug\ArcheAge Commons.csp
 d:\DEVELOPMENT\archeage\SRC\AAServer\LocalCommons\obj\Debug\ArcheAge Commons.csproj.CopyComplete
 d:\DEVELOPMENT\archeage\SRC\AAServer\LocalCommons\obj\Debug\LocalCommons.dll
 d:\DEVELOPMENT\archeage\SRC\AAServer\LocalCommons\obj\Debug\LocalCommons.pdb
-d:\DEVELOPMENT\archeage\SRC\AAServer\LocalCommons\obj\Debug\ArcheAge Commons.csprojResolveAssemblyReference.cache
-d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\LocalCommons\bin\Debug\LocalCommons.dll
-d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\LocalCommons\bin\Debug\LocalCommons.pdb
-d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\LocalCommons\bin\Debug\mysql.data.dll
-d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\LocalCommons\bin\Debug\protobuf-net.dll
-d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\LocalCommons\obj\Debug\ArcheAge Commons.csproj.CoreCompileInputs.cache
-d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\LocalCommons\obj\Debug\ArcheAge Commons.csproj.CopyComplete
-d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\LocalCommons\obj\Debug\LocalCommons.dll
-d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\LocalCommons\obj\Debug\LocalCommons.pdb
-d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\LocalCommons\obj\Debug\ArcheAge Commons.csprojResolveAssemblyReference.cache
+d:\DEVELOPMENT\archeage\SRC\AAServer\LocalCommons\obj\Debug\ArcheAge Commons.csprojAssemblyReference.cache

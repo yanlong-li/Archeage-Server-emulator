@@ -1,11 +1,13 @@
 ﻿using ArcheAge.ArcheAge.Structuring;
-using LocalCommons.Native.Logging;
-using LocalCommons.Native.Network;
+using LocalCommons.Logging;
+using LocalCommons.Network;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Diagnostics;
+
 namespace ArcheAge.ArcheAge.Net.Connections
 {
 
@@ -57,6 +59,9 @@ namespace ArcheAge.ArcheAge.Net.Connections
         public override void HandleReceived(byte[] data)
         {
             PacketReader reader = new PacketReader(data, 0);
+
+            //Logger.Trace("Allocated Memory = " + (Process.GetCurrentProcess().PrivateMemorySize64 / 1000000) + " MB");
+
             //reader.Offset += 1; //Undefined Random Byte
             byte rc = reader.ReadByte();
             byte level = reader.ReadByte(); //Packet Level

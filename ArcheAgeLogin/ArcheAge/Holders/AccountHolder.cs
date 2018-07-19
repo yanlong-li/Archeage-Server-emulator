@@ -1,4 +1,4 @@
-﻿using LocalCommons.Native.Logging;
+﻿using LocalCommons.Logging;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -32,7 +32,7 @@ namespace ArcheAgeLogin.ArcheAge.Holders
         }
 
         /// <summary>
-        /// Fully Load Account Data From Current MySQL Db.
+        /// Fully Load Account Data From Current MySql DataBase.
         /// </summary>
         public static void LoadAccountData()
         {
@@ -47,8 +47,8 @@ namespace ArcheAgeLogin.ArcheAge.Holders
                 {
                     Account account = new Account();
                     account.AccessLevel = (byte)reader.GetInt32("mainaccess");
-                    account.AccId = reader.GetInt32("id");
-                    account.AccountId = reader.GetInt32("accountid");
+                    //account.AccId = reader.GetInt64("id");
+                    account.AccountId = reader.GetInt64("accountid");
                     account.Name = reader.GetString("name");
                     account.Password = reader.GetString("password");
                     account.Token = reader.GetString("token");
@@ -67,12 +67,14 @@ namespace ArcheAgeLogin.ArcheAge.Holders
                 if(e.Message.IndexOf("using password: YES") >= 0)
                 {
                     Logger.Trace("Error: Incorrect username or password");
-                }else if (e.Message.IndexOf("Unable to connect to any of the specified MySQL hosts")>=0){
+                }
+                else if (e.Message.IndexOf("Unable to connect to any of the specified MySQL hosts")>=0)
+                {
                     Logger.Trace("Error: Unable to connect to database");
                 }
                 else
                 {
-                    Logger.Trace("Error:unknown error");
+                    Logger.Trace("Error: Unknown error");
                 }
                 //Console.ReadKey();
                 //Message = "Authentication to host '127.0.0.1' for user 'root' using method 'mysql_native_password' failed with message: Access denied for user 'root'@'localhost' (using password: YES)"
@@ -99,18 +101,20 @@ namespace ArcheAgeLogin.ArcheAge.Holders
                 if (m_DbAccounts.Contains(account))
                 {
                     command = new MySqlCommand(
-                        "UPDATE `accounts` SET `id` = @id, `name` = @name, `mainaccess` = @mainaccess, `useraccess` = @useraccess, `last_ip` = @lastip, `password` = @password, `token` = @token, `last_online` = @lastonline, `characters` = @characters, `accountid` = @accountid, `cookie` = @cookie  WHERE `id` = @aid",
+                        //"UPDATE `accounts` SET `id` = @id, `name` = @name, `mainaccess` = @mainaccess, `useraccess` = @useraccess, `last_ip` = @lastip, `password` = @password, `token` = @token, `last_online` = @lastonline, `characters` = @characters, `accountid` = @accountid, `cookie` = @cookie  WHERE `id` = @aid",
+                        "UPDATE `accounts` SET `name` = @name, `mainaccess` = @mainaccess, `useraccess` = @useraccess, `last_ip` = @lastip, `password` = @password, `token` = @token, `last_online` = @lastonline, `characters` = @characters, `accountid` = @accountid, `cookie` = @cookie  WHERE `id` = @aid",
                         con);
                 }
                 else
                 {
                     command = new MySqlCommand(
-                        "INSERT INTO `accounts`(id, name, mainaccess, useraccess, last_ip, password, last_online, characters, accountid, cookie) VALUES(@id, @name, @mainaccess, @useraccess, @lastip, @password, @lastonline, @characters, @accountid, @cookie)",
+                        //"INSERT INTO `accounts`(id, name, mainaccess, useraccess, last_ip, password, last_online, characters, accountid, cookie) VALUES(@id, @name, @mainaccess, @useraccess, @lastip, @password, @lastonline, @characters, @accountid, @cookie)",
+                        "INSERT INTO `accounts`(id, name, mainaccess, useraccess, last_ip, password, last_online, characters, accountid, cookie) VALUES(@name, @mainaccess, @useraccess, @lastip, @password, @lastonline, @characters, @accountid, @cookie)",
                         con);
                 }
                 MySqlParameterCollection parameters = command.Parameters;
-                parameters.Add("@id", MySqlDbType.Int32).Value = account.AccId;
-                parameters.Add("@accountid", MySqlDbType.Int32).Value = account.AccountId;
+                //parameters.Add("@id", MySqlDbType.Int64).Value = account.AccId;
+                parameters.Add("@accountid", MySqlDbType.Int64).Value = account.AccountId;
                 parameters.Add("@cookie", MySqlDbType.Int32).Value = account.Session;
                 parameters.Add("@name", MySqlDbType.String).Value = account.Name;
                 parameters.Add("@mainaccess", MySqlDbType.Byte).Value = account.AccessLevel;
@@ -120,12 +124,16 @@ namespace ArcheAgeLogin.ArcheAge.Holders
                 parameters.Add("@password", MySqlDbType.String).Value = account.Password;
                 parameters.Add("@lastonline", MySqlDbType.Int64).Value = account.LastEnteredTime;
                 if (m_DbAccounts.Contains(account))
-                    parameters.Add("@aid", MySqlDbType.Int32).Value = account.AccId;
+                    parameters.Add("@aid", MySqlDbType.Int64).Value = account.AccountId;
 
                 parameters.Add("@characters", MySqlDbType.Int32).Value = account.Characters;
 
                 command.ExecuteNonQuery();
                 command = null;
+            }
+            catch (Exception e)
+            {
+                Logger.Trace("Cannot InsertOrUpdate template for " + account.Name + "!", e);
             }
             finally
             {

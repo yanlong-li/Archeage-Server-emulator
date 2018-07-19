@@ -1,5 +1,5 @@
-﻿using LocalCommons.Native.Logging;
-using LocalCommons.Native.Network;
+﻿using LocalCommons.Logging;
+using LocalCommons.Network;
 using System;
 using System.Collections.Generic;
 using System.Linq;

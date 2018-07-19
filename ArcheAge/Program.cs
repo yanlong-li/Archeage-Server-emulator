@@ -1,8 +1,8 @@
 ﻿using ArcheAge.ArcheAge.Net;
 using ArcheAge.ArcheAge.Net.Connections;
 using ArcheAge.Properties;
-using LocalCommons.Native.Logging;
-using LocalCommons.Native.Network;
+using LocalCommons.Logging;
+using LocalCommons.Network;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -66,7 +66,7 @@ namespace ArcheAge
         {
             //----- Initialize Commons --------------------------------
             Logger.Init(); //Load Logger
-            LocalCommons.Native.Significant.Main.InitializeStruct(args); //Initializing LocalCommons.dll
+            LocalCommons.Main.InitializeStruct(args); //Initializing LocalCommons.dll
 
             //------ Binary ------------------------------------------
             //Logger.Section("Binary data");

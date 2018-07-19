@@ -1,5 +1,5 @@
 ﻿using ArcheAgeLogin.ArcheAge.Holders;
-using LocalCommons.Native.Logging;
+using LocalCommons.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,9 +19,9 @@ namespace ArcheAgeLogin.ArcheAge
     public class GameServerController
     {
         private static Dictionary<byte, GameServer> gameservers = new Dictionary<byte, GameServer>();
-        private static Dictionary<int, Account> m_Authorized = new Dictionary<int, Account>();
+        private static Dictionary<long, Account> m_Authorized = new Dictionary<long, Account>();
 
-        public static Dictionary<int, Account> AuthorizedAccounts
+        public static Dictionary<long, Account> AuthorizedAccounts
         {
             get { return m_Authorized; }
         }
@@ -79,7 +79,7 @@ namespace ArcheAgeLogin.ArcheAge
             for (int i = 0; i < template.xmlservers.Count; i++)
             {
                 GameServer game = template.xmlservers[i];
-                game.CurrentAuthorized = new List<int>();
+                game.CurrentAuthorized = new List<long>();
                 gameservers.Add(game.Id, game);
             }
 
@@ -112,7 +112,7 @@ namespace ArcheAgeLogin.ArcheAge
         public short Port;
 
         [XmlIgnore]
-        public List<int> CurrentAuthorized;
+        public List<long> CurrentAuthorized;
 
         [XmlIgnore]
         public GameConnection CurrentConnection;

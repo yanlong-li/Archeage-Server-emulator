@@ -1,4 +1,4 @@
-﻿using LocalCommons.Native.Logging;
+﻿using LocalCommons.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;

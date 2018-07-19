@@ -1,5 +1,5 @@
-﻿using LocalCommons.Native.Logging;
-using LocalCommons.Native.Network;
+﻿using LocalCommons.Logging;
+using LocalCommons.Network;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,7 +17,7 @@ namespace ArcheAgeProxy
     /// </summary>
     class Program
     {
-        static string ServerClientVersion = "1";
+        //static string ServerClientVersion = "3";
         // .method private hidebysig static void Main(string[] args) cil managed
         static void Main(string[] args)
         {
@@ -74,7 +74,7 @@ namespace ArcheAgeProxy
             Settings m_Current = Settings.Default;
 
             //--------------- Init Commons ----------------------
-            LocalCommons.Native.Significant.Main.InitializeStruct(args);
+            LocalCommons.Main.InitializeStruct(args);
 
             //------------- Controllers -------------------------
             //Logger.Section("Controllers");

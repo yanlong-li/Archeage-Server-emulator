@@ -1,10 +1,11 @@
-﻿using LocalCommons.Native.Logging;
-using LocalCommons.Native.Network;
+﻿using LocalCommons.Logging;
+using LocalCommons.Network;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Diagnostics;
 
 namespace ArcheAgeProxy.ArcheAge.Network
 {
@@ -40,6 +41,9 @@ namespace ArcheAgeProxy.ArcheAge.Network
         public override void HandleReceived(byte[] data)
         {
             PacketReader reader = new PacketReader(data, 0);
+
+            //Logger.Trace("Allocated Memory = " + (Process.GetCurrentProcess().PrivateMemorySize64 / 1000000) + " MB");
+
             ushort opcode = reader.ReadLEUInt16();
             PacketHandler<ProxyConnection> handler = PacketList.GHandlers[opcode];
             if (handler != null) {

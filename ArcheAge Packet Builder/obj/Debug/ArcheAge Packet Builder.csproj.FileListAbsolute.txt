@@ -123,3 +123,21 @@ d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheA
 d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge Packet Builder\obj\Debug\ArcheAge Packet Builder.csproj.CopyComplete
 d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge Packet Builder\obj\Debug\ArcheAge Packet Builder.exe
 d:\DEVELOPMENT\archeage\SRC\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge Packet Builder\obj\Debug\ArcheAge Packet Builder.pdb
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge Packet Builder\bin\Debug\ArcheAge Packet Builder.exe.config
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge Packet Builder\bin\Debug\ArcheAge Packet Builder.exe
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge Packet Builder\bin\Debug\ArcheAge Packet Builder.pdb
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge Packet Builder\bin\Debug\MahApps.Metro.dll
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge Packet Builder\bin\Debug\System.Windows.Interactivity.dll
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge Packet Builder\obj\Debug\DefinePacket.baml
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge Packet Builder\obj\Debug\MainWindow.baml
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge Packet Builder\obj\Debug\DefinePacket.g.cs
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge Packet Builder\obj\Debug\MainWindow.g.cs
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge Packet Builder\obj\Debug\App.g.cs
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge Packet Builder\obj\Debug\ArcheAge Packet Builder_MarkupCompile.cache
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge Packet Builder\obj\Debug\ArcheAge Packet Builder.g.resources
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge Packet Builder\obj\Debug\ArcheAge_Packet_Builder.Properties.Resources.resources
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge Packet Builder\obj\Debug\ArcheAge Packet Builder.csproj.GenerateResource.cache
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge Packet Builder\obj\Debug\ArcheAge Packet Builder.csproj.CoreCompileInputs.cache
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge Packet Builder\obj\Debug\ArcheAge Packet Builder.csproj.CopyComplete
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge Packet Builder\obj\Debug\ArcheAge Packet Builder.exe
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAge Packet Builder\obj\Debug\ArcheAge Packet Builder.pdb

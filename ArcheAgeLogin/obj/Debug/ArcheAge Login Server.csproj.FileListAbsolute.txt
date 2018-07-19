@@ -67,3 +67,13 @@ d:\DEVELOPMENT\archeage\SRC\AAServer\ArcheAgeLogin\obj\Debug\ArcheAge Login Serv
 d:\DEVELOPMENT\archeage\SRC\AAServer\ArcheAgeLogin\obj\Debug\ArcheAgeLogin.exe
 d:\DEVELOPMENT\archeage\SRC\AAServer\ArcheAgeLogin\obj\Debug\ArcheAgeLogin.pdb
 d:\DEVELOPMENT\archeage\SRC\AAServer\ArcheAgeLogin\obj\Debug\ArcheAge Login Server.csprojAssemblyReference.cache
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLogin\bin\Debug\ArcheAgeLogin.exe.config
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLogin\bin\Debug\ArcheAgeLogin.exe
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLogin\bin\Debug\ArcheAgeLogin.pdb
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLogin\bin\Debug\LocalCommons.dll
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLogin\bin\Debug\LocalCommons.pdb
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLogin\obj\Debug\ArcheAge Login Server.csproj.CoreCompileInputs.cache
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLogin\obj\Debug\ArcheAge Login Server.csproj.CopyComplete
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLogin\obj\Debug\ArcheAgeLogin.exe
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLogin\obj\Debug\ArcheAgeLogin.pdb
+D:\DEVELOPMENT\archeage\SRC\github\GH_AAServer\Archeage-Server-emulator-or-files\ArcheAgeLogin\obj\Debug\ArcheAge Login Server.csprojAssemblyReference.cache

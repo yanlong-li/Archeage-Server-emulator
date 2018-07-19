@@ -3,17 +3,6 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-# NLObP ignores
-*.dll
-*.exe
-*.manifest
-*.pdb
-*.config
-
-*.chashe
-*.CopyComplete
-*.txt
-
 # User-specific files
 *.suo
 *.user

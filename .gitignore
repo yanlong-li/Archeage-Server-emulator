@@ -10,6 +10,10 @@
 *.pdb
 *.config
 
+*.chashe
+*.CopyComplete
+*.txt
+
 # User-specific files
 *.suo
 *.user

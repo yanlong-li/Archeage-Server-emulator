@@ -26,7 +26,7 @@ namespace ArcheAge
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             LoadExecutingAssembly(args);
             watch.Stop();
-            Logger.Trace("ArcheAge starts {0} seconds.", (watch.ElapsedMilliseconds / 1000).ToString("0.00"));
+            Logger.Trace("ArcheAge Game Server started in {0} seconds", (watch.ElapsedMilliseconds / 1000).ToString("0.00"));
             watch = null;
             Key_Pressed();
         }
@@ -86,7 +86,8 @@ namespace ArcheAge
             Socket con = new Socket(point.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             try { 
                 con.Connect(point);
-            }catch(Exception exp)
+            }
+            catch (Exception exp)
             {
                 //throw exp;
                 Logger.Trace("Unable to connect to login server, retry after 1 second");

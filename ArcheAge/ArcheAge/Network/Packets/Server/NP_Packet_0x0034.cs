@@ -3,7 +3,7 @@ using LocalCommons.Utilities;
 
 namespace ArcheAge.ArcheAge.Net
 {
-    public sealed class NP_Packet_0x0006 : NetPacket
+    public sealed class NP_Packet_0x0034 : NetPacket
     {
         /// <summary>
         /// пакет для входа в Лобби
@@ -11,7 +11,7 @@ namespace ArcheAge.ArcheAge.Net
         /// </summary>
 
         ///
-        public NP_Packet_0x0006() : base(05, 0x0006)
+        public NP_Packet_0x0034() : base(05, 0x0034)
         {
             //пакеты для входа в Лобби
             /*
@@ -32,9 +32,12 @@ namespace ArcheAge.ArcheAge.Net
             //"5000DD05EE020600" +
             //    "1000617263686561676567616D652E636F6D1A007F37340F79087DCB376503DEA486380002E66F87B99B5D01000100000000000000000000010101010100000000000000000090010001");
             ////расшифрованные данные из снифа пакета
+            //3.0.0.7
             // size hash crc idx opcode data
             //"5000 DD05 2E  02  0600   1000 617263686561676567616D652E636F6D 1A00 7F37340F79087DCB376503DEA486380002E66FC7B99B5D010001 00000000 00000000 00 00 01 01 01 01 01 00 00000000 00 00 00 00 9001 00 01"
-            
+            //3.0.3.0
+            //"5000 DD05 0E  02  3400   1000 617263686561676567616D652E636F6D 1A00 7F37340F79087DCB376503DEA486380002E66FC7BB9B5D010001 00000000 00000000 00 00 01 01 01 01 01 00 00000000 00 00 00 00 9001 00 01"
+
             ///size.host
             ///1000 617263686561676567616D65 2E 636F6D
             /// 10h archeagegame.com, 10h-забит в коде
@@ -42,7 +45,7 @@ namespace ArcheAge.ArcheAge.Net
             ns.WriteUTF8Fixed(host, host.Length);
             ///size.fset
             ///1A00 7F37340F79087DCB376503DEA486380002E66FC7B99B5D010001
-            const string fset = "7F37340F79087DCB376503DEA486380002E66FC7B99B5D010001";
+            const string fset = "7F37340F79087DCB376503DEA486380002E66FC7BB9B5D010001";
             ns.WriteHex(fset, fset.Length);
             ///count 4
             ///00000000

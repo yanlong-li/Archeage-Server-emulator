@@ -25,7 +25,7 @@ namespace ArcheAgeProxy.ArcheAge
 
         public static bool RegisterProxyServer(byte id, string password, ProxyConnection con, short port, string ip)
         {
-            Logger.Trace("Proxy Server - id:{0} - Registration", id);
+            Logger.Trace("Proxy Server ID: {0} registration", id);
             return true;
         }
         public static bool DisconnecteProxyServer(byte id)
@@ -48,7 +48,7 @@ namespace ArcheAgeProxy.ArcheAge
                 proxyservers.Add(game.Id, game);
             }
 
-            Logger.Trace("From -- Servers.xml -- Loading - {0} - Servers", proxyservers.Count);
+            Logger.Trace("Loading from Servers.xml {0} servers", proxyservers.Count);
         }
     }
 

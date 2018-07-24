@@ -66,34 +66,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArcheAge\Net\Connections\ClientConnection.cs" />
-    <Compile Include="ArcheAge\Net\DelegateList.cs" />
-    <Compile Include="ArcheAge\Net\Connections\LoginConnection.cs" />
-    <Compile Include="ArcheAge\Net\ArcheAgePackets.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_Packet_quit_0x00A5.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_ChangeState.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_SetGameType.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_Pong.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_Packet_0x0282.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_Packet_0x0089.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_Packet_0x013E.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_Packet_0x019D.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_Packet_0x01AC.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_Packet_0x01FA.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_Packet_0x0218.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_Packet_0x024F.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_Packet_0x028C.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_Packet_0x0296.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_Packet_0x00E4.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_Packet_0x01FF.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_Packet_0x025A.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_Packet_0x02D7.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_Packet_0x0005.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_X2EnterWorldResponsePacket.cs" />
-    <Compile Include="ArcheAge\Net\Packets.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_Packet_0x0006.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_Packet_0x0055.cs" />
-    <Compile Include="ArcheAge\Net\Packets\Server\NP_Packet_CharList_0x0248.cs" />
+    <Compile Include="ArcheAge\Network\Connections\ClientConnection.cs" />
+    <Compile Include="ArcheAge\Network\DelegateList.cs" />
+    <Compile Include="ArcheAge\Network\Connections\LoginConnection.cs" />
+    <Compile Include="ArcheAge\Network\ArcheAgePackets.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_ChangeState.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x0030.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x0034.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x008C.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x0094.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x00BA.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x00EC.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x0145.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x014D.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x014F.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x018A.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x01AF.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x01CC.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x01E5.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x0272.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x0281.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x029C.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x02C3.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x02CF.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_CharList_0x0079.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_quit_0x01F1.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SetGameType.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_Pong.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_X2EnterWorldResponsePacket.cs" />
+    <Compile Include="ArcheAge\Network\Packets.cs" />
     <Compile Include="ArcheAge\Structuring\Account.cs" />
     <Compile Include="ArcheAge\Structuring\EventDefinitions.cs" />
     <Compile Include="ArcheAge\Structuring\Main\IVisibleObject.cs" />
@@ -145,7 +146,7 @@
     <Content Include="AA.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ArcheAge\Net\Packets\Client\" />
+    <Folder Include="ArcheAge\Network\Packets\Client\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

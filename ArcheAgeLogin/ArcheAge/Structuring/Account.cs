@@ -28,7 +28,7 @@ namespace ArcheAgeLogin.ArcheAge.Structuring
 
         public string Name { get; set; }
 
-        public long AccId { get; set; }
+        //public long AccId { get; set; }
 
         public long AccountId { get; set; }
 

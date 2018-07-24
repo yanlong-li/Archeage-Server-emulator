@@ -16,17 +16,17 @@ using System.Diagnostics;
 namespace ArcheAgeLogin.ArcheAge.Network
 {
     /// <summary>
-    /// Connection For ArcheAge Client - Using Only Fpr Authorization.
+    /// Connection For ArcheAge Client - Using Only For Authorization.
     /// </summary>
     public class ArcheAgeConnection : IConnection
     {
         public bool movedToGame = false;
         public Account CurrentAccount { get; set; }
 
-        public ArcheAgeConnection(Socket s) : base(s)
+        public ArcheAgeConnection(Socket socket) : base(socket)
         {
-            CurrentAccount =  AccountHolder.AccountList.FirstOrDefault(n => n.Name =="-=zZZz=-");
-            Logger.Trace("Client: <<{0}>> connection", this);
+            CurrentAccount =  AccountHolder.AccountList.FirstOrDefault(n => n.Name == "1");
+            Logger.Trace("Client IP: {0} connected", this);
             DisconnectedEvent += ArcheAgeConnection_DisconnectedEvent;
             m_LittleEndian = true;
         }
@@ -51,9 +51,9 @@ namespace ArcheAgeLogin.ArcheAge.Network
                     AccountHolder.InsertOrUpdate(CurrentAccount);
                 }
             }
-            string arg = movedToGame ? "entered the game " : "disconnect";
+            string arg = movedToGame ? "enter the game" : "disconnected";
             ArcheAgeConnection archeAgeConnection = this;
-            Logger.Trace("Client {0} : {1}", archeAgeConnection.CurrentAccount == null ? archeAgeConnection.ToString() : archeAgeConnection.CurrentAccount.Name, arg);
+            Logger.Trace("Client: {0} {1}", archeAgeConnection.CurrentAccount == null ? archeAgeConnection.ToString() : archeAgeConnection.CurrentAccount.Name, arg);
             Dispose();
         }
 
@@ -63,10 +63,10 @@ namespace ArcheAgeLogin.ArcheAge.Network
 
             //Logger.Trace("Allocated Memory = " + (Process.GetCurrentProcess().PrivateMemorySize64 / 1000000) + " MB");
 
-            short opcode = reader.ReadLEInt16();
+            ushort opcode = reader.ReadLEUInt16();
             if (opcode > PacketList.LHandlers.Length)
             {
-                Logger.Trace("Not enough length to handle.");
+                Logger.Trace("There is not enough length to handle");
                 Dispose();
                 return;
             }

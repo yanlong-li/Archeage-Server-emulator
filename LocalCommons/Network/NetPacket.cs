@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using LocalCommons.Encryption;
+using LocalCommons;
+using LocalCommons.Cryptography;
 
 namespace LocalCommons.Network
 {
@@ -18,7 +19,7 @@ namespace LocalCommons.Network
         private bool m_littleEndian;
         private bool m_IsArcheAge;
         private byte level;
-        private static byte m_NumPck = 0;
+        private static byte m_NumPck = 0;  //глобальный подсчет пакетов DD05
 
 
         public bool IsArcheAgePacket
@@ -27,12 +28,12 @@ namespace LocalCommons.Network
             set { m_IsArcheAge = true; }
         }
 
-        /// <summary>
-        /// Creates Instance Of Any Other Packet
-        /// </summary>
-        /// <param name="packetId">Packet Identifier(opcode)</param>
-        /// <param name="isLittleEndian">Send Data In Little Endian Or Not.</param>
-        protected NetPacket(int packetId, bool isLittleEndian)
+    /// <summary>
+    /// Creates Instance Of Any Other Packet
+    /// </summary>
+    /// <param name="packetId">Packet Identifier(opcode)</param>
+    /// <param name="isLittleEndian">Send Data In Little Endian Or Not.</param>
+    protected NetPacket(int packetId, bool isLittleEndian)
         {
             this.packetId = packetId;
             this.m_littleEndian = isLittleEndian;
@@ -79,16 +80,16 @@ namespace LocalCommons.Network
                     temporary.Write((byte)0xDD);
                     temporary.Write((byte)level);
 
-                    //посмотреть, может по другому написать, через copy?
+                    //TODO: посмотреть, может по другому написать, через copy?
                     byte[] numPck = new byte[1];
                     numPck[0] = m_NumPck; //вставили номер пакета в массив
                     byte[] data = numPck.Concat(BitConverter.GetBytes((short)packetId)).ToArray(); //объединили с ID
                     data = data.Concat(ns.ToArray()).ToArray(); //объединили с телом пакета
-                    byte crc = Encryption.Encryption._CRC8_(data); //посчитали CRC пакета
+                    byte crc = Encryption._CRC8_(data); //посчитали CRC пакета
                     byte[] CRC = new byte[1];
                     CRC[0] = crc; //вставили crc в массив
                     data = CRC.Concat(data).ToArray(); //добавили спереди контрольную сумму
-                    byte[] encrypt = Encryption.Encryption.StoCEncrypt(data); //зашифровали пакет
+                    byte[] encrypt = Encryption.StoCEncrypt(data); //зашифровали пакет
                     temporary.Write(encrypt, 0, encrypt.Length);
                     ++m_NumPck; //следующий номер шифрованного пакета DD05
                 }

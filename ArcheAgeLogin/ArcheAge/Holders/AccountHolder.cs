@@ -48,7 +48,8 @@ namespace ArcheAgeLogin.ArcheAge.Holders
                     Account account = new Account();
                     account.AccessLevel = (byte)reader.GetInt32("mainaccess");
                     //account.AccId = reader.GetInt64("id");
-                    account.AccountId = reader.GetInt64("accountid");
+                    //account.AccountId = reader.GetInt64("accountid");
+                    account.AccountId = reader.GetInt64("id");
                     account.Name = reader.GetString("name");
                     account.Password = reader.GetString("password");
                     account.Token = reader.GetString("token");
@@ -101,39 +102,39 @@ namespace ArcheAgeLogin.ArcheAge.Holders
                 if (m_DbAccounts.Contains(account))
                 {
                     command = new MySqlCommand(
-                        //"UPDATE `accounts` SET `id` = @id, `name` = @name, `mainaccess` = @mainaccess, `useraccess` = @useraccess, `last_ip` = @lastip, `password` = @password, `token` = @token, `last_online` = @lastonline, `characters` = @characters, `accountid` = @accountid, `cookie` = @cookie  WHERE `id` = @aid",
-                        "UPDATE `accounts` SET `name` = @name, `mainaccess` = @mainaccess, `useraccess` = @useraccess, `last_ip` = @lastip, `password` = @password, `token` = @token, `last_online` = @lastonline, `characters` = @characters, `accountid` = @accountid, `cookie` = @cookie  WHERE `id` = @aid",
+                        //"UPDATE `accounts` SET `id` = @id, `accountid` = @accountid, `name` = @name, `password` = @password, `token` = @token, `mainaccess` = @mainaccess, `useraccess` = @useraccess, `last_ip` = @lastip, `last_online` = @lastonline, `cookie` = @cookie, `characters` = @characters WHERE `id` = @aid",
+                        "UPDATE `accounts` SET `id` = @id, `name` = @name, `password` = @password, `token` = @token, `mainaccess` = @mainaccess, `useraccess` = @useraccess, `last_ip` = @lastip, `last_online` = @lastonline, `cookie` = @cookie, `characters` = @characters WHERE `id` = @aid",
                         con);
                 }
                 else
                 {
                     command = new MySqlCommand(
-                        //"INSERT INTO `accounts`(id, name, mainaccess, useraccess, last_ip, password, last_online, characters, accountid, cookie) VALUES(@id, @name, @mainaccess, @useraccess, @lastip, @password, @lastonline, @characters, @accountid, @cookie)",
-                        "INSERT INTO `accounts`(id, name, mainaccess, useraccess, last_ip, password, last_online, characters, accountid, cookie) VALUES(@name, @mainaccess, @useraccess, @lastip, @password, @lastonline, @characters, @accountid, @cookie)",
+                        "INSERT INTO `accounts`(id, name, password, token,  mainaccess, useraccess, last_ip, last_online, characters, cookie)" +
+                        "VALUES(@id, @name, @password, @token, @mainaccess, @useraccess, @lastip, @lastonline, @characters, @cookie)",
                         con);
                 }
                 MySqlParameterCollection parameters = command.Parameters;
-                //parameters.Add("@id", MySqlDbType.Int64).Value = account.AccId;
-                parameters.Add("@accountid", MySqlDbType.Int64).Value = account.AccountId;
-                parameters.Add("@cookie", MySqlDbType.Int32).Value = account.Session;
+                parameters.Add("@id", MySqlDbType.Int64).Value = account.AccountId;
+                //parameters.Add("@accountid", MySqlDbType.Int64).Value = account.AccountId; //TODO: удалить в бд
                 parameters.Add("@name", MySqlDbType.String).Value = account.Name;
+                parameters.Add("@password", MySqlDbType.String).Value = account.Password;
+                parameters.Add("@token", MySqlDbType.String).Value = account.Token;
                 parameters.Add("@mainaccess", MySqlDbType.Byte).Value = account.AccessLevel;
                 parameters.Add("@useraccess", MySqlDbType.Byte).Value = account.Membership;
                 parameters.Add("@lastip", MySqlDbType.String).Value = account.LastIp;
-                parameters.Add("@token", MySqlDbType.String).Value = account.Token;
-                parameters.Add("@password", MySqlDbType.String).Value = account.Password;
                 parameters.Add("@lastonline", MySqlDbType.Int64).Value = account.LastEnteredTime;
+                parameters.Add("@characters", MySqlDbType.Int32).Value = account.Characters;
+                parameters.Add("@cookie", MySqlDbType.Int32).Value = account.Session;
+
                 if (m_DbAccounts.Contains(account))
                     parameters.Add("@aid", MySqlDbType.Int64).Value = account.AccountId;
-
-                parameters.Add("@characters", MySqlDbType.Int32).Value = account.Characters;
 
                 command.ExecuteNonQuery();
                 command = null;
             }
             catch (Exception e)
             {
-                Logger.Trace("Cannot InsertOrUpdate template for " + account.Name + "!", e);
+                Logger.Trace("Cannot InsertOrUpdate template for " + account.Name + ": {0}", e);
             }
             finally
             {

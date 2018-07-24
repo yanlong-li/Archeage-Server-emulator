@@ -2,13 +2,13 @@
 
 namespace ArcheAge.ArcheAge.Net
 {
-    public sealed class NP_Packet_0x025A : NetPacket
+    public sealed class NP_Packet_0x00EC : NetPacket
     {
         /// <summary>
         /// пакет для входа в Лобби
         /// author: NLObP
         /// </summary>
-        public NP_Packet_0x025A() : base(05, 0x025A)
+        public NP_Packet_0x00EC() : base(05, 0x00EC)
         {
             //пакеты для входа в Лобби
             /*
@@ -23,11 +23,15 @@ namespace ArcheAge.ArcheAge.Net
              */
             //ns.WriteHex(
             //"2A00DD05B9656B03D2A2724212E3B3835323F4C494643405B5F1754516E6B6865727F7C797704010E0B08151");
-                //"2A00DD0528045A02" +
+            //"2A00DD0528045A02" +
             //    "000000000000000000000000000000006054000000000000000000000000000000000000");
             ////расшифрованные данные из снифа пакета
+            //3.0.0.7
             // size hash crc idx opcode data
             //"2A00 DD05 28  04  5A02   00000000 00000000 0000000000000000 6054000000000000 0000000000000000 00000000"
+            //3.0.3.0
+            //"2A00 DD05 3C  04  EC00   000000000000000000000000000000006054000000000000000000000000000000000000"
+
             ///payMethod 4
             ///00000000
             ns.Write((int)0x00);
@@ -52,13 +56,13 @@ namespace ArcheAge.ArcheAge.Net
     /// пакет для входа в Лобби
     /// author: NLObP
     /// </summary>
-    public sealed class NP_Packet_0x025A_2 : NetPacket
+    public sealed class NP_Packet_0x00EC_2 : NetPacket
     {
         /// <summary>
         /// пакет для входа в Лобби
         /// author: NLObP
         /// </summary>
-        public NP_Packet_0x025A_2() : base(05, 0x025A)
+        public NP_Packet_0x00EC_2() : base(05, 0x00EC)
         {
             //пакеты для входа в Лобби
             /*
@@ -76,8 +80,12 @@ namespace ArcheAge.ArcheAge.Net
             //"2A00DD057B0E5A02" +
             //    "01000000010000000000000000000000EE264E6D00000000000000000000000000000000");
             ////расшифрованные данные из снифа пакета
+            //3.0.0.7
             // size hash crc idx opcode data
             //"2A00 DD05 7B  0E  5A02   01000000 01000000 0000000000000000 EE264E6D00000000 0000000000000000 00000000"
+            //3.0.3.0
+            //"2A00 DD05 8F  0E  EC00   01000000010000000000000000000000EE264E6D00000000000000000000000000000000"
+
             ///payMethod 4
             ///01000000
             ns.Write((int)0x01);

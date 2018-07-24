@@ -3,10 +3,7 @@ using LocalCommons.Logging;
 using LocalCommons.Network;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Sockets;
-using System.Text;
-using System.Diagnostics;
 
 namespace ArcheAge.ArcheAge.Net.Connections
 {
@@ -37,7 +34,7 @@ namespace ArcheAge.ArcheAge.Net.Connections
         public ClientConnection(Socket socket) : base(socket) {
             DisconnectedEvent += ClientConnection_DisconnectedEvent;
             m_LittleEndian = true;
-            Logger.Trace("Client {0}: connection", this);
+            Logger.Trace("Client IP: {0} connected", this);
         }
 
         public override void SendAsync(NetPacket packet)
@@ -53,7 +50,7 @@ namespace ArcheAge.ArcheAge.Net.Connections
         void ClientConnection_DisconnectedEvent(object sender, EventArgs e)
         {
             Dispose();
-            Logger.Trace("Client {0}: disconnect", this);
+            Logger.Trace("Client IP: {0} disconnected", this);
         }
 
         public override void HandleReceived(byte[] data)
@@ -63,34 +60,37 @@ namespace ArcheAge.ArcheAge.Net.Connections
             //Logger.Trace("Allocated Memory = " + (Process.GetCurrentProcess().PrivateMemorySize64 / 1000000) + " MB");
 
             //reader.Offset += 1; //Undefined Random Byte
-            byte rc = reader.ReadByte();
-            byte level = reader.ReadByte(); //Packet Level
+            byte seq = reader.ReadByte();
+            byte header = reader.ReadByte(); //Packet Level
             ushort opcode = reader.ReadLEUInt16(); //Packet Opcode
-            
-            //if (level==0x01)
-            //{
-            //    reader.Offset += 2; //Undefined Random Byte
-            //    short opcode2 = reader.ReadLEInt16(); //Packet Opcode
-            //    if (opcode2 == 0x4cc || opcode2 == 0x4cd) { 
-            //        opcode = 0x77;
-            //    }
-            //    reader.Offset -= 2; //Undefined Random Byte
-            //}
-            if (!DelegateList.ClientHandlers.ContainsKey(level))
+
+            if (header == 0x05)
             {
-                Logger.Trace("received undefined rc{0} packet Level - {1} - Opcode 0x{2:X2}", rc, level, opcode);
+                reader.Offset -= 2; //вернемся к hash, count
+                byte hash = reader.ReadByte(); //считываем hash или CRC (он не меняется)
+                byte count = reader.ReadByte(); //считываем count (шифрован, меняется)
+                if (hash == 0x34)
+                {
+                    opcode = 0x0088; //пакет на релогин
+                }
+                //reader.Offset -= 2; //Undefined Random Byte
+            }
+
+            if (!DelegateList.ClientHandlers.ContainsKey(header))
+            {
+                Logger.Trace("Received undefined seq {0} packet Level {1} - Opcode 0x{2:X2}", seq, header, opcode);
                 return;
             }
             try { 
-            PacketHandler<ClientConnection> handler = DelegateList.ClientHandlers[level][opcode];
+            PacketHandler<ClientConnection> handler = DelegateList.ClientHandlers[header][opcode];
                 if (handler != null)
                     handler.OnReceive(this, reader);
                 else
-                    Logger.Trace("received undefined rc{0} packet Level - {1} - Opcode 0x{2:X2}", rc, level, opcode);
+                    Logger.Trace("Received undefined seq {0} packet Level {1} - Opcode 0x{2:X2}", seq, header, opcode);
             }
             catch(Exception exp)
             {
-                Logger.Trace("received undefined rc{0} packet Level2 - {1} - Opcode 0x{2:X2}", rc, level, opcode);
+                Logger.Trace("Received undefined seq {0} packet Level2 {1} - Opcode 0x{2:X2}", seq, header, opcode);
                 throw exp;
             }
         }

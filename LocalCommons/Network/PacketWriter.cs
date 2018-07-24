@@ -337,10 +337,10 @@ namespace LocalCommons.Network
                 value = String.Empty;
             }
             int length = value.Length;
-            Write((short)size);
-            m_Stream.SetLength(m_Stream.Length + size);
+            Write((short)length);
+            m_Stream.SetLength(m_Stream.Length + length);
             if (length >= size)
-                m_Stream.Position += UTF8Encoding.UTF8.GetBytes(value, 0, size, m_Stream.GetBuffer(), (int)m_Stream.Position);
+                m_Stream.Position += UTF8Encoding.UTF8.GetBytes(value, 0, length, m_Stream.GetBuffer(), (int)m_Stream.Position);
             else
             {
                 UTF8Encoding.UTF8.GetBytes(value, 0, length, m_Stream.GetBuffer(), (int)m_Stream.Position);

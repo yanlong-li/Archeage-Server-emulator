@@ -2,13 +2,13 @@
 
 namespace ArcheAge.ArcheAge.Net
 {
-    public sealed class NP_Packet_quit_0x00A5 : NetPacket
+    public sealed class NP_Packet_quit_0x01F1 : NetPacket
     {
         /// <summary>
         /// пакет для входа в Лобби
         /// author: NLObP
         /// </summary>
-        public NP_Packet_quit_0x00A5() : base(05, 0x00A5)
+        public NP_Packet_quit_0x01F1() : base(05, 0x01F1)
         {
             //пакеты для входа в Лобби
             /*
@@ -33,7 +33,10 @@ namespace ArcheAge.ArcheAge.Net
             //"3100DD05C53355C16F9E3101D2A2724212E3B3835323F4C494643405D5A5754C16A1D9E9330A95BEF2514010E0B0815180B0E7");
             ////расшифрованные данные из снифа пакета
             // size hash crc idx opcode data
-            //"1400 DD05 95  13  A500   FEFF000000000000 000000 00000000 00 00 00000000 0000 0900 476F6F642D62796521 00000000 00000000 00"
+            //"3100 DD05 95  13  A500   FEFF000000000000 000000 00000000 00 00 00000000 0000 0900 476F6F642D62796521 00000000 00000000 00"
+            //3.0.3.0
+            //"3100 DD05 58  17  F101   FEFF0000000000000000000000000000000000000000000900476F6F642D62796521000000000000000000"
+
             ///chat 8
             ///FEFF000000000000
             ns.Write((long)0xFFFE);
@@ -56,10 +59,11 @@ namespace ArcheAge.ArcheAge.Net
             ns.Write((int)0x00);
             ///size.name
             ///0000
-            ns.Write((short)0x00);
+            string msg = "";
+            ns.WriteUTF8Fixed(msg, msg.Length);
             ///size.msg
             ///0900 476F6F642D62796521 "Good - bye!"
-            const string msg = "Good - bye!";
+            msg = "Good-bye!";
             ns.WriteUTF8Fixed(msg, msg.Length);
             ///{ 4 раза
             ///linkType 1

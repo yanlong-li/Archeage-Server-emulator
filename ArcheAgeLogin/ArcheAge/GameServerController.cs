@@ -35,7 +35,7 @@ namespace ArcheAgeLogin.ArcheAge
         {
             if (!gameservers.ContainsKey(id))
             {
-                Logger.Trace("Server is not defined - {0}-, please check", id);
+                Logger.Trace("Game Server ID: {0} is not defined, please check", id);
                 return false;
             }
 
@@ -48,7 +48,7 @@ namespace ArcheAgeLogin.ArcheAge
 
             if (template.password != password) //Checking Password
             {
-                Logger.Trace("World Server - {0} - bad password", id);
+                Logger.Trace("Game Server ID: {0} bad password", id);
                 return false;
             }
 
@@ -60,7 +60,7 @@ namespace ArcheAgeLogin.ArcheAge
             //Update
             gameservers.Remove(id);
             gameservers.Add(id, server);
-            Logger.Trace("World server - id: {0} - register", id);
+            Logger.Trace("Game Server ID: {0} registered", id);
             return true;
         }
         public static bool DisconnecteGameServer(byte id)
@@ -83,7 +83,7 @@ namespace ArcheAgeLogin.ArcheAge
                 gameservers.Add(game.Id, game);
             }
 
-            Logger.Trace("From -- Servers.xml -- loading - {0} - servers", gameservers.Count);
+            Logger.Trace("Loading from Servers.xml {0} servers", gameservers.Count);
         }
     }
 

@@ -23,14 +23,14 @@ namespace ArcheAgeLogin.ArcheAge.Network
 
         public GameConnection(Socket socket) : base(socket) 
         {
-            Logger.Trace("Game Server {0} - Connected", this);
+            Logger.Trace("Game Server IP: {0} connected", this);
             DisconnectedEvent += GameConnection_DisconnectedEvent;
             m_LittleEndian = true;
         }
 
         void GameConnection_DisconnectedEvent(object sender, EventArgs e)
         {
-            Logger.Trace("Game Server {0} : Disconnected", m_CurrentInfo != null ? m_CurrentInfo.Id.ToString() : this.ToString());
+            Logger.Trace("Game Server IP: {0} disconnected", m_CurrentInfo != null ? m_CurrentInfo.Id.ToString() : this.ToString());
             Dispose();
             GameServerController.DisconnecteGameServer(m_CurrentInfo != null ? m_CurrentInfo.Id : this.CurrentInfo.Id);
             m_CurrentInfo = null;
@@ -40,7 +40,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
         public override void HandleReceived(byte[] data)
         {
             PacketReader reader = new PacketReader(data, 0);
-            short opcode = reader.ReadLEInt16();
+            ushort opcode = reader.ReadLEUInt16();
             PacketHandler<GameConnection> handler = PacketList.GHandlers[opcode];
             if (handler != null) {
                 handler.OnReceive(this, reader);

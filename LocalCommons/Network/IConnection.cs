@@ -81,7 +81,7 @@ namespace LocalCommons.Network
             m_PacketQueue = new Queue<NetPacket>();
             //-----------------------------------------------
 
-            this.m_Address = ((IPEndPoint)m_CurrentChannel.RemoteEndPoint).Address.ToString();
+            m_Address = ((IPEndPoint)m_CurrentChannel.RemoteEndPoint).Address.ToString();
             if (m_CurrentChannel == null)
                 return;
             RunReceive();
@@ -212,7 +212,6 @@ namespace LocalCommons.Network
             //Thread.Sleep(100);
         }
 
-
         public virtual void SendAsync0d(NetPacket packet)
         {
             if (CoalesceSleep != -1)
@@ -263,7 +262,6 @@ namespace LocalCommons.Network
             Console.ResetColor();
             m_CurrentChannel.Send(compiled, compiled.Length, SocketFlags.None);
         }
-
 
         /// <summary>
         /// Reading Length And Handles Data By [HandleReceived(byte[])] Without Length.

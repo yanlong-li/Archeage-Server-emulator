@@ -9,7 +9,7 @@ using ArcheAgeLogin.ArcheAge.Structuring;
 namespace ArcheAgeLogin.ArcheAge.Network
 {
     /// <summary>
-    ///     Sends Information About That Login Was right and we can continue =)
+    /// Sends Information About That Login Was right and we can continue =)
     /// </summary>
     public sealed class AcJoinResponse_0X00 : NetPacket
     {
@@ -19,9 +19,9 @@ namespace ArcheAgeLogin.ArcheAge.Network
             {
                 //v.3.0
                 /*
-                [2]             S>c             0ms.            23:55:44 .150      10.03.18
+                [2]             S>c             0ms.            20:17:29 .900      05.07.18
                 -------------------------------------------------------------------------------
-                 TType: ArcheageServer: undef   Parse: 6           EnCode: off         
+                 TType: ArcheageServer: LS1     Parse: 6           EnCode: off         
                 ------- 0  1  2  3  4  5  6  7 -  8  9  A  B  C  D  E  F    -------------------
                 000000 0D 00 00 00 01 00 00 06 | 03 48 00 00 00 00 00        .........H.....
                 -------------------------------------------------------------------------------
@@ -30,41 +30,44 @@ namespace ArcheAgeLogin.ArcheAge.Network
                 0000     2   word          psize             13         | $000D
                 0002     2   word          ID                0          | $0000
                 0004     2   WideStr[byte] reason            ""
-                0006     8   int64         afs               1208157696 | $48030600                
+                0006     8   int64         afs               1208157696 | $48030600
+                000E     1   byte          slotCount         0          | $00
+                
+                0D00 0000 0100 0006034800000000 00
                 */
-                //ns.WriteHex("0100000603480000000000"); //запись байтов без пробелов
-                ns.Write((byte)0x01);//3.0.0.7
-                ns.Write((short)0x0000);
-                ns.Write((short)0x0306);
-                ns.Write((short)0x0048);
-                ns.Write((int)0x00000000);
+                ns.Write((short)0x01);        //reason
+                ns.Write((long)0x48030600);  //afs
+                ns.Write((byte)0x00);       //slotCount
             }
             else
             {
-                //4.0
-                /*                [2] S>c             0ms.            22:18:04 .149      05.05.18
+                //4.5.5.1
+                /*
+                [2]             S>c             0ms.            14:19:03 .472      23.07.18
                 -------------------------------------------------------------------------------
-                 TType: ArcheageServer: LS2 Parse: 6           EnCode: off         
-                ------- 0  1  2  3  4  5  6  7 -  8  9  A B  C D  E F    -------------------
-                000000 0D 00 00 00 00 00 00 04 | 02 36 00 00 00 00 00        .........6.....
+                 TType: ArcheageServer: LS1     Parse: 6           EnCode: off         
+                ------- 0  1  2  3  4  5  6  7 -  8  9  A  B  C  D  E  F    -------------------
+                000000 0D 00 00 00 00 00 00 04 | 02 1B 00 00 00 00 00        ...............
                 -------------------------------------------------------------------------------
-                Archeage: "ACJoinResponse"                   size: 15     prot: 1  $001
+                Archeage: "ACJoinResponse"                   size: 15     prot: 2  $002
                 Addr:  Size:    Type:         Description:     Value:
-                0000     2   word psize             13         | $000D
-                0002     2   word ID                0          | $0000
+                0000     2   word          psize             13         | $000D
+                0002     2   word          ID                0          | $0000
                 0004     1   WideStr[byte] reason            
-                0005     8   int64 afs               231962050560 | $3602040000 */
-                ns.Write((byte)0x00);
-                ns.Write((byte)0x00);
-                ns.Write((byte)0x00);
-                ns.Write((byte)0x04);
-                ns.Write((byte)0x02);
-                ns.Write((short)0x0036);
-                ns.Write((int)0x00000000);
+                0005     8   int64         afs               115997933568 | $1B02040000
+                000D     1   byte          slotCount         0          | $00
+                
+                0D00 0000 0000 0004021B00000000 00
+                */
+                ns.Write((short)0x00);        //reason
+                ns.Write((long)0x1B020400);  //afs
+                ns.Write((byte)0x00);       //slotCount
             }
         }
     }
-    //Send the account ID back to the client
+    /// <summary>
+    /// Send the account ID back to the client
+    /// </summary>
     public sealed class AcAuthResponse_0X03 : NetPacket
     {
         public AcAuthResponse_0X03(string clientVersion, ArcheAgeConnection net) : base(0x03, true)
@@ -85,13 +88,13 @@ namespace ArcheAgeLogin.ArcheAge.Network
             0004     8   int64         accountId         50970      | $0000C71A
             000C    34   WideStr[byte] wsk               A18D7A05E22E459BD1A819222B821030  ($)
             002E     1   byte          slotCount         0          | $00
-            */
-            //Account ID
-            //ns.Write(0xC71A);
+            
+            2D00 0300 1AC7000000000000 2000 3346393243304532324430383344313843333233353433363932413442373630 00
+             */
             if (clientVersion == "3")
             {
                 ns.Write((long)net.CurrentAccount.AccountId); // записываем AccountID
-                //wsk - wide string key
+                //wsk - wide string key, в каждой сесии один и тот-же, даже при перелогине (выборе сервера)
                 const string wsk = "A18D7A05E22E459BD1A819222B821030"; //для теста
                 ns.WriteUTF8Fixed(wsk, wsk.Length);
                 //slotCount
@@ -100,31 +103,32 @@ namespace ArcheAgeLogin.ArcheAge.Network
             else
             {
                 /*
-                [3]             S>c             0ms.            22:18:04 .222      05.05.18
+                [3]             S>c             0ms.            14:42:03 .045      23.07.18
                 -------------------------------------------------------------------------------
-                TType: ArcheageServer: LS2     Parse: 6           EnCode: off         
+                 TType: ArcheageServer: LS1     Parse: 6           EnCode: off         
                 ------- 0  1  2  3  4  5  6  7 -  8  9  A  B  C  D  E  F    -------------------
-                000000 2F 00 03 00 5A 43 05 00 | 00 00 00 00 20 00 33 63     /...ZC...... .3c
-                000010 35 63 63 35 38 38 64 36 | 65 38 34 30 65 38 62 61     5cc588d6e840e8ba
-                000020 38 62 37 61 35 66 62 38 | 30 30 30 63 33 61 00 00     8b7a5fb8000c3a..
+                000000 2F 00 03 00 5A 43 05 00 | 00 00 00 00 20 00 63 34     /...ZC...... .c4
+                000010 30 39 39 32 30 36 63 38 | 66 32 34 38 63 35 39 65     099206c8f248c59e
+                000020 66 64 63 33 66 36 61 63 | 66 66 64 66 66 37 00 00     fdc3f6acffdff7..
                 000030 00                                                    .
                 -------------------------------------------------------------------------------
-                Archeage: "ACAuthResponse"                   size: 49     prot: 1  $001
+                Archeage: "ACAuthResponse"                   size: 49     prot: 2  $002
                 Addr:  Size:    Type:         Description:     Value:
                 0000     2   word          psize             47         | $002F
                 0002     2   word          ID                3          | $0003
                 0004     8   int64         accountId         344922     | $0005435A
-                000C    34   WideStr[byte] wsk               3c5cc588d6e840e8ba8b7a5fb8000c3a  ($)
-                002E     1   byte          __                0          | $00
-                */
+                000C    34   WideStr[byte] wsk               c4099206c8f248c59efdc3f6acffdff7  ($)
+                002E     1   byte          slotCount         0          | $00
+                
+                2F00 0300 5A43050000000000 2000 6334303939323036633866323438633539656664633366366163666664666637 0000 00
+                 
+                 */
                 ns.Write((long)net.CurrentAccount.AccountId); // записываем AccountID
-                //дозаписываем 4 байта 00 
-                //ns.Write(0x00);
-                //size key
-                ns.Write((byte)0x20);
-                //wsk
-                ns.WriteHex("3c5cc588d6e840e8ba8b7a5fb8000c3a"); //для теста
-                //unk byte
+                //wsk - wide string key, в каждой сесии один и тот-же, даже при перелогине (выборе сервера)
+                const string wsk = "c4099206c8f248c59efdc3f6acffdff7"; //для теста
+                ns.WriteUTF8Fixed(wsk, wsk.Length);
+                ns.Write((short)0x00);
+                //slotCount
                 ns.Write((byte)0x00);
             }
         }
@@ -197,7 +201,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
             if (ipArray.Length == 4)
             {
                 //Write cookie
-                ns.Write(cookie);
+                ns.Write((int)cookie);
                 //The main address
                 for (var i = 3; i > -1; i--) ns.Write((byte)Convert.ToInt32(ipArray[i]));
             }
@@ -206,18 +210,18 @@ namespace ArcheAgeLogin.ArcheAge.Network
                 //Write cookie
                 ns.Write(cookie);
                 //The main address
-                ns.Write((byte)0x01);
-                ns.Write((byte)0x00);
-                ns.Write((byte)0x00);
-                ns.Write((byte)0x7f);
+                ns.Write((byte)0x01); //1
+                ns.Write((byte)0x00); //0
+                ns.Write((byte)0x00); //0
+                ns.Write((byte)0x7f); //127
             }
 
-            ns.Write(server.Port);
+            ns.Write(server.Port);   //1239
             ns.Write((short)0x00);
-            ns.Write(0x00);
-            ns.Write(0x00);
-            ns.Write(0x00);
-            ns.Write(0x00);
+            ns.Write((int)0x00);
+            ns.Write((int)0x00);
+            ns.Write((int)0x00);
+            ns.Write((int)0x00);
         }
     }
 
@@ -296,13 +300,13 @@ namespace ArcheAgeLogin.ArcheAge.Network
             //Информация по серверу
             foreach (var server in mCurrent)
             {
-                ns.Write(server.Id);
+                ns.Write((byte)server.Id);
                 ns.Write((byte)0x01); //надпись в списке серверов 00-нет надписи, 01- НОВЫЙ, 02-ОБЪЕДИНЕННЫЙ, 03-ОБЪЕДИНЕННЫЙ, 04-нет надписи
-                ns.Write((byte)0x01); //цвут надписи в списке серверов 00-синий, 01- зеленая, 02-фиолет, 03, 04, 08-красный, 0x10-
+                ns.Write((byte)0x02); //цвут надписи в списке серверов 00-синий, 01- зеленая, 02-фиолет, 03, 04, 08-красный, 0x10-
                 ns.WriteUTF8Fixed(server.Name, Encoding.UTF8.GetByteCount(server.Name));
                 //ns.WriteASCIIFixed(server.Name, server.Name.Length);
                 var online = server.IsOnline() ? (byte)0x01 : (byte)0x02; //1 Online 2 Offline
-                ns.Write(online); //Server Status - 0x00 
+                ns.Write((byte)online); //Server Status - 0x00 
                 var status = server.CurrentAuthorized.Count >= server.MaxPlayers ? 0x01 : 0x00;
                 ns.Write((byte)status); //Server Status - 0x00 - normal / 0x01 - load / 0x02 - queue
                 ns.Write((byte)0x00); //unknown
@@ -318,9 +322,9 @@ namespace ArcheAgeLogin.ArcheAge.Network
             }
             //Write The current user account number
             //Количество чаров на аккаунте = 0
-            ns.Write((byte)0x00); //CharCount = 0
-           /*
-            ns.Write((byte)0x02); //CharCount = 1
+            //ns.Write((byte)0x00); //CharCount = 0
+           
+            ns.Write((byte)0x02); //CharCount = 2
             //Num=1
             ns.Write((long)0x0000C71A); //AccountID
             ns.Write((byte)0x01); //WorldID
@@ -330,9 +334,11 @@ namespace ArcheAgeLogin.ArcheAge.Network
             ns.Write((byte)0x03); //Char Race - 01=нуиане, 03 = гномы
             ns.Write((byte)0x02); //CharGender - 01-М, 02=Ж
             //Параметры чара
-            string message = "DC0D0CFCD3E01847AD2A5D55EA471CDF"; //для теста
-            ns.WriteHex(message, message.Length / 2);
+            string message = "BB86EF4CD60C41FA0B3E0C9CFB9559A0";  //"DC0D0CFCD3E01847AD2A5D55EA471CDF"; //для теста
+            
+            ns.WriteHex(message, message.Length);
             ns.Write((long)0x00); //v ?
+            
             //Num=2
             ns.Write((long)0x0000C71A); //AccountID
             ns.Write((byte)0x01); //WorldID
@@ -342,16 +348,19 @@ namespace ArcheAgeLogin.ArcheAge.Network
             ns.Write((byte)0x01); //Char Race - 01=нуиане, 03 = гномы
             ns.Write((byte)0x02); //CharGender - 01-М, 02=Ж
             //Параметры чара
-            message = "CECB8598F541B04BA674C7834DDC5D14"; //для теста
-            ns.WriteHex(message, message.Length / 2);
+            message = "E386CC4FC68761E393FDE59B70EAC557"; //"CECB8598F541B04BA674C7834DDC5D14"; //для теста
+
+            ns.WriteHex(message, message.Length);
             ns.Write((long)0x00); //v ?
-            */
+            
         }
     }
-
-    public sealed class NpSendGameAuthorization : NetPacket
+    /// <summary>
+    /// Sends Request To Specified Game Server by Entered Information
+    /// </summary>
+    public sealed class NP_SendGameAuthorization_ : NetPacket
     {
-        public NpSendGameAuthorization(GameServer server, int sessionId) : base(0x0A, true) //false
+        public NP_SendGameAuthorization_(GameServer server, int sessionId) : base(0x0A, true) //false
         {
             var ipArray = server.IPAddress.Split('.');
 
@@ -361,7 +370,6 @@ namespace ArcheAgeLogin.ArcheAge.Network
                 ns.Write(sessionId);
                 //The main address
                 for (var i = 3; i > -1; i--)
-                    //var cd = Convert.ToInt32(ipArray[i]);
                     ns.Write((byte)Convert.ToInt32(ipArray[i]));
             }
             else
@@ -604,6 +612,49 @@ namespace ArcheAgeLogin.ArcheAge.Network
             ns.Write((byte)0x02);  //Reason
             ns.Write((short)0x00); //Undefined
             ns.Write((short)0x00); //Undefined
+        }
+    }
+
+    /// <summary>
+    /// Sends Message Box About That Error Occured While Logging In.
+    /// Send message box about landing errors
+    /// </summary>
+    public sealed class NP_ACLoginDenied_0x0C : NetPacket
+    {
+        /*
+         [2]             S>c             0ms.            14:40:40 .831      21.07.18
+         -------------------------------------------------------------------------------
+          TType: ArcheageServer: LS1     Parse: 6           EnCode: off         
+         ------- 0  1  2  3  4  5  6  7 -  8  9  A  B  C  D  E  F    -------------------
+         000000 07 00 0C 00 02 00 00 00 | 00                          .........
+         -------------------------------------------------------------------------------
+         Archeage: "ACLoginDenied"                    size: 9      prot: 2  $002
+         Addr:  Size:    Type:         Description:     Value:
+         0000     2   word          psize             7          | $0007
+         0002     2   word          ID                12         | $000C
+         0004     2   byte          reason            2          | $0002 
+         0004     2   word          ___               0          | $0000 
+         0004     2   word          ___               0          | $0000 
+         */
+        public NP_ACLoginDenied_0x0C() : base(0x0C, true)
+        {
+            ns.Write((byte)0x02);  //Reason "нет такого пользователя"
+            ns.Write((short)0x00); //Undefined
+            ns.Write((short)0x00); //Undefined
+        }
+    }
+
+
+    /// <summary>
+    /// Prompt when the account is blocked
+    /// </summary>
+    public sealed class NP_BanLogin : NetPacket
+    {
+        public NP_BanLogin() : base(0x0C, true)
+        {
+            ns.Write((byte)0x06); // Reason
+            ns.Write((int)0x00);//Undefined
+            //ns.Write((short)0x00);//Undefined
         }
     }
 

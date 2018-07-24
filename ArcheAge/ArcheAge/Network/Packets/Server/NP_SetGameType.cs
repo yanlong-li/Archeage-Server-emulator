@@ -25,7 +25,7 @@ namespace ArcheAge.ArcheAge.Net
              */
             //1700DD020F00
             //ns.WriteHex("08006F5F74656D705F62000000000000000001");
-            const string name = "o_whale_song_bay";
+            const string name = "w_the_carcass_2";
             ns.WriteUTF8Fixed(name, name.Length);  //записываем len, name
             ns.Write((long)0x00);
             ns.Write((byte)0x01);

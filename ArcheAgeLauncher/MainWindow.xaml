@@ -56,9 +56,9 @@
         <Label Content="Server address:" Margin="36,167,29,0" VerticalAlignment="Top" RenderTransformOrigin="0.295,0.557" />
         <Label Content="Port number:" HorizontalAlignment="Left" Margin="272,168,0,0" VerticalAlignment="Top"
                Grid.Column="1" />
-        <Label Content="Account ID:" HorizontalAlignment="Left" Margin="61,205,0,0" VerticalAlignment="Top" Height="26" />
+        <Label Content="Account Name:" HorizontalAlignment="Left" Margin="43,205,0,0" VerticalAlignment="Top" Height="26" />
         <TextBox x:Name="uid" HorizontalAlignment="Left" Height="26"
-                 Margin="137,207,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="56" Text="1" Grid.ColumnSpan="2" FontFamily="Century" Background="{x:Null}" Controls:TextBoxHelper.Watermark="ID акаунта" >
+                 Margin="137,207,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="56" Text="aatest" Grid.ColumnSpan="2" FontFamily="Century" Background="{x:Null}" Controls:TextBoxHelper.Watermark="ID акаунта" >
             <TextBox.BorderBrush>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
             </TextBox.BorderBrush>

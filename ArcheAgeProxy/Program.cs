@@ -28,7 +28,7 @@ namespace ArcheAgeProxy
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             LoadExecutingAssembly(args);
             watch.Stop();
-            Logger.Trace("ArcheAge Proxy Server Started In {0} sec.", (watch.ElapsedMilliseconds / 1000.0).ToString("0.00"));
+            Logger.Trace("ArcheAge Proxy Server started in {0} seconds", (watch.ElapsedMilliseconds / 1000.0).ToString("0.00"));
             watch = null;
             Key_Pressed();
         }

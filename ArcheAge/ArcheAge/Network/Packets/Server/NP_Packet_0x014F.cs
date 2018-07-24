@@ -2,13 +2,13 @@
 
 namespace ArcheAge.ArcheAge.Net
 {
-    public sealed class NP_Packet_0x01AC : NetPacket
+    public sealed class NP_Packet_0x014F : NetPacket
     {
         /// <summary>
         /// пакет для входа в Лобби
         /// author: NLObP
         /// </summary>
-        public NP_Packet_0x01AC() : base(05, 0x01AC)
+        public NP_Packet_0x014F() : base(05, 0x014F)
         {
             //пакеты для входа в Лобби
             /*
@@ -26,8 +26,12 @@ namespace ArcheAge.ArcheAge.Net
             //"2400DD057612AC01" +
             //    "010000000100000000FF000000008231835A000000000000000000000000");
             ////расшифрованные данные из снифа пакета
+            //3.0.0.7
             // size hash crc idx opcode data
             //"2400 DD05 76  12  AC01   01000000 01 00000000 FF 00000000 8231835A00000000 0000000000000000"
+            //3.0.3.0
+            //"2400 DD05 27  12  4F01   01000000 01 00000000 FF 00000000 8231835A00000000 0000000000000000"
+
             ///count 4
             ///01000000
             ns.Write((int)0x01);

@@ -32,7 +32,7 @@ namespace ArcheAgeLogin
             selectVersion();
             LoadExecutingAssembly(args);
             watch.Stop();
-            Logger.Trace("ArcheAge Login Server Started In {0} sec.", (watch.ElapsedMilliseconds / 1000.0).ToString("0.00"));
+            Logger.Trace("ArcheAge Login Server started in {0} seconds", (watch.ElapsedMilliseconds / 1000.0).ToString("0.00"));
             watch = null;
             Key_Pressed();
            

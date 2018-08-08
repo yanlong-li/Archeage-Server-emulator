@@ -1,6 +1,6 @@
 ﻿using LocalCommons.Network;
 
-namespace ArcheAge.ArcheAge.Net
+namespace ArcheAge.ArcheAge.Network
 {
     public sealed class NP_Packet_0x0145 : NetPacket
     {
@@ -161,8 +161,8 @@ namespace ArcheAge.ArcheAge.Net
             ns.Write((short)0x01);
             ///size.uiData
             ///0B00 76657273696F6E20320D0A
-            const string msg = "76657273696F6E20320D0A";
-            ns.WriteUTF8Fixed(msg, msg.Length);
+            const string uiData = "76657273696F6E20320D0A";
+            ns.WriteHex(uiData, uiData.Length);
             ///size 4   
             ///0C00000000
             ns.Write((int)0x0C);

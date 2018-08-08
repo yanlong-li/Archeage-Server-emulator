@@ -1,5 +1,5 @@
-﻿using ArcheAge.ArcheAge.Net;
-using ArcheAge.ArcheAge.Net.Connections;
+﻿using ArcheAge.ArcheAge.Network;
+using ArcheAge.ArcheAge.Network.Connections;
 using ArcheAge.Properties;
 using LocalCommons.Logging;
 using LocalCommons.Network;

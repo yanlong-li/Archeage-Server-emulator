@@ -1,6 +1,6 @@
 ﻿using LocalCommons.Network;
 
-namespace ArcheAge.ArcheAge.Net
+namespace ArcheAge.ArcheAge.Network
 {
     public sealed class NP_Packet_quit_0x01F1 : NetPacket
     {

@@ -1,7 +1,7 @@
 ﻿using LocalCommons.Network;
 using LocalCommons.Utilities;
 
-namespace ArcheAge.ArcheAge.Net
+namespace ArcheAge.ArcheAge.Network
 {
     public sealed class NP_Packet_0x0094 : NetPacket
     {

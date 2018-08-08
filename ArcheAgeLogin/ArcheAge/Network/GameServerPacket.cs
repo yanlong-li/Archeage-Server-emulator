@@ -21,20 +21,29 @@ namespace ArcheAgeLogin.ArcheAge.Network
     }
 
     /// <summary>
-    /// Sends Information About Logged In Account.
+    /// Sends Information About Logged In Account from LoginServer to GameServer.
     /// </summary>
     public sealed class NET_AccountInfo : NetPacket
     {
+        /// <summary>
+        /// Sends Information About Logged In Account from LoginServer to GameServer.
+        /// </summary>
+        /// <param name="account"></param>
         public NET_AccountInfo(Account account) : base(0x01, true)
         {
-            ns.Write((long)account.AccountId); //вместо AccountID
+            /*                 accountId        Lv Ms Name           Sesion   LastEnteredTime  LastIp
+             * Send: 2900 0100 1AC7000000000000 01 01 61617465737400 2810B47A 565074D264010000 3132372E302E302E3100
+             */
+            ns.Write((long)account.AccountId);
+            ns.WriteDynamicASCII(account.Name);
+            ns.WriteDynamicASCII(account.Password);
+            ns.WriteDynamicASCII(account.Token);
             ns.Write((byte)account.AccessLevel);
             ns.Write((byte)account.Membership);
-            ns.WriteDynamicASCII(account.Name);
-            //ns.WriteDynamicASCII(account.Password);
-            ns.Write((int)account.Session);
-            ns.Write((long)account.LastEnteredTime);
             ns.WriteDynamicASCII(account.LastIp);
+            ns.Write((long)account.LastEnteredTime);
+            ns.Write((byte)account.Characters);
+            ns.Write((int)account.Session);
         }
     }
 }

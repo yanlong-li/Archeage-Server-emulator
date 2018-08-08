@@ -23,14 +23,14 @@ namespace ArcheAgeLogin.ArcheAge.Network
 
         public GameConnection(Socket socket) : base(socket) 
         {
-            Logger.Trace("Game Server IP: {0} connected", this);
+            Logger.Trace("GameServer IP: {0} connected", this);
             DisconnectedEvent += GameConnection_DisconnectedEvent;
             m_LittleEndian = true;
         }
 
         void GameConnection_DisconnectedEvent(object sender, EventArgs e)
         {
-            Logger.Trace("Game Server IP: {0} disconnected", m_CurrentInfo != null ? m_CurrentInfo.Id.ToString() : this.ToString());
+            Logger.Trace("GameServer IP: {0} disconnected", m_CurrentInfo != null ? m_CurrentInfo.Id.ToString() : this.ToString());
             Dispose();
             GameServerController.DisconnecteGameServer(m_CurrentInfo != null ? m_CurrentInfo.Id : this.CurrentInfo.Id);
             m_CurrentInfo = null;
@@ -46,7 +46,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
                 handler.OnReceive(this, reader);
             }
             else
-                Logger.Trace("Received Undefined GameServer Packet 0x{0:X2}", opcode);
+                Logger.Trace("Received undefined GameServer packet 0x{0:X2}", opcode);
             reader = null;
         }
     }

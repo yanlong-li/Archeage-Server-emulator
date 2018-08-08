@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using ArcheAgeLogin.ArcheAge;
-using ArcheAgeLogin.ArcheAge.Holders;
-using ArcheAgeLogin.ArcheAge.Network;
+﻿using ArcheAgeLogin.ArcheAge.Holders;
 using ArcheAgeLogin.ArcheAge.Structuring;
 using LocalCommons.Logging;
 using LocalCommons.Network;
-using LocalCommons;
 using LocalCommons.Utilities;
-using System.Diagnostics;
+using System;
+using System.Net.Sockets;
 
 namespace ArcheAgeLogin.ArcheAge.Network
 {
@@ -25,7 +18,6 @@ namespace ArcheAgeLogin.ArcheAge.Network
 
         public ArcheAgeConnection(Socket socket) : base(socket)
         {
-            CurrentAccount =  AccountHolder.AccountList.FirstOrDefault(n => n.Name == "1");
             Logger.Trace("Client IP: {0} connected", this);
             DisconnectedEvent += ArcheAgeConnection_DisconnectedEvent;
             m_LittleEndian = true;
@@ -35,7 +27,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
         {
             if (CurrentAccount != null)
             {
-                if(GameServerController.AuthorizedAccounts.ContainsKey(CurrentAccount.AccountId)) //AccountId
+                if(GameServerController.AuthorizedAccounts.ContainsKey(CurrentAccount.AccountId))
                 {
                     GameServerController.AuthorizedAccounts.Remove(CurrentAccount.AccountId);
                 }
@@ -51,22 +43,19 @@ namespace ArcheAgeLogin.ArcheAge.Network
                     AccountHolder.InsertOrUpdate(CurrentAccount);
                 }
             }
-            string arg = movedToGame ? "enter the game" : "disconnected";
+            string arg = movedToGame ? "moved to Game" : "disconnected";
             ArcheAgeConnection archeAgeConnection = this;
-            Logger.Trace("Client: {0} {1}", archeAgeConnection.CurrentAccount == null ? archeAgeConnection.ToString() : archeAgeConnection.CurrentAccount.Name, arg);
+            Logger.Trace("ArcheAge: {0} {1}", CurrentAccount == null ? archeAgeConnection.ToString() : CurrentAccount.Name, arg);
             Dispose();
         }
 
         public override void HandleReceived(byte[] data)
         {
             PacketReader reader = new PacketReader(data, 0);
-
-            //Logger.Trace("Allocated Memory = " + (Process.GetCurrentProcess().PrivateMemorySize64 / 1000000) + " MB");
-
             ushort opcode = reader.ReadLEUInt16();
             if (opcode > PacketList.LHandlers.Length)
             {
-                Logger.Trace("There is not enough length to handle");
+                Logger.Trace("Not enough lenght for LHandlers, disposing...");
                 Dispose();
                 return;
             }
@@ -75,7 +64,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
             if (handler != null)
                 handler.OnReceive(this, reader);
             else
-                Logger.Trace("Received undefined package 0x{0:x2}", opcode);
+                Logger.Trace("Received undefined packet 0x{0:x2}", opcode);
 
             reader = null;
         }

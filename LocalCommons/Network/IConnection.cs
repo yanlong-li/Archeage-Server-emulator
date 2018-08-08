@@ -1,13 +1,10 @@
 ﻿using LocalCommons.Logging;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Timers;
 
 namespace LocalCommons.Network
 {
@@ -15,7 +12,7 @@ namespace LocalCommons.Network
     /// Abstract Connection Which You Must Inherit
     /// Author: Raphail
     /// </summary>
-    public abstract class IConnection : IDisposable
+    public abstract class IConnection: IDisposable
     {
         protected Socket m_CurrentChannel;
         private SocketAsyncEventArgs m_AsyncReceive;
@@ -349,37 +346,53 @@ namespace LocalCommons.Network
                 RunReceive();
         }
 
+        #region IDisposable Support
+        /// <summary>
+        /// Dispose Current Listener.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
         /// <summary>
         /// Fully Dispose Current Connection.
         /// Can Be Overriden.
         /// </summary>
-        public virtual void Dispose()
+        protected virtual void Dispose(bool disposing)
         {
-            if (m_CurrentChannel == null || m_Disposing)
-                return;
+            if (disposing)
+            {
+                // dispose managed resources
+                if (m_CurrentChannel == null || m_Disposing)
+                    return;
 
-            m_Disposing = true;
+                m_Disposing = true;
 
-            try { m_CurrentChannel.Shutdown(SocketShutdown.Both); }
-            catch (SocketException ex) { Logger.Trace(ex.ToString()); }
+                try { m_CurrentChannel.Shutdown(SocketShutdown.Both); }
+                catch (SocketException ex) { Logger.Trace(ex.ToString()); }
 
+                try { m_CurrentChannel.Close(); }
+                catch (SocketException ex) { Logger.Trace(ex.ToString()); }
 
-            try { m_CurrentChannel.Close(); }
-            catch (SocketException ex) { Logger.Trace(ex.ToString()); }
+                if (m_RecvBuffer != null)
+                    m_RecvBufferPool.ReleaseBuffer(m_RecvBuffer);
 
-            if (m_RecvBuffer != null)
-                m_RecvBufferPool.ReleaseBuffer(m_RecvBuffer);
+                m_CurrentChannel.Close();
+                m_AsyncReceive.Dispose();
+                m_CurrentChannel = null;
+                m_RecvBuffer = null;
+                m_AsyncReceive = null;
+                if (m_PacketQueue.Count <= 0)
+                    lock (m_PacketQueue)
+                        m_PacketQueue.Clear();
 
-            m_CurrentChannel = null;
-            m_RecvBuffer = null;
-            m_AsyncReceive = null;
-            if (m_PacketQueue.Count <= 0)
-                lock (m_PacketQueue)
-                    m_PacketQueue.Clear();
-
-            m_PacketQueue = null;
-            m_Disposing = false;
-            m_Running = false;
+                m_PacketQueue = null;
+                m_Disposing = false;
+                m_Running = false;
+            }
+            // free native resources
         }
+        #endregion
     }
 }

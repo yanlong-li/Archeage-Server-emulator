@@ -1,6 +1,6 @@
 ﻿using LocalCommons.Network;
 
-namespace ArcheAge.ArcheAge.Net
+namespace ArcheAge.ArcheAge.Network
 {
     public sealed class NP_Packet_CharList_0x0079 : NetPacket
     {

@@ -1,23 +1,17 @@
 ﻿using LocalCommons.Logging;
-using LocalCommons;
-using LocalCommons.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 
-namespace LocalCommons.Network 
+namespace LocalCommons.Network
 {
     /// <summary>
     /// Disposable Asynchronus Connection Listener
     /// Author: Raphail
     /// </summary>
-    public class AsyncListener : IDisposable
+    public class AsyncListener: IDisposable
     {
         private IPEndPoint m_EndPoint;
         private Socket m_Root;
@@ -130,14 +124,32 @@ namespace LocalCommons.Network
             e.AcceptSocket = null;
         }
 
+        #region IDisposable Support
+
         /// <summary>
         /// Dispose Current Listener.
         /// </summary>
         public void Dispose()
         {
-            Socket sockt = Interlocked.Exchange<Socket>(ref m_Root, null);
-            if (sockt != null)
-                sockt.Close();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // dispose managed resources
+                Socket sockt = Interlocked.Exchange<Socket>(ref m_Root, null);
+                if (sockt != null)
+                    sockt.Close();
+                if (m_SyncArgs != null)
+                {
+                    m_SyncArgs.Dispose();
+                }
+            }
+            // free native resources
+        }
+
+        #endregion
     }
 }

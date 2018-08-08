@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
 
-namespace ArcheAge.ArcheAge.Net.Connections
+namespace ArcheAge.ArcheAge.Network.Connections
 {
 
     /// <summary>
@@ -21,20 +21,12 @@ namespace ArcheAge.ArcheAge.Net.Connections
             get { return m_CurrentAccounts; }
         }
 
-        //----- Static
-
-        private Account m_CurrentAccount;
-        
-        public Account CurrentAccount
-        {
-            get { return m_CurrentAccount; }
-            set { m_CurrentAccount = value; }
-        }
+        public Account CurrentAccount { get; set; }
 
         public ClientConnection(Socket socket) : base(socket) {
+            Logger.Trace("Client IP: {0} connected", this);
             DisconnectedEvent += ClientConnection_DisconnectedEvent;
             m_LittleEndian = true;
-            Logger.Trace("Client IP: {0} connected", this);
         }
 
         public override void SendAsync(NetPacket packet)
@@ -42,28 +34,25 @@ namespace ArcheAge.ArcheAge.Net.Connections
             packet.IsArcheAgePacket = true;
             base.SendAsync(packet);
         }
-        public  void SendAsyncd(NetPacket packet)
+        public void SendAsyncd(NetPacket packet)
         {
             packet.IsArcheAgePacket = false;
             base.SendAsync(packet);
         }
         void ClientConnection_DisconnectedEvent(object sender, EventArgs e)
         {
-            Dispose();
             Logger.Trace("Client IP: {0} disconnected", this);
+            Dispose();
         }
 
         public override void HandleReceived(byte[] data)
         {
             PacketReader reader = new PacketReader(data, 0);
-
-            //Logger.Trace("Allocated Memory = " + (Process.GetCurrentProcess().PrivateMemorySize64 / 1000000) + " MB");
-
             //reader.Offset += 1; //Undefined Random Byte
             byte seq = reader.ReadByte();
             byte header = reader.ReadByte(); //Packet Level
             ushort opcode = reader.ReadLEUInt16(); //Packet Opcode
-
+            //пока не смог дешифровать клиентские пакеты, придется делать так
             if (header == 0x05)
             {
                 reader.Offset -= 2; //вернемся к hash, count
@@ -73,12 +62,24 @@ namespace ArcheAge.ArcheAge.Net.Connections
                 {
                     opcode = 0x0088; //пакет на релогин
                 }
+                //if (hash == 0x37)
+                //{
+                //    opcode = 0x008B; //вход в игру2
+                //}
+                if (hash == 0x38)
+                {
+                    opcode = 0x008A; //вход в игру1
+                }
+                //if (hash == 0x39)
+                //{
+                //    opcode = 0x008C; //вход в игру3
+                //}
                 //reader.Offset -= 2; //Undefined Random Byte
             }
 
             if (!DelegateList.ClientHandlers.ContainsKey(header))
             {
-                Logger.Trace("Received undefined seq {0} packet Level {1} - Opcode 0x{2:X2}", seq, header, opcode);
+                Logger.Trace("Received undefined packet - seq: {0}, header: {1}, opcode: 0x{2:X2}", seq, header, opcode);
                 return;
             }
             try { 
@@ -86,12 +87,12 @@ namespace ArcheAge.ArcheAge.Net.Connections
                 if (handler != null)
                     handler.OnReceive(this, reader);
                 else
-                    Logger.Trace("Received undefined seq {0} packet Level {1} - Opcode 0x{2:X2}", seq, header, opcode);
+                    Logger.Trace("Received undefined packet - seq: {0}, header: {1}, opcode: 0x{2:X2}", seq, header, opcode);
             }
-            catch(Exception exp)
+            catch (Exception)
             {
-                Logger.Trace("Received undefined seq {0} packet Level2 {1} - Opcode 0x{2:X2}", seq, header, opcode);
-                throw exp;
+                Logger.Trace("Received undefined packet - seq: {0}, header: {1}, opcode: 0x{2:X2}", seq, header, opcode);
+                throw;
             }
         }
     }

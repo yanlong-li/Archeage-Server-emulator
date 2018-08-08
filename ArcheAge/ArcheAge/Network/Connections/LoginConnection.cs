@@ -1,27 +1,25 @@
 ﻿using LocalCommons.Logging;
 using LocalCommons.Network;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Sockets;
-using System.Text;
 
-namespace ArcheAge.ArcheAge.Net.Connections
+namespace ArcheAge.ArcheAge.Network.Connections
 {
     /// <summary>
     /// Connection That Used For Login Server Connection.
     /// </summary>
     public class LoginConnection : IConnection
     {
-        public LoginConnection(Socket socket) : base(socket) {
-            Logger.Trace("Connection server, installation data...");
+        public LoginConnection(Socket socket) : base(socket)
+        {
+            Logger.Trace("Connected to LoginServer, installing data...");
             DisconnectedEvent += LoginConnection_DisconnectedEvent;
             SendAsync(new Net_RegisterGameServer());
         }
 
         void LoginConnection_DisconnectedEvent(object sender, EventArgs e)
         {
-            Logger.Trace("Login server {0}: disconnected", this);
+            Logger.Trace("LoginServer IP: {0} disconnected", this);
             Dispose();
         }
 
@@ -33,7 +31,7 @@ namespace ArcheAge.ArcheAge.Net.Connections
             if (handler != null)
                 handler.OnReceive(this, reader);
             else
-                Logger.Trace("Undefined packet received 0x{0:x2", opcode);
+                Logger.Trace("Received Undefined Packet 0x{0:x2}", opcode);
         }
     }
 }

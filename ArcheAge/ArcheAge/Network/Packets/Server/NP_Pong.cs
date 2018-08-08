@@ -1,7 +1,7 @@
 ﻿using LocalCommons.Network;
 using System;
 
-namespace ArcheAge.ArcheAge.Net
+namespace ArcheAge.ArcheAge.Network
 {
     public sealed class NP_Pong : NetPacket
     {
@@ -15,7 +15,7 @@ namespace ArcheAge.ArcheAge.Net
             ns.Write((long)0x00); //elapsed
             ns.Write((long)(Environment.TickCount & int.MaxValue) * 1000); //remote
             ns.Write(local); //local
-            ns.Write(Environment.TickCount & int.MaxValue); //world
+            ns.Write((uint)Environment.TickCount & int.MaxValue); //world
         }
     }
 }

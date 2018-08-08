@@ -1,4 +1,4 @@
-﻿using ArcheAge.ArcheAge.Net.Connections;
+﻿using ArcheAge.ArcheAge.Network.Connections;
 using ArcheAge.Properties;
 using LocalCommons.Network;
 using System;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ArcheAge.ArcheAge.Net
+namespace ArcheAge.ArcheAge.Network
 {
     /// <summary>
     /// Sends Request To Login Server For Authorization.
@@ -18,6 +18,7 @@ namespace ArcheAge.ArcheAge.Net
             Settings m_Default = Settings.Default;
             ns.Write((byte)m_Default.Game_Id);
             ns.Write((short)m_Default.ArcheAge_Port);
+
             ns.WriteDynamicASCII(m_Default.ArcheAge_IP);
             ns.WriteDynamicASCII(m_Default.Game_Password);
         }
@@ -32,47 +33,6 @@ namespace ArcheAge.ArcheAge.Net
         {
             ns.Write((int)accountId);
             ns.Write((int)characters);
-        }
-    }
-
-    public sealed class test : NetPacket
-    {
-        public test() : base(0x0100, true)
-        {
-            //ns.Write((byte)0x00);
-            //ns.Write((byte)0x01);
-            ns.Write((byte)0xff);
-            ns.Write((byte)0xfe);
-            ns.Write((short)0x00);
-            ns.Write((byte)0xcc);
-            ns.Write((byte)0x04);
-            ns.Write((short)0x00);
-            ns.Write((byte)0xca);
-            ns.Write((byte)0x04);
-            ns.Write((short)0x00);
-            ns.Write((byte)0xeb);
-            ns.Write((byte)0x63);
-            ns.Write((byte)0x4a);
-            ns.Write((byte)0x1d);
-            ns.Write((short)0x00);
-            ns.Write((short)0x00);
-            ns.Write((byte)0xf2);//
-            ns.Write((byte)0x0b);//
-            ns.Write((byte)0xe9);//
-            ns.Write((byte)0x7a);//
-            ns.Write((byte)0xff);
-            ns.Write((byte)0xff);
-            ns.Write((byte)0xff);
-            ns.Write((byte)0xff);
-            ns.Write((byte)0x00);
-            ns.Write((byte)0x81);
-            ns.Write((byte)0x85);
-            ns.Write((byte)0x05);
-            ns.Write((short)0x00);
-            ns.Write((int)0x00);
-            ns.Write((int)0x00);
-            ns.Write((int)0x00);
-            ns.Write((int)0x00);
         }
     }
 }

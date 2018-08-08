@@ -24,14 +24,14 @@ namespace ArcheAgeProxy.ArcheAge.Network
 
         public ProxyConnection(Socket socket) : base(socket) 
         {
-            Logger.Trace("Proxy Server IP: {0} connected", this);
+            Logger.Trace("Client IP: {0} connected", this);
             DisconnectedEvent += GameConnection_DisconnectedEvent;
             m_LittleEndian = true;
         }
 
         void GameConnection_DisconnectedEvent(object sender, EventArgs e)
         {
-            Logger.Trace("Proxy Server IP: {0} disconnected", m_CurrentInfo != null ? m_CurrentInfo.Id.ToString() : this.ToString());
+            Logger.Trace("Client IP: {0} disconnected", m_CurrentInfo != null ? m_CurrentInfo.Id.ToString() : this.ToString());
             Dispose();
             //ProxyServerController.DisconnecteProxyServer(m_CurrentInfo != null ? m_CurrentInfo.Id : this.CurrentInfo.Id);
             m_CurrentInfo = null;

@@ -46,17 +46,15 @@ namespace ArcheAgeLogin.ArcheAge.Holders
                 while (reader.Read())
                 {
                     Account account = new Account();
-                    account.AccessLevel = (byte)reader.GetInt32("mainaccess");
-                    //account.AccId = reader.GetInt64("id");
-                    //account.AccountId = reader.GetInt64("accountid");
+                    account.AccessLevel = reader.GetByte("mainaccess");
                     account.AccountId = reader.GetInt64("id");
                     account.Name = reader.GetString("name");
                     account.Password = reader.GetString("password");
                     account.Token = reader.GetString("token");
                     account.LastEnteredTime = reader.GetInt64("last_online");
                     account.LastIp = reader.GetString("last_ip");
-                    account.Membership = (byte)reader.GetInt32("useraccess");
-                    account.Characters = reader.GetInt32("characters");
+                    account.Membership = reader.GetByte("useraccess");
+                    account.Characters = reader.GetByte("characters");
                     account.Session = reader.GetInt32("cookie");
                     m_DbAccounts.Add(account);
                 }
@@ -123,7 +121,7 @@ namespace ArcheAgeLogin.ArcheAge.Holders
                 parameters.Add("@useraccess", MySqlDbType.Byte).Value = account.Membership;
                 parameters.Add("@lastip", MySqlDbType.String).Value = account.LastIp;
                 parameters.Add("@lastonline", MySqlDbType.Int64).Value = account.LastEnteredTime;
-                parameters.Add("@characters", MySqlDbType.Int32).Value = account.Characters;
+                parameters.Add("@characters", MySqlDbType.Byte).Value = account.Characters;
                 parameters.Add("@cookie", MySqlDbType.Int32).Value = account.Session;
 
                 if (m_DbAccounts.Contains(account))

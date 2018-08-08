@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ArcheAgeLogin.ArcheAge.Structuring;
+using ArcheAgeLogin.ArcheAge.Holders;
 
 namespace ArcheAgeLogin.ArcheAge.Network
 {
@@ -17,7 +18,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
         {
             if (clientVersion == "3")
             {
-                //v.3.0
+                //v.3.0.3.0
                 /*
                 [2]             S>c             0ms.            20:17:29 .900      05.07.18
                 -------------------------------------------------------------------------------
@@ -91,6 +92,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
             
             2D00 0300 1AC7000000000000 2000 3346393243304532324430383344313843333233353433363932413442373630 00
              */
+            //v.3.0.3.0
             if (clientVersion == "3")
             {
                 ns.Write((long)net.CurrentAccount.AccountId); // записываем AccountID
@@ -153,6 +155,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
             0004     1   byte          source            1          | $01
             0005    37   WideStr[byte] msg               You are in X2 Auth Server, welcome!  ($)
             */
+            //v.3.0.3.0
             if (clientVersion == "3")
             {
                 byte source = 1;
@@ -192,11 +195,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
             000B     1   byte          IP1               178        | $B2 'І'
             000C     2   word          port              1239       | $04D7
             */
-            //надо слать
-            //1E000A00 1449AB07 7F7E20B2 D704000000000000000000000000000000000000
-            //отсылаем
-            //1E000A00 1449AB07 0100007F 04D7000000000000000000000000000000000000
-            //1E000A00 1449AB07 0100007F D704000000000000000000000000000000000000
+            //v.3.0.3.0
             var ipArray = server.IPAddress.Split('.');
             if (ipArray.Length == 4)
             {
@@ -226,15 +225,14 @@ namespace ArcheAgeLogin.ArcheAge.Network
     }
 
     /// <summary>
-    ///Sends Information About Current Servers To Client.
-    ///About server information sent to Client
+    /// Sends Information About Current Servers To Client.
     /// </summary>
     public sealed class AcWorldList_0X08 : NetPacket
     {
         /// <summary>
-        ///     Send server list
+        /// Send server list
         /// </summary>
-        public AcWorldList_0X08(string clientVersion) : base(0x08, true)
+        public AcWorldList_0X08(string clientVersion, ArcheAgeConnection net) : base(0x08, true)
         {
             /*
             [5]             S>c             0ms.            23:03:31 .885      23.06.18
@@ -293,12 +291,13 @@ namespace ArcheAgeLogin.ArcheAge.Network
             //ns.WriteHex("0101010009004172636865526167650100000000000000000000011AC70000000000000152770100060052656D6F7461030210001F3F1EE73B4D974BA9F5659BA68279570000000000000000");
             //1D000800  //пробная запись - сервер ArcheRage, нет чаров, начало создания
             ////ns.WriteHex("010101000900417263686552616765010000000000000000000000");
-            //Посылаем список серверов, количество чаров на аккаунтах 2
-            var mCurrent = GameServerController.CurrentGameServers.Values.ToList();
+            //v.3.0.3.0
+            //Посылаем список серверов, количество чаров на аккаунтах
+            var m_Current = GameServerController.CurrentGameServers.Values.ToList();
             //Write The number of servers
-            ns.Write((byte)mCurrent.Count);
+            ns.Write((byte)m_Current.Count);
             //Информация по серверу
-            foreach (var server in mCurrent)
+            foreach (var server in m_Current)
             {
                 ns.Write((byte)server.Id);
                 ns.Write((byte)0x01); //надпись в списке серверов 00-нет надписи, 01- НОВЫЙ, 02-ОБЪЕДИНЕННЫЙ, 03-ОБЪЕДИНЕННЫЙ, 04-нет надписи
@@ -320,41 +319,34 @@ namespace ArcheAgeLogin.ArcheAge.Network
                 ns.Write((byte)0x00);
                 ns.Write((byte)0x00); //War Mozu 
             }
-            //Write The current user account number
-            //Количество чаров на аккаунте = 0
-            //ns.Write((byte)0x00); //CharCount = 0
-           
-            ns.Write((byte)0x02); //CharCount = 2
-            //Num=1
-            ns.Write((long)0x0000C71A); //AccountID
-            ns.Write((byte)0x01); //WorldID
-            ns.Write((int)0x000194D7); //type
-            //String. CharName. Probably Last Character.
-            ns.WriteASCIIFixed("Remota", "Remota".Length);
-            ns.Write((byte)0x03); //Char Race - 01=нуиане, 03 = гномы
-            ns.Write((byte)0x02); //CharGender - 01-М, 02=Ж
-            //Параметры чара
-            string message = "BB86EF4CD60C41FA0B3E0C9CFB9559A0";  //"DC0D0CFCD3E01847AD2A5D55EA471CDF"; //для теста
-            
-            ns.WriteHex(message, message.Length);
-            ns.Write((long)0x00); //v ?
-            
-            //Num=2
-            ns.Write((long)0x0000C71A); //AccountID
-            ns.Write((byte)0x01); //WorldID
-            ns.Write((int)0x0001E796); //type
-            //String. CharName. Probably Last Character.
-            ns.WriteASCIIFixed("Develo", "Develo".Length);
-            ns.Write((byte)0x01); //Char Race - 01=нуиане, 03 = гномы
-            ns.Write((byte)0x02); //CharGender - 01-М, 02=Ж
-            //Параметры чара
-            message = "E386CC4FC68761E393FDE59B70EAC557"; //"CECB8598F541B04BA674C7834DDC5D14"; //для теста
 
-            ns.WriteHex(message, message.Length);
-            ns.Write((long)0x00); //v ?
-            
+            CharacterHolder.LoadCharacterData(); //считываем героев
+            byte CharCount = net.CurrentAccount.Characters; //смотрим сколько героев на аккаунте
+            //Write The current user account number
+            ns.Write((byte)CharCount); //CharCount
+            if (CharCount != 0)
+            {
+                long m_AccountId = net.CurrentAccount.AccountId; //считываем только наших героев
+                foreach (Character n_Current in CharacterHolder.CharactersList)
+                {
+                    if (n_Current.AccountId == m_AccountId)
+                    {
+                        ns.Write((long)n_Current.AccountId); //AccountID
+                        ns.Write((byte)n_Current.WorldId); //WorldID
+                        ns.Write((int)n_Current.Type); //type
+                        string charname = n_Current.CharName;
+                        ns.WriteASCIIFixed(charname, charname.Length);
+                        ns.Write((byte)n_Current.CharRace); //Char Race - 01=нуиане, 03 = гномы
+                        ns.Write((byte)n_Current.CharGender); //CharGender - 01-М, 02=Ж
+                        string uid = n_Current.GUID;  //UID - Параметры чара
+                        ns.WriteHex(uid, uid.Length);
+                        ns.Write((long)n_Current.V); //v
+                    }
+                }
+            }
         }
     }
+    
     /// <summary>
     /// Sends Request To Specified Game Server by Entered Information
     /// </summary>
@@ -621,23 +613,24 @@ namespace ArcheAgeLogin.ArcheAge.Network
     /// </summary>
     public sealed class NP_ACLoginDenied_0x0C : NetPacket
     {
-        /*
-         [2]             S>c             0ms.            14:40:40 .831      21.07.18
-         -------------------------------------------------------------------------------
-          TType: ArcheageServer: LS1     Parse: 6           EnCode: off         
-         ------- 0  1  2  3  4  5  6  7 -  8  9  A  B  C  D  E  F    -------------------
-         000000 07 00 0C 00 02 00 00 00 | 00                          .........
-         -------------------------------------------------------------------------------
-         Archeage: "ACLoginDenied"                    size: 9      prot: 2  $002
-         Addr:  Size:    Type:         Description:     Value:
-         0000     2   word          psize             7          | $0007
-         0002     2   word          ID                12         | $000C
-         0004     2   byte          reason            2          | $0002 
-         0004     2   word          ___               0          | $0000 
-         0004     2   word          ___               0          | $0000 
-         */
         public NP_ACLoginDenied_0x0C() : base(0x0C, true)
         {
+            /*
+             [2]             S>c             0ms.            14:40:40 .831      21.07.18
+             -------------------------------------------------------------------------------
+              TType: ArcheageServer: LS1     Parse: 6           EnCode: off         
+             ------- 0  1  2  3  4  5  6  7 -  8  9  A  B  C  D  E  F    -------------------
+             000000 07 00 0C 00 02 00 00 00 | 00                          .........
+             -------------------------------------------------------------------------------
+             Archeage: "ACLoginDenied"                    size: 9      prot: 2  $002
+             Addr:  Size:    Type:         Description:     Value:
+             0000     2   word          psize             7          | $0007
+             0002     2   word          ID                12         | $000C
+             0004     2   byte          reason            2          | $0002 
+             0004     2   word          ___               0          | $0000 
+             0004     2   word          ___               0          | $0000 
+             */
+            //v.3.0.3.0
             ns.Write((byte)0x02);  //Reason "нет такого пользователя"
             ns.Write((short)0x00); //Undefined
             ns.Write((short)0x00); //Undefined

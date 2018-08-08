@@ -1,42 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ArcheAgeLogin.ArcheAge.Network;
+﻿using ArcheAgeLogin.ArcheAge.Network;
 
 namespace ArcheAgeLogin.ArcheAge.Structuring
 {
     /// <summary>
-    /// Structure For Accounts.
+    /// Stucture That Contains Information About Account
     /// </summary>
     public class Account
     {
-        private string m_PassHash;
-        private bool m_WaitingReAuthorization;
-
-        public int Characters { get; set; }
+        public byte Characters { get; set; }
 
         public int Session { get; set; }
 
-        public bool IsWaitingForReAuthorization
-        {
-            get { return m_WaitingReAuthorization; }
-            set { m_WaitingReAuthorization = value; }
-        }
+        public bool IsWaitingForReAuthorization { get; set; }
 
         public ArcheAgeConnection Connection { get; set; }
 
         public string Name { get; set; }
 
-        //public long AccId { get; set; }
-
         public long AccountId { get; set; }
 
-        public string Password
-        {
-            get { return m_PassHash; }
-            set { m_PassHash = value; }
-        }
+        public string Password { get; set; }
 
         public string Token { get; set; }
 

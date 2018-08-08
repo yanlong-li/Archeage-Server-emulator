@@ -1,15 +1,12 @@
-﻿using ArcheAge.ArcheAge.Net.Connections;
+﻿using ArcheAge.ArcheAge.Network.Connections;
 using ArcheAge.ArcheAge.Structuring;
 using LocalCommons.Logging;
 using LocalCommons.Network;
-using LocalCommons.Utilities;
-using LocalCommons.Cryptography;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading;
 
-namespace ArcheAge.ArcheAge.Net
+namespace ArcheAge.ArcheAge.Network
 {
     /// <summary>
     /// Delegate List That Contains Information About Received Packets.
@@ -19,7 +16,7 @@ namespace ArcheAge.ArcheAge.Net
     {
         private static int m_Maintained;
         private static PacketHandler<LoginConnection>[] m_LHandlers;
-        private static PacketHandler<ClientConnection>[] m_CHandlers;
+        //private static PacketHandler<ClientConnection>[] m_CHandlers;
         private static Dictionary<int, PacketHandler<ClientConnection>[]> levels;
         private static LoginConnection m_CurrentLoginServer;
 
@@ -68,6 +65,9 @@ namespace ArcheAge.ArcheAge.Net
             Register(0x01, 0xE17B, new OnPacketReceive<ClientConnection>(OnPacketReceive_ClientE17B));
             Register(0x05, 0x0438, new OnPacketReceive<ClientConnection>(OnPacketReceive_Client0438));
             Register(0x05, 0x0088, new OnPacketReceive<ClientConnection>(OnPacketReceive_ReloginRequest_0x0088));
+            Register(0x05, 0x008A, new OnPacketReceive<ClientConnection>(OnPacketReceive_ReloginRequest_0x008A));  //вход в игру1
+            Register(0x05, 0x008B, new OnPacketReceive<ClientConnection>(OnPacketReceive_ReloginRequest_0x008B));  //вход в игру2
+            Register(0x05, 0x008C, new OnPacketReceive<ClientConnection>(OnPacketReceive_ReloginRequest_0x008C));  //вход в игру3
             //Register(0x02, 0x12, new OnPacketReceive<ClientConnection>(Onpacket0212));
             //Register(0x01, 0x7f1b, new OnPacketReceive<ClientConnection>(OnPacketReceive_Client01));
             ////Register(0x01, 0x00, new OnPacketReceive<ClientConnection>(OnPacketReceive_ClientAuthorized));
@@ -84,20 +84,44 @@ namespace ArcheAge.ArcheAge.Net
         //}
 
         #region Client Callbacks Implementation
+
+        public static void OnPacketReceive_ReloginRequest_0x008A(ClientConnection net, PacketReader reader)
+        {
+            ///клиентский пакет  Recv: 130000053829157BA816DB909183220859E934EFF6
+            Thread.Sleep(100);
+            net.SendAsyncHex(new NP_EnterGame_008A());//вход в игру1
+            Thread.Sleep(100);
+            net.SendAsyncHex(new NP_EnterGame_008B());//вход в игру2
+            Thread.Sleep(1000);
+            net.SendAsyncHex(new NP_EnterGame_008C());//вход в игру3
+        }
+        public static void OnPacketReceive_ReloginRequest_0x008B(ClientConnection net, PacketReader reader)
+        {
+            ///клиентский пакет  Recv: 1300000537FB7953620E7795FBC8E7711B12F1C576
+            net.SendAsync(new NP_EnterGame_008B());//вход в игру2
+        }
+        public static void OnPacketReceive_ReloginRequest_0x008C(ClientConnection net, PacketReader reader)
+        {
+            ///клиентский пакет  Recv: 1300000539D9592501CE71E1C968966075860E1BDF
+            net.SendAsync(new NP_EnterGame_008C());//вход в игру3
+        }
+
         /// <summary>
-        /// Verify user login permissions do not know how to use, abandoned
+        /// Verify user login permissions
         /// </summary>
+        /// <param name="net"></param>
+        /// <param name="reader"></param>
         public static void OnPacketReceive_X2EnterWorld(ClientConnection net, PacketReader reader)
         {
-            //v.3.0.0.7
+            //v.3.0.3.0
             /*
-            [1]             C>s             0ms.            22:13:45 .071      08.06.18
+            [1]             C>s             0ms.            19:48:01 .455      25.07.18
             -------------------------------------------------------------------------------
              TType: ArcheageServer: GS1     Parse: 6           EnCode: off         
             ------- 0  1  2  3  4  5  6  7 -  8  9  A  B  C  D  E  F    -------------------
-            000000 28 00 00 01 00 00 00 00 | 1C 05 00 00 1C 05 00 00     (...............
-            000010 01 00 00 00 00 00 00 00 | 14 49 AB 07 FF FF FF FF     .........I«.ÿÿÿÿ
-            000020 00 07 E8 04 00 00 00 00 | 00 00                       ..è.......
+            000000 28 00 00 01 00 00 00 00 | 6D 05 00 00 6D 05 00 00     (.......m...m...
+            000010 1A C7 00 00 00 00 00 00 | 28 10 B4 7A FF FF FF FF     .З......(.ґzяяяя
+            000020 00 F3 0C 05 00 00 00 00 | 00 00                       .у........
             -------------------------------------------------------------------------------
             Archeage: "X2EnterWorld"                     size: 42     prot: 2  $002
             Addr:  Size:    Type:         Description:     Value:
@@ -105,15 +129,18 @@ namespace ArcheAge.ArcheAge.Net
             0002     2   word          type              256        | $0100
             0004     2   word          ID                0          | $0000
             0006     2   word          type              0          | $0000
-            0008     4   integer       p_from            1308       | $0000051C
-            000C     4   integer       p_to              1308       | $0000051C
-            0010     8   int64         accountId         1          | $00000001
-            0018     4   integer       cookie            128665876  | $07AB4914
+            0008     4   integer       p_from            1389       | $0000056D
+            000C     4   integer       p_to              1389       | $0000056D
+            0010     8   int64         accountId         50970      | $0000C71A
+            0018     4   integer       cookie            2058620968 | $7AB41028
             001C     4   integer       zoneId            -1         | $FFFFFFFF
-            0020     2   word          tb                1792       | $0700
-            0022     4   integer       revision          1256       | $000004E8
-            0026     4   integer       index             0          | $00000000            
-            */
+            0020     2   word          tb                62208      | $F300
+            0022     4   integer       revision          1292       | $0000050C
+            0026     4   integer       index             0          | $00000000
+            
+            Recv: 2800 0001 0000 0000 6D050000 6D050000 1AC7000000000000 2810B47A FFFFFFFF 00F3 0C050000 00000000
+             */
+            //type и ID нет в теле пакета (забрано ранее)
             //reader.Offset += 2; //Undefined Random Byte
             short type = reader.ReadLEInt16(); //type
             int pFrom = reader.ReadLEInt32(); //p_from
@@ -122,14 +149,15 @@ namespace ArcheAge.ArcheAge.Net
             int cookie = reader.ReadLEInt32(); //cookie
             int zoneId = reader.ReadLEInt32(); //User Session Id? zoneId?
             //reader.Offset += 1; //Undefined Random Byte
-            short tb = reader.ReadByte(); //tb
+            short tb = reader.ReadLEInt16(); //tb
             int revision = reader.ReadLEInt32(); //revision
             int index = reader.ReadLEInt32(); //index
 
             //пропускаем недо X2EnterWorld
-            if (type == 0)
-            { 
-                Account m_Authorized = ClientConnection.CurrentAccounts.FirstOrDefault(kv => kv.Value.AccountId == accountId).Value;
+            //if (type == 0)
+            {
+                //Account m_Authorized = ClientConnection.CurrentAccounts.First(kv => kv.Value.Session == cookie).Value;
+                Account m_Authorized = ClientConnection.CurrentAccounts.First(kv => kv.Value.AccountId == accountId).Value;
                 //Account m_Authorized = ClientConnection.CurrentAccounts.FirstOrDefault(kv => kv.Value.Session == cookie && kv.Value.AccountId == accountId).Value;
                 if (m_Authorized == null)
                 {
@@ -146,8 +174,18 @@ namespace ArcheAge.ArcheAge.Net
                     //DD02 C>S
                     net.SendAsync(new NP_ChangeState(-1)); //начальный пакет NP_ChangeState с параметром 0
                 }
+                ////пропускаем недо X2EnterWorld
+                //if (type == 0x01D0)
+                //{
+                //    //первый пакет DD05 S>C
+                //    //0x01 0x0000_X2EnterWorldPacket
+                //    //net.SendAsyncHex(new NP_X2EnterWorldResponsePacket());
+                //    net.SendAsync(new NP_X2EnterWorldResponsePacket2());
+                //    //DD02 C>S
+                //    net.SendAsync(new NP_ChangeState(-1)); //начальный пакет NP_ChangeState с параметром 0
+                //}
             }
-        }
+            }
         public static void OnPacketReceive_FinishState0201(ClientConnection net, PacketReader reader)
         {
             int state = reader.ReadLEInt32(); //считываем state
@@ -213,22 +251,30 @@ namespace ArcheAge.ArcheAge.Net
             net.SendAsync(new NP_Packet_0x00EC_2()); //2A00DD05EA6F6B03D3A2724213E3B3835323F4C4946434053B833B2816E6B6865727F7C797704010E0B08151
             net.SendAsync(new NP_Packet_0x008C());   //FE00DD0595F92296663707D7A7775020F0C090613101D1A1724212E2B2835323F3C494643404D5A5754515E6B6865626F7C7976737FED0A0704011E1B1815122F2C292623303D3A3734414E4B4845525F5C596663606D6A7774717E7C0906030FED1A1714111E2B2825222F3C393633304D4A4744415E5B5855526F6C696663707D7A7774010E0B0815121F1C192623202D2A3734313E3B4845424F4C595653505D6A6764616E7B7875727FED0A0704011E1B1815122F2C292623303D3A3744414E4B4855525F5C596663606D6A7774717E7B0805020F0C191613101D2A2724212E3B3835323F4C494643405D5A5754516E6B6865727F7C797704010E0B08151
             net.SendAsync(new NP_Packet_0x014D());   //0F00DD050637C9C697704010E0B0815186
+            //var ii = GameServerController.AuthorizedAccounts.FirstOrDefault(n => n.Value.AccountId == net.CurrentAccount.AccountId);
             //список чаров
-            net.SendAsync(new NP_Packet_CharList_0x0079()); //0209DD051E05ACB68556F261C495603654B3CB183376E4B591B032F
-            //не забыть установить кол-во чаров в ArcheAgeLoginServer :: ArcheAgePackets.cs :: AcWorldList_0X08
-            //net.SendAsync(new NP_Packet_CharList_empty_0x0079()); //0800DD05FEA1C9531140
+            if (net.CurrentAccount.Characters == 2)
+            {
+                net.SendAsync(new NP_Packet_CharList_0x0079()); //0209DD051E05ACB68556F261C495603654B3CB183376E4B591B032F
+                                                                //эти пакеты нужны когда есть чары в лобби
+                //net.SendAsync(new NP_Packet_0x014F()); //2400DD0564F11F825223F4C495643405D55A754516E634B7D47DF7C797704010E0B081514272
+                net.SendAsync(new NP_Packet_0x0145());   //1D00DD052777B6070231744517E6BD86214285B4FE1F2E30D1BD8B5DC4F423
+                net.SendAsync(new NP_Packet_0x0145_2()); //1D00DD051C70B6070231744514E6BD86214285B4FE1F2E30D2BD8B5DC4F423
+                net.SendAsync(new NP_Packet_0x0145_3()); //1D00DD050D71B6074342744517E6BD86214285B4FE1F2E30D1BD8B5DC4F423
+                net.SendAsync(new NP_Packet_0x0145_4()); //1D00DD05FA72B6074342744514E6BD86214285B4FE1F2E30D2BD8B5DC4F423
+            }
+            else
+            {
+                //не забыть установить кол-во чаров в ArcheAgeLoginServer :: ArcheAgePackets.cs :: AcWorldList_0X08
+                net.SendAsync(new NP_Packet_CharList_empty_0x0079()); //0800DD05FEA1C9531140
+                net.SendAsync(new NP_Packet_0x014F()); //2400DD0564F11F825223F4C495643405D55A754516E634B7D47DF7C797704010E0B081514272
+            }
             ///идет клиентский пакет 13000005393DB7A29CAA4C2365F02DB94C5B18BB50
             ///идет клиентский пакет 1300000539297EE205DC192D2A33B7071BC23B38BC
             ///идет клиентский пакет 1300000539B1D74AE4C48857E02BAB7E33AF496A8C
             ///идет клиентский пакет 1300000539211BA0D0AC0DE28974E1158F1BE5BB86
-            net.SendAsync(new NP_Packet_0x014F()); //2400DD0564F11F825223F4C495643405D55A754516E634B7D47DF7C797704010E0B081514272
-            //net.SendAsync(new NP_Packet_quit_0x00A5());
 
-            //эти пакеты нужны когда есть чары в лобби
-            net.SendAsync(new NP_Packet_0x0145());   //1D00DD052777B6070231744517E6BD86214285B4FE1F2E30D1BD8B5DC4F423
-            net.SendAsync(new NP_Packet_0x0145_2()); //1D00DD051C70B6070231744514E6BD86214285B4FE1F2E30D2BD8B5DC4F423
-            net.SendAsync(new NP_Packet_0x0145_3()); //1D00DD050D71B6074342744517E6BD86214285B4FE1F2E30D1BD8B5DC4F423
-            net.SendAsync(new NP_Packet_0x0145_4()); //1D00DD05FA72B6074342744514E6BD86214285B4FE1F2E30D2BD8B5DC4F423
+            //net.SendAsync(new NP_Packet_quit_0x00A5());
         }
         public static void OnPacketReceive_Client0438(ClientConnection net, PacketReader reader)
         {
@@ -238,8 +284,8 @@ namespace ArcheAge.ArcheAge.Net
         public static void OnPacketReceive_ReloginRequest_0x0088(ClientConnection net, PacketReader reader)
         {
             ///клиентский пакет на релогин Recv: 13 00 00 05 34 0E 6F 39 8E 0A E3 5C E5 B9 85 25 D3 3E B3 8A 74
-            net.SendAsync(new NP_Packet_quit_0x01F1()); //good bye
-            net.SendAsync(new NP_Packet_0x01E5()); //good bye
+            net.SendAsync(new NP_Packet_quit_0x01F1()); //Good-Bye
+            net.SendAsync(new NP_Packet_0x01E5()); //
         }
 
         /// <summary>
@@ -328,24 +374,34 @@ namespace ArcheAge.ArcheAge.Net
         /// <summary>
         /// Логин сервер передал Гейм серверу пакет с информацией об подключаемом аккаунте
         /// </summary>
+        /// <param name="net"></param>
+        /// <param name="reader"></param>
         private static void Handle_AccountInfoReceived(LoginConnection net, PacketReader reader)
         {
+            /*
+                5400 0100
+                1AC7000000000000 61617465737400 616174657374616100 333165333466326237326439336262323564356632376265386139346334373800 01 01 3132372E302E302E3100 4329871565010000 02 2810B47A
+            */
             //Set Account Info
             Account account = new Account
             {
                 //reader.Offset += 2; //Undefined Random Byte
-                AccountId = reader.ReadLEInt64(), //вместо AccountID
+                AccountId = reader.ReadLEInt64(),
+                Name = reader.ReadDynamicString(),
+                Password = reader.ReadDynamicString(),
+                Token = reader.ReadDynamicString(),
                 AccessLevel = reader.ReadByte(),
                 Membership = reader.ReadByte(),
-                Name = reader.ReadDynamicString(),
-                //account.Password = reader.ReadDynamicString();
-                Session = reader.ReadLEInt32(),
+                LastIp = reader.ReadDynamicString(),
                 LastEnteredTime = reader.ReadLEInt64(),
-                LastIp = reader.ReadDynamicString()
+                Characters = reader.ReadByte(),
+                Session = reader.ReadLEInt32()
             };
             Logger.Trace("Prepare login account ID: " + account.AccountId);
             //Check if the account is online and force it to disconnect online
             Account m_Authorized = ClientConnection.CurrentAccounts.FirstOrDefault(kv => kv.Value.AccountId == account.AccountId).Value;
+            //Account m_Authorized = ClientConnection.CurrentAccounts.FirstOrDefault(kv => kv.Value.Session == account.Session && kv.Value.AccountId == account.AccountId).Value;
+            //Account m_Authorized = ClientConnection.CurrentAccounts.FirstOrDefault(kv => kv.Value.Session == account.Session).Value;
             if (m_Authorized != null)
             {
                 //Already
@@ -357,23 +413,45 @@ namespace ArcheAge.ArcheAge.Net
                 }
                 else
                 {
-                    ClientConnection.CurrentAccounts.Remove(account.Session);
+                    ClientConnection.CurrentAccounts.Remove(m_Authorized.Session);
+                    Logger.Trace("Account Name: " + acc.Name + " double connection is forcibly disconnected");
                 }
             }
             else
             {
-                Logger.Trace("Account Name: {0}, Session(cookie): {1} authorized", account.Name, account.Session);
                 ClientConnection.CurrentAccounts.Add(account.Session, account);
+                Logger.Trace("Account Name: {0}, Session(cookie): {1} authorized", account.Name, account.Session);
             }
+            //if (ClientConnection.CurrentAccounts.ContainsKey(account.Session))
+            //{
+            //    //Already
+            //    Account acc = ClientConnection.CurrentAccounts[account.Session];
+            //    if (acc.Connection != null)
+            //    {
+            //        acc.Connection.Dispose(); //Disconenct  
+            //        Logger.Trace("Account " + acc.Name + " Was Forcibly Disconnected");
+            //    }
+            //    else
+            //    {
+            //        Logger.Trace("Account " + account.Name + " was forcibly disconnected");
+            //        ClientConnection.CurrentAccounts.Remove(account.Session);
+            //    }
+            //}
+            //else
+            //{
+            //    Logger.Trace("Account {0}: Authorized", account.Name);
+            //    ClientConnection.CurrentAccounts.Add(account.Session, account);
+            //}
+
         }
 
         private static void Handle_GameRegisterResult(LoginConnection con, PacketReader reader)
         {
             bool result = reader.ReadBoolean();
             if (result)
-                Logger.Trace("Successfully installed login server");
+                Logger.Trace("LoginServer successfully installed");
             else
-                Logger.Trace("Some issues arise when installing the login server");
+                Logger.Trace("Some problems are appear while installing LoginServer");
             if (result)
                 m_CurrentLoginServer = con;
         }

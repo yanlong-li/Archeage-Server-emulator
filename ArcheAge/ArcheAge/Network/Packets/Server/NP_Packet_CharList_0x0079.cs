@@ -38,10 +38,10 @@ namespace ArcheAge.ArcheAge.Network
             ///0600 52656D6F7461 (Remota)
             string msg = "Remota";
             ns.WriteUTF8Fixed(msg, msg.Length);
-            ///CharRace 1
+            ///CharRace 1, Role Race Follow the fields of the login server 1 Noah, 3 Dwarfs, 4 Elf, 5 Harry Blue, 6 Beast, 8 Battle Demon.
             ///03 (Гномы)
             ns.Write((byte)0x03);
-            ///CharGender 1
+            ///CharGender 1, Character gender 1 male, 2 female
             ///02 (Ж)
             ns.Write((byte)0x02);
             ///level 1
@@ -619,7 +619,7 @@ namespace ArcheAge.ArcheAge.Network
             ns.Write((int)0x00);
             ///lastWorldLeaveTime 8
             ns.Write((long)0x5B2D8205);
-            ///moneyAmount 8
+            ///moneyAmount 8, Number of copper coins Automatic 1:100:10000 Convert gold coins
             ns.Write((long)0x1E); //серебро, золото и платина (начало)
             ///moneyAmount 8
             ns.Write((long)0x00); //серебро, золото и платина (продолжение)

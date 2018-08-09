@@ -150,7 +150,7 @@ namespace ArcheAge.ArcheAge.Network
             int zoneId = reader.ReadLEInt32(); //User Session Id? zoneId?
             //reader.Offset += 1; //Undefined Random Byte
             short tb = reader.ReadLEInt16(); //tb
-            int revision = reader.ReadLEInt32(); //revision
+            int revision = reader.ReadLEInt32(); //revision, The resource version is the same as the brackets in the client header. (r.321543)
             int index = reader.ReadLEInt32(); //index
 
             //пропускаем недо X2EnterWorld

@@ -19,6 +19,22 @@ namespace ArcheAge.ArcheAge.Network
         //private static PacketHandler<ClientConnection>[] m_CHandlers;
         private static Dictionary<int, PacketHandler<ClientConnection>[]> levels;
         private static LoginConnection m_CurrentLoginServer;
+        private static bool enter1;
+        private static bool enter2;
+        private static bool enter3;
+        private static bool enter4;
+        private static bool enter5;
+        private static bool enter6;
+        private static bool enter7;
+        private static bool enter8;
+        private static bool enter9;
+        private static bool once2;
+        private static bool once3;
+        private static bool once4;
+        private static bool once5;
+        private static bool once6;
+
+
 
         public static LoginConnection CurrentLoginServer
         {
@@ -40,6 +56,18 @@ namespace ArcheAge.ArcheAge.Network
             m_LHandlers = new PacketHandler<LoginConnection>[0x20];
             //m_LHandlers = new PacketHandler<ClientConnection>[0x30];
             levels = new Dictionary<int, PacketHandler<ClientConnection>[]>();
+            once2 = true; // если false, то больше не повторять
+            once3 = true; // если false, то больше не повторять
+            once4 = true; // если false, то больше не повторять
+            once5 = true; // если false, то больше не повторять
+            once6 = true; // если false, то больше не повторять
+            enter1 = false; // если true, то больше не повторять
+            enter4 = false; // если true, то больше не повторять
+            enter5 = false; // если true, то больше не повторять
+            enter6 = false; // если true, то больше не повторять
+            enter7 = false; // если true, то больше не повторять
+            enter8 = false; // если true, то больше не повторять
+            enter9 = false; // если true, то больше не повторять
 
             RegisterDelegates();
         }
@@ -66,6 +94,8 @@ namespace ArcheAge.ArcheAge.Network
             Register(0x05, 0x0438, new OnPacketReceive<ClientConnection>(OnPacketReceive_Client0438));
             Register(0x05, 0x0088, new OnPacketReceive<ClientConnection>(OnPacketReceive_ReloginRequest_0x0088));
             Register(0x05, 0x008A, new OnPacketReceive<ClientConnection>(OnPacketReceive_EnterWorld_0x008A));  //вход в игру1
+            Register(0x05, 0x008B, new OnPacketReceive<ClientConnection>(OnPacketReceive_EnterWorld_0x008B));  //вход в игру2
+            Register(0x05, 0x008C, new OnPacketReceive<ClientConnection>(OnPacketReceive_EnterWorld_0x008C));  //вход в игру3
             Register(0x05, 0x008D, new OnPacketReceive<ClientConnection>(OnPacketReceive_EnterWorld_0x008D));  //вход в игру4
             Register(0x05, 0x008E, new OnPacketReceive<ClientConnection>(OnPacketReceive_EnterWorld_0x008E));  //вход в игру5
             Register(0x05, 0x008F, new OnPacketReceive<ClientConnection>(OnPacketReceive_EnterWorld_0x008F));  //вход в игру6
@@ -88,25 +118,81 @@ namespace ArcheAge.ArcheAge.Network
 
         public static void OnPacketReceive_EnterWorld_0x008A(ClientConnection net, PacketReader reader)
         {
-            ///клиентский пакет  Recv: 130000053829157BA816DB909183220859E934EFF6
-            Thread.Sleep(50);
-            net.SendAsyncHex(new NP_EnterGame_008A());//вход в игру1
-            Thread.Sleep(50);
-            net.SendAsyncHex(new NP_EnterGame_008B());//вход в игру2
-            Thread.Sleep(50);
-            net.SendAsyncHex(new NP_EnterGame_008C());//вход в игру3
+            if (!enter1) //регулируем последовательность входа
+            {
+                ///клиентский пакет  Recv: 130000053829157BA816DB909183220859E934EFF6
+                net.SendAsyncHex(new NP_EnterGame_008A());//вход в игру1, пакет C>s 0x038
+                enter1 = true;
+            }
+        }
+        public static void OnPacketReceive_EnterWorld_0x008B(ClientConnection net, PacketReader reader)
+        {
+            if (enter1) //регулируем последовательность входа
+            {
+                if (once2) //защитим от повтора посылки пакетов
+                {
+                    //вход в игру2
+                    //13000005371947B88E92319E86B077729237FC244E
+                    net.SendAsyncHex(new NP_EnterGame_008B());//вход в игру2, пакет C>s 0x037
+                    enter2 = true;
+                    once2 = false;
+                }
+            }
+        }
+        public static void OnPacketReceive_EnterWorld_0x008C(ClientConnection net, PacketReader reader)
+        {
+            if (enter2) //регулируем последовательность входа
+            {
+                if (once3)
+                {
+                    //вход в игру3
+                    //13000005390AEDA4C3949E6A5B4AC06820F2BC202A
+                    //13000005370B469961E9F541A6AF4E8DB8BBB3EAFE
+                    net.SendAsyncHex(new NP_EnterGame_008C());//вход в игру3, пакет C>s 0x039
+                    enter3 = true;
+                    enter2 = false;
+                    once3 = false;
+                }
+            }
         }
         public static void OnPacketReceive_EnterWorld_0x008D(ClientConnection net, PacketReader reader)
         {
-            net.SendAsyncHex(new NP_EnterGame_008D());//вход в игру4
+            if (enter3)
+            {
+                if (once4)
+                {
+                    net.SendAsyncHex(new NP_EnterGame_008D());//вход в игру4, пакет C>s 0x03F
+                    enter4 = true;
+                    enter3 = false;
+                    once4 = false;
+            }
         }
+    }
         public static void OnPacketReceive_EnterWorld_0x008E(ClientConnection net, PacketReader reader)
         {
-            net.SendAsyncHex(new NP_EnterGame_008E());//вход в игру5
+            if (enter4)
+            {
+                if (once5)
+                {
+                    net.SendAsyncHex(new NP_EnterGame_008E());//вход в игру5, пакет C>s 0x033
+                    once5 = false;
+                    enter5 = true;
+                    enter4 = false;
+                }
+            }
         }
         public static void OnPacketReceive_EnterWorld_0x008F(ClientConnection net, PacketReader reader)
         {
-            net.SendAsyncHex(new NP_EnterGame_008F());//вход в игру6
+            if (enter5)
+            {
+                if (once6)
+                {
+                    net.SendAsyncHex(new NP_EnterGame_008F());//вход в игру6, пакет C>s 0x036
+                    once6 = false;
+                    enter6 = true;
+                    enter5 = false;
+                }
+            }
         }
 
         /// <summary>

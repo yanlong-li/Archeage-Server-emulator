@@ -58,25 +58,32 @@ namespace ArcheAge.ArcheAge.Network.Connections
                 reader.Offset -= 2; //вернемся к hash, count
                 byte hash = reader.ReadByte(); //считываем hash или CRC (он не меняется)
                 byte count = reader.ReadByte(); //считываем count (шифрован, меняется)
-                if (hash == 0x34)
+                switch (hash)
                 {
-                    opcode = 0x0088; //пакет на релогин
-                }
-                if (hash == 0x38)
-                {
-                    opcode = 0x008A; //вход в игру1
-                }
-                if (hash == 0x3F)
-                {
-                    opcode = 0x008D; //вход в игру4
-                }
-                if (hash == 0x33)
-                {
-                    opcode = 0x008E; //вход в игру5
-                }
-                if (hash == 0x36)
-                {
-                    opcode = 0x008F; //вход в игру6
+                    case 0x33:
+                        opcode = 0x008E; //вход в игру5
+                        break;
+                    case 0x34:
+                        opcode = 0x0088; //пакет на релогин
+                        break;
+                    case 0x36:
+                        opcode = 0x008F; //вход в игру6
+                        break;
+                    case 0x37:
+                        opcode = 0x008B; //вход в игру2
+                        break;
+                    case 0x38:
+                        opcode = 0x008A; //вход в игру1
+                        break;
+                    case 0x39:
+                        opcode = 0x008C; //вход в игру3
+                        break;
+                    case 0x3F:
+                        opcode = 0x008D; //вход в игру4
+                        break;
+                        //default:
+                        //    msg = "";
+                        //    break;
                 }
                 //reader.Offset -= 2; //Undefined Random Byte
             }

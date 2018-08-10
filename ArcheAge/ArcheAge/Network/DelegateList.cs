@@ -65,9 +65,10 @@ namespace ArcheAge.ArcheAge.Network
             Register(0x01, 0xE17B, new OnPacketReceive<ClientConnection>(OnPacketReceive_ClientE17B));
             Register(0x05, 0x0438, new OnPacketReceive<ClientConnection>(OnPacketReceive_Client0438));
             Register(0x05, 0x0088, new OnPacketReceive<ClientConnection>(OnPacketReceive_ReloginRequest_0x0088));
-            Register(0x05, 0x008A, new OnPacketReceive<ClientConnection>(OnPacketReceive_ReloginRequest_0x008A));  //вход в игру1
-            Register(0x05, 0x008B, new OnPacketReceive<ClientConnection>(OnPacketReceive_ReloginRequest_0x008B));  //вход в игру2
-            Register(0x05, 0x008C, new OnPacketReceive<ClientConnection>(OnPacketReceive_ReloginRequest_0x008C));  //вход в игру3
+            Register(0x05, 0x008A, new OnPacketReceive<ClientConnection>(OnPacketReceive_EnterWorld_0x008A));  //вход в игру1
+            Register(0x05, 0x008D, new OnPacketReceive<ClientConnection>(OnPacketReceive_EnterWorld_0x008D));  //вход в игру4
+            Register(0x05, 0x008E, new OnPacketReceive<ClientConnection>(OnPacketReceive_EnterWorld_0x008E));  //вход в игру5
+            Register(0x05, 0x008F, new OnPacketReceive<ClientConnection>(OnPacketReceive_EnterWorld_0x008F));  //вход в игру6
             //Register(0x02, 0x12, new OnPacketReceive<ClientConnection>(Onpacket0212));
             //Register(0x01, 0x7f1b, new OnPacketReceive<ClientConnection>(OnPacketReceive_Client01));
             ////Register(0x01, 0x00, new OnPacketReceive<ClientConnection>(OnPacketReceive_ClientAuthorized));
@@ -85,25 +86,27 @@ namespace ArcheAge.ArcheAge.Network
 
         #region Client Callbacks Implementation
 
-        public static void OnPacketReceive_ReloginRequest_0x008A(ClientConnection net, PacketReader reader)
+        public static void OnPacketReceive_EnterWorld_0x008A(ClientConnection net, PacketReader reader)
         {
             ///клиентский пакет  Recv: 130000053829157BA816DB909183220859E934EFF6
-            Thread.Sleep(100);
+            Thread.Sleep(50);
             net.SendAsyncHex(new NP_EnterGame_008A());//вход в игру1
-            Thread.Sleep(100);
+            Thread.Sleep(50);
             net.SendAsyncHex(new NP_EnterGame_008B());//вход в игру2
-            Thread.Sleep(1000);
+            Thread.Sleep(50);
             net.SendAsyncHex(new NP_EnterGame_008C());//вход в игру3
         }
-        public static void OnPacketReceive_ReloginRequest_0x008B(ClientConnection net, PacketReader reader)
+        public static void OnPacketReceive_EnterWorld_0x008D(ClientConnection net, PacketReader reader)
         {
-            ///клиентский пакет  Recv: 1300000537FB7953620E7795FBC8E7711B12F1C576
-            net.SendAsync(new NP_EnterGame_008B());//вход в игру2
+            net.SendAsyncHex(new NP_EnterGame_008D());//вход в игру4
         }
-        public static void OnPacketReceive_ReloginRequest_0x008C(ClientConnection net, PacketReader reader)
+        public static void OnPacketReceive_EnterWorld_0x008E(ClientConnection net, PacketReader reader)
         {
-            ///клиентский пакет  Recv: 1300000539D9592501CE71E1C968966075860E1BDF
-            net.SendAsync(new NP_EnterGame_008C());//вход в игру3
+            net.SendAsyncHex(new NP_EnterGame_008E());//вход в игру5
+        }
+        public static void OnPacketReceive_EnterWorld_0x008F(ClientConnection net, PacketReader reader)
+        {
+            net.SendAsyncHex(new NP_EnterGame_008F());//вход в игру6
         }
 
         /// <summary>
@@ -156,8 +159,9 @@ namespace ArcheAge.ArcheAge.Network
             //пропускаем недо X2EnterWorld
             //if (type == 0)
             {
-                //Account m_Authorized = ClientConnection.CurrentAccounts.First(kv => kv.Value.Session == cookie).Value;
-                Account m_Authorized = ClientConnection.CurrentAccounts.First(kv => kv.Value.AccountId == accountId).Value;
+                //Thread.Sleep(100);
+                Account m_Authorized = ClientConnection.CurrentAccounts.First(kv => kv.Value.Session == cookie).Value;
+                //Account m_Authorized = ClientConnection.CurrentAccounts.First(kv => kv.Value.AccountId == accountId).Value;
                 //Account m_Authorized = ClientConnection.CurrentAccounts.FirstOrDefault(kv => kv.Value.Session == cookie && kv.Value.AccountId == accountId).Value;
                 if (m_Authorized == null)
                 {
@@ -167,23 +171,13 @@ namespace ArcheAge.ArcheAge.Network
                 else
                 {
                     net.CurrentAccount = m_Authorized;
-                    //первый пакет DD05 S>C
+                    //нулевой пакет DD05 S>C
                     //0x01 0x0000_X2EnterWorldPacket
                     //net.SendAsyncHex(new NP_X2EnterWorldResponsePacket());
                     net.SendAsync(new NP_X2EnterWorldResponsePacket());
                     //DD02 C>S
                     net.SendAsync(new NP_ChangeState(-1)); //начальный пакет NP_ChangeState с параметром 0
                 }
-                ////пропускаем недо X2EnterWorld
-                //if (type == 0x01D0)
-                //{
-                //    //первый пакет DD05 S>C
-                //    //0x01 0x0000_X2EnterWorldPacket
-                //    //net.SendAsyncHex(new NP_X2EnterWorldResponsePacket());
-                //    net.SendAsync(new NP_X2EnterWorldResponsePacket2());
-                //    //DD02 C>S
-                //    net.SendAsync(new NP_ChangeState(-1)); //начальный пакет NP_ChangeState с параметром 0
-                //}
             }
             }
         public static void OnPacketReceive_FinishState0201(ClientConnection net, PacketReader reader)
@@ -196,34 +190,34 @@ namespace ArcheAge.ArcheAge.Network
             if (state == 0)
             {
                 //выводим один раз
-                //пакет №8 DD05 S>C
+                //пакет №1 DD05 S>C
                 net.SendAsync(new NP_Packet_0x0094()); //1400DD05C2E7E3865627F6CF97087265899FE9242175
                 //--------------------------------------------------------------------------
                 //SetGameType
                 net.SendAsync(new NP_SetGameType());
                 //--------------------------------------------------------------------------
                 //пакеты для входа в Лобби
-                //пакет №10 DD05 S>C
+                //пакет №2 DD05 S>C
                 net.SendAsync(new NP_Packet_0x0034()); //5000DD057F20F4C282625271B0CB11257381D3E43840DBA6F90B2C06A99043486EEFCD4B6745F31F35E70901D0441D85AB78EE825322F4C494643405D5A5754517E7B7875627F7C797704010E0B0115081B0
-                //пакет №11 DD05 S>C
+                //пакет №3 DD05 S>C
                 net.SendAsync(new NP_Packet_0x02C3()); //A900DD0574936530FFE0A119356592C1B87D0D80A6E0105A6BBA8A10367483C1AB3C4882A3F1145673BEC8196E6492D9EE3F4690ACF7111C72A0CA052A138BC0F02457CEEABA044766BEC3172173C9D3F536418AFEC91E347486C3E0254B9DACBC16416ABCCD13257981C7AB25579CB3B905596BBBC2052472C8C0F5224398A0E2041E62A0C7162B66909CF3265197ACF5175128B6D710217F92C5AB314B98B0B911236489DFEF51E71747
-                //пакет №12 DD05 S>C
+                //пакет №4 DD05 S>C
                 net.SendAsync(new NP_Packet_0x00EC()); //2A00DD05B9656B03D2A2724212E3B3835323F4C494643405B5F1754516E6B6865727F7C797704010E0B08151
-                //пакет №13 DD05 S>C
+                //пакет №5 DD05 S>C
                 net.SendAsync(new NP_Packet_0x0281()); //7700DD05F997B53000EEA3724212E2B4845524F4C595643505D7A6764616E7B7875767BED0A0704011E1B1815122F2C292623303D3A3744414E4B4855525F5C596663606D6A7774717E7B0805020F0C191613101D2A2724212E3B3835323F4C49465340AC6A5754566A4B3865727F7C781348DDCAC8F8B99F2
-                //пакет №14 DD05 S>C
+                //пакет №6 DD05 S>C
                 net.SendAsync(new NP_Packet_0x00BA()); //0900DD05BFB67E50104170
-                //пакет №15 DD05 S>C
+                //пакет №7 DD05 S>C
                 net.SendAsync(new NP_Packet_0x018A()); //1C00DD054863A207D5AF754516E6B9895827F7C897704010E0B0815EC4F4
-                //пакет №16 DD05 S>C
+                //пакет №8 DD05 S>C
                 net.SendAsync(new NP_Packet_0x01CC()); //0E00DD05842F7EC797704010E0B08151
-                //пакет №17 DD05 S>C
+                //пакет №9 DD05 S>C
                 net.SendAsync(new NP_Packet_0x0030()); //0900DD052CB90D53114270
-                //пакет №18 DD05 S>C
+                //пакет №10 DD05 S>C
                 net.SendAsync(new NP_Packet_0x01AF()); //0E00DD054E2DB8C597704010E0B08151
-                //пакет №19 DD05 S>C
+                //пакет №11 DD05 S>C
                 net.SendAsync(new NP_Packet_0x02CF()); //2300DD0500E82E825223F4C494643405D5A5754516E6B6865727F7C797704010E0B0815142
-                //пакет №19 DD05 S>C
+                //пакет №12 DD05 S>C
                 net.SendAsync(new NP_Packet_0x029C()); //0A00DD05817C5812E0B08151
             }
         }
@@ -246,27 +240,38 @@ namespace ArcheAge.ArcheAge.Network
         public static void OnPacketReceive_ClientE17B(ClientConnection net, PacketReader reader)
         {
             ////пакет для входа в Лобби - продолжение
-            //пакет №32 DD05 S>C
+            //пакет №13 DD05 S>C
             net.SendAsync(new NP_Packet_0x0272());   //0700DD050CBD7B5010
+            //пакет №14 DD05 S>C
             net.SendAsync(new NP_Packet_0x00EC_2()); //2A00DD05EA6F6B03D3A2724213E3B3835323F4C4946434053B833B2816E6B6865727F7C797704010E0B08151
+            //пакет №15 DD05 S>C
             net.SendAsync(new NP_Packet_0x008C());   //FE00DD0595F92296663707D7A7775020F0C090613101D1A1724212E2B2835323F3C494643404D5A5754515E6B6865626F7C7976737FED0A0704011E1B1815122F2C292623303D3A3734414E4B4845525F5C596663606D6A7774717E7C0906030FED1A1714111E2B2825222F3C393633304D4A4744415E5B5855526F6C696663707D7A7774010E0B0815121F1C192623202D2A3734313E3B4845424F4C595653505D6A6764616E7B7875727FED0A0704011E1B1815122F2C292623303D3A3744414E4B4855525F5C596663606D6A7774717E7B0805020F0C191613101D2A2724212E3B3835323F4C494643405D5A5754516E6B6865727F7C797704010E0B08151
+            //пакет №16 DD05 S>C
             net.SendAsync(new NP_Packet_0x014D());   //0F00DD050637C9C697704010E0B0815186
             //var ii = GameServerController.AuthorizedAccounts.FirstOrDefault(n => n.Value.AccountId == net.CurrentAccount.AccountId);
             //список чаров
             if (net.CurrentAccount.Characters == 2)
             {
+                //пакет №17 DD05 S>C
                 net.SendAsync(new NP_Packet_CharList_0x0079()); //0209DD051E05ACB68556F261C495603654B3CB183376E4B591B032F
                                                                 //эти пакеты нужны когда есть чары в лобби
-                //net.SendAsync(new NP_Packet_0x014F()); //2400DD0564F11F825223F4C495643405D55A754516E634B7D47DF7C797704010E0B081514272
+                //пакет №18 DD05 S>C
+                net.SendAsync(new NP_Packet_0x014F()); //2400DD0564F11F825223F4C495643405D55A754516E634B7D47DF7C797704010E0B081514272
+                //пакет №19 DD05 S>C
                 net.SendAsync(new NP_Packet_0x0145());   //1D00DD052777B6070231744517E6BD86214285B4FE1F2E30D1BD8B5DC4F423
+                //пакет №20 DD05 S>C
                 net.SendAsync(new NP_Packet_0x0145_2()); //1D00DD051C70B6070231744514E6BD86214285B4FE1F2E30D2BD8B5DC4F423
+                //пакет №21 DD05 S>C
                 net.SendAsync(new NP_Packet_0x0145_3()); //1D00DD050D71B6074342744517E6BD86214285B4FE1F2E30D1BD8B5DC4F423
+                //пакет №22 DD05 S>C
                 net.SendAsync(new NP_Packet_0x0145_4()); //1D00DD05FA72B6074342744514E6BD86214285B4FE1F2E30D2BD8B5DC4F423
             }
             else
             {
                 //не забыть установить кол-во чаров в ArcheAgeLoginServer :: ArcheAgePackets.cs :: AcWorldList_0X08
+                //пакет №17 DD05 S>C
                 net.SendAsync(new NP_Packet_CharList_empty_0x0079()); //0800DD05FEA1C9531140
+                //пакет №18 DD05 S>C
                 net.SendAsync(new NP_Packet_0x014F()); //2400DD0564F11F825223F4C495643405D55A754516E634B7D47DF7C797704010E0B081514272
             }
             ///идет клиентский пакет 13000005393DB7A29CAA4C2365F02DB94C5B18BB50
@@ -399,9 +404,9 @@ namespace ArcheAge.ArcheAge.Network
             };
             Logger.Trace("Prepare login account ID: " + account.AccountId);
             //Check if the account is online and force it to disconnect online
-            Account m_Authorized = ClientConnection.CurrentAccounts.FirstOrDefault(kv => kv.Value.AccountId == account.AccountId).Value;
+            //Account m_Authorized = ClientConnection.CurrentAccounts.FirstOrDefault(kv => kv.Value.AccountId == account.AccountId).Value;
             //Account m_Authorized = ClientConnection.CurrentAccounts.FirstOrDefault(kv => kv.Value.Session == account.Session && kv.Value.AccountId == account.AccountId).Value;
-            //Account m_Authorized = ClientConnection.CurrentAccounts.FirstOrDefault(kv => kv.Value.Session == account.Session).Value;
+            Account m_Authorized = ClientConnection.CurrentAccounts.FirstOrDefault(kv => kv.Value.Session == account.Session).Value;
             if (m_Authorized != null)
             {
                 //Already

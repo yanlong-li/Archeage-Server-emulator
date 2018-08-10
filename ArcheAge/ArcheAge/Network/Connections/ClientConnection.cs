@@ -62,18 +62,22 @@ namespace ArcheAge.ArcheAge.Network.Connections
                 {
                     opcode = 0x0088; //пакет на релогин
                 }
-                //if (hash == 0x37)
-                //{
-                //    opcode = 0x008B; //вход в игру2
-                //}
                 if (hash == 0x38)
                 {
                     opcode = 0x008A; //вход в игру1
                 }
-                //if (hash == 0x39)
-                //{
-                //    opcode = 0x008C; //вход в игру3
-                //}
+                if (hash == 0x3F)
+                {
+                    opcode = 0x008D; //вход в игру4
+                }
+                if (hash == 0x33)
+                {
+                    opcode = 0x008E; //вход в игру5
+                }
+                if (hash == 0x36)
+                {
+                    opcode = 0x008F; //вход в игру6
+                }
                 //reader.Offset -= 2; //Undefined Random Byte
             }
 

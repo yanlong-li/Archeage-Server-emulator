@@ -6,11 +6,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using ArcheAgeProxy.ArcheAge;
-using ArcheAgeProxy.ArcheAge.Network;
-using ArcheAgeProxy.Properties;
+using ArcheAgeStream.ArcheAge;
+using ArcheAgeStream.ArcheAge.Network;
+using ArcheAgeStream.Properties;
 
-namespace ArcheAgeProxy
+namespace ArcheAgeStream
 {
     /// <summary>
     /// Main Class For Program Entering.
@@ -21,14 +21,14 @@ namespace ArcheAgeProxy
         // .method private hidebysig static void Main(string[] args) cil managed
         static void Main(string[] args)
         {
-            Console.Title = "ARCHEAGE PROXY SERVER";
+            Console.Title = "ARCHEAGE STREAM SERVER";
             Console.CancelKeyPress += Console_CancelKeyPress;
             Stopwatch watch = Stopwatch.StartNew();
             watch.Start();
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             LoadExecutingAssembly(args);
             watch.Stop();
-            Logger.Trace("ArcheAge Proxy Server started in {0} seconds", (watch.ElapsedMilliseconds / 1000.0).ToString("0.00"));
+            Logger.Trace("ArcheAge Stream Server started in {0} seconds", (watch.ElapsedMilliseconds / 1000.0).ToString("0.00"));
             watch = null;
             Key_Pressed();
         }
@@ -83,7 +83,7 @@ namespace ArcheAgeProxy
             //----------------Network ---------------------------
             Logger.Section("Network");
             PacketList.Initialize();
-            new AsyncListener(m_Current.ArcheAgeProxy_IP, m_Current.ArcheAgeProxy_PORT, defined: typeof(ProxyConnection)); //Waiting For ArcheAge Connections
+            new AsyncListener(m_Current.ArcheAgeStream_IP, m_Current.ArcheAgeStream_PORT, defined: typeof(StreamConnection)); //Waiting For ArcheAge Connections
 
         }
     }

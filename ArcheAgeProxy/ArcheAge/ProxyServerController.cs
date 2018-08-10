@@ -6,49 +6,49 @@ using System.Linq;
 using System.Text;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-using ArcheAgeProxy.ArcheAge.Network;
+using ArcheAgeStream.ArcheAge.Network;
 
-namespace ArcheAgeProxy.ArcheAge
+namespace ArcheAgeStream.ArcheAge
 {
     /// <summary>
     /// Controller For Game Servers And Authorized Accounts
     /// Contains All Current Game Servers Info and Current Authroized Accounts.
     /// </summary>
-    public class ProxyServerController
+    public class StreamServerController
     {
-        private static Dictionary<byte, ProxyServer> proxyservers = new Dictionary<byte, ProxyServer>();
+        private static Dictionary<byte, StreamServer> Streamservers = new Dictionary<byte, StreamServer>();
 
-        public static Dictionary<byte, ProxyServer> CurrentGameServers
+        public static Dictionary<byte, StreamServer> CurrentGameServers
         {
-            get { return proxyservers; }
+            get { return Streamservers; }
         }
 
-        public static bool RegisterProxyServer(byte id, string password, ProxyConnection con, short port, string ip)
+        public static bool RegisterStreamServer(byte id, string password, StreamConnection con, short port, string ip)
         {
-            Logger.Trace("Proxy Server ID: {0} registration", id);
+            Logger.Trace("StreamServer ID: {0} registration", id);
             return true;
         }
-        public static bool DisconnecteProxyServer(byte id)
+        public static bool DisconnecteStreamServer(byte id)
         {
-            ProxyServer server = proxyservers[id];
+            StreamServer server = Streamservers[id];
             server.CurrentConnection = null;
-            proxyservers.Remove(id);
-            proxyservers.Add(id, server);
+            Streamservers.Remove(id);
+            Streamservers.Add(id, server);
             return true;
         }
 
-        public static void LoadAvailableProxyServers()
+        public static void LoadAvailableStreamServers()
         {
             XmlSerializer ser = new XmlSerializer(typeof(GameServerTemplate));
             GameServerTemplate template = (GameServerTemplate)ser.Deserialize(new FileStream(@"data/Servers.xml", FileMode.Open));
             for (int i = 0; i < template.xmlservers.Count; i++)
             {
-                ProxyServer game = template.xmlservers[i];
+                StreamServer game = template.xmlservers[i];
                 game.CurrentAuthorized = new List<int>();
-                proxyservers.Add(game.Id, game);
+                Streamservers.Add(game.Id, game);
             }
 
-            Logger.Trace("Loading from Servers.xml {0} servers", proxyservers.Count);
+            Logger.Trace("Loading from Servers.xml {0} servers", Streamservers.Count);
         }
     }
 
@@ -60,12 +60,12 @@ namespace ArcheAgeProxy.ArcheAge
     public class GameServerTemplate
     {
         [XmlElement("server", Form = XmlSchemaForm.Unqualified)]
-        public List<ProxyServer> xmlservers;
+        public List<StreamServer> xmlservers;
     }
 
     [Serializable]
     [XmlType(Namespace = "", AnonymousType = true)]
-    public class ProxyServer
+    public class StreamServer
     {
         [XmlAttribute]
         public byte Id;
@@ -80,7 +80,7 @@ namespace ArcheAgeProxy.ArcheAge
         public List<int> CurrentAuthorized;
 
         [XmlIgnore]
-        public ProxyConnection CurrentConnection;
+        public StreamConnection CurrentConnection;
 
         [XmlAttribute]
         public string Name;

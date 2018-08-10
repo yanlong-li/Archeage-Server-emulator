@@ -2,10 +2,10 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="ArcheAgeAuth.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="ArcheAgeProxy_IP" Type="System.String" Scope="User">
+    <Setting Name="ArcheAgeStream_IP" Type="System.String" Scope="User">
       <Value Profile="(Default)">127.0.0.1</Value>
     </Setting>
-    <Setting Name="ArcheAgeProxy_PORT" Type="System.Int32" Scope="User">
+    <Setting Name="ArcheAgeStream_PORT" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1250</Value>
     </Setting>
   </Settings>

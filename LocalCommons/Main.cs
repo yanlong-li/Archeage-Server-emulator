@@ -24,7 +24,6 @@ namespace LocalCommons
         {
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Logger.Section("info");
-            Logger.Trace("Modified by：NLObP email:gigastep@yandex.ru");
             Logger.Trace("This software is for learning communication only and must not be used for any public activity");
             Version ver = Assembly.GetExecutingAssembly().GetName().Version;
             Logger.Trace("ArcheAge Emu - version number {0}.{1}, Build {2}.{3}", ver.Major, ver.Minor, ver.Build, ver.Revision);

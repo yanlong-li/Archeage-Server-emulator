@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ArcheAgeProxy.Properties {
+namespace ArcheAgeStream.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -26,24 +26,24 @@ namespace ArcheAgeProxy.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
-        public string ArcheAgeProxy_IP {
+        public string ArcheAgeStream_IP {
             get {
-                return ((string)(this["ArcheAgeProxy_IP"]));
+                return ((string)(this["ArcheAgeStream_IP"]));
             }
             set {
-                this["ArcheAgeProxy_IP"] = value;
+                this["ArcheAgeStream_IP"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1250")]
-        public int ArcheAgeProxy_PORT {
+        public int ArcheAgeStream_PORT {
             get {
-                return ((int)(this["ArcheAgeProxy_PORT"]));
+                return ((int)(this["ArcheAgeStream_PORT"]));
             }
             set {
-                this["ArcheAgeProxy_PORT"] = value;
+                this["ArcheAgeStream_PORT"] = value;
             }
         }
     }

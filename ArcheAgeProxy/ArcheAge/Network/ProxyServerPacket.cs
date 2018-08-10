@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ArcheAgeProxy.ArcheAge.Network
+namespace ArcheAgeStream.ArcheAge.Network
 {
     /// <summary>
     /// Sends Information About Registration Result.
@@ -18,8 +18,11 @@ namespace ArcheAgeProxy.ArcheAge.Network
     }
     public sealed class NET_TCDoodadStream_0x02 : NetPacket
     {
-        public NET_TCDoodadStream_0x02(string msg) : base(0x0002, true)
+        public NET_TCDoodadStream_0x02(int id, int next, int count, string msg) : base(0x0002, true)
         {
+            ns.Write((int)id);
+            ns.Write((int)next);
+            ns.Write((int)count);
             ns.WriteHex(msg);
         }
     }

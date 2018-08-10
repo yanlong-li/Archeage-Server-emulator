@@ -1,4 +1,4 @@
-﻿namespace ArcheAgeProxy.Properties {
+﻿namespace ArcheAgeStream.Properties {
     
     
     // Этот класс позволяет обрабатывать определенные события в классе параметров:

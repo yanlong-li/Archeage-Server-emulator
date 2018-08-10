@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется с помощью 
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
-[assembly: AssemblyTitle("ProxyServer")]
-[assembly: AssemblyDescription("ArcheAge Proxy Server")]
+[assembly: AssemblyTitle("StreamServer")]
+[assembly: AssemblyDescription("ArcheAge Stream Server")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ProxyServer")]
+[assembly: AssemblyProduct("StreamServer")]
 [assembly: AssemblyCopyright("Copyright © 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

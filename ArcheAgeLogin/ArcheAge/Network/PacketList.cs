@@ -133,7 +133,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
         {
             ////шлем дешифрованный пакет
             string msg1 = message;
-            uint cookie = 0x15A0243D;
+            uint cookie = 0x12345678;
             Logger.Trace("Encode: " + msg1);
             string msg2 = msg1.Substring(8, msg1.Length - 8);
             byte[] cipherbytes = Utility.StringToByteArray(msg2);
@@ -379,7 +379,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
                     cookie += random.Next(255) << 8;
                     cookie += random.Next(255) << 16;
                     cookie += random.Next(255) << 24;
-                    net.CurrentAccount.Session = cookie; //Designated session
+                    net.CurrentAccount.Session = cookie = 0x12345678; //Designated session
 
                     //Передаем управление Гейм серверу
                     net.movedToGame = true;
@@ -458,13 +458,15 @@ namespace ArcheAgeLogin.ArcheAge.Network
                 //Make New Temporary
                 if (Settings.Default.Account_AutoCreation)
                 {
-                    Account m_New = new Account();
-                    m_New.AccountId = AccountHolder.AccountList.Count + 1;
-                    m_New.LastEnteredTime = Utility.CurrentTimeMilliseconds();
-                    m_New.AccessLevel = 0;
-                    m_New.LastIp = net.ToString();
-                    m_New.Membership = 0;
-                    m_New.Name = m_RLogin;
+                    Account m_New = new Account
+                    {
+                        AccountId = AccountHolder.AccountList.Count + 1,
+                        LastEnteredTime = Utility.CurrentTimeMilliseconds(),
+                        AccessLevel = 0,
+                        LastIp = net.ToString(),
+                        Membership = 0,
+                        Name = m_RLogin
+                    };
                     net.CurrentAccount = m_New;
                     AccountHolder.AccountList.Add(m_New);
                 }
@@ -631,7 +633,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
                     cookie += random.Next(255) << 8;
                     cookie += random.Next(255) << 16;
                     cookie += random.Next(255) << 24;
-                    net.CurrentAccount.Session = cookie = 0x7AB41028; //Designated session
+                    net.CurrentAccount.Session = cookie = 0x12345678; //Designated session
 
                     net.movedToGame = true;
                     GameServerController.AuthorizedAccounts.Remove(net.CurrentAccount.AccountId);

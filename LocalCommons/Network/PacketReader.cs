@@ -54,6 +54,15 @@ namespace LocalCommons.Network
             get { return m_Size - m_Index; }
         }
 
+        public byte[] Clear()
+        {
+            for (int i = 0; i < m_Size; i++)
+            {
+                m_Data[i] = 0;
+            }
+            return m_Data;
+        }
+
         /// <summary>
         /// Reading Byte[] From Stream.
         /// </summary>

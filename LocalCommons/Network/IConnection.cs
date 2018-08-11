@@ -12,7 +12,7 @@ namespace LocalCommons.Network
     /// Abstract Connection Which You Must Inherit
     /// Author: Raphail
     /// </summary>
-    public abstract class IConnection: IDisposable
+    public abstract class IConnection : IDisposable
     {
         protected Socket m_CurrentChannel;
         private SocketAsyncEventArgs m_AsyncReceive;
@@ -64,20 +64,16 @@ namespace LocalCommons.Network
         /// <param name="socket">Accepted Socket.</param>
         public IConnection(Socket socket)
         {
-            //Console.Beep(392, 100);
             m_CurrentChannel = socket;
             m_ConnectedOn = DateTime.Now;
             m_RecvBuffer = m_RecvBufferPool.AcquireBuffer();
-
             //-------------Async Receive ----------------------
             m_AsyncReceive = new SocketAsyncEventArgs();
             m_AsyncReceive.Completed += M_AsyncReceive_Completed;
             m_AsyncReceive.SetBuffer(m_RecvBuffer, 0, m_RecvBuffer.Length);
             //-------------------------------------------------
-
             m_PacketQueue = new Queue<NetPacket>();
             //-----------------------------------------------
-
             m_Address = ((IPEndPoint)m_CurrentChannel.RemoteEndPoint).Address.ToString();
             if (m_CurrentChannel == null)
                 return;
@@ -113,8 +109,7 @@ namespace LocalCommons.Network
             catch (Exception e)
             {
                 Logger.Trace(e.ToString());
-                if (DisconnectedEvent != null)
-                    DisconnectedEvent(this, EventArgs.Empty);
+                DisconnectedEvent?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -155,27 +150,27 @@ namespace LocalCommons.Network
                         Console.ResetColor();
                     }
                     //--- Console Hexadecimal 
-//#if DEBUG
-//                    string path = "d:\\dump.txt"; //The path to the file, ensure that files exist.
-//                    FileStream fs = new FileStream(path, FileMode.Append);
-//                    StreamWriter sw = new StreamWriter(fs);
-//                    sw.WriteLine(builder.ToString());
-//                    sw.Close();
-//                    fs.Close();
-//#endif
+                    //#if DEBUG
+                    //                    string path = "d:\\dump.txt"; //The path to the file, ensure that files exist.
+                    //                    FileStream fs = new FileStream(path, FileMode.Append);
+                    //                    StreamWriter sw = new StreamWriter(fs);
+                    //                    sw.WriteLine(builder.ToString());
+                    //                    sw.Close();
+                    //                    fs.Close();
+                    //#endif
                     m_CurrentChannel.Send(compiled, compiled.Length, SocketFlags.None);
                 }
             }
             catch (Exception e)
             {
                 Logger.Trace(e.ToString());
-                if (DisconnectedEvent != null)
-                    DisconnectedEvent(this, EventArgs.Empty);
+                DisconnectedEvent?.Invoke(this, EventArgs.Empty);
             }
         }
 
         /// <summary>
-        /// return server list
+        /// Adds Packet To Queue And After Send It.
+        /// длина не вычмсляется, надо самому дописать перед пакетом
         /// </summary>
         /// <param name="packet"></param>
         public virtual void SendAsyncHex(NetPacket packet)
@@ -196,14 +191,14 @@ namespace LocalCommons.Network
                 Console.ResetColor();
             }
             //--- Console Hexadecimal 
-//#if DEBUG
-//            string path = "d:\\dump.txt"; //The path to the file, ensure that files exist.
-//            FileStream fs = new FileStream(path, FileMode.Append);
-//            StreamWriter sw = new StreamWriter(fs);
-//            sw.WriteLine(builder.ToString());
-//            sw.Close();
-//            fs.Close();
-//#endif
+            //#if DEBUG
+            //            string path = "d:\\dump.txt"; //The path to the file, ensure that files exist.
+            //            FileStream fs = new FileStream(path, FileMode.Append);
+            //            StreamWriter sw = new StreamWriter(fs);
+            //            sw.WriteLine(builder.ToString());
+            //            sw.Close();
+            //            fs.Close();
+            //#endif
             m_CurrentChannel.Send(compiled, compiled.Length, SocketFlags.None);
 
             //Thread.Sleep(100);
@@ -269,53 +264,49 @@ namespace LocalCommons.Network
             int transfered = e.BytesTransferred;
             if (e.SocketError != SocketError.Success || transfered <= 0)
             {
-                if (DisconnectedEvent != null)
-                    DisconnectedEvent(this, EventArgs.Empty);
+                DisconnectedEvent?.Invoke(this, EventArgs.Empty);
                 return;
             }
-            //--- Console Hexadecimal 
-            StringBuilder builder = new StringBuilder();
-            builder.Append("Recv: ");
-            for (int i = 0; i < transfered; i++)
-                builder.AppendFormat("{0:x2} ".ToUpper(), m_RecvBuffer[i]);
-            //не выводим Ping
-            if (m_RecvBuffer[4] != 0x12)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                Logger.Trace(builder.ToString());
-                Console.ResetColor();
-            }
-            //--- Console Hexadecimal
-//#if DEBUG
-//            string path = "d:\\dump.txt"; //The path to the file, ensure that files exist.
-//            FileStream fs = new FileStream(path, FileMode.Append);
-//            StreamWriter sw = new StreamWriter(fs);
-//            sw.WriteLine(builder.ToString());
-//            sw.Close();
-//            fs.Close();
-//#endif
-            //A loop is added here because sometimes multiple pieces of data are received together. Split multiple data here
-            //Здесь добавлен цикл, потому что иногда несколько фрагментов данных принимаются вместе. Разделить несколько данных здесь.
-            short rest = 0;
-            //short end = 0x00;
-
             PacketReader reader = new PacketReader(m_RecvBuffer, 0);
-            //обрабатываем до 10 слипшихся пакетов
-            //for (int i = 0; i < 10; i++)
-            //{
-                short length = reader.ReadLEInt16(); //длину пакета считываем всегда LittleEndian
-                //if (length <= end)
-                //{
-                    //reader = null;
-                    //m_RecvBuffer = null;
-                    //break;
-                //}
+            short length = reader.ReadLEInt16();
+            short offset = 2;
+            //обрабатываем слипшиеся пакеты
+            while (length > 0 && offset < reader.Size)
+            {
+
+                //--- Console Hexadecimal 
+                //TODO: в выводе в лог разделять слипшиеся пакеты
+                StringBuilder builder = new StringBuilder();
+                builder.Append("Recv: ");
+                for (int i = 0; i < transfered; i++)
+                    builder.AppendFormat("{0:x2} ".ToUpper(), m_RecvBuffer[i]);
+                //не выводим Ping
+                if (m_RecvBuffer[4] != 0x12)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Logger.Trace(builder.ToString());
+                    Console.ResetColor();
+                }
+                //--- Console Hexadecimal
+                //#if DEBUG
+                //вывод лога пакетов в файл
+                //string path = "d:\\dump.txt"; //The path to the file, ensure that files exist.
+                //FileStream fs = new FileStream(path, FileMode.Append);
+                //StreamWriter sw = new StreamWriter(fs);
+                //sw.WriteLine(builder.ToString());
+                //sw.Close();
+                //fs.Close();
+                //#endif
+
                 byte[] data = new byte[length];
-                Buffer.BlockCopy(m_RecvBuffer, 2, data, rest, length);
-                HandleReceived(data);
-                //reader.Offset = length; // + 3;
-                //rest = (short)(length);
-            //}
+                Buffer.BlockCopy(m_RecvBuffer, offset, data, 0, length);
+                HandleReceived(data); //отправляем на обработку данные пакета
+                offset += length;
+                reader.Offset = offset;
+                length = reader.ReadLEInt16(); //проверяем, есть ли еще пакет
+                offset += 2;
+            }
+            reader.Clear(); //почистим буфер, инача считываются старые данные
             reader = null;
         }
 

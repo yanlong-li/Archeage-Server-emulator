@@ -246,7 +246,7 @@ namespace ArcheAge.ArcheAge.Network
             //if (type == 0)
             {
                 //Thread.Sleep(100);
-                Account m_Authorized = ClientConnection.CurrentAccounts.First(kv => kv.Value.Session == cookie).Value;
+                Account m_Authorized = ClientConnection.CurrentAccounts.FirstOrDefault(kv => kv.Value.Session == cookie).Value;
                 //Account m_Authorized = ClientConnection.CurrentAccounts.First(kv => kv.Value.AccountId == accountId).Value;
                 //Account m_Authorized = ClientConnection.CurrentAccounts.FirstOrDefault(kv => kv.Value.Session == cookie && kv.Value.AccountId == accountId).Value;
                 if (m_Authorized == null)
@@ -407,8 +407,8 @@ namespace ArcheAge.ArcheAge.Network
             long accountId = reader.ReadLEInt64(); //Account Id
             reader.Offset += 4;
             int sessionId = reader.ReadLEInt32(); //User Session Id
-            //Account m_Authorized = ClientConnection.CurrentAccounts.FirstOrDefault(kv => kv.Value.AccountId == accountId).Value;
-            Account m_Authorized = ClientConnection.CurrentAccounts.FirstOrDefault(kv => kv.Value.Session == sessionId && kv.Value.AccountId == accountId).Value;
+            Account m_Authorized = ClientConnection.CurrentAccounts.FirstOrDefault(kv => kv.Value.AccountId == accountId).Value;
+            //Account m_Authorized = ClientConnection.CurrentAccounts.FirstOrDefault(kv => kv.Value.Session == sessionId && kv.Value.AccountId == accountId).Value;
             if (m_Authorized == null)
             {
                 net.Dispose();

@@ -379,7 +379,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
                     cookie += random.Next(255) << 8;
                     cookie += random.Next(255) << 16;
                     cookie += random.Next(255) << 24;
-                    net.CurrentAccount.Session = cookie = 0x12345678; //Designated session
+                    net.CurrentAccount.Session = cookie; //Designated session
 
                     //Передаем управление Гейм серверу
                     net.movedToGame = true;
@@ -633,7 +633,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
                     cookie += random.Next(255) << 8;
                     cookie += random.Next(255) << 16;
                     cookie += random.Next(255) << 24;
-                    net.CurrentAccount.Session = cookie = 0x12345678; //Designated session
+                    net.CurrentAccount.Session = cookie; //Designated session
 
                     net.movedToGame = true;
                     GameServerController.AuthorizedAccounts.Remove(net.CurrentAccount.AccountId);

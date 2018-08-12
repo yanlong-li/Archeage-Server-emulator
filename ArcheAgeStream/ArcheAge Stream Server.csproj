@@ -55,10 +55,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArcheAge\Network\ProxyConnection.cs" />
-    <Compile Include="ArcheAge\Network\ProxyServerPacket.cs" />
     <Compile Include="ArcheAge\Network\PacketList.cs" />
-    <Compile Include="ArcheAge\ProxyServerController.cs" />
+    <Compile Include="ArcheAge\Network\SreamConnection.cs" />
+    <Compile Include="ArcheAge\Network\SreamServerPacket.cs" />
+    <Compile Include="ArcheAge\SreamServerController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">

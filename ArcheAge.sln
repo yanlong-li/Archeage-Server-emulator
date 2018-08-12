@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArcheAge Game Server", "Arc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArcheAge Login Server", "ArcheAgeLogin\ArcheAge Login Server.csproj", "{43BFA00B-EBD7-469F-B732-50FBAF25C6E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArcheAge Stream Server", "ArcheAgeProxy\ArcheAge Stream Server.csproj", "{FEC91545-C2EB-48C5-8EE3-F87E894D21AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArcheAge Stream Server", "ArcheAgeStream\ArcheAge Stream Server.csproj", "{FEC91545-C2EB-48C5-8EE3-F87E894D21AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

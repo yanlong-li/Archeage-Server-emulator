@@ -58,6 +58,15 @@ namespace LocalCommons.Utilities
             //Or the two combined, but a bit slower:
             //return val - (val < 58 ? 48 : (val < 97 ? 55 : 87));
         }
+        /// <summary>
+        /// Переводим число в строку HEX LittleEndian
+        /// </summary>
+        /// <param name="n"></param>
+        /// <returns></returns>
+        public static string IntToHex(int n)
+        {
+            return string.Format("{0:X2} {1:X2}", n & 0xff, (n & 0xff00) >> 8);
+        }
 
         //public static string ByteArrayToString(byte[] compiled)
         //{
@@ -73,11 +82,11 @@ namespace LocalCommons.Utilities
         ////    string hex = BitConverter.ToString(ba);
         ////    return hex.Replace("-", "");
         ////}
-        
-         /*
-         * Which works out about 30% faster than PZahras (not that you'd notice with small amounts of data).
-         * The BitConverter method itself is pretty quick, it's just having to do the replace which slows it down, so if you can live with the dashes then it's perfectly good.
-         */
+
+        /*
+        * Which works out about 30% faster than PZahras (not that you'd notice with small amounts of data).
+        * The BitConverter method itself is pretty quick, it's just having to do the replace which slows it down, so if you can live with the dashes then it's perfectly good.
+        */
         public static string ByteArrayToString(byte[] data)
         {
             char[] lookup = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
@@ -93,6 +102,15 @@ namespace LocalCommons.Utilities
             }
             return new string(c, 0, c.Length);
         }
+        public void Clear(byte[] buf)
+        {
+            for (int i = 0; i < buf.Length; i++)
+            {
+                buf[i] = 0;
+            }
+           // return buf;
+        }
+
     }
 }
  

@@ -36,7 +36,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
              */
             ns.Write((long)account.AccountId);
             ns.WriteDynamicASCII(account.Name);
-            ns.WriteDynamicASCII(account.Password);
+            //ns.WriteDynamicASCII(account.Password);
             ns.WriteDynamicASCII(account.Token);
             ns.Write((byte)account.AccessLevel);
             ns.Write((byte)account.Membership);

@@ -133,18 +133,6 @@ namespace ArcheAge.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("archeage_world")]
-        public string DataBase_Name {
-            get {
-                return ((string)(this["DataBase_Name"]));
-            }
-            set {
-                this["DataBase_Name"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("root")]
         public string DataBase_Password {
             get {
@@ -152,6 +140,18 @@ namespace ArcheAge.Properties {
             }
             set {
                 this["DataBase_Password"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("archeage_world")]
+        public string DataBase_Name {
+            get {
+                return ((string)(this["DataBase_Name"]));
+            }
+            set {
+                this["DataBase_Name"] = value;
             }
         }
     }

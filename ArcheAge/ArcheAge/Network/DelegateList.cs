@@ -121,7 +121,7 @@ namespace ArcheAge.ArcheAge.Network
             if (!enter1) //регулируем последовательность входа
             {
                 ///клиентский пакет  Recv: 130000053829157BA816DB909183220859E934EFF6
-                net.SendAsyncHex(new NP_EnterGame_008A());//вход в игру1, пакет C>s 0x038
+                net.SendAsyncHex(new NP_EnterGame_008A_2());//вход в игру1, пакет C>s 0x038
                 enter1 = true;
             }
         }
@@ -133,7 +133,7 @@ namespace ArcheAge.ArcheAge.Network
                 {
                     //вход в игру2
                     //13000005371947B88E92319E86B077729237FC244E
-                    net.SendAsyncHex(new NP_EnterGame_008B());//вход в игру2, пакет C>s 0x037
+                    net.SendAsyncHex(new NP_EnterGame_008B_2());//вход в игру2, пакет C>s 0x037
                     enter2 = true;
                     once2 = false;
                 }
@@ -148,7 +148,7 @@ namespace ArcheAge.ArcheAge.Network
                     //вход в игру3
                     //13000005390AEDA4C3949E6A5B4AC06820F2BC202A
                     //13000005370B469961E9F541A6AF4E8DB8BBB3EAFE
-                    net.SendAsyncHex(new NP_EnterGame_008C());//вход в игру3, пакет C>s 0x039
+                    net.SendAsyncHex(new NP_EnterGame_008C_2());//вход в игру3, пакет C>s 0x039
                     enter3 = true;
                     enter2 = false;
                     once3 = false;
@@ -161,7 +161,7 @@ namespace ArcheAge.ArcheAge.Network
             {
                 if (once4)
                 {
-                    net.SendAsyncHex(new NP_EnterGame_008D());//вход в игру4, пакет C>s 0x03F
+                    net.SendAsyncHex(new NP_EnterGame_008D_2());//вход в игру4, пакет C>s 0x03F
                     enter4 = true;
                     enter3 = false;
                     once4 = false;
@@ -174,7 +174,7 @@ namespace ArcheAge.ArcheAge.Network
             {
                 if (once5)
                 {
-                    net.SendAsyncHex(new NP_EnterGame_008E());//вход в игру5, пакет C>s 0x033
+                    net.SendAsyncHex(new NP_EnterGame_008E_2());//вход в игру5, пакет C>s 0x033
                     once5 = false;
                     enter5 = true;
                     enter4 = false;
@@ -187,7 +187,7 @@ namespace ArcheAge.ArcheAge.Network
             {
                 if (once6)
                 {
-                    net.SendAsyncHex(new NP_EnterGame_008F());//вход в игру6, пакет C>s 0x036
+                    //net.SendAsyncHex(new NP_EnterGame_008F());//вход в игру6, пакет C>s 0x036
                     once6 = false;
                     enter6 = true;
                     enter5 = false;
@@ -479,7 +479,7 @@ namespace ArcheAge.ArcheAge.Network
                 //reader.Offset += 2; //Undefined Random Byte
                 AccountId = reader.ReadLEInt64(),
                 Name = reader.ReadDynamicString(),
-                Password = reader.ReadDynamicString(),
+                //Password = reader.ReadDynamicString(),
                 Token = reader.ReadDynamicString(),
                 AccessLevel = reader.ReadByte(),
                 Membership = reader.ReadByte(),

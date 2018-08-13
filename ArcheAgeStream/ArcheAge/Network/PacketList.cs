@@ -51,9 +51,9 @@ namespace ArcheAgeStream.ArcheAge.Network
             byte success = 0; //GameServerController.RegisterGameServer(id, password, net, port, ip);
             //отправляем на него TCJoinResponse_0x01
             net.SendAsync(new NET_TCJoinResponse_0x01(success));
-            m_idx = 0;  //0 - разрешаем пакеты
-            m_end1 = false; //false - разрешаем пакеты
-            m_end2 = false; //false - разрешаем пакеты
+            m_idx = 100;  //0 - разрешаем пакеты. Временно отключаем
+            m_end1 = true; //false - разрешаем пакеты. Временно запретим
+            m_end2 = true; //false - разрешаем пакеты. Временно запретим
         }
         private static void Handle_NoPacket_0x02(StreamConnection net, PacketReader reader)
         {

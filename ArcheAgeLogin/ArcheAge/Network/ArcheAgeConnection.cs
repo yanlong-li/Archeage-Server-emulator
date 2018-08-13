@@ -27,9 +27,9 @@ namespace ArcheAgeLogin.ArcheAge.Network
         {
             if (CurrentAccount != null)
             {
-                if(GameServerController.AuthorizedAccounts.ContainsKey(CurrentAccount.AccountId))
+                if(GameServerController.AuthorizedAccounts.ContainsKey(CurrentAccount.Session)) //AccountID
                 {
-                    GameServerController.AuthorizedAccounts.Remove(CurrentAccount.AccountId);
+                    GameServerController.AuthorizedAccounts.Remove(CurrentAccount.Session); //AccountID
                 }
                 //Removing Account From All GameServers
                 foreach (GameServer server in GameServerController.CurrentGameServers.Values)

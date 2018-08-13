@@ -1,4 +1,5 @@
 ﻿using LocalCommons.Logging;
+using LocalCommons.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -135,20 +136,22 @@ namespace LocalCommons.Network
                 {
                     NetPacket packet = m_PacketQueue.Dequeue();
                     byte[] compiled = packet.Compile();
-                    //--- Console Hexadecimal 
-                    StringBuilder builder = new StringBuilder();
-                    builder.Append("Send: ");
-                    //                    Logger.Trace(builder.ToString());
-                    //                    builder.Clear();
-                    foreach (byte b in compiled)
-                        builder.AppendFormat("{0:X2} ", b);
-                    //не выводим Pong
-                    if (compiled[4] != 0x13)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Gray;
-                        Logger.Trace(builder.ToString());
-                        Console.ResetColor();
-                    }
+                    m_CurrentChannel.Send(compiled, compiled.Length, SocketFlags.None);
+
+                    ////--- Console Hexadecimal 
+                    //StringBuilder builder = new StringBuilder();
+                    //builder.Append("Send: ");
+                    ////                    Logger.Trace(builder.ToString());
+                    ////                    builder.Clear();
+                    //foreach (byte b in compiled)
+                    //    builder.AppendFormat("{0:X2} ", b);
+                    ////не выводим Pong
+                    //if (compiled[4] != 0x13)
+                    //{
+                    //    Console.ForegroundColor = ConsoleColor.Gray;
+                    //    Logger.Trace(builder.ToString());
+                    //    Console.ResetColor();
+                    //}
                     //--- Console Hexadecimal 
                     //#if DEBUG
                     //                    string path = "d:\\dump.txt"; //The path to the file, ensure that files exist.
@@ -158,7 +161,53 @@ namespace LocalCommons.Network
                     //                    sw.Close();
                     //                    fs.Close();
                     //#endif
-                    m_CurrentChannel.Send(compiled, compiled.Length, SocketFlags.None);
+#if DEBUG
+                    //обрабатываем слипшиеся пакеты
+                    ushort offset = 2;
+                    ushort length = BitConverter.ToUInt16(compiled, 0); //проверяем, есть ли еще пакет
+                    while (length > 0 && offset < compiled.Length)
+                    {
+                        byte[] data = new byte[length];
+                        Buffer.BlockCopy(compiled, offset, data, 0, length);
+
+                        //--- Console Hexadecimal 
+                        //вывод лога пакетов в консоль
+                        /*StringBuilder*/
+                        StringBuilder builder = new StringBuilder();
+                        builder.Append("Send: ");
+                        builder.Append(Utility.IntToHex(length));
+                        builder.Append(" ");
+                        for (int i = 0; i < length; i++)
+                        {
+                            builder.AppendFormat("{0:X2} ", data[i]);
+                        }
+                        //не выводим Ping
+                        if (data[2] != 0x13)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Gray;
+                            Logger.Trace(builder.ToString());
+                            Console.ResetColor();
+                        }
+                        //--- Console Hexadecimal
+                        //#if DEBUG
+                        //--- File Hexadecimal
+                        //вывод лога пакетов в файл
+                        //string path = "d:\\dump.txt"; //The path to the file, ensure that files exist.
+                        //FileStream fs = new FileStream(path, FileMode.Append);
+                        //StreamWriter sw = new StreamWriter(fs);
+                        //sw.WriteLine(builder.ToString());
+                        //sw.Close();
+                        //fs.Close();
+                        //--- File Hexadecimal
+
+                        //                        m_CurrentChannel.Send(data, data.Length, SocketFlags.None); //отправляем на обработку данные пакета
+                        offset += length;
+                        if (offset >= compiled.Length)
+                            break;
+                        length = BitConverter.ToUInt16(compiled, offset); //проверяем, есть ли еще пакет
+                        offset += 2;
+                    }
+#endif
                 }
             }
             catch (Exception e)
@@ -170,7 +219,7 @@ namespace LocalCommons.Network
 
         /// <summary>
         /// Adds Packet To Queue And After Send It.
-        /// длина не вычмсляется, надо самому дописать перед пакетом
+        /// длина не вычисляется, надо самому дописать перед пакетом
         /// </summary>
         /// <param name="packet"></param>
         public virtual void SendAsyncHex(NetPacket packet)
@@ -178,6 +227,8 @@ namespace LocalCommons.Network
             if (CoalesceSleep != -1)
                 Thread.Sleep(CoalesceSleep);
             byte[] compiled = packet.Compile2();
+            m_CurrentChannel.Send(compiled, compiled.Length, SocketFlags.None);
+#if DEBUG
             //--- Console Hexadecimal 
             StringBuilder builder = new StringBuilder();
             builder.Append("Send: ");
@@ -199,9 +250,53 @@ namespace LocalCommons.Network
             //            sw.Close();
             //            fs.Close();
             //#endif
-            m_CurrentChannel.Send(compiled, compiled.Length, SocketFlags.None);
 
-            //Thread.Sleep(100);
+            //            //обрабатываем слипшиеся пакеты // убрал, почему то очень долго работает
+            //            ushort offset = 2;
+            //            ushort length = BitConverter.ToUInt16(compiled, 0); //проверяем, есть ли еще пакет
+            //            while (length > 0 && offset < compiled.Length)
+            //            {
+            //                byte[] data = new byte[length];
+            //                Buffer.BlockCopy(compiled, offset, data, 0, length);
+
+            //                //--- Console Hexadecimal 
+            //                //вывод лога пакетов в консоль
+            //                StringBuilder builder = new StringBuilder();
+            //                builder.Append("Send: ");
+            //                builder.Append(Utility.IntToHex(length));
+            //                builder.Append(" ");
+            //                for (int i = 0; i < length; i++)
+            //                {
+            //                    builder.AppendFormat("{0:X2} ", data[i]);
+            //                }
+            //                //не выводим Ping
+            //                if (data[2] != 0x13)
+            //                {
+            //                    Console.ForegroundColor = ConsoleColor.Gray;
+            //                    Logger.Trace(builder.ToString());
+            //                    Console.ResetColor();
+            //                }
+            //                //--- Console Hexadecimal
+            //                //#if DEBUG
+            //                //--- File Hexadecimal
+            //                //вывод лога пакетов в файл
+            //                //string path = "d:\\dump.txt"; //The path to the file, ensure that files exist.
+            //                //FileStream fs = new FileStream(path, FileMode.Append);
+            //                //StreamWriter sw = new StreamWriter(fs);
+            //                //sw.WriteLine(builder.ToString());
+            //                //sw.Close();
+            //                //fs.Close();
+            //                //#endif
+            //                //--- File Hexadecimal
+
+            ////                m_CurrentChannel.Send(data, data.Length, SocketFlags.None); //отправляем на обработку данные пакета
+            //                offset += length;
+            //                if (offset >= compiled.Length)
+            //                    break;
+            //                length = BitConverter.ToUInt16(compiled, offset); //проверяем, есть ли еще пакет
+            //                offset += 2;
+            //            }
+#endif
         }
 
         public virtual void SendAsync0d(NetPacket packet)
@@ -268,20 +363,52 @@ namespace LocalCommons.Network
                 return;
             }
             PacketReader reader = new PacketReader(m_RecvBuffer, 0);
-            short length = reader.ReadLEInt16();
-            short offset = 2;
+            //--- Console Hexadecimal 
+            //StringBuilder builder = new StringBuilder();
+            //builder.Append("Recv: ");
+            //for (int i = 0; i < transfered; i++)
+            //    builder.AppendFormat("{0:x2} ".ToUpper(), m_RecvBuffer[i]);
+            ////не выводим Ping
+            //if (m_RecvBuffer[4] != 0x12)
+            //{
+            //    Console.ForegroundColor = ConsoleColor.DarkGray;
+            //    Logger.Trace(builder.ToString());
+            //    Console.ResetColor();
+            //}
+            //--- Console Hexadecimal
+            //#if DEBUG
+            //--- File Hexadecimal
+            //вывод лога пакетов в файл
+            //string path = "d:\\dump.txt"; //The path to the file, ensure that files exist.
+            //FileStream fs = new FileStream(path, FileMode.Append);
+            //StreamWriter sw = new StreamWriter(fs);
+            //sw.WriteLine(builder.ToString());
+            //sw.Close();
+            //fs.Close();
+            //#endif
+            //--- File Hexadecimal
+
+            ushort length = reader.ReadLEUInt16();
+            ushort offset = 2;
             //обрабатываем слипшиеся пакеты
             while (length > 0 && offset < reader.Size)
             {
-
+                byte[] data = new byte[length];
+                Buffer.BlockCopy(m_RecvBuffer, offset, data, 0, length);
+                HandleReceived(data); //отправляем на обработку данные пакета
+#if DEBUG
                 //--- Console Hexadecimal 
-                //TODO: в выводе в лог разделять слипшиеся пакеты
+                //вывод лога пакетов в консоль
                 StringBuilder builder = new StringBuilder();
                 builder.Append("Recv: ");
-                for (int i = 0; i < transfered; i++)
-                    builder.AppendFormat("{0:x2} ".ToUpper(), m_RecvBuffer[i]);
+                builder.Append(Utility.IntToHex(length));
+                builder.Append(" ");
+                for (int i = 0; i < length; i++)
+                {
+                    builder.AppendFormat("{0:X2} ", data[i]);
+                }
                 //не выводим Ping
-                if (m_RecvBuffer[4] != 0x12)
+                if (data[2] != 0x12)
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGray;
                     Logger.Trace(builder.ToString());
@@ -289,6 +416,7 @@ namespace LocalCommons.Network
                 }
                 //--- Console Hexadecimal
                 //#if DEBUG
+                //--- File Hexadecimal
                 //вывод лога пакетов в файл
                 //string path = "d:\\dump.txt"; //The path to the file, ensure that files exist.
                 //FileStream fs = new FileStream(path, FileMode.Append);
@@ -297,13 +425,11 @@ namespace LocalCommons.Network
                 //sw.Close();
                 //fs.Close();
                 //#endif
-
-                byte[] data = new byte[length];
-                Buffer.BlockCopy(m_RecvBuffer, offset, data, 0, length);
-                HandleReceived(data); //отправляем на обработку данные пакета
+                //--- File Hexadecimal
+#endif
                 offset += length;
                 reader.Offset = offset;
-                length = reader.ReadLEInt16(); //проверяем, есть ли еще пакет
+                length = reader.ReadLEUInt16(); //проверяем, есть ли еще пакет
                 offset += 2;
             }
             reader.Clear(); //почистим буфер, инача считываются старые данные
@@ -375,8 +501,10 @@ namespace LocalCommons.Network
                 m_RecvBuffer = null;
                 m_AsyncReceive = null;
                 if (m_PacketQueue.Count <= 0)
+                {
                     lock (m_PacketQueue)
                         m_PacketQueue.Clear();
+                }
 
                 m_PacketQueue = null;
                 m_Disposing = false;

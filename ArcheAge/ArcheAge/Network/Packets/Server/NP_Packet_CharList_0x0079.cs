@@ -670,7 +670,7 @@ namespace ArcheAge.ArcheAge.Network
             msg = "Develo";
             ns.WriteUTF8Fixed(msg, msg.Length);
             ///CharRace 1
-            ///03 (Гномы)
+            ///01 (Нуиане)
             ns.Write((byte)0x01);
             ///CharGender 1
             ///02 (Ж)

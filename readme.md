@@ -1,5 +1,7 @@
 Update for ArcheRage.to 3.0.3.0
 
+ArcheAge (kor. 아키에이지 — "Ancient times"; ch. 上古世紀) — client fantasy massively multiplayer online role-playing game (MMORPG) for the PC, developed by Korean company XLGames. The game is set in the universe of ArcheAge — fantasy world with elements of medieval magic and steampunk.
+
 ![avatar](/doc/img/Screenshot_1.png)
 ![avatar](/doc/img/Screenshot_2.png)
 ![avatar](/doc/img/Screenshot_3.png)

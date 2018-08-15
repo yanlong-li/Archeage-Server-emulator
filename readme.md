@@ -8,3 +8,5 @@ ArcheAge (kor. 아키에이지 — "Ancient times"; ch. 上古世紀) — client
 ![avatar](/doc/img/Screenshot_4.png)
 ![avatar](/doc/img/Screenshot_5.png)
 ![avatar](/doc/img/Screenshot_6.png)
+![avatar](/doc/img/Screenshot_7.png)
+![avatar](/doc/img/Screenshot_8.png)

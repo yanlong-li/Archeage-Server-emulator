@@ -645,7 +645,7 @@ namespace LocalCommons.Network
 			return sb.ToString();
 		}
         /// <summary>
-        /// 阅读已经是16进制的数据，不经过其他转换
+        /// Reading String in HEX
         /// </summary>
         /// <param name="fixedLength">Length Of String</param>
         /// <returns>Readed String.</returns>

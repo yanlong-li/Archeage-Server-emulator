@@ -76,8 +76,8 @@ namespace ArcheAge.ArcheAge.Network
             ns.Write((int)0x011F8054);
             /// { 7, раз, предметы на герое?
             /// {1}
-            ///     type 4
-            ns.Write((int)0x5B5B);
+            ///     type 4 ItemID Head
+            ns.Write((int)0x5052);
             ///     id 8
             ns.Write((long)0x0501FAA5);
             ///     type 1
@@ -135,8 +135,8 @@ namespace ArcheAge.ArcheAge.Network
             ///     chargeUseSkillTime 8
             ns.Write((long)0x00);
             /// {2}
-            ///     type 4
-            ns.Write((int)0x5B5C);
+            ///     type 4 ItemID Chest
+            ns.Write((int)0x506D);
             ///     id 8
             ns.Write((long)0x0501FAA6);
             ///     type 1
@@ -194,8 +194,8 @@ namespace ArcheAge.ArcheAge.Network
             ///     chargeUseSkillTime 8
             ns.Write((long)0x00);
             /// {3}
-            ///     type 4
-            ns.Write((int)0x5B5E);
+            ///     type 4 ItemID Legs
+            ns.Write((int)0x5088);
             ///     id 8
             ns.Write((long)0x0501FAA7);
             ///     type 1
@@ -253,8 +253,8 @@ namespace ArcheAge.ArcheAge.Network
             ///     chargeUseSkillTime 8
             ns.Write((long)0x00);
             /// {4}
-            ///     type 4
-            ns.Write((int)0x15C1);
+            ///     type 4 ItemID Gloves
+            ns.Write((int)0x50A3);
             ///     id 8
             ns.Write((long)0x0501FAA8);
             ///     type 1
@@ -312,8 +312,8 @@ namespace ArcheAge.ArcheAge.Network
             ///     chargeUseSkillTime 8
             ns.Write((long)0x00);
             /// {5}
-            ///     type 4 itemId
-            ns.Write((int)0x1808);
+            ///     type 4 itemId Feet
+            ns.Write((int)0x50BE);
             ///     id 8 ObjectId
             ns.Write((long)0x0501FAA9);
             ///     type 1
@@ -371,7 +371,7 @@ namespace ArcheAge.ArcheAge.Network
             ///     chargeUseSkillTime 8
             ns.Write((long)0x00);
             /// {6}
-            ///     type 4
+            ///     type 4 ItemId
             ns.Write((int)0x17EF);
             ///     id 8
             ns.Write((long)0x0501FAAA);
@@ -705,8 +705,8 @@ namespace ArcheAge.ArcheAge.Network
             ns.Write((int)0x011F8054);
             /// { 7, раз, предметы на герое?
             /// {1}
-            ///     type 4
-            ns.Write((int)0x5B5B);
+            ///     type 4 ItemId Head
+            ns.Write((int)0x5103);
             ///     id 8
             ns.Write((long)0x066BC3B0);
             ///     type 1
@@ -764,8 +764,8 @@ namespace ArcheAge.ArcheAge.Network
             ///     chargeUseSkillTime 8
             ns.Write((long)0x00);
             /// {2}
-            ///     type 4
-            ns.Write((int)0x5B5C);
+            ///     type 4 ItemID Chest
+            ns.Write((int)0x511E);
             ///     id 8
             ns.Write((long)0x066BC3B1);
             ///     type 1
@@ -823,8 +823,8 @@ namespace ArcheAge.ArcheAge.Network
             ///     chargeUseSkillTime 8
             ns.Write((long)0x00);
             /// {3}
-            ///     type 4
-            ns.Write((int)0x5B5E);
+            ///     type 4 ItemID Legs
+            ns.Write((int)0x5139);
             ///     id 8
             ns.Write((long)0x066BC3B2);
             ///     type 1
@@ -882,8 +882,8 @@ namespace ArcheAge.ArcheAge.Network
             ///     chargeUseSkillTime 8
             ns.Write((long)0x00);
             /// {4}
-            ///     type 4
-            ns.Write((int)0x15C1);
+            ///     type 4 ItemID Gloves
+            ns.Write((int)0x5154);
             ///     id 8
             ns.Write((long)0x066BC3B3);
             ///     type 1
@@ -941,8 +941,8 @@ namespace ArcheAge.ArcheAge.Network
             ///     chargeUseSkillTime 8
             ns.Write((long)0x00);
             /// {5}
-            ///     type 4
-            ns.Write((int)0x1808);
+            ///     type 4 ItemID Feet
+            ns.Write((int)0x516F);
             ///     id 8
             ns.Write((long)0x066BC3B4);
             ///     type 1
@@ -1296,6 +1296,40 @@ namespace ArcheAge.ArcheAge.Network
         /// author: NLObP
         /// </summary>
         public NP_Packet_CharList_empty_0x0079() : base(05, 0x0079)
+        {
+            //пакеты для входа в Лобби
+            /*
+            CPU Dump
+            Address   Hex dump                                         ASCII (OEM - США)
+            4456FCD8  1E 11 48 02|01 00 00 00|00 00 00 00|00 00 00 00| H
+            */
+            //ns.WriteHex(
+            //"0800DD05FEA1C9531140");
+            //"0800DD051E114802" +
+            //    "0100");
+            ////расшифрованные данные из снифа пакета
+            //3.0.0.7
+            // size hash crc idx opcode data
+            //"0209 DD05 1E  11  4802   01 00"
+            //"0209 DD05 31  11  7900   01 00"
+
+            //3.0.3.0
+            ///last 1
+            ///01
+            ns.Write((byte)0x01);
+            ///count 1
+            ///00
+            ns.Write((byte)0x00);
+            ///дальше данные не считывались из пакета!!!
+        }
+    }
+    public sealed class NP_Packet_CharList_one_0x0079 : NetPacket
+    {
+        /// <summary>
+        /// пакет для входа в Лобби
+        /// author: NLObP
+        /// </summary>
+        public NP_Packet_CharList_one_0x0079() : base(05, 0x0079)
         {
             //пакеты для входа в Лобби
             /*

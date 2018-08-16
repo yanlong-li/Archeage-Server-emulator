@@ -56,7 +56,7 @@
   <ItemGroup>
     <Compile Include="Bufferization\BinaryOperations.cs" />
     <Compile Include="Cryptography\BdoTransformer.cs" />
-    <Compile Include="Cryptography\Class1.cs" />
+    <Compile Include="Cryptography\CtoSEncrypt.cs" />
     <Compile Include="Cryptography\Class2.cs" />
     <Compile Include="Cryptography\Cryptography.cs" />
     <Compile Include="Cryptography\Crypt.cs" />

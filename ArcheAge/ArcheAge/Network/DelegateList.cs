@@ -488,7 +488,7 @@ namespace ArcheAge.ArcheAge.Network
                 Characters = reader.ReadByte(),
                 Session = reader.ReadLEInt32()
             };
-            Logger.Trace("Prepare login account ID: " + account.AccountId);
+            Logger.Trace("Prepare login account ID: {0}, Session(cookie): {1}", account.AccountId, account.Session);
             //Check if the account is online and force it to disconnect online
             //Account m_Authorized = ClientConnection.CurrentAccounts.FirstOrDefault(kv => kv.Value.AccountId == account.AccountId).Value;
             //Account m_Authorized = ClientConnection.CurrentAccounts.FirstOrDefault(kv => kv.Value.Session == account.Session && kv.Value.AccountId == account.AccountId).Value;
@@ -500,12 +500,12 @@ namespace ArcheAge.ArcheAge.Network
                 if (acc.Connection != null)
                 {
                     acc.Connection.Dispose(); //Disconenct  
-                    Logger.Trace("Account Name: " + acc.Name + " log in twice, old connection is forcibly disconnected");
+                    Logger.Trace("Account Name: {0} log in twice, old connection is forcibly disconnected", acc.Name);
                 }
                 else
                 {
                     ClientConnection.CurrentAccounts.Remove(m_Authorized.Session);
-                    Logger.Trace("Account Name: " + acc.Name + " double connection is forcibly disconnected");
+                    Logger.Trace("Account Name: {0} double connection is forcibly disconnected", acc.Name);
                 }
             }
             else

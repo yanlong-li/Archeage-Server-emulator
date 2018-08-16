@@ -94,14 +94,14 @@ namespace LocalCommons.Cryptography
         }
         //--------------------------------------------------------------------------------------
         /// <summary>
-        /// подпрограмма для encode/decode серверных пакетов, правильно шифрует и расшифровывает серверные пакеты DD05 для версии 3.0.0.7
+        /// подпрограмма для encode/decode серверных пакетов, правильно шифрует и расшифровывает серверные пакеты DD05 для версии 3.0.3.0
         /// </summary>
-        /// <param name="bodyPacket">адрес начиная с DD</param>
+        /// <param name="bodyPacket">адрес начиная с байта за DD05</param>
         /// <returns>возвращает адрес на подготовленные данные</returns>
         public static byte[] StoCEncrypt(byte[] bodyPacket)
         {
             byte[] array = new byte[bodyPacket.Length];
-            uint cry = (uint)(bodyPacket.Length ^ 0x1F2175A0); //522286496
+            uint cry = (uint)(bodyPacket.Length ^ 0x1F2175A0);
             int n = 4 * (bodyPacket.Length / 4);
             for (int i = n - 1; i >= 0; i--)
                 array[i] = (byte)(bodyPacket[i] ^ (uint)Inline(ref cry));
@@ -116,7 +116,7 @@ namespace LocalCommons.Cryptography
         public static byte[] CtoSDecrypt(byte[] bodyPacket, uint unkKey)
         {
             byte[] array = new byte[bodyPacket.Length];
-            uint cry = ((uint)(unkKey + (ulong)bodyPacket.Length) * unkKey) ^ 0x75A02453u; // 0x75A01F21u;
+            uint cry = ((uint)(unkKey + (ulong)bodyPacket.Length) * unkKey) ^ 0x75A01F21u;
             int n = 4 * (bodyPacket.Length / 4);
             for (int i = n - 1; i >= 0; i--)
                 array[i] = (byte)(bodyPacket[i] ^ (uint)Inline(ref cry));

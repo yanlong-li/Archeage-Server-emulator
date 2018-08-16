@@ -29,7 +29,7 @@ namespace ArcheAgeLauncher
             using (var game = new Process())
             {
                 var info = new ProcessStartInfo("archeage.exe");
-                info.Arguments = string.Format(args + " -r +auth_ip {0} -uid {1} -token {2}",
+                info.Arguments = string.Format(args + " -r +auth_ip {0} -uid {1} -token {2} +acpxmk",
                     ip + ":" + port,
                     uid.Text,
                     token

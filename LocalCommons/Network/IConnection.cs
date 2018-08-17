@@ -18,14 +18,14 @@ namespace LocalCommons.Network
         protected Socket m_CurrentChannel;
         private SocketAsyncEventArgs m_AsyncReceive;
         private byte[] m_RecvBuffer;
-        private object m_SyncRoot = new object();
+        private readonly object m_SyncRoot = new object();
         private Queue<NetPacket> m_PacketQueue;
         private bool m_Disposing;
-        private DateTime m_NextCheckActivity;
-        private string m_Address;
+        private readonly DateTime m_NextCheckActivity;
+        private readonly string m_Address;
         private static int m_CoalesceSleep = -1;
         private bool m_BlockAllPackets;
-        private DateTime m_ConnectedOn;
+        private readonly DateTime m_ConnectedOn;
         private static BufferPool m_RecvBufferPool = new BufferPool("Receive", 4096, 4096);
         protected event EventHandler DisconnectedEvent;
         private bool m_Running;
@@ -71,7 +71,7 @@ namespace LocalCommons.Network
             //-------------Async Receive ----------------------
             m_AsyncReceive = new SocketAsyncEventArgs();
             m_AsyncReceive.Completed += M_AsyncReceive_Completed;
-            m_AsyncReceive.SetBuffer(m_RecvBuffer, 0, m_RecvBuffer.Length);
+            m_AsyncReceive.SetBuffer(buffer: m_RecvBuffer, offset: 0, count: m_RecvBuffer.Length);
             //-------------------------------------------------
             m_PacketQueue = new Queue<NetPacket>();
             //-----------------------------------------------
@@ -85,7 +85,7 @@ namespace LocalCommons.Network
         /// <summary>
         /// Set TRUE If you want Break Running.
         /// </summary>
-        private bool BreakRunProcess;
+        private readonly bool BreakRunProcess;
 
         /// <summary>
         /// Start Running Receiving Process.

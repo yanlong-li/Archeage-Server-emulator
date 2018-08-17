@@ -1,5 +1,9 @@
-cd d:\DEVELOPMENT\archeage\SRC\AAServer\ArcheAgeLogin\bin\Debug
-start AALoginServer.exe 
-
-rem cd d:\DEVELOPMENT\archeage\SRC\AAServer\ArcheAge\bin\Debug
-rem start AAGameServer.exe 
+cd .\ArcheAgeLogin\bin\Debug\
+start AALoginServer.exe
+cd ..\..\..
+cd .\ArcheAge\bin\Debug\
+start AAGameServer.exe
+cd ..\..\..
+cd .\ArcheAgeStream \bin\Debug\
+start AAStreamServer.exe
+cd ..\..\..

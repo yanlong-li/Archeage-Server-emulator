@@ -37,7 +37,7 @@ namespace ArcheAge.ArcheAge.Network
             ns.Write((short)0x01);
             ///size.uiData
             ///0B00 76657273696F6E20310D0A
-            const string uiData = "76657273696F6E20310D0A";
+            string uiData = "76657273696F6E20310D0A";
             ns.WriteHex(uiData, uiData.Length);
             ///size 4
             ///0C00000000
@@ -79,7 +79,7 @@ namespace ArcheAge.ArcheAge.Network
             ns.Write((short)0x02);
             ///size.uiData
             ///0B00 76657273696F6E20320D0A 
-            const string uiData = "76657273696F6E20320D0A";
+            string uiData = "76657273696F6E20320D0A";
             ns.WriteHex(uiData, uiData.Length);
             ///size 4 
             ///0C00000000
@@ -117,10 +117,10 @@ namespace ArcheAge.ArcheAge.Network
             ns.Write((int)0x01E796);
             ///uiDataType 2
             ///0100
-            ns.Write((short)0x02);
+            ns.Write((short)0x01);
             ///size.uiData
             ///0B00 76657273696F6E20310D0A
-            const string uiData = "76657273696F6E20320D0A";
+            string uiData = "76657273696F6E20310D0A";
             ns.WriteHex(uiData, uiData.Length);
             ///size 4
             ///0C00000000
@@ -158,10 +158,10 @@ namespace ArcheAge.ArcheAge.Network
             ns.Write((int)0x01E796);
             ///uiDataType 2   
             ///0200
-            ns.Write((short)0x01);
+            ns.Write((short)0x02);
             ///size.uiData
             ///0B00 76657273696F6E20320D0A
-            const string uiData = "76657273696F6E20320D0A";
+            string uiData = "76657273696F6E20320D0A";
             ns.WriteHex(uiData, uiData.Length);
             ///size 4   
             ///0C00000000

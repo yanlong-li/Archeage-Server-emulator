@@ -15,12 +15,13 @@ namespace LocalCommons.Network
     public abstract class NetPacket
     {
         protected PacketWriter ns;
-        private int packetId;
-        private bool m_littleEndian;
+        private readonly int packetId;
+        private readonly bool m_littleEndian;
         private bool m_IsArcheAge;
-        private byte level;
-        private static byte m_NumPck = 0;  //глобальный подсчет пакетов DD05
-
+        private readonly byte level;
+        //Fix by Yanlong-LI
+        //Исправление входа второго пользователя, вторичный логин, счетчик повторного соединения с возвратом в лобби, вызванный ошибкой
+        public static byte m_NumPck = 0;  //修复第二用户、二次登陆、大厅返回重连DD05计数器造成错误问题 BUG глобальный подсчет пакетов DD05
 
         public bool IsArcheAgePacket
         {

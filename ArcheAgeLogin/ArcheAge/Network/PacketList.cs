@@ -277,6 +277,11 @@ namespace ArcheAgeLogin.ArcheAge.Network
                 if (n_Current.Token.ToLower() == m_RToken.ToLower())
                 {
                     net.CurrentAccount = n_Current;
+                    if (GameServerController.AuthorizedAccounts.ContainsKey(net.CurrentAccount.AccountId))
+                    {
+                        //Удалим результаты предыдущего коннекта для нормального реконнекта
+                        GameServerController.AuthorizedAccounts.Remove(net.CurrentAccount.AccountId);
+                    }
                     //Write account number information Write Online account list
                     GameServerController.AuthorizedAccounts.Add(net.CurrentAccount.AccountId, net.CurrentAccount);
                     Logger.Trace("Account ID: " + n_Current.AccountId + " & Account Name: " + n_Current.Name + " landing success");

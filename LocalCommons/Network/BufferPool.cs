@@ -10,19 +10,32 @@ namespace LocalCommons.Network
     /// </summary>
 	public class BufferPool
 	{
-		private static List<BufferPool> m_Pools = new List<BufferPool>();
 
-		public static List<BufferPool> Pools{ get{ return m_Pools; } set{ m_Pools = value; } }
+        public static List<BufferPool> Pools { get; private set; } = new List<BufferPool>();
 
-		private string m_Name;
+        static BufferPool()
+        {
+            Pools = new List<BufferPool>();
+        }
 
-		private int m_InitialCapacity;
-		private int m_BufferSize;
+        private readonly string m_Name;
+
+		private readonly int m_InitialCapacity;
+		private readonly int m_BufferSize;
 
 		private int m_Misses;
 
-		private Queue<byte[]> m_FreeBuffers;
-        
+		private readonly Queue<byte[]> m_FreeBuffers;
+
+        public int Count
+        {
+            get
+            {
+                lock (this)
+                    return m_FreeBuffers.Count;
+            }
+        }
+
         /// <summary>
         /// Writing Information About your Pool Into your Variables.
         /// </summary>
@@ -32,9 +45,15 @@ namespace LocalCommons.Network
         /// <param name="currentCapacity">Capacity In Use</param>
         /// <param name="bufferSize">Buffer Length</param>
         /// <param name="misses">Misses Count</param>
-		public void GetInfo( out string name, out int freeCount, out int initialCapacity, out int currentCapacity, out int bufferSize, out int misses )
+        public void GetInfo(
+            out string name,
+            out int freeCount,
+            out int initialCapacity,
+            out int currentCapacity,
+            out int bufferSize,
+            out int misses)
 		{
-			lock ( this )
+			lock (this)
 			{
 				name = m_Name;
 				freeCount = m_FreeBuffers.Count;
@@ -51,20 +70,23 @@ namespace LocalCommons.Network
         /// <param name="name">Buffer Pool's Name/</param>
         /// <param name="initialCapacity">Buffer Pool's Capacity</param>
         /// <param name="bufferSize">Length Of Any Buffer.</param>
-		public BufferPool( string name, int initialCapacity, int bufferSize )
+		public BufferPool(
+            string name,
+            int initialCapacity,
+            int bufferSize)
 		{
 			m_Name = name;
 
 			m_InitialCapacity = initialCapacity;
 			m_BufferSize = bufferSize;
 
-			m_FreeBuffers = new Queue<byte[]>( initialCapacity );
+			m_FreeBuffers = new Queue<byte[]>(initialCapacity);
 
-			for ( int i = 0; i < initialCapacity; ++i )
-				m_FreeBuffers.Enqueue( new byte[bufferSize] );
+			for (int i = 0; i < initialCapacity; ++i)
+				m_FreeBuffers.Enqueue(new byte[bufferSize]);
 
-			lock ( m_Pools )
-				m_Pools.Add( this );
+			lock (Pools)
+				Pools.Add(this);
 		}
 
         /// <summary>
@@ -73,15 +95,15 @@ namespace LocalCommons.Network
         /// <returns></returns>
 		public byte[] AcquireBuffer()
 		{
-			lock ( this )
+			lock (this)
 			{
-				if ( m_FreeBuffers.Count > 0 )
+				if (m_FreeBuffers.Count > 0)
 					return m_FreeBuffers.Dequeue();
 
 				++m_Misses;
 
-				for ( int i = 0; i < m_InitialCapacity; ++i )
-					m_FreeBuffers.Enqueue( new byte[m_BufferSize] );
+				for (int i = 0; i < m_InitialCapacity; ++i)
+					m_FreeBuffers.Enqueue(new byte[m_BufferSize]);
 
 				return m_FreeBuffers.Dequeue();
 			}
@@ -91,13 +113,13 @@ namespace LocalCommons.Network
         /// Releases Buffer and Put it to Free Buffers.
         /// </summary>
         /// <param name="buffer"></param>
-		public void ReleaseBuffer( byte[] buffer )
+		public void ReleaseBuffer(byte[] buffer)
 		{
-			if ( buffer == null )
+			if (buffer == null)
 				return;
 
-			lock ( this )
-				m_FreeBuffers.Enqueue( buffer );
+			lock (this)
+				m_FreeBuffers.Enqueue(buffer);
 		}
 
         /// <summary>
@@ -105,8 +127,8 @@ namespace LocalCommons.Network
         /// </summary>
 		public void Free()
 		{
-			lock ( m_Pools )
-				m_Pools.Remove( this );
+			lock ( Pools )
+				Pools.Remove( this );
 		}
 	}
 }

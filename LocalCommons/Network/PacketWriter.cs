@@ -9,7 +9,7 @@ namespace LocalCommons.Network
     /// Provides functionality for writing primitive binary data.
     /// Author: Raphail
     /// </summary>
-    public class PacketWriter: IDisposable
+    public class PacketWriter : IDisposable
     {
         private static Stack<PacketWriter> m_Pool = new Stack<PacketWriter>();
         private bool m_LittleEndian;
@@ -27,7 +27,7 @@ namespace LocalCommons.Network
         /// Constructor
         /// </summary>
         /// <param name="capacity">размер в байтах</param>
-        /// <param name="LittleEndian">порядок байтов</param>
+        /// <param name="LittleEndian">порядок байтов от младших к старшим (слева направо)</param>
         /// <returns></returns>
         public static PacketWriter CreateInstance(int capacity, bool LittleEndian)
         {
@@ -47,10 +47,8 @@ namespace LocalCommons.Network
             }
             if (pw == null)
                 pw = new PacketWriter(capacity);
-
             pw.m_LittleEndian = LittleEndian;
             return pw;
-
         }
 
         /// <summary>
@@ -85,23 +83,19 @@ namespace LocalCommons.Network
         /// <summary>
         /// Internal stream which holds the entire packet.
         /// </summary>
-
         private MemoryStream m_Stream;
         private int m_Capacity;
 
         /// <summary>
         /// Internal format buffer.
         /// </summary>
-
         private static byte[] m_Buffer = new byte[4];
 
         /// <summary>
         /// Instantiates a new PacketWriter instance with the default capacity of 4 bytes.
         /// </summary>
-        public PacketWriter()
-            : this(32)
+        public PacketWriter() : this(32)
         {
-
         }
 
         /// <summary>
@@ -173,21 +167,12 @@ namespace LocalCommons.Network
             }
             m_Stream.Write(m_Buffer, 0, 2);
         }
-        public void Writec(float value,Boolean c)
-        {
-            if (c) { };
-            byte[] data = BitConverter.GetBytes(value);
-            m_Stream.Write(data, 0, data.Length);
-            if (!m_LittleEndian)
-                Array.Reverse(data);
-        }
 
         /// <summary>
         /// Writes a 4-byte signed integer value to the underlying stream.
         /// </summary>
         public void Write(int value)
         {
-
             if (m_LittleEndian)
             {
                 m_Buffer[3] = (byte)(value >> 24);
@@ -202,28 +187,8 @@ namespace LocalCommons.Network
                 m_Buffer[2] = (byte)(value >> 8);
                 m_Buffer[3] = (byte)value;
             }
-
             m_Stream.Write(m_Buffer, 0, 4);
-
         }
-
-
-        public void Write(float value)
-        {
-            byte[] data = BitConverter.GetBytes(value);
-            if (!m_LittleEndian)
-                Array.Reverse(data);
-            m_Stream.Write(data, 0, 4);
-        }
-
-        public void Write(long value)
-        {
-            byte[] data = BitConverter.GetBytes(value);
-            m_Stream.Write(data, 0, 8);
-            if (!m_LittleEndian)
-                Array.Reverse(data);
-        }
-
 
         /// <summary>
         /// Writes a 4-byte unsigned integer value to the underlying stream.
@@ -250,9 +215,34 @@ namespace LocalCommons.Network
 
         }
 
+        public void Writec(float value, Boolean c)
+        {
+            if (c) { };
+            byte[] data = BitConverter.GetBytes(value);
+            if (!m_LittleEndian)
+                Array.Reverse(data);
+            m_Stream.Write(data, 0, data.Length);
+        }
+
+        public void Write(float value)
+        {
+            byte[] data = BitConverter.GetBytes(value);
+            if (!m_LittleEndian)
+                Array.Reverse(data);
+            m_Stream.Write(data, 0, 4);
+        }
+
+        public void Write(long value)
+        {
+            byte[] data = BitConverter.GetBytes(value);
+            if (!m_LittleEndian)
+                Array.Reverse(data);
+            m_Stream.Write(data, 0, 8);
+        }
+
         /// <summary>
-        /// Пишем массив байт buffer, начиная со смещения offset в этом массива, длиной size
-        /// длину не вставляем перед массивом
+		/// Writes a sequence of bytes to the underlying stream
+        /// Пишем массив байт buffer, начиная со смещения offset в этом массива, длиной size, длину не вставляем перед массивом
         /// </summary>
         /// <param name="buffer">указатель на буфер пакета</param>
         /// <param name="offset">смещение в буфере пакета</param>
@@ -263,6 +253,7 @@ namespace LocalCommons.Network
         }
 
         /// <summary>
+		/// Writes a sequence of bytes to the underlying stream
         /// Пишем массив байт buffer, начиная со смещения offset в этом массива, длиной size подсчитанной из размера буфера,
         /// длину size вставляем перед массивом
         /// Author: NLObP
@@ -276,26 +267,22 @@ namespace LocalCommons.Network
             m_Stream.Write(buffer, offset, size);
         }
 
-
         /// <summary>
-        /// Write ASCII Fixed No Size
+        /// Writes a fixed-length ASCII-encoded string value to the underlying stream. To fit (size), the string content is either truncated or padded with null characters.
+        /// Записывает строковое значение с фиксированной длиной ASCII в базовый поток. Чтобы соответствовать (размер), содержимое строки либо усекается, либо дополняется нулевыми символами.
+        /// Размер не пишем перед строкой
         /// </summary>
         public void WriteASCIIFixedNoSize(string value, int size)
         {
-
             if (value == null)
             {
                 Console.WriteLine("Network: Attempted to WriteAsciiFixed() with null value");
                 value = String.Empty;
             }
-
             int length = value.Length;
-            //Write((short)length);
             m_Stream.SetLength(m_Stream.Length + size);
-
             if (length >= size)
                 m_Stream.Position += Encoding.ASCII.GetBytes(value, 0, size, m_Stream.GetBuffer(), (int)m_Stream.Position);
-
             else
             {
                 Encoding.ASCII.GetBytes(value, 0, length, m_Stream.GetBuffer(), (int)m_Stream.Position);
@@ -305,30 +292,35 @@ namespace LocalCommons.Network
 
         /// <summary>
         /// Writes a fixed-length ASCII-encoded string value to the underlying stream. To fit (size), the string content is either truncated or padded with null characters.
+        /// Записывает строковое значение с фиксированной длиной ASCII в базовый поток. Чтобы соответствовать (размер), содержимое строки либо усекается, либо дополняется нулевыми символами.
+        /// Размер пишем перед строкой
         /// </summary>
-
         public void WriteASCIIFixed(string value, int size)
         {
-
             if (value == null)
             {
                 Console.WriteLine("Network: Attempted to WriteAsciiFixed() with null value");
                 value = String.Empty;
             }
-
             int length = value.Length;
-            Write((short)length);
+            Write((short)size);
             m_Stream.SetLength(m_Stream.Length + size);
-
             if (length >= size)
                 m_Stream.Position += Encoding.ASCII.GetBytes(value, 0, size, m_Stream.GetBuffer(), (int)m_Stream.Position);
-            
             else
             {
                 Encoding.ASCII.GetBytes(value, 0, length, m_Stream.GetBuffer(), (int)m_Stream.Position);
                 m_Stream.Position += size;
             }
         }
+
+        /// <summary>
+        /// Writes a fixed-length UTF-encoded string value to the underlying stream. To fit (size), the string content is either truncated or padded with null characters.
+        /// Записывает строковое значение с фиксированной длиной UTF-8 в базовый поток. Чтобы соответствовать (размер), содержимое строки либо усекается, либо дополняется нулевыми символами.
+        /// Размер пишем перед строкой
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="size"></param>
         public void WriteUTF8Fixed(string value, int size)
         {
             if (value == null)
@@ -337,14 +329,14 @@ namespace LocalCommons.Network
                 value = String.Empty;
             }
             int length = value.Length;
-            Write((short)length);
-            m_Stream.SetLength(m_Stream.Length + length);
+            Write((short)size);
+            m_Stream.SetLength(m_Stream.Length + size);
             if (length >= size)
-                m_Stream.Position += UTF8Encoding.UTF8.GetBytes(value, 0, length, m_Stream.GetBuffer(), (int)m_Stream.Position);
+                m_Stream.Position += UTF8Encoding.UTF8.GetBytes(value, 0, size, m_Stream.GetBuffer(), (int)m_Stream.Position);
             else
             {
                 UTF8Encoding.UTF8.GetBytes(value, 0, length, m_Stream.GetBuffer(), (int)m_Stream.Position);
-                m_Stream.Position += length*3;
+                m_Stream.Position += size * 3; //зачем умножение на 3?!
             }
         }
         /// <summary>
@@ -353,7 +345,8 @@ namespace LocalCommons.Network
         /// <param name="value"></param>
         public void WriteHex(string value)
         {
-            if (value.Length %2 != 0) {
+            if (value.Length % 2 != 0)
+            {
                 Console.Write("Network: Attempted to WriteHex() the binary key cannot have an odd number of digits");
                 return;
             }
@@ -362,7 +355,7 @@ namespace LocalCommons.Network
             byte[] bytes = new byte[value.Length / 2];
             for (int i = 0; i < bytes.Length; i++)
             {
-                    bytes[i] = byte.Parse(value.Substring(i * 2, 2), System.Globalization.NumberStyles.HexNumber);
+                bytes[i] = byte.Parse(value.Substring(i * 2, 2), System.Globalization.NumberStyles.HexNumber);
             }
             bytes.CopyTo(m_Stream.GetBuffer(), (int)m_Stream.Position);
             m_Stream.Position += length;
@@ -538,19 +531,15 @@ namespace LocalCommons.Network
             }
         }
 
-
-
         /// <summary>
         /// Gets or sets the current stream position.
         /// </summary>
         public long Position
         {
-
             get
             {
                 return m_Stream.Position;
             }
-
             set
             {
                 m_Stream.Position = value;
@@ -560,7 +549,6 @@ namespace LocalCommons.Network
         /// <summary>
         /// The internal stream used by this PacketWriter instance.
         /// </summary>
-
         public MemoryStream UnderlyingStream
         {
             get
@@ -572,7 +560,6 @@ namespace LocalCommons.Network
         /// <summary>
         /// Offsets the current position from an origin.
         /// </summary>
-
         public long Seek(long offset, SeekOrigin origin)
         {
             return m_Stream.Seek(offset, origin);
@@ -586,6 +573,7 @@ namespace LocalCommons.Network
         {
             return m_Stream.ToArray();
         }
+
         #region IDisposable Support
         private bool disposedValue = false; // Для определения избыточных вызовов
 

@@ -16,8 +16,8 @@ namespace LocalCommons.Network
     /// <typeparam name="T"></typeparam>
 	public class PacketHandler<T>
 	{
-		private int m_PacketID;
-		private OnPacketReceive<T> m_OnReceive;
+		private readonly int m_PacketID;
+		private readonly OnPacketReceive<T> m_OnReceive;
 
 		public PacketHandler(int packetID, OnPacketReceive<T> onReceive )
 		{

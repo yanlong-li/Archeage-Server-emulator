@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ArcheAge</RootNamespace>
-    <AssemblyName>ArcheAgeGameServer</AssemblyName>
+    <AssemblyName>AAGameServer</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>опубликовать\</PublishUrl>

@@ -15,7 +15,10 @@ namespace ArcheAge.ArcheAge.Network.Connections
     {
         //----- Static
         private static Dictionary<int, Account> m_CurrentAccounts = new Dictionary<int, Account>();
-        private byte m_Random;
+        private readonly byte m_Random;
+        //Fix by Yanlong-LI
+        //Исправление входа второго пользователя, вторичный логин, счетчик повторного соединения с возвратом в лобби, вызванный ошибкой
+        public byte m_NumPck = 0;  //修复第二用户、二次登陆、大厅返回重连DD05计数器造成错误问题 BUG глобальный подсчет пакетов DD05
         public static Dictionary<int, Account> CurrentAccounts
         {
             get { return m_CurrentAccounts; }
@@ -23,7 +26,8 @@ namespace ArcheAge.ArcheAge.Network.Connections
 
         public Account CurrentAccount { get; set; }
 
-        public ClientConnection(Socket socket) : base(socket) {
+        public ClientConnection(Socket socket) : base(socket)
+        {
             Logger.Trace("Client IP: {0} connected", this);
             DisconnectedEvent += ClientConnection_DisconnectedEvent;
             m_LittleEndian = true;
@@ -32,7 +36,12 @@ namespace ArcheAge.ArcheAge.Network.Connections
         public override void SendAsync(NetPacket packet)
         {
             packet.IsArcheAgePacket = true;
+            //Fix by Yanlong-LI
+            //Переопределяем счетчик для текущего соединения
+            NetPacket.m_NumPck = m_NumPck;//重写为当前连接的计数
             base.SendAsync(packet);
+            //Записываем счетчик обратно
+            m_NumPck = NetPacket.m_NumPck;//将计数回写
         }
         public void SendAsyncd(NetPacket packet)
         {
@@ -64,8 +73,11 @@ namespace ArcheAge.ArcheAge.Network.Connections
                         opcode = 0x008E; //вход в игру5
                         break;
                     case 0x34:
-                        //opcode = 0x0088; //пакет на релогин
+                        opcode = 0x0088; //пакет на релогин из лобби
                         break;
+                    //case 0x35:
+                    //    opcode = 0x0088; //пакет на релогин из игры
+                    //    break;
                     case 0x36:
                         opcode = 0x008F; //вход в игру6
                         break;

@@ -55,12 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bufferization\BinaryOperations.cs" />
-    <Compile Include="Cryptography\BdoTransformer.cs" />
-    <Compile Include="Cryptography\CtoSEncrypt.cs" />
-    <Compile Include="Cryptography\Class2.cs" />
-    <Compile Include="Cryptography\Cryptography.cs" />
-    <Compile Include="Cryptography\Crypt.cs" />
-    <Compile Include="Cryptography\Encryption.cs" />
+    <Compile Include="Cryptography\Encrypt.cs" />
     <Compile Include="Logging\Bar.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Network\AsyncListener.cs" />

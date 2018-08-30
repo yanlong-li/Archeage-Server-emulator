@@ -1,14 +1,23 @@
-﻿using LocalCommons.Network;
-using LocalCommons.Utilities;
+﻿using ArcheAgeLogin.ArcheAge.Holders;
+using ArcheAgeLogin.ArcheAge.Structuring;
+using LocalCommons.Network;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ArcheAgeLogin.ArcheAge.Structuring;
-using ArcheAgeLogin.ArcheAge.Holders;
 
 namespace ArcheAgeLogin.ArcheAge.Network
 {
+    /// <summary>
+    /// Для посылки неразобранных пакетов
+    /// </summary>
+    public sealed class NP_Hex : NetPacket
+    {
+        public NP_Hex(string value) : base(0, 0x0)
+        {
+            ns.WriteHex(value);
+        }
+    }
     /// <summary>
     /// Sends Information About That Login Was right and we can continue =)
     /// </summary>
@@ -16,10 +25,17 @@ namespace ArcheAgeLogin.ArcheAge.Network
     {
         public AcJoinResponse_0X00(string clientVersion) : base(0x00, true)
         {
-            if (clientVersion == "3")
+            switch (clientVersion)
             {
-                //v.3.0.3.0
-                /*
+                case "1":
+                    //0C00 0000 00 0003000000000000 00
+                    ns.Write((byte)0x00);     //reason
+                    ns.Write((long)0x0300);  //afs
+                    ns.Write((byte)0x00);   //slotCount
+                    break;
+                case "3":
+                    //v.3.0.3.0
+                    /*
                 [2]             S>c             0ms.            20:17:29 .900      05.07.18
                 -------------------------------------------------------------------------------
                  TType: ArcheageServer: LS1     Parse: 6           EnCode: off         
@@ -36,14 +52,13 @@ namespace ArcheAgeLogin.ArcheAge.Network
                 
                 0D00 0000 0100 0006034800000000 00
                 */
-                ns.Write((short)0x01);        //reason
-                ns.Write((long)0x48030600);  //afs
-                ns.Write((byte)0x00);       //slotCount
-            }
-            else
-            {
-                //4.5.5.1
-                /*
+                    ns.Write((short)0x01);        //reason
+                    ns.Write((long)0x48030600);  //afs
+                    ns.Write((byte)0x00);       //slotCount
+                    break;
+                default:
+                    //4.5.5.1
+                    /*
                 [2]             S>c             0ms.            14:19:03 .472      23.07.18
                 -------------------------------------------------------------------------------
                  TType: ArcheageServer: LS1     Parse: 6           EnCode: off         
@@ -60,9 +75,10 @@ namespace ArcheAgeLogin.ArcheAge.Network
                 
                 0D00 0000 0000 0004021B00000000 00
                 */
-                ns.Write((short)0x00);        //reason
-                ns.Write((long)0x1B020400);  //afs
-                ns.Write((byte)0x00);       //slotCount
+                    ns.Write((short)0x00);        //reason
+                    ns.Write((long)0x1B020400);  //afs
+                    ns.Write((byte)0x00);       //slotCount
+                    break;
             }
         }
     }
@@ -73,65 +89,71 @@ namespace ArcheAgeLogin.ArcheAge.Network
     {
         public AcAuthResponse_0X03(string clientVersion, ArcheAgeConnection net) : base(0x03, true)
         {
-            /*
-            [3]             S>c             0ms.            2:25:10 .845      23.06.18
-            -------------------------------------------------------------------------------
-             TType: ArcheageServer: undef   Parse: 6           EnCode: off         
-            ------- 0  1  2  3  4  5  6  7 -  8  9  A  B  C  D  E  F    -------------------
-            000000 2D 00 03 00 1A C7 00 00 | 00 00 00 00 20 00 41 31     -....Ç...... .A1
-            000010 38 44 37 41 30 35 45 32 | 32 45 34 35 39 42 44 31     8D7A05E22E459BD1
-            000020 41 38 31 39 32 32 32 42 | 38 32 31 30 33 30 00        A819222B821030.
-            -------------------------------------------------------------------------------
-            Archeage: "ACAuthResponse"                   size: 47     prot: 2  $002
-                        Addr:  Size:    Type:         Description:     Value:
-                        0000     2   word          psize             45         | $002D
-            0002     2   word          ID                3          | $0003
-            0004     8   int64         accountId         50970      | $0000C71A
-            000C    34   WideStr[byte] wsk               A18D7A05E22E459BD1A819222B821030  ($)
-            002E     1   byte          slotCount         0          | $00
-            
-            2D00 0300 1AC7000000000000 2000 3346393243304532324430383344313843333233353433363932413442373630 00
-             */
-            //v.3.0.3.0
-            if (clientVersion == "3")
+            switch (clientVersion)
             {
-                ns.Write((long)net.CurrentAccount.AccountId); // записываем AccountID
-                //wsk - wide string key, в каждой сесии один и тот-же, даже при перелогине (выборе сервера)
-                const string wsk = "A18D7A05E22E459BD1A819222B821030"; //для теста
-                ns.WriteUTF8Fixed(wsk, wsk.Length);
-                //slotCount
-                ns.Write((byte)0x00);
-            }
-            else
-            {
+                case "1":
+                    //2800 0300 58330000 2000 3236393631326537613630393431313862623735303764626334326261353934
+                    ns.Write((int)net.CurrentAccount.AccountId); // записываем AccountID
+                    //wsk - wide string key, в каждой сесии один и тот-же, даже при перелогине (выборе сервера)
+                    string wsk = "A18D7A05E22E459BD1A819222B821030"; //для теста
+                    ns.WriteASCIIFixed(wsk, wsk.Length);
+                    break;
                 /*
-                [3]             S>c             0ms.            14:42:03 .045      23.07.18
+                [3]             S>c             0ms.            2:25:10 .845      23.06.18
                 -------------------------------------------------------------------------------
-                 TType: ArcheageServer: LS1     Parse: 6           EnCode: off         
+                TType: ArcheageServer: undef   Parse: 6           EnCode: off         
                 ------- 0  1  2  3  4  5  6  7 -  8  9  A  B  C  D  E  F    -------------------
-                000000 2F 00 03 00 5A 43 05 00 | 00 00 00 00 20 00 63 34     /...ZC...... .c4
-                000010 30 39 39 32 30 36 63 38 | 66 32 34 38 63 35 39 65     099206c8f248c59e
-                000020 66 64 63 33 66 36 61 63 | 66 66 64 66 66 37 00 00     fdc3f6acffdff7..
-                000030 00                                                    .
+                000000 2D 00 03 00 1A C7 00 00 | 00 00 00 00 20 00 41 31     -....Ç...... .A1
+                000010 38 44 37 41 30 35 45 32 | 32 45 34 35 39 42 44 31     8D7A05E22E459BD1
+                000020 41 38 31 39 32 32 32 42 | 38 32 31 30 33 30 00        A819222B821030.
                 -------------------------------------------------------------------------------
-                Archeage: "ACAuthResponse"                   size: 49     prot: 2  $002
-                Addr:  Size:    Type:         Description:     Value:
-                0000     2   word          psize             47         | $002F
+                Archeage: "ACAuthResponse"                   size: 47     prot: 2  $002
+                            Addr:  Size:    Type:         Description:     Value:
+                            0000     2   word          psize             45         | $002D
                 0002     2   word          ID                3          | $0003
-                0004     8   int64         accountId         344922     | $0005435A
-                000C    34   WideStr[byte] wsk               c4099206c8f248c59efdc3f6acffdff7  ($)
+                0004     8   int64         accountId         50970      | $0000C71A
+                000C    34   WideStr[byte] wsk               A18D7A05E22E459BD1A819222B821030  ($)
                 002E     1   byte          slotCount         0          | $00
-                
-                2F00 0300 5A43050000000000 2000 6334303939323036633866323438633539656664633366366163666664666637 0000 00
-                 
-                 */
-                ns.Write((long)net.CurrentAccount.AccountId); // записываем AccountID
-                //wsk - wide string key, в каждой сесии один и тот-же, даже при перелогине (выборе сервера)
-                const string wsk = "c4099206c8f248c59efdc3f6acffdff7"; //для теста
-                ns.WriteUTF8Fixed(wsk, wsk.Length);
-                ns.Write((short)0x00);
-                //slotCount
-                ns.Write((byte)0x00);
+            
+                2D00 0300 1AC7000000000000 2000 3346393243304532324430383344313843333233353433363932413442373630 00
+                */
+                //v.3.0.3.0
+                case "3":
+                    ns.Write((long)net.CurrentAccount.AccountId); // записываем AccountID
+                                                                  //wsk - wide string key, в каждой сесии один и тот-же, даже при перелогине (выборе сервера)
+                    wsk = "A18D7A05E22E459BD1A819222B821030"; //для теста
+                    ns.WriteUTF8Fixed(wsk, wsk.Length);
+                    //slotCount
+                    ns.Write((byte)0x00);
+                    break;
+                default:
+                    /*
+                    [3]             S>c             0ms.            14:42:03 .045      23.07.18
+                    -------------------------------------------------------------------------------
+                    TType: ArcheageServer: LS1     Parse: 6           EnCode: off         
+                    ------- 0  1  2  3  4  5  6  7 -  8  9  A  B  C  D  E  F    -------------------
+                    000000 2F 00 03 00 5A 43 05 00 | 00 00 00 00 20 00 63 34     /...ZC...... .c4
+                    000010 30 39 39 32 30 36 63 38 | 66 32 34 38 63 35 39 65     099206c8f248c59e
+                    000020 66 64 63 33 66 36 61 63 | 66 66 64 66 66 37 00 00     fdc3f6acffdff7..
+                    000030 00                                                    .
+                    -------------------------------------------------------------------------------
+                    Archeage: "ACAuthResponse"                   size: 49     prot: 2  $002
+                    Addr:  Size:    Type:         Description:     Value:
+                    0000     2   word          psize             47         | $002F
+                    0002     2   word          ID                3          | $0003
+                    0004     8   int64         accountId         344922     | $0005435A
+                    000C    34   WideStr[byte] wsk               c4099206c8f248c59efdc3f6acffdff7  ($)
+                    002E     1   byte          slotCount         0          | $00
+                    2F00 0300 5A43050000000000 2000 6334303939323036633866323438633539656664633366366163666664666637 0000 00
+                     */
+                    ns.Write((long)net.CurrentAccount.AccountId); // записываем AccountID
+                    //wsk - wide string key, в каждой сесии один и тот-же, даже при перелогине (выборе сервера)
+                    wsk = "c4099206c8f248c59efdc3f6acffdff7"; //для теста
+                    ns.WriteUTF8Fixed(wsk, wsk.Length);
+                    ns.Write((short)0x00);
+                    //slotCount
+                    ns.Write((byte)0x00);
+                    break;
             }
         }
     }
@@ -139,33 +161,35 @@ namespace ArcheAgeLogin.ArcheAge.Network
     {
         public AcAccountWarned_0X0D(string clientVersion) : base(0x0D, true)
         {
-            /*
-            [6]             S>c             0ms.            2:25:15 .942      23.06.18
-            -------------------------------------------------------------------------------
-             TType: ArcheageServer: undef   Parse: 6           EnCode: off         
-            ------- 0  1  2  3  4  5  6  7 -  8  9  A  B  C  D  E  F    -------------------
-            000000 28 00 0D 00 01 23 00 59 | 6F 75 20 61 72 65 20 69     (....#.You are i
-            000010 6E 20 58 32 20 41 75 74 | 68 20 53 65 72 76 65 72     n X2 Auth Server
-            000020 2C 20 77 65 6C 63 6F 6D | 65 21                       , welcome!
-            -------------------------------------------------------------------------------
-            Archeage: "ACAccountWarned"                  size: 42     prot: 2  $002
-            Addr:  Size:    Type:         Description:     Value:
-            0000     2   word          psize             40         | $0028
-            0002     2   word          ID                13         | $000D
-            0004     1   byte          source            1          | $01
-            0005    37   WideStr[byte] msg               You are in X2 Auth Server, welcome!  ($)
-            */
-            //v.3.0.3.0
-            if (clientVersion == "3")
+            switch (clientVersion)
             {
-                byte source = 1;
-                ns.Write(source);
-                const string msg = "You are in X2 Auth Server, welcome!"; //для теста
-                ns.WriteUTF8Fixed(msg, msg.Length);
+                /*
+                [6]             S>c             0ms.            2:25:15 .942      23.06.18
+                -------------------------------------------------------------------------------
+                 TType: ArcheageServer: undef   Parse: 6           EnCode: off         
+                ------- 0  1  2  3  4  5  6  7 -  8  9  A  B  C  D  E  F    -------------------
+                000000 28 00 0D 00 01 23 00 59 | 6F 75 20 61 72 65 20 69     (....#.You are i
+                000010 6E 20 58 32 20 41 75 74 | 68 20 53 65 72 76 65 72     n X2 Auth Server
+                000020 2C 20 77 65 6C 63 6F 6D | 65 21                       , welcome!
+                -------------------------------------------------------------------------------
+                Archeage: "ACAccountWarned"                  size: 42     prot: 2  $002
+                Addr:  Size:    Type:         Description:     Value:
+                0000     2   word          psize             40         | $0028
+                0002     2   word          ID                13         | $000D
+                0004     1   byte          source            1          | $01
+                0005    37   WideStr[byte] msg               You are in X2 Auth Server, welcome!  ($)
+                */
+                //v.3.0.3.0
+                case "3":
+                    ns.Write((byte)1); //source = 1;
+                    const string msg = "You are in X2 Auth Server, welcome!"; //для теста
+                    ns.WriteUTF8Fixed(msg, msg.Length);
+                    break;
+                default:
+                    ns.WriteHex(
+                        "012300596F752061726520696E2058322041757468205365727665722C2077656C636F6D6521"); //запись байтов без пробелов
+                    break;
             }
-            else
-                ns.WriteHex(
-                    "012300596F752061726520696E2058322041757468205365727665722C2077656C636F6D6521"); //запись байтов без пробелов
         }
     }
 
@@ -174,53 +198,70 @@ namespace ArcheAgeLogin.ArcheAge.Network
     /// </summary>
     public sealed class AcWorldCookie_0X0A : NetPacket
     {
-        public AcWorldCookie_0X0A(GameServer server, int cookie) : base(0x0A, true)
+        public AcWorldCookie_0X0A(string clientVersion, GameServer server, int cookie) : base(0x0A, true)
         {
-            /*
-            [8]             S>c             0ms.            23:56:46 .052      10.03.18
-            -------------------------------------------------------------------------------
-             TType: ArcheageServer: undef   Parse: 6           EnCode: off         
-            ------- 0  1  2  3  4  5  6  7 -  8  9  A  B  C  D  E  F    -------------------
-            000000 1E 00 0A 00 14 49 AB 07 | 7F 7E 20 B2 D7 04 00 00     .....I«.~ ІЧ...
-            000010 00 00 00 00 00 00 00 00 | 00 00 00 00 00 00 00 00     ................
-            -------------------------------------------------------------------------------
-            Archeage: "ACWorldCookie"                    size: 32     prot: 2  $002
-            Addr:  Size:    Type:         Description:     Value:
-            0000     2   word          psize             30         | $001E
-            0002     2   word          ID                10         | $000A
-            0004     4   integer       cookie            128665876  | $07AB4914
-            0008     1   byte          IP4               127        | $7F ''
-            0009     1   byte          IP3               126        | $7E '~'
-            000A     1   byte          IP2               32         | $20
-            000B     1   byte          IP1               178        | $B2 'І'
-            000C     2   word          port              1239       | $04D7
-            */
-            //v.3.0.3.0
-            var ipArray = server.IPAddress.Split('.');
-            if (ipArray.Length == 4)
+            switch (clientVersion)
             {
-                //Write cookie
-                ns.Write((int)cookie);
-                //The main address
-                for (var i = 3; i > -1; i--) ns.Write((byte)Convert.ToInt32(ipArray[i]));
-            }
-            else
-            {
-                //Write cookie
-                ns.Write(cookie);
-                //The main address
-                ns.Write((byte)0x01); //1
-                ns.Write((byte)0x00); //0
-                ns.Write((byte)0x00); //0
-                ns.Write((byte)0x7f); //127
-            }
+                case "1":
+                    ns.Write((int)cookie);
+                    string ipAddress = server.IPAddress; //Main address
+                    ns.WriteUTF8Fixed(ipAddress, ipAddress.Length);
+                    ns.Write(server.Port); //1239
+                    break;
+                //v.3.0.3.0
+                case "3":
+                    /*
+                    [8]             S>c             0ms.            23:56:46 .052      10.03.18
+                    -------------------------------------------------------------------------------
+                     TType: ArcheageServer: undef   Parse: 6           EnCode: off         
+                    ------- 0  1  2  3  4  5  6  7 -  8  9  A  B  C  D  E  F    -------------------
+                    000000 1E 00 0A 00 14 49 AB 07 | 7F 7E 20 B2 D7 04 00 00     .....I«.~ ІЧ...
+                    000010 00 00 00 00 00 00 00 00 | 00 00 00 00 00 00 00 00     ................
+                    -------------------------------------------------------------------------------
+                    Archeage: "ACWorldCookie"                    size: 32     prot: 2  $002
+                    Addr:  Size:    Type:         Description:     Value:
+                    0000     2   word          psize             30         | $001E
+                    0002     2   word          ID                10         | $000A
+                    0004     4   integer       cookie            128665876  | $07AB4914
+                    0008     1   byte          IP4               127        | $7F ''
+                    0009     1   byte          IP3               126        | $7E '~'
+                    000A     1   byte          IP2               32         | $20
+                    000B     1   byte          IP1               178        | $B2 'І'
+                    000C     2   word          port              1239       | $04D7
+                    */
+                    //v.3.0.3.0
+                    var ipArray = server.IPAddress.Split('.');
+                    if (ipArray.Length == 4)
+                    {
+                        //Write cookie
+                        ns.Write((int)cookie);
+                        //The main address
+                        for (var i = 3; i > -1; i--)
+                        {
+                            ns.Write((byte)Convert.ToInt32(ipArray[i]));
+                        }
+                    }
+                    else
+                    {
+                        //Write cookie
+                        ns.Write(cookie);
+                        //The main address
+                        ns.Write((byte)0x01); //1
+                        ns.Write((byte)0x00); //0
+                        ns.Write((byte)0x00); //0
+                        ns.Write((byte)0x7f); //127
+                    }
 
-            ns.Write(server.Port);   //1239
-            ns.Write((short)0x00);
-            ns.Write((int)0x00);
-            ns.Write((int)0x00);
-            ns.Write((int)0x00);
-            ns.Write((int)0x00);
+                    ns.Write(server.Port); //1239
+                    ns.Write((short)0x00);
+                    ns.Write((int)0x00);
+                    ns.Write((int)0x00);
+                    ns.Write((int)0x00);
+                    ns.Write((int)0x00);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -234,119 +275,151 @@ namespace ArcheAgeLogin.ArcheAge.Network
         /// </summary>
         public AcWorldList_0X08(string clientVersion, ArcheAgeConnection net) : base(0x08, true)
         {
-            /*
-            [5]             S>c             0ms.            23:03:31 .885      23.06.18
-            -------------------------------------------------------------------------------
-             TType: ArcheageServer: LS1     Parse: 6           EnCode: off         
-            ------- 0  1  2  3  4  5  6  7 -  8  9  A  B  C  D  E  F    -------------------
-            000000 7F 00 08 00 01 01 01 00 | 09 00 41 72 63 68 65 52     .........ArcheR
-            000010 61 67 65 01 00 00 00 00 | 00 00 00 00 00 00 02 1A     age.............
-            000020 C7 00 00 00 00 00 00 01 | D7 94 01 00 06 00 52 65     З.......Ч”....Re
-            000030 6D 6F 74 61 03 02 10 00 | DC 0D 0C FC D3 E0 18 47     mota....Ь..ьУа.G
-            000040 AD 2A 5D 55 EA 47 1C DF | 00 00 00 00 00 00 00 00     ­*]UкG.Я........
-            000050 1A C7 00 00 00 00 00 00 | 01 96 E7 01 00 06 00 44     .З.......–з....D
-            000060 65 76 65 6C 6F 01 02 10 | 00 CE CB 85 98 F5 41 B0     evelo....ОЛ…хA°
-            000070 4B A6 74 C7 83 4D DC 5D | 14 00 00 00 00 00 00 00     K¦tЗѓMЬ]........
-            000080 00                                                    .
-            -------------------------------------------------------------------------------
-            Archeage: "ACWorldList"                      size: 129    prot: 2  $002
-            Addr:  Size:    Type:         Description:     Value:
-            0000     2   word          psize             127        | $007F
-            0002     2   word          ID                8          | $0008
-            0004     1   byte          count             1          | $01
-            0005     1   byte          id                1          | $01
-            0006     1   byte          type              1          | $01
-            0007     1   byte          color             0          | $00
-            0008    11   WideStr[byte] ServerName        ArcheRage  ($)
-            0013     1   byte          online            1          | $01
-            0014     1   byte          status            0          | $00
-            0015     1   byte          __                0          | $00
-            0016     1   byte          nuiane            0          | $00
-            0017     1   byte          __                0          | $00
-            0018     1   byte          dwarf             0          | $00
-            0019     1   byte          elf               0          | $00
-            001A     1   byte          harniec           0          | $00
-            001B     1   byte          ferre             0          | $00
-            001C     1   byte          warmozu           0          | $00
-            001D     1   byte          a                 0          | $00
-            001E     1   byte          chCount           2          | $02
-            001F     8   int64         accountId         50970      | $0000C71A
-            0027     1   byte          worldId           1          | $01
-            0028     4   integer       type              103639     | $000194D7
-            002C     8   WideStr[byte] CharName          Remota  ($)
-            0034     1   byte          CharRace          гномы  ($03)
-            0035     1   byte          CharGender        Ж  ($02)
-            0036    18   WideStr[byte] GUID              DC0D0CFCD3E01847AD2A5D55EA471CDF  ($)
-            0048     8   int64         v                 0          | $00000000
-            0050     8   int64         accountId         50970      | $0000C71A
-            0058     1   byte          worldId           1          | $01
-            0059     4   integer       type              124822     | $0001E796
-            005D     8   WideStr[byte] CharName          Develo  ($)
-            0065     1   byte          CharRace          нуиане  ($01)
-            0066     1   byte          CharGender        Ж  ($02)
-            0067    18   WideStr[byte] GUID              CECB8598F541B04BA674C7834DDC5D14  ($)
-            0079     8   int64         v                 0          | $00000000             
-            */
-            //4E000800  //пробная запись с одним чаром Remota - гномка
-            //ns.WriteHex("0101010009004172636865526167650100000000000000000000011AC70000000000000152770100060052656D6F7461030210001F3F1EE73B4D974BA9F5659BA68279570000000000000000");
-            //1D000800  //пробная запись - сервер ArcheRage, нет чаров, начало создания
-            ////ns.WriteHex("010101000900417263686552616765010000000000000000000000");
-            //v.3.0.3.0
-            //Посылаем список серверов, количество чаров на аккаунтах
-            var m_Current = GameServerController.CurrentGameServers.Values.ToList();
-            //Write The number of servers
-            ns.Write((byte)m_Current.Count);
-            //Информация по серверу
-            foreach (var server in m_Current)
+            switch (clientVersion)
             {
-                ns.Write((byte)server.Id);
-                ns.Write((byte)0x01); //надпись в списке серверов 00-нет надписи, 01- НОВЫЙ, 02-ОБЪЕДИНЕННЫЙ, 03-ОБЪЕДИНЕННЫЙ, 04-нет надписи
-                ns.Write((byte)0x02); //цвут надписи в списке серверов 00-синий, 01- зеленая, 02-фиолет, 03, 04, 08-красный, 0x10-
-                ns.WriteUTF8Fixed(server.Name, Encoding.UTF8.GetByteCount(server.Name));
-                //ns.WriteASCIIFixed(server.Name, server.Name.Length);
-                var online = server.IsOnline() ? (byte)0x01 : (byte)0x02; //1 Online 2 Offline
-                ns.Write((byte)online); //Server Status - 0x00 
-                var status = server.CurrentAuthorized.Count >= server.MaxPlayers ? 0x01 : 0x00;
-                ns.Write((byte)status); //Server Status - 0x00 - normal / 0x01 - load / 0x02 - queue
-                ns.Write((byte)0x00); //unknown
-                //The following sections are the racial restrictions on server creation for this server selection interface 0 Normal 2 Prohibited
-                ns.Write((byte)0x00); //Noah
-                ns.Write((byte)0x00);
-                ns.Write((byte)0x00); //Dwarf family
-                ns.Write((byte)0x00); //Elf
-                ns.Write((byte)0x00); //Haliland
-                ns.Write((byte)0x00); //Animal clan
-                ns.Write((byte)0x00);
-                ns.Write((byte)0x00); //War Mozu 
-            }
-
-            CharacterHolder.LoadCharacterData(); //считываем героев
-            byte CharCount = net.CurrentAccount.Characters; //смотрим сколько героев на аккаунте
-            //Write The current user account number
-            ns.Write((byte)CharCount); //CharCount
-            if (CharCount != 0)
-            {
-                long m_AccountId = net.CurrentAccount.AccountId; //считываем только наших героев
-                foreach (Character n_Current in CharacterHolder.CharactersList)
-                {
-                    if (n_Current.AccountId == m_AccountId)
+                case "1":
+                    ns.Write((byte)1); // Count
+                    ns.Write((byte)1);
+                    string projectName = "AAPlay.ru";
+                    ns.WriteASCIIFixed(projectName, projectName.Length);
+                    ns.Write((byte)1);
+                    ns.Write((short)0);
+                    ns.Write((short)0);
+                    ns.Write((int)0);
+                    ns.Write((short)0);
+                    ns.Write((byte)1); // Count
+                    ns.Write((int)1);
+                    ns.Write((byte)1);
+                    ns.Write((int)1);
+                    projectName = "AAPlay.ru";
+                    ns.WriteASCIIFixed(projectName, projectName.Length);
+                    ns.Write((byte)1);
+                    ns.Write((byte)1);
+                    projectName = "";
+                    ns.WriteASCIIFixed(projectName, projectName.Length);
+                    ns.Write((int)0);
+                    ns.Write((int)0);
+                    break;
+                case "3":
+                    /*
+                    [5]             S>c             0ms.            23:03:31 .885      23.06.18
+                    -------------------------------------------------------------------------------
+                     TType: ArcheageServer: LS1     Parse: 6           EnCode: off         
+                    ------- 0  1  2  3  4  5  6  7 -  8  9  A  B  C  D  E  F    -------------------
+                    000000 7F 00 08 00 01 01 01 00 | 09 00 41 72 63 68 65 52     .........ArcheR
+                    000010 61 67 65 01 00 00 00 00 | 00 00 00 00 00 00 02 1A     age.............
+                    000020 C7 00 00 00 00 00 00 01 | D7 94 01 00 06 00 52 65     З.......Ч”....Re
+                    000030 6D 6F 74 61 03 02 10 00 | DC 0D 0C FC D3 E0 18 47     mota....Ь..ьУа.G
+                    000040 AD 2A 5D 55 EA 47 1C DF | 00 00 00 00 00 00 00 00     ­*]UкG.Я........
+                    000050 1A C7 00 00 00 00 00 00 | 01 96 E7 01 00 06 00 44     .З.......–з....D
+                    000060 65 76 65 6C 6F 01 02 10 | 00 CE CB 85 98 F5 41 B0     evelo....ОЛ…хA°
+                    000070 4B A6 74 C7 83 4D DC 5D | 14 00 00 00 00 00 00 00     K¦tЗѓMЬ]........
+                    000080 00                                                    .
+                    -------------------------------------------------------------------------------
+                    Archeage: "ACWorldList"                      size: 129    prot: 2  $002
+                    Addr:  Size:    Type:         Description:     Value:
+                    0000     2   word          psize             127        | $007F
+                    0002     2   word          ID                8          | $0008
+                    0004     1   byte          count             1          | $01
+                    0005     1   byte          id                1          | $01
+                    0006     1   byte          type              1          | $01
+                    0007     1   byte          color             0          | $00
+                    0008    11   WideStr[byte] ServerName        ArcheRage  ($)
+                    0013     1   byte          online            1          | $01
+                    0014     1   byte          status            0          | $00
+                    0015     1   byte          __                0          | $00
+                    0016     1   byte          nuiane            0          | $00
+                    0017     1   byte          __                0          | $00
+                    0018     1   byte          dwarf             0          | $00
+                    0019     1   byte          elf               0          | $00
+                    001A     1   byte          harniec           0          | $00
+                    001B     1   byte          ferre             0          | $00
+                    001C     1   byte          warmozu           0          | $00
+                    001D     1   byte          a                 0          | $00
+                    001E     1   byte          chCount           2          | $02
+                    001F     8   int64         accountId         50970      | $0000C71A
+                    0027     1   byte          worldId           1          | $01
+                    0028     4   integer       type              103639     | $000194D7
+                    002C     8   WideStr[byte] CharName          Remota  ($)
+                    0034     1   byte          CharRace          гномы  ($03)
+                    0035     1   byte          CharGender        Ж  ($02)
+                    0036    18   WideStr[byte] GUID              DC0D0CFCD3E01847AD2A5D55EA471CDF  ($)
+                    0048     8   int64         v                 0          | $00000000
+                    0050     8   int64         accountId         50970      | $0000C71A
+                    0058     1   byte          worldId           1          | $01
+                    0059     4   integer       type              124822     | $0001E796
+                    005D     8   WideStr[byte] CharName          Develo  ($)
+                    0065     1   byte          CharRace          нуиане  ($01)
+                    0066     1   byte          CharGender        Ж  ($02)
+                    0067    18   WideStr[byte] GUID              CECB8598F541B04BA674C7834DDC5D14  ($)
+                    0079     8   int64         v                 0          | $00000000             
+                    */
+                    //4E000800  //пробная запись с одним чаром Remota - гномка
+                    //ns.WriteHex("0101010009004172636865526167650100000000000000000000011AC70000000000000152770100060052656D6F7461030210001F3F1EE73B4D974BA9F5659BA68279570000000000000000");
+                    //1D000800  //пробная запись - сервер ArcheRage, нет чаров, начало создания
+                    ////ns.WriteHex("010101000900417263686552616765010000000000000000000000");
+                    //v.3.0.3.0
+                    //Посылаем список серверов, количество чаров на аккаунтах
+                    var m_Current = GameServerController.CurrentGameServers.Values.ToList();
+                    //Write The number of servers
+                    ns.Write((byte)m_Current.Count);
+                    //Информация по серверу
+                    foreach (var server in m_Current)
                     {
-                        ns.Write((long)n_Current.AccountId); //AccountID
-                        ns.Write((byte)n_Current.WorldId); //WorldID
-                        ns.Write((int)n_Current.Type); //type
-                        string charname = n_Current.CharName;
-                        ns.WriteASCIIFixed(charname, charname.Length);
-                        ns.Write((byte)n_Current.CharRace); //Char Race - 01=нуиане, 03 = гномы
-                        ns.Write((byte)n_Current.CharGender); //CharGender - 01-М, 02=Ж
-                        string uid = n_Current.GUID;  //UID - Параметры чара
-                        ns.WriteHex(uid, uid.Length);
-                        ns.Write((long)n_Current.V); //v
+                        ns.Write((byte)server.Id);
+                        ns.Write((byte)0x01); //надпись в списке серверов 00-нет надписи, 01- НОВЫЙ, 02-ОБЪЕДИНЕННЫЙ, 03-ОБЪЕДИНЕННЫЙ, 04-нет надписи
+                        ns.Write((byte)0x02); //цвут надписи в списке серверов 00-синий, 01- зеленая, 02-фиолет, 03, 04, 08-красный, 0x10-
+                        ns.WriteUTF8Fixed(server.Name, Encoding.UTF8.GetByteCount(server.Name));
+                        //ns.WriteASCIIFixed(server.Name, server.Name.Length);
+                        var online = server.IsOnline() ? (byte)0x01 : (byte)0x02; //1 Online 2 Offline
+                        ns.Write((byte)online); //Server Status - 0x00 
+                        var status = server.CurrentAuthorized.Count >= server.MaxPlayers ? 0x01 : 0x00;
+                        ns.Write((byte)status); //Server Status - 0x00 - normal / 0x01 - load / 0x02 - queue
+                        ns.Write((byte)0x00); //unknown
+                                              //The following sections are the racial restrictions on server creation for this server selection interface 0 Normal 2 Prohibited
+                        ns.Write((byte)0x00); //Noah
+                        ns.Write((byte)0x00);
+                        ns.Write((byte)0x00); //Dwarf family
+                        ns.Write((byte)0x00); //Elf
+                        ns.Write((byte)0x00); //Haliland
+                        ns.Write((byte)0x00); //Animal clan
+                        ns.Write((byte)0x00);
+                        ns.Write((byte)0x00); //War Mozu 
                     }
-                }
+
+                    CharacterHolder.LoadCharacterData(); //считываем героев
+                    byte CharCount = net.CurrentAccount.Characters; //смотрим сколько героев на аккаунте
+                                                                    //Write The current user account number
+                    ns.Write((byte)CharCount); //CharCount
+                    if (CharCount != 0)
+                    {
+                        long m_AccountId = net.CurrentAccount.AccountId; //считываем только наших героев
+                        foreach (Character n_Current in CharacterHolder.CharactersList)
+                        {
+                            if (n_Current.AccountId == m_AccountId)
+                            {
+                                ns.Write((long)n_Current.AccountId); //AccountID
+                                ns.Write((byte)n_Current.WorldId); //WorldID
+                                ns.Write((int)n_Current.Type); //type
+                                string charname = n_Current.CharName;
+                                ns.WriteASCIIFixed(charname, charname.Length);
+                                ns.Write((byte)n_Current.CharRace); //Char Race - 01=нуиане, 03 = гномы
+                                ns.Write((byte)n_Current.CharGender); //CharGender - 01-М, 02=Ж
+                                string uid = n_Current.GUID; //UID - Параметры чара
+                                ns.WriteHex(uid, uid.Length);
+                                ns.Write((long)n_Current.V); //v
+                            }
+                        }
+                    }
+
+                    break;
+                default:
+
+                    break;
             }
         }
     }
-    
+
     /// <summary>
     /// Sends Request To Specified Game Server by Entered Information
     /// </summary>
@@ -362,7 +435,9 @@ namespace ArcheAgeLogin.ArcheAge.Network
                 ns.Write(sessionId);
                 //The main address
                 for (var i = 3; i > -1; i--)
+                {
                     ns.Write((byte)Convert.ToInt32(ipArray[i]));
+                }
             }
             else
             {
@@ -409,7 +484,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
                 ns.Write((short)0x48);
                 ns.Write((int)0x0);
             }
-            
+
         }
     }
 
@@ -477,8 +552,11 @@ namespace ArcheAgeLogin.ArcheAge.Network
             foreach (GameServer server in m_Current)
             {
                 ns.Write(server.Id);
-                 if (clientVersion == "3")
-                     ns.Write((short)0x00);
+                if (clientVersion == "3")
+                {
+                    ns.Write((short)0x00);
+                }
+
                 ns.WriteUTF8Fixed(server.Name, System.Text.UTF8Encoding.UTF8.GetByteCount(server.Name));
                 //ns.WriteASCIIFixed(server.Name, server.Name.Length);
                 var online = server.IsOnline() ? (byte)0x01 : (byte)0x02; //1 Online 2 Offline
@@ -486,7 +564,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
                 var status = server.CurrentAuthorized.Count >= server.MaxPlayers ? 0x01 : 0x00;
                 ns.Write((byte)status); //Server Status - 0x00 - normal / 0x01 - load / 0x02 - queue
                 ns.Write((byte)0x00); //unknown
-                //The following sections are the racial restrictions on server creation for this server selection interface 0 Normal 2 Prohibited
+                                      //The following sections are the racial restrictions on server creation for this server selection interface 0 Normal 2 Prohibited
                 ns.Write((byte)0x00); //Noah
                 ns.Write((byte)0x00);
                 ns.Write((byte)0x00); //Dwarf family
@@ -505,10 +583,10 @@ namespace ArcheAgeLogin.ArcheAge.Network
             ns.Write((short)0x174); //Undefined
             ns.Write((short)0x3DEF); //Undefined
             ns.Write((byte)0x00); //Undefined
-            
+
             //String? CharName? Probably Last Character.
             ns.WriteASCIIFixed("Raphael", "Raphael".Length);
-            
+
             //Undefined
             ns.Write((byte)0x01);
             ns.Write((byte)0x02);
@@ -586,7 +664,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
         {
             //Rijndael / SHA256
             ns.Write((int)5000); //round 5000
-            //le - string
+                                 //le - string
             ns.WriteASCIIFixed("xnDekI2enmWuAvwL", 16); //initVec
             byte[] b = new byte[32];
             ns.Write(b, 0, b.Length);
@@ -637,7 +715,6 @@ namespace ArcheAgeLogin.ArcheAge.Network
         }
     }
 
-
     /// <summary>
     /// Prompt when the account is blocked
     /// </summary>
@@ -647,7 +724,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
         {
             ns.Write((byte)0x06); // Reason
             ns.Write((int)0x00);//Undefined
-            //ns.Write((short)0x00);//Undefined
+                                //ns.Write((short)0x00);//Undefined
         }
     }
 
@@ -662,9 +739,9 @@ namespace ArcheAgeLogin.ArcheAge.Network
         }
     }
 
-    public sealed class NP_EditMessage2:NetPacket
+    public sealed class NP_EditMessage2 : NetPacket
     {
-        public NP_EditMessage2(string Message):base (0x0C, true)
+        public NP_EditMessage2(string Message) : base(0x0C, true)
         {
             ns.Write((short)0x054c);
             ns.Write((short)0x00);
@@ -678,7 +755,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
     /// <summary>
     /// Repeat login
     /// </summary>
-    public sealed class NP_DuplicateLogin:NetPacket
+    public sealed class NP_DuplicateLogin : NetPacket
     {
         public NP_DuplicateLogin() : base(0x07, true)
         {

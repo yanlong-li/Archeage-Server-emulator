@@ -3,12 +3,12 @@ using System;
 
 namespace ArcheAge.ArcheAge.Network
 {
-    public sealed class NP_Pong : NetPacket
+    public sealed class NP_Pong_0x0013 : NetPacket
     {
         ///<summary>
         ///Ответ на пакеты Ping клиента
         ///</summary>
-        public NP_Pong(long tm, long when, int local) : base(2, 0x0013)
+        public NP_Pong_0x0013(long tm, long when, int local) : base(2, 0x0013)
         {
             ns.Write((long)tm); //tm
             ns.Write((long)when); //when

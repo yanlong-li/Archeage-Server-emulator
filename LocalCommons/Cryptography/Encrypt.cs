@@ -1,5 +1,4 @@
-﻿using LocalCommons.Utilities;
-using System;
+﻿using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -70,7 +69,7 @@ namespace LocalCommons.Cryptography
             return array;
         }
         //--------------------------------------------------------------------------------------
-        internal static uint XorKey = 0x4DCF36A9; // XorKey = XorKey * XorKey & 0xffffffff; найти откуда берется!!!;
+        //internal static uint XorKey; // XorKey = XorKey * XorKey & 0xffffffff; TODO: найти откуда берется!!!;
         internal static int Num = -1;
         //--------------------------------------------------------------------------------------
         /// <summary>
@@ -78,14 +77,15 @@ namespace LocalCommons.Cryptography
         /// </summary>
         /// <param name="bodyPacket">packet data, starting after message-key byte</param>
         /// <param name="msgKey">unique key for each message</param>
+        /// <param name="xorKey">xor key </param>
         /// <param name="offset">xor decryption can start from some offset (don't know the rule yet)</param>
         /// <returns>xor decrypted packet</returns>
-        private static byte[] Decryptxor(byte[] bodyPacket, uint msgKey, int offset = 0)
+        private static byte[] DecryptXor(byte[] bodyPacket, uint msgKey, uint xorKey, int offset = 0)
         {
             var length = bodyPacket.Length;
             var array = new byte[length];
 
-            var mul = XorKey * msgKey;
+            var mul = xorKey * msgKey;
             var key = (0x75a024a4 ^ mul) ^ 0xC3903b6a;
             var n = 4 * (length / 4);
             for (var i = n - offset - 1; i >= 0; i--)
@@ -110,50 +110,98 @@ namespace LocalCommons.Cryptography
             int caseSwitch = bodyPacket[4];
             switch (caseSwitch)
             {
-                case 0x30:
-                    msgKey = 0x2F;
+                case 0x30: //вроде бы, нас интересует только первая цифра
+                    msgKey = 0x01; //0X11; //0x2F
+                    break;
+                case 0x31:
+                    msgKey = 0x02; //0x02; //? нет
+                    break;
+                case 0x32:
+                    msgKey = 0x03; //0x03; //? нет
                     break;
                 case 0x33:
-                    msgKey = 0x04;
+                    msgKey = 0x04; //0x04; //да, проверено
+                    break;
+                case 0x34:
+                    msgKey = 0x05; //0x15; //? есть
                     break;
                 case 0x35:
-                    msgKey = 0x16;
+                    msgKey = 0x06; //0x16; //да, проверено
+                    break;
+                case 0x36:
+                    msgKey = 0x07; //0x27; //да, проверено 0x17 - на выходе из игры, 0x07
                     break;
                 case 0x37:
-                    msgKey = 0x08;
+                    msgKey = 0x08; //0x08; //да, проверено 0x0D88 - на выходе из игры
                     break;
                 case 0x38:
-                    msgKey = 0x09;
+                    msgKey = 0x09; //
                     break;
                 case 0x39:
-                    msgKey = 0x0A;
+                    msgKey = 0x0A; //да, проверено
+                    break;
+                case 0x3A:
+                    msgKey = 0x0b; //0x1B; //? нет
                     break;
                 case 0x3B:
-                    msgKey = 0x1C;
+                    msgKey = 0x0c; //0x1C; //
                     break;
                 case 0x3C:
-                    msgKey = 0x0D;
+                    msgKey = 0x0d; //0x0D; //да, проверено
+                    break;
+                case 0x3D:
+                    msgKey = 0x0e; //0x1E; //? нет
                     break;
                 case 0x3E:
-                    msgKey = 0x1F;
+                    msgKey = 0x0f; //0x1F; //
                     break;
                 case 0x3F:
-                    msgKey = 0x10;
+                    msgKey = 0x10; //0x10; //да, проверено
                     break;
             }
             Num += 1; //глобальный подсчет клиентских пакетов
             // Hardcoded offset rules
-            if (Num == 0)
+            switch (Num)
             {
-                packet = Decryptxor(mBodyPacket, msgKey, 7);
-            }
-            else if (Num == 1 || Num == 5 || Num == 6 || Num == 7 || Num == 9)
-            {
-                packet = Decryptxor(mBodyPacket, msgKey, 1);
-            }
-            else
-            {
-                packet = Decryptxor(mBodyPacket, msgKey);
+                case 0:
+                    packet = DecryptXor(mBodyPacket, xorKey, msgKey, 7);
+                    break;
+                case 1:
+                case 5:
+                case 6:
+                case 7:
+                case 9:
+                case 19:
+                case 21:
+                case 28:
+                case 29:
+                case 30:
+                case 34:
+                case 35:
+                case 46:
+                case 48:
+                case 50:
+                case 52:
+                    packet = DecryptXor(mBodyPacket, xorKey, msgKey, 1);
+                    break;
+                case 15:
+                case 41:
+                    packet = DecryptXor(mBodyPacket, xorKey, msgKey, 5);
+                    break;
+                case 16:
+                case 25:
+                case 31:
+                case 37:
+                case 44:
+                case 51:
+                    packet = DecryptXor(mBodyPacket, xorKey, msgKey, 2);
+                    break;
+                //case ??:
+                //    packet = Decryptxor(mBodyPacket, xorKey, msgKey, 3);
+                //    break;
+                default:
+                    packet = DecryptXor(mBodyPacket, xorKey, msgKey);
+                    break;
             }
             return packet;
         }
@@ -180,8 +228,8 @@ namespace LocalCommons.Cryptography
         В конце концов, вы должны убедиться, что вычисленный дайджест соответствует тому, который пришел с зашифрованным файлом.
         EDIT: nonce/IV и длина также хэшируются.
          */
-        private static PaddingMode _paddingMode = PaddingMode.None;
-        private static CipherMode _cipherMode = CipherMode.CBC;
+
+        private const int Size = 16;
 
         private static RijndaelManaged GetRijndaelManaged(byte[] key, byte[] iv)
         {
@@ -189,17 +237,21 @@ namespace LocalCommons.Cryptography
             {
                 KeySize = 128,
                 BlockSize = 128,
-                Padding = _paddingMode,
-                Mode = _cipherMode
+                Padding = PaddingMode.None,
+                Mode = CipherMode.CBC
             };
             rm.Key = key;
             rm.IV = iv;
 
             return rm;
         }
-
         public static byte[] DecryptAes(byte[] cipherData, byte[] key, byte[] iv)
         {
+            byte[] mIv = new byte[16];
+            Buffer.BlockCopy(iv, 0, mIv, 0, Size);
+            var len = cipherData.Length / Size;
+            Buffer.BlockCopy(cipherData, (len - 1) * Size, iv, 0, Size);
+            //Buffer.BlockCopy(cipherData, 0, iv, 0, Size);
             // Create a MemoryStream that is going to accept the decrypted bytes
             using (var memoryStream = new MemoryStream())
             {
@@ -207,7 +259,7 @@ namespace LocalCommons.Cryptography
                 // We are going to use RijndaelRijndael because it is strong and available on all platforms.
                 // You can use other algorithms, to do so substitute the next line with something like
                 // TripleDES alg = TripleDES.Create();
-                using (var alg = GetRijndaelManaged(key, iv))
+                using (var alg = GetRijndaelManaged(key, mIv))
                 {
                     // Create a CryptoStream through which we are going to be pumping our data.
                     // CryptoStreamMode.Write means that we are going to be writing data to the stream
@@ -256,7 +308,7 @@ namespace LocalCommons.Cryptography
     Получившийся ключ – симметричный. То есть используется для шифрации и дешифрации.
     Его назначение защитить все передаваемые данные между клиентом и сервером, создать, своего рода, туннель,
     содержимое которого не смогут читать третьи лица
- */
+    */
 
     class Alice
     {

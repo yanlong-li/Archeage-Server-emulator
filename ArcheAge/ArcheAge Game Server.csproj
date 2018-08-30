@@ -79,7 +79,7 @@
     <Compile Include="ArcheAge\Network\DelegateList.cs" />
     <Compile Include="ArcheAge\Network\Connections\LoginConnection.cs" />
     <Compile Include="ArcheAge\Network\ArcheAgePackets.cs" />
-    <Compile Include="ArcheAge\Network\Packets\Server\NP_ChangeState.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_ChangeState_0x0000.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x0030.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x0034.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x008C.cs" />
@@ -100,9 +100,9 @@
     <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x02CF.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_CharList_0x0079.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_quit_0x01F1.cs" />
-    <Compile Include="ArcheAge\Network\Packets\Server\NP_SetGameType.cs" />
-    <Compile Include="ArcheAge\Network\Packets\Server\NP_Pong.cs" />
-    <Compile Include="ArcheAge\Network\Packets\Server\NP_X2EnterWorldResponsePacket.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SetGameType_0x000F.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_Pong_0x0013.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_X2EnterWorldResponsePacket_0x0000.cs" />
     <Compile Include="ArcheAge\Network\Packets.cs" />
     <Compile Include="ArcheAge\Structuring\Account.cs" />
     <Compile Include="ArcheAge\Structuring\EventDefinitions.cs" />

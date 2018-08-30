@@ -35,5 +35,8 @@
     <Setting Name="DataBase_Name" Type="System.String" Scope="User">
       <Value Profile="(Default)">archeage_world</Value>
     </Setting>
+    <Setting Name="ServerClientVersion" Type="System.String" Scope="User">
+      <Value Profile="(Default)">3</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

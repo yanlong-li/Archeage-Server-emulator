@@ -13,7 +13,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
     /// </summary>
     public class ArcheAgeConnection : IConnection
     {
-        public bool movedToGame = false;
+        public bool MovedToGame = false;
         public Account CurrentAccount { get; set; }
 
         public ArcheAgeConnection(Socket socket) : base(socket)
@@ -43,7 +43,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
                     AccountHolder.InsertOrUpdate(CurrentAccount);
                 }
             }
-            string arg = movedToGame ? "moved to Game" : "disconnected";
+            string arg = MovedToGame ? "moved to Game" : "disconnected";
             ArcheAgeConnection archeAgeConnection = this;
             Logger.Trace("ArcheAge: {0} {1}", CurrentAccount == null ? archeAgeConnection.ToString() : CurrentAccount.Name, arg);
             Dispose();
@@ -55,7 +55,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
             ushort opcode = reader.ReadLEUInt16();
             if (opcode > PacketList.LHandlers.Length)
             {
-                Logger.Trace("Not enough lenght for LHandlers, disposing...");
+                Logger.Trace("Not enough length for LHandlers, disposing...");
                 Dispose();
                 return;
             }

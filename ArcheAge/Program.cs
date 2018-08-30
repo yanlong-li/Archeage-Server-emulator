@@ -18,17 +18,42 @@ namespace ArcheAge
     /// </summary>
     class Program
     {
+        static string ServerClientVersion = "3";
         static void Main(string[] args)
         {
             Console.Title = "ARCHEAGE GAME SERVER";
             Console.CancelKeyPress += Console_CancelKeyPress;
             Stopwatch watch = Stopwatch.StartNew();
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            selectVersion();
             LoadExecutingAssembly(args);
             watch.Stop();
             Logger.Trace("ArcheAge Game Server started in {0} seconds", (watch.ElapsedMilliseconds / 1000).ToString("0.00"));
             watch = null;
             Key_Pressed();
+        }
+        static void selectVersion()
+        {
+            Console.WriteLine("Select Client Version: Default 3");
+            Console.WriteLine("1:   1.0");
+            Console.WriteLine("3:   3.0");
+            Console.WriteLine("4:   4.0");
+            //0 is manually selected
+            if (Settings.Default.ServerClientVersion == "0")
+            {
+                Program.ServerClientVersion = Console.ReadLine();
+                if (Program.ServerClientVersion == "")
+                {
+                    //The default is 3
+                    Program.ServerClientVersion = "3";
+                }
+            }
+            else
+            {
+                Console.WriteLine("AutoSelectServerClientVersion:" + Settings.Default.ServerClientVersion);
+                Program.ServerClientVersion = Settings.Default.ServerClientVersion;
+            }
+
         }
 
         static void Key_Pressed()
@@ -73,7 +98,7 @@ namespace ArcheAge
 
             //------ Network ------------------------------------------
             Logger.Section("network connection");
-            DelegateList.Initialize();
+            DelegateList.Initialize(Program.ServerClientVersion);
             InstallLoginServer();
             new AsyncListener(Settings.Default.ArcheAge_IP, Settings.Default.ArcheAge_Port, typeof(ClientConnection)); //Waiting For ArcheAge Connections
         }

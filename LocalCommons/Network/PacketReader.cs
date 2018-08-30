@@ -380,7 +380,7 @@ namespace LocalCommons.Network
 		}
 
        /// <summary>
-       /// Reading Fixed Lenghtened String From Stream With Checking Character Safeness.
+       /// Reading Fixed lengthened String From Stream With Checking Character Safeness.
        /// </summary>
        /// <param name="fixedLength"></param>
        /// <returns>Readed</returns>

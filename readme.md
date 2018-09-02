@@ -1,4 +1,4 @@
-Update for ArcheRage.to 3.0.3.0, support version of Archeage 1.0.1406 (login, lobby)
+Update for ArcheRage.to 3.0.3.0, support version of Archeage 1.0.1406
 
 ArcheAge (kor. 아키에이지 — "Ancient times"; ch. 上古世紀) — client fantasy massively multiplayer online role-playing game (MMORPG) for the PC, developed by Korean company XLGames. The game is set in the universe of ArcheAge — fantasy world with elements of medieval magic and steampunk.
 
@@ -14,3 +14,4 @@ ArcheAge (kor. 아키에이지 — "Ancient times"; ch. 上古世紀) — client
 ![avatar](/doc/img/Screenshot_10.png)
 ![avatar](/doc/img/Screenshot_11.png)
 ![avatar](/doc/img/Screenshot_12.png)
+![avatar](/doc/img/Screenshot_13.png)

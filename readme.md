@@ -1,6 +1,6 @@
 Archeage version 1.0
 
-Emulator for V 1.0/1.2 of Archeage
+Emulator for V 1.0/1.2 of Archeage can now go ingame
 
 ![avatar](/doc/img/Screenshot_1.png)
 ![avatar](/doc/img/Screenshot_2.png)

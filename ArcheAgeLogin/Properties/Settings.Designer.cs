@@ -142,5 +142,17 @@ namespace ArcheAgeLogin.Properties {
                 this["ServerClientVersion"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SSL {
+            get {
+                return ((bool)(this["SSL"]));
+            }
+            set {
+                this["SSL"] = value;
+            }
+        }
     }
 }

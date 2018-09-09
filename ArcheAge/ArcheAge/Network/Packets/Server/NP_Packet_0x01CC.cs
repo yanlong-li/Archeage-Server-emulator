@@ -23,15 +23,15 @@ namespace ArcheAge.ArcheAge.Network
             //"0E00DD05842F7EC797704010E0B08151");
             //"0E00DD05D3088900" +
             //    "0000000000000000");
-            ////расшифрованные данные из снифа пакета
+            //расшифрованные данные из снифа пакета
             //3.0.0.7
             // size hash crc idx opcode data
             //"0E00 DD05 D3  08  8900   0000000000000000"
             //3.0.3.0
             //"0E00 DD05 0D  08  CC01   0000000000000000"
 
-            ///convertRatioToAAPoint 8
-            ///0000000000000000
+            //convertRatioToAAPoint 8
+            //0000000000000000
             ns.Write((long)0x00);
         }
     }

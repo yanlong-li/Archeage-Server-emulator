@@ -23,20 +23,20 @@ namespace ArcheAge.ArcheAge.Network
             //"0A00DD05817C5812E0B08151");
             //"0A00DD05160C1802" +
             //    "00000000");
-            ////расшифрованные данные из снифа пакета
+            //расшифрованные данные из снифа пакета
             //3.0.0.7
             // size hash crc idx opcode data
             //"0A00 DD05 16  0C  1802   00000000"
             //3.0.3.0
             //"0A00 DD05 A2  0C  9C02   00000000"
 
-            ///count 4
-            ///00000000
+            //count 4
+            //00000000
             ns.Write((int)0x00);
-            ///{
-            ///type
-            ///declareDominion
-            ///}
+            //{
+            //type
+            //declareDominion
+            //}
         }
     }
 }

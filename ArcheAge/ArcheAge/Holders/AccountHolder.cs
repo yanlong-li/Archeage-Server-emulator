@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ArcheAge.Properties;
 using ArcheAgeLogin.ArcheAge.Structuring;
 using ArcheAgeLogin.Properties;
 
-namespace ArcheAgeLogin.ArcheAge.Holders
+namespace ArcheAge.ArcheAge.Holders
 {
     public class AccountHolder
     {
@@ -28,15 +29,10 @@ namespace ArcheAgeLogin.ArcheAge.Holders
         /// <returns></returns>
         public static Account GetAccount(string name)
         {
-            foreach (var acc in m_DbAccounts)
-            {
-                if (acc.Name == name) return acc;
-            }
-
-            return null;
+            return m_DbAccounts.FirstOrDefault(acc => acc.Name == name);
         }
 
-       /// <summary>
+        /// <summary>
         /// Fully Load Account Data From Current MySql DataBase.
         /// </summary>
         public static void LoadAccountData()
@@ -66,13 +62,13 @@ namespace ArcheAgeLogin.ArcheAge.Holders
                 command = null;
                 reader = null;
             }
-            catch (Exception e)
+            catch(Exception e)
             {
-                if (e.Message.IndexOf("using password: YES") >= 0)
+                if(e.Message.IndexOf("using password: YES") >= 0)
                 {
                     Logger.Trace("Error: Incorrect username or password");
                 }
-                else if (e.Message.IndexOf("Unable to connect to any of the specified MySQL hosts") >= 0)
+                else if (e.Message.IndexOf("Unable to connect to any of the specified MySQL hosts")>=0)
                 {
                     Logger.Trace("Error: Unable to connect to database");
                 }
@@ -90,7 +86,7 @@ namespace ArcheAgeLogin.ArcheAge.Holders
             }
             Logger.Trace("Load to {0} accounts", m_DbAccounts.Count);
         }
-
+       
         /// <summary>
         /// Inserts Or Update Existing Account Into your current Login Server MySql DataBase.
         /// </summary>
@@ -113,8 +109,8 @@ namespace ArcheAgeLogin.ArcheAge.Holders
                 else
                 {
                     command = new MySqlCommand(
-                        "INSERT INTO `accounts`(id, name, token,  mainaccess, useraccess, last_ip, last_online, characters, cookie)" +
-                        "VALUES(@id, @name, @token, @mainaccess, @useraccess, @lastip, @lastonline, @characters, @cookie)",
+                        "INSERT INTO `accounts`(id, name, password, token,  mainaccess, useraccess, last_ip, last_online, characters, cookie)" +
+                        "VALUES(@id, @name, @password, @token, @mainaccess, @useraccess, @lastip, @lastonline, @characters, @cookie)",
                         con);
                 }
                 MySqlParameterCollection parameters = command.Parameters;

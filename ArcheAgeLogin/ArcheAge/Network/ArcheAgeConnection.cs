@@ -37,7 +37,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
                     if (server.CurrentAuthorized.Contains(CurrentAccount.AccountId))
                         server.CurrentAuthorized.Remove(CurrentAccount.AccountId);
                 }
-                if (CurrentAccount.Password != null) //If you been fully authroized.
+                if (CurrentAccount.Token!= null) //If you been fully authroized.
                 {
                     CurrentAccount.LastEnteredTime = Utility.CurrentTimeMilliseconds();
                     AccountHolder.InsertOrUpdate(CurrentAccount);

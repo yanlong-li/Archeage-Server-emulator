@@ -2,13 +2,13 @@
 
 namespace ArcheAge.ArcheAge.Network
 {
-    public sealed class NP_Packet_CharList_0x0079 : NetPacket
+    public sealed class NP_CharacterListPacket_0x0079 : NetPacket
     {
         /// <summary>
         /// пакет для входа в Лобби
         /// author: NLObP
         /// </summary>
-        public NP_Packet_CharList_0x0079() : base(05, 0x0079)
+        public NP_CharacterListPacket_0x0079() : base(05, 0x0079)
         {
             //пакеты для входа в Лобби
             //ns.WriteHex(
@@ -1291,10 +1291,10 @@ namespace ArcheAge.ArcheAge.Network
     }
     public sealed class NP_Packet_CharList_empty_0x0079 : NetPacket
     {
-        // <summary>
-        // пакет для входа в Лобби
-        // author: NLObP
-        // </summary>
+        /// <summary>
+        /// пакет для входа в Лобби
+        /// author: NLObP
+        /// </summary>
         public NP_Packet_CharList_empty_0x0079() : base(05, 0x0079)
         {
             //пакеты для входа в Лобби
@@ -1325,10 +1325,10 @@ namespace ArcheAge.ArcheAge.Network
     }
     public sealed class NP_Packet_CharList_one_0x0079 : NetPacket
     {
-        // <summary>
-        // пакет для входа в Лобби
-        // author: NLObP
-        // </summary>
+        /// <summary>
+        /// пакет для входа в Лобби
+        /// author: NLObP
+        /// </summary>
         public NP_Packet_CharList_one_0x0079() : base(05, 0x0079)
         {
             //пакеты для входа в Лобби

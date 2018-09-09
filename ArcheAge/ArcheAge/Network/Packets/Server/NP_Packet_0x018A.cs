@@ -24,49 +24,49 @@ namespace ArcheAge.ArcheAge.Network
             //"1C00DD054863A207D5AF754516E6B9895827F7C897704010E0B0815EC4F4");
             //"1C00DD05DC079602" +
             //    "000A000000000F0F0F00000F000000000000000F0000");
-            ////расшифрованные данные из снифа пакета
+            //расшифрованные данные из снифа пакета
             //3.0.0.7
             // size hash crc idx opcode data
             //"1C00 DD05 DC  07  9602   00 0A 00 00 00 00 0F 0F 0F 00 00 0F 00 00 00 00 00 00 00 0F 00 00"
             //3.0.3.0
             //"1C00 DD05 DF  07  8A01   000A000000000F0F0F00000F000000000000000F0000"
 
-            ///searchLevel 1
-            ///00
+            //searchLevel 1
+            //00
             ns.Write((byte)0x00);
-            ///bidLevel 1
-            ///0A
+            //bidLevel 1
+            //0A
             ns.Write((byte)0x0A);
-            ///postLevel 1
-            ///00
+            //postLevel 1
+            //00
             ns.Write((byte)0x00);
-            ///trade 1
-            ///00
+            //trade 1
+            //00
             ns.Write((byte)0x00);
-            ///mail 1
-            ///00
+            //mail 1
+            //00
             ns.Write((byte)0x00);
-            ///{ 11h (17) цикл
-            ///limitLevels 1
-            ///00 0F 0F 0F 00 00 0F 00 00 00 00 00 00 00 0F 00 00
-            ns.Write((byte)0x00);
-            ns.Write((byte)0x0F);
-            ns.Write((byte)0x0F);
-            ns.Write((byte)0x0F);
-            ns.Write((byte)0x00);
+            //{ 11h (17) цикл
+            //limitLevels 1
+            //00 0F 0F 0F 00 00 0F 00 00 00 00 00 00 00 0F 00 00
             ns.Write((byte)0x00);
             ns.Write((byte)0x0F);
-            ns.Write((byte)0x00);
-            ns.Write((byte)0x00);
-            ns.Write((byte)0x00);
-            ns.Write((byte)0x00);
-            ns.Write((byte)0x00);
+            ns.Write((byte)0x0F);
+            ns.Write((byte)0x0F);
             ns.Write((byte)0x00);
             ns.Write((byte)0x00);
             ns.Write((byte)0x0F);
             ns.Write((byte)0x00);
             ns.Write((byte)0x00);
-            ///}
+            ns.Write((byte)0x00);
+            ns.Write((byte)0x00);
+            ns.Write((byte)0x00);
+            ns.Write((byte)0x00);
+            ns.Write((byte)0x00);
+            ns.Write((byte)0x0F);
+            ns.Write((byte)0x00);
+            ns.Write((byte)0x00);
+            //}
         }
     }
 }

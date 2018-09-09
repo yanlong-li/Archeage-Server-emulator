@@ -23,28 +23,28 @@ namespace ArcheAge.ArcheAge.Network
             //"0E00DD054E2DB8C597704010E0B08151");
             //"0E00DD05190A4F02" +
             //    "0000000000000000");
-            ////расшифрованные данные из снифа пакета
+            //расшифрованные данные из снифа пакета
             //3.0.0.7
             // size hash crc idx opcode data
             //"0E00 DD05 19  0A  4F02   00000000 00000000"
             //3.0.3.0
             //"0E00 DD05 18  0A  AF01   0000000000000000"
 
-            ///indunCount 4
-            ///00000000
+            //indunCount 4
+            //00000000
             ns.Write((int)0x00);
-            ///{
-            ///type 2
-            ///pvp 1
-            ///duel 1
-            ///}
-            ///conflictCount 4
-            ///00000000
+            //{
+            //type 2
+            //pvp 1
+            //duel 1
+            //}
+            //conflictCount 4
+            //00000000
             ns.Write((int)0x00);
-            ///{
-            ///type 2
-            ///peaceMin 4
-            ///}
+            //{
+            //type 2
+            //peaceMin 4
+            //}
         }
     }
 }

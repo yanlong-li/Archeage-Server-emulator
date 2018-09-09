@@ -28,7 +28,67 @@ namespace ArcheAgeLogin.ArcheAge.Holders
         /// <returns></returns>
         public static Character GetCharacter(string CharName)
         {
-            return m_DbCharacters.FirstOrDefault(acc => acc.CharName == CharName);
+            foreach (var acc in m_DbCharacters)
+            {
+                if (acc.CharName == CharName) return acc;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Fully Load Characters Data From Current MySql DataBase.
+        /// </summary>
+        public static int LoadCharacterData(long accountId)
+        {
+            m_DbCharacters = new List<Character>();
+            MySqlConnection con = new MySqlConnection(Settings.Default.DataBaseConnectionString);
+            try
+            {
+                con.Open();
+                MySqlCommand command = new MySqlCommand("SELECT * FROM characters WHERE accountid = '" + accountId +"'", con);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Character character = new Character();
+                    character.Id = reader.GetInt64("id");
+                    character.AccountId = reader.GetInt64("accountid");
+                    character.WorldId = reader.GetByte("worldid");
+                    character.Type = reader.GetInt32("type0");
+                    character.CharName = reader.GetString("charname");
+                    character.CharRace = reader.GetByte("charrace");
+                    character.CharGender = reader.GetByte("chargender");
+                    character.GUID = reader.GetString("guid");
+                    character.V = reader.GetInt64("v");
+                    m_DbCharacters.Add(character);
+                }
+                command = null;
+                reader = null;
+            }
+            catch (Exception e)
+            {
+                if (e.Message.IndexOf("using password: YES") >= 0)
+                {
+                    Logger.Trace("Error: Incorrect username or password");
+                }
+                else if (e.Message.IndexOf("Unable to connect to any of the specified MySQL hosts") >= 0)
+                {
+                    Logger.Trace("Error: Unable to connect to database");
+                }
+                else
+                {
+                    Logger.Trace("Error: Unknown error");
+                }
+                //Console.ReadKey();
+                //Message = "Authentication to host '127.0.0.1' for user 'root' using method 'mysql_native_password' failed with message: Access denied for user 'root'@'localhost' (using password: YES)"
+            }
+            finally
+            {
+                con.Close();
+                con = null;
+            }
+            Logger.Trace("Load to {0} characters", m_DbCharacters.Count);
+            return m_DbCharacters.Count;
         }
 
         /// <summary>
@@ -49,7 +109,7 @@ namespace ArcheAgeLogin.ArcheAge.Holders
                     character.Id = reader.GetInt64("id");
                     character.AccountId = reader.GetInt64("accountid");
                     character.WorldId = reader.GetByte("worldid");
-                    character.Type = reader.GetInt32("type");
+                    character.Type = reader.GetInt32("type0");
                     character.CharName = reader.GetString("charname");
                     character.CharRace = reader.GetByte("charrace");
                     character.CharGender = reader.GetByte("chargender");
@@ -99,7 +159,8 @@ namespace ArcheAgeLogin.ArcheAge.Holders
                 if (m_DbCharacters.Contains(character))
                 {
                     command = new MySqlCommand(
-                        "UPDATE `characters` SET `id` = @id, `accountid` = @accountid, `worldid` = @worldid, `type` = @type, `charname` = @charname, `charrace` = @charrace, `chargender` = @chargender, `guid` = @guid, `v` = @v" +
+                        "UPDATE `characters` SET `id` = @id, `accountid` = @accountid, `worldid` = @worldid, `type` = @type, `charname` = @charname," +
+                        " `charrace` = @charrace, `chargender` = @chargender, `guid` = @guid, `v` = @v" +
                         "WHERE `acharname` = @charname",
                         con);
                 }

@@ -33,10 +33,13 @@
       <Value Profile="(Default)">root</Value>
     </Setting>
     <Setting Name="DataBase_Name" Type="System.String" Scope="User">
-      <Value Profile="(Default)">archeage_world</Value>
+      <Value Profile="(Default)">archeage</Value>
     </Setting>
     <Setting Name="ServerClientVersion" Type="System.String" Scope="User">
       <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="SSL" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

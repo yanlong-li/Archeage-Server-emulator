@@ -24,7 +24,6 @@ namespace ArcheAgeLogin
         static void Main(string[] args)
         {
             Console.Title = "ARCHEAGE LOGIN SERVER";
-            //Console.Write(System.Text.UTF8Encoding.UTF8.GetByteCount("jangmi"));
             Console.CancelKeyPress += Console_CancelKeyPress;
             Stopwatch watch = Stopwatch.StartNew();
             watch.Start();
@@ -58,27 +57,18 @@ namespace ArcheAgeLogin
                 Console.WriteLine("AutoSelectServerClientVersion:" + Settings.Default.ServerClientVersion);
                 Program.ServerClientVersion = Settings.Default.ServerClientVersion;
             }
-
         }
         static void Key_Pressed()
         {
            ConsoleKeyInfo info = Console.ReadKey();
-           if (info != null)
-           {
-               Key_Pressed();
-           }
+            if (info == null) return;
+            Key_Pressed();
         }
 
         static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
-            if (e.SpecialKey == ConsoleSpecialKey.ControlC)
-            {
-                Shutdown();
-            }
-            else
-            {
-                return;
-            }
+            if (e.SpecialKey != ConsoleSpecialKey.ControlC) return;
+            Shutdown();
         }
 
         static void Shutdown()
@@ -123,7 +113,7 @@ namespace ArcheAgeLogin
             //----------------Network ---------------------------
             Logger.Section("Network");
             PacketList.Initialize(Program.ServerClientVersion);
-            new AsyncListener(m_Current.Main_IP, m_Current.Game_Port, defined: typeof(GameConnection)); //Waiting For Game Server Connections
+            new AsyncListener(m_Current.Main_IP, m_Current.Game_Port, defined: typeof(GameConnection)); //Waiting For GameServer Connections
             new AsyncListener(m_Current.Main_IP, m_Current.ArcheAge_Port, defined: typeof(ArcheAgeConnection)); //Waiting For ArcheAge Connections
         }
     }

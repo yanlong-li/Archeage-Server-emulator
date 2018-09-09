@@ -278,89 +278,66 @@ namespace ArcheAgeLogin.ArcheAge.Network
             switch (clientVersion)
             {
                 case "1":
-                    ns.Write((byte)1); // Count
-                    ns.Write((byte)1);
-                    string projectName = "AAPlay.ru";
-                    ns.WriteASCIIFixed(projectName, projectName.Length);
-                    ns.Write((byte)1);
-                    ns.Write((short)0);
-                    ns.Write((short)0);
-                    ns.Write((int)0);
-                    ns.Write((short)0);
-                    ns.Write((byte)1); // Count
-                    ns.Write((int)1);
-                    ns.Write((byte)1);
-                    ns.Write((int)1);
-                    projectName = "AAPlay.ru";
-                    ns.WriteASCIIFixed(projectName, projectName.Length);
-                    ns.Write((byte)1);
-                    ns.Write((byte)1);
-                    projectName = "";
-                    ns.WriteASCIIFixed(projectName, projectName.Length);
-                    ns.Write((int)0);
-                    ns.Write((int)0);
+                    var m_Current = GameServerController.CurrentGameServers.Values.ToList();
+                    ns.Write((byte)m_Current.Count); // Count
+                    foreach (var server in m_Current)
+                    {
+                        ns.Write((byte)server.Id);
+                        ns.WriteUTF8Fixed(server.Name, Encoding.UTF8.GetByteCount(server.Name));
+                        var online = server.IsOnline() ? (byte)0x01 : (byte)0x02; //1 Online 2 Offline
+                        ns.Write((byte)online); //Server Status - 0x01 
+                        switch (online)
+                        {
+                            case 0:
+                                break;
+                            default:
+                                var status = server.CurrentAuthorized.Count >= server.MaxPlayers ? 0x01 : 0x00;
+                                ns.Write((byte)status); //Server Status - 0x00 - normal / 0x01 - load / 0x02 - queue
+                                //The following sections are the racial restrictions on server creation for this server selection interface 0 Normal 2 Prohibited
+                                for (int i = 0; i < 9; i++)
+                                {
+                                    ns.Write((byte)0x00); //rcon
+                                }
+                                break;
+                        }
+                    }
+                    int CharCount = CharacterHolder.LoadCharacterData(net.CurrentAccount.AccountId); //считываем героев и их количество
+                    ns.Write((byte)CharCount); //CharCount
+
+                    net.CurrentAccount.Characters = (byte)CharCount;
+
+                    if (CharCount != 0)
+                    {
+                        long m_AccountId = net.CurrentAccount.AccountId; //считываем только наших героев
+                        foreach (Character n_Current in CharacterHolder.CharactersList)
+                        {
+                            if (n_Current.AccountId == m_AccountId)
+                            {
+                                ns.Write((int)n_Current.AccountId); //AccountID
+                                ns.Write((byte)n_Current.WorldId); //WorldID
+                                ns.Write((int)n_Current.Type); //charID
+                                string charname = n_Current.CharName;
+                                ns.WriteASCIIFixed(charname, charname.Length);
+                                ns.Write((byte)n_Current.CharRace); //CharRace
+                                ns.Write((byte)n_Current.CharGender); //CharGender
+                                string uid = n_Current.GUID; // = ""; //UID - Параметры чара, возможно пустая строка!
+                                ns.WriteHex(uid, uid.Length);
+                                ns.Write((long)n_Current.V); //v
+                            }
+                        }
+                    }
+
+                    AccountHolder.InsertOrUpdate(net.CurrentAccount);
+
                     break;
                 case "3":
-                    /*
-                    [5]             S>c             0ms.            23:03:31 .885      23.06.18
-                    -------------------------------------------------------------------------------
-                     TType: ArcheageServer: LS1     Parse: 6           EnCode: off         
-                    ------- 0  1  2  3  4  5  6  7 -  8  9  A  B  C  D  E  F    -------------------
-                    000000 7F 00 08 00 01 01 01 00 | 09 00 41 72 63 68 65 52     .........ArcheR
-                    000010 61 67 65 01 00 00 00 00 | 00 00 00 00 00 00 02 1A     age.............
-                    000020 C7 00 00 00 00 00 00 01 | D7 94 01 00 06 00 52 65     З.......Ч”....Re
-                    000030 6D 6F 74 61 03 02 10 00 | DC 0D 0C FC D3 E0 18 47     mota....Ь..ьУа.G
-                    000040 AD 2A 5D 55 EA 47 1C DF | 00 00 00 00 00 00 00 00     ­*]UкG.Я........
-                    000050 1A C7 00 00 00 00 00 00 | 01 96 E7 01 00 06 00 44     .З.......–з....D
-                    000060 65 76 65 6C 6F 01 02 10 | 00 CE CB 85 98 F5 41 B0     evelo....ОЛ…хA°
-                    000070 4B A6 74 C7 83 4D DC 5D | 14 00 00 00 00 00 00 00     K¦tЗѓMЬ]........
-                    000080 00                                                    .
-                    -------------------------------------------------------------------------------
-                    Archeage: "ACWorldList"                      size: 129    prot: 2  $002
-                    Addr:  Size:    Type:         Description:     Value:
-                    0000     2   word          psize             127        | $007F
-                    0002     2   word          ID                8          | $0008
-                    0004     1   byte          count             1          | $01
-                    0005     1   byte          id                1          | $01
-                    0006     1   byte          type              1          | $01
-                    0007     1   byte          color             0          | $00
-                    0008    11   WideStr[byte] ServerName        ArcheRage  ($)
-                    0013     1   byte          online            1          | $01
-                    0014     1   byte          status            0          | $00
-                    0015     1   byte          __                0          | $00
-                    0016     1   byte          nuiane            0          | $00
-                    0017     1   byte          __                0          | $00
-                    0018     1   byte          dwarf             0          | $00
-                    0019     1   byte          elf               0          | $00
-                    001A     1   byte          harniec           0          | $00
-                    001B     1   byte          ferre             0          | $00
-                    001C     1   byte          warmozu           0          | $00
-                    001D     1   byte          a                 0          | $00
-                    001E     1   byte          chCount           2          | $02
-                    001F     8   int64         accountId         50970      | $0000C71A
-                    0027     1   byte          worldId           1          | $01
-                    0028     4   integer       type              103639     | $000194D7
-                    002C     8   WideStr[byte] CharName          Remota  ($)
-                    0034     1   byte          CharRace          гномы  ($03)
-                    0035     1   byte          CharGender        Ж  ($02)
-                    0036    18   WideStr[byte] GUID              DC0D0CFCD3E01847AD2A5D55EA471CDF  ($)
-                    0048     8   int64         v                 0          | $00000000
-                    0050     8   int64         accountId         50970      | $0000C71A
-                    0058     1   byte          worldId           1          | $01
-                    0059     4   integer       type              124822     | $0001E796
-                    005D     8   WideStr[byte] CharName          Develo  ($)
-                    0065     1   byte          CharRace          нуиане  ($01)
-                    0066     1   byte          CharGender        Ж  ($02)
-                    0067    18   WideStr[byte] GUID              CECB8598F541B04BA674C7834DDC5D14  ($)
-                    0079     8   int64         v                 0          | $00000000             
-                    */
                     //4E000800  //пробная запись с одним чаром Remota - гномка
                     //ns.WriteHex("0101010009004172636865526167650100000000000000000000011AC70000000000000152770100060052656D6F7461030210001F3F1EE73B4D974BA9F5659BA68279570000000000000000");
                     //1D000800  //пробная запись - сервер ArcheRage, нет чаров, начало создания
                     ////ns.WriteHex("010101000900417263686552616765010000000000000000000000");
                     //v.3.0.3.0
                     //Посылаем список серверов, количество чаров на аккаунтах
-                    var m_Current = GameServerController.CurrentGameServers.Values.ToList();
+                    m_Current = GameServerController.CurrentGameServers.Values.ToList();
                     //Write The number of servers
                     ns.Write((byte)m_Current.Count);
                     //Информация по серверу
@@ -375,8 +352,8 @@ namespace ArcheAgeLogin.ArcheAge.Network
                         ns.Write((byte)online); //Server Status - 0x00 
                         var status = server.CurrentAuthorized.Count >= server.MaxPlayers ? 0x01 : 0x00;
                         ns.Write((byte)status); //Server Status - 0x00 - normal / 0x01 - load / 0x02 - queue
+                        //The following sections are the racial restrictions on server creation for this server selection interface 0 Normal 2 Prohibited
                         ns.Write((byte)0x00); //unknown
-                                              //The following sections are the racial restrictions on server creation for this server selection interface 0 Normal 2 Prohibited
                         ns.Write((byte)0x00); //Noah
                         ns.Write((byte)0x00);
                         ns.Write((byte)0x00); //Dwarf family
@@ -386,10 +363,8 @@ namespace ArcheAgeLogin.ArcheAge.Network
                         ns.Write((byte)0x00);
                         ns.Write((byte)0x00); //War Mozu 
                     }
-
-                    CharacterHolder.LoadCharacterData(); //считываем героев
-                    byte CharCount = net.CurrentAccount.Characters; //смотрим сколько героев на аккаунте
-                                                                    //Write The current user account number
+                    CharCount = CharacterHolder.LoadCharacterData(net.CurrentAccount.AccountId); //считываем героев и их количество
+                    //Write The current user account number
                     ns.Write((byte)CharCount); //CharCount
                     if (CharCount != 0)
                     {
@@ -411,10 +386,8 @@ namespace ArcheAgeLogin.ArcheAge.Network
                             }
                         }
                     }
-
                     break;
                 default:
-
                     break;
             }
         }

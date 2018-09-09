@@ -25,33 +25,33 @@ namespace ArcheAge.ArcheAge.Network
             //"2400DD0564F11F825223F4C495643405D55A754516E634B7D47DF7C797704010E0B081514272");
             //"2400DD057612AC01" +
             //    "010000000100000000FF000000008231835A000000000000000000000000");
-            ////расшифрованные данные из снифа пакета
+            //расшифрованные данные из снифа пакета
             //3.0.0.7
             // size hash crc idx opcode data
             //"2400 DD05 76  12  AC01   01000000 01 00000000 FF 00000000 8231835A00000000 0000000000000000"
             //3.0.3.0
             //"2400 DD05 27  12  4F01   01000000 01 00000000 FF 00000000 8231835A00000000 0000000000000000"
 
-            ///count 4
-            ///01000000
+            //count 4
+            //01000000
             ns.Write((int)0x01);
-            ///AccountAttributeKind 1
-            ///01
+            //AccountAttributeKind 1
+            //01
             ns.Write((byte)0x01);
-            ///extraKind 4
-            ///00000000
+            //extraKind 4
+            //00000000
             ns.Write((int)0x00);
-            ///worldId 1
-            ///FF
+            //worldId 1
+            //FF
             ns.Write((byte)0xFF);
-            ///count 4
-            ///00000000
+            //count 4
+            //00000000
             ns.Write((int)0x00);
-            ///startDate 8
-            ///8231835A00000000
+            //startDate 8
+            //8231835A00000000
             ns.Write((long)0x5A833182);
-            ///endData 8
-            ///0000000000000000
+            //endData 8
+            //0000000000000000
             ns.Write((long)0x00);
         }
     }

@@ -31,28 +31,28 @@ namespace ArcheAge.ArcheAge.Network
             //ns.WriteHex(
             //"1400DD05D4015500" +
             //    "0100010800783275692F68756400");
-            ////расшифрованные данные из снифа пакета
+            //расшифрованные данные из снифа пакета
             //3.0.0.7
             // size hash crc idx opcode data
             //"1400 DD05 D4  01  5500   01 00 01 0800 783275692F687564 00"
             //3.0.3.0
             //"1400 DD05 B9  01  9400   01 00 01 0800 783275692F687564 00"
 
-            ///sendAddrs 1
-            ///01
+            //sendAddrs 1
+            //01
             ns.Write((byte)0x01);
-            ///spMd5 1
-            ///00
+            //spMd5 1
+            //00
             ns.Write((byte)0x00);
-            ///luaMd5 1
-            ///01
+            //luaMd5 1
+            //01
             ns.Write((byte)0x01);
-            ///size.dir
-            ///0800 783275692F687564 "x2ui/hud"
+            //size.dir
+            //0800 783275692F687564 "x2ui/hud"
             const string dir = "x2ui/hud";
             ns.WriteUTF8Fixed(dir, dir.Length);
-            ///modPack 1
-            ///00
+            //modPack 1
+            //00
             ns.Write((byte)0x01);
         }
     }

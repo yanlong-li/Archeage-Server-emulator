@@ -31,70 +31,70 @@ namespace ArcheAge.ArcheAge.Network
              */
             //ns.WriteHex(
             //"3100DD05C53355C16F9E3101D2A2724212E3B3835323F4C494643405D5A5754C16A1D9E9330A95BEF2514010E0B0815180B0E7");
-            ////расшифрованные данные из снифа пакета
+            //расшифрованные данные из снифа пакета
             // size hash crc idx opcode data
             //"3100 DD05 95  13  A500   FEFF000000000000 000000 00000000 00 00 00000000 0000 0900 476F6F642D62796521 00000000 00000000 00"
             //3.0.3.0
             //"3100 DD05 58  17  F101   FEFF0000000000000000000000000000000000000000000900476F6F642D62796521000000000000000000"
 
-            ///chat 8
-            ///FEFF000000000000
+            //chat 8
+            //FEFF000000000000
             ns.Write((long)0xFFFE);
-            ///bc 3
-            ///000000
+            //bc 3
+            //000000
             ns.Write((byte)0x00);
             ns.Write((byte)0x00);
             ns.Write((byte)0x00);
-            ///type 4
-            ///00000000
+            //type 4
+            //00000000
             ns.Write((int)0x00);
-            ///LanguageType 1
-            ///00
+            //LanguageType 1
+            //00
             ns.Write((byte)0x00);
-            ///CharRace 1
-            ///00
+            //CharRace 1
+            //00
             ns.Write((byte)0x00);
-            ///type 4
-            ///00000000
+            //type 4
+            //00000000
             ns.Write((int)0x00);
-            ///size.name
-            ///0000
+            //size.name
+            //0000
             string msg = "";
             ns.WriteUTF8Fixed(msg, msg.Length);
-            ///size.msg
-            ///0900 476F6F642D62796521 "Good - bye!"
+            //size.msg
+            //0900 476F6F642D62796521 "Good - bye!"
             msg = "Good-bye!";
             ns.WriteUTF8Fixed(msg, msg.Length);
-            ///{ 4 раза
-            ///linkType 1
-            ///00
+            //{ 4 раза
+            //linkType 1
+            //00
             ns.Write((byte)0x00);
-            ///{ в нашем случае пропущено - нет в пакете
-            ///start
-            ///length
-            ///data
-            ///qType
-            ///type
-            ///itemId
-            ///}
-            ///linkType 1
-            ///00
+            //{ в нашем случае пропущено - нет в пакете
+            //start
+            //length
+            //data
+            //qType
+            //type
+            //itemId
+            //}
+            //linkType 1
+            //00
             ns.Write((byte)0x00);
-            ///{}
-            ///linkType 1
-            ///00
+            //{}
+            //linkType 1
+            //00
             ns.Write((byte)0x00);
-            ///{}
-            ///linkType 1
-            ///00
+            //{}
+            //linkType 1
+            //00
             ns.Write((byte)0x00);
-            ///{}
-            ///}
-            ///ability 4
-            ///00000000
+            //{}
+            //}
+            //ability 4
+            //00000000
             ns.Write((int)0x00);
-            ///option 1
-            ///00
+            //option 1
+            //00
             ns.Write((byte)0x00);
         }
     }

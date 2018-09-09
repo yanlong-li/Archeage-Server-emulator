@@ -16,30 +16,21 @@ namespace ArcheAgeLogin.ArcheAge
     /// Controller For Game Servers And Authorized Accounts
     /// Contains All Current Game Servers Info and Current Authroized Accounts.
     /// </summary>
-    public class GameServerController
+    public static class GameServerController
     {
-        private static Dictionary<byte, GameServer> gameservers = new Dictionary<byte, GameServer>();
-        private static Dictionary<long, Account> m_Authorized = new Dictionary<long, Account>();
+        public static Dictionary<long, Account> AuthorizedAccounts { get; } = new Dictionary<long, Account>();
 
-        public static Dictionary<long, Account> AuthorizedAccounts
-        {
-            get { return m_Authorized; }
-        }
-
-        public static Dictionary<byte, GameServer> CurrentGameServers
-        {
-            get { return gameservers; }
-        }
+        public static Dictionary<byte, GameServer> CurrentGameServers { get; } = new Dictionary<byte, GameServer>();
 
         public static bool RegisterGameServer(byte id, string password, GameConnection con, short port, string ip)
         {
-            if (!gameservers.ContainsKey(id))
+            if (!CurrentGameServers.ContainsKey(id))
             {
                 Logger.Trace("Game Server ID: {0} is not defined, please check", id);
                 return false;
             }
 
-            GameServer template = gameservers[id]; //Checking Containing By Packet
+            GameServer template = CurrentGameServers[id]; //Checking Containing By Packet
 
             if (con.CurrentInfo != null) //Fully Checking.
             {
@@ -52,23 +43,23 @@ namespace ArcheAgeLogin.ArcheAge
                 return false;
             }
 
-            GameServer server = gameservers[id];
+            GameServer server = CurrentGameServers[id];
             server.CurrentConnection = con;
             server.IPAddress = ip;
             server.Port = port;
             con.CurrentInfo = server;
             //Update
-            gameservers.Remove(id);
-            gameservers.Add(id, server);
+            CurrentGameServers.Remove(id);
+            CurrentGameServers.Add(id, server);
             Logger.Trace("Game Server ID: {0} registered", id);
             return true;
         }
         public static bool DisconnecteGameServer(byte id)
         {
-            GameServer server = gameservers[id];
+            GameServer server = CurrentGameServers[id];
             server.CurrentConnection = null;
-            gameservers.Remove(id);
-            gameservers.Add(id, server);
+            CurrentGameServers.Remove(id);
+            CurrentGameServers.Add(id, server);
             return true;
         }
 
@@ -80,10 +71,10 @@ namespace ArcheAgeLogin.ArcheAge
             {
                 GameServer game = template.xmlservers[i];
                 game.CurrentAuthorized = new List<long>();
-                gameservers.Add(game.Id, game);
+                CurrentGameServers.Add(game.Id, game);
             }
 
-            Logger.Trace("Loading from Servers.xml {0} servers", gameservers.Count);
+            Logger.Trace("Loading from Servers.xml {0} servers", CurrentGameServers.Count);
         }
     }
 

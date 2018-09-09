@@ -24,15 +24,15 @@ namespace ArcheAge.ArcheAge.Network
             //"0700DD050CBD7B5010");
             //"0700DD05EC0DFA01" +
             //    "00");
-            ////расшифрованные данные из снифа пакета
+            //расшифрованные данные из снифа пакета
             //3.0.0.7
             // size hash crc idx opcode data
             //"0700 DD05 EC  0D  FA01   00"
             //3.0.3.0
             //"0700 DD05 37  0D  7202   00"
 
-            ///sc 1
-            ///00
+            //sc 1
+            //00
             ns.Write((byte)0x00);
         }
     }

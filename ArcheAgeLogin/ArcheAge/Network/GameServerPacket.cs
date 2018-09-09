@@ -61,7 +61,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
                     ns.Write((byte)account.Characters);
                     ns.Write((int)account.Session);
                     break;
-                sdefault:
+                default:
                     break;
             }
         }

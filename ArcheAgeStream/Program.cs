@@ -36,16 +36,15 @@ namespace ArcheAgeStream
         static void Key_Pressed()
         {
            ConsoleKeyInfo info = Console.ReadKey();
-           if (info != null)
-               Key_Pressed();
+            if (info == null) return;
+            Key_Pressed();
         }
 
         static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
-            if (e.SpecialKey == ConsoleSpecialKey.ControlC)
-                Shutdown();
-            else
-                return;
+            if (e.SpecialKey != ConsoleSpecialKey.ControlC) return;
+            Shutdown();
+
         }
 
         static void Shutdown()

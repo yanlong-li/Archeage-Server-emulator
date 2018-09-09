@@ -9,7 +9,7 @@ namespace ArcheAgeLogin.ArcheAge.Structuring
     {
         public byte Characters { get; set; }
 
-        public int Session { get; set; }
+        public int Session { get; set; } //cookie
 
         public bool IsWaitingForReAuthorization { get; set; }
 
@@ -19,7 +19,7 @@ namespace ArcheAgeLogin.ArcheAge.Structuring
 
         public long AccountId { get; set; }
 
-        public string Password { get; set; }
+        //public string Password { get; set; }
 
         public string Token { get; set; }
 

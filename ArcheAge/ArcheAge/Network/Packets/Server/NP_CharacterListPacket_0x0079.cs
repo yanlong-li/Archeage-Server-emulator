@@ -1,13 +1,255 @@
-﻿using LocalCommons.Network;
+﻿using ArcheAge.ArcheAge.Holders;
+using ArcheAge.ArcheAge.Network.Connections;
+using ArcheAge.ArcheAge.Structuring;
+using LocalCommons.Network;
+using System.Collections.Generic;
 
 namespace ArcheAge.ArcheAge.Network
 {
-    public sealed class NP_CharacterListPacket_0x0079 : NetPacket
+    public sealed class NP_0x05_CharacterListPacket_0x0079 : NetPacket
     {
+        public void WriteItem(int itemId)
+        {
+            ns.Write((int)itemId); //ItemId d 
+            if (itemId > 0)
+            {
+                ns.Write((long)0x01); //objectId q
+                ns.Write((byte)0x00); //type c
+                ns.Write((byte)0x00); //flags c
+                ns.Write((int)0x01);  //stackSize d
+                ns.Write((byte)0x01); //detailType c
+                ns.Write((byte)0x55); //durability c
+                ns.Write((short)0x00);//chargeCount h
+                ns.Write((long)0x00); //chargeTime q
+                ns.Write((short)0x00);//scaledA h
+                ns.Write((short)0x00);//scaledB h
+                for (int i = 0; i < 4; i++)
+                {
+                    ns.Write((byte)0x00); //pish c
+                    ns.Write((int)0x00); //pisc d
+                }
+                ns.Write((long)0x5B2D8098); //creationTime q
+                ns.Write((int)0x00);        //lifespanMins d
+                ns.Write((int)0x00);        //type d
+                ns.Write((byte)0x01);       //worldId c
+                ns.Write((long)0x00);       //unsecureDateTime q
+                ns.Write((long)0x00);       //unpackDateTime q
+                ns.Write((long)0x00);       //chargeUseSkillTime q
+            }
+        }
         /// <summary>
         /// пакет для входа в Лобби
         /// author: NLObP
         /// </summary>
+        public NP_0x05_CharacterListPacket_0x0079(ClientConnection net, int num, int last) : base(05, 0x0079)
+        {
+            var accountId = net.CurrentAccount.AccountId;
+            List<Character> charList = CharacterHolder.LoadCharacterData((int)accountId);
+            var totalChars = CharacterHolder.GetCount();
+
+
+            ns.Write((byte)last); //"last" type="c"
+            if (totalChars == 0)
+            {
+                ns.Write((byte)0); //totalChars); //"count" type="c"
+                return; //если пустой список, заканчиваем работу
+            }
+            else
+            {
+                ns.Write((byte)1); //totalChars); //"count" type="c"
+            }
+            int aa = 0;
+            foreach (Character chr in charList)
+            {
+                if (num == aa) //параметр NUM отвечает, которого чара выводить в пакете (может быть от 0 до 2)
+                {
+                //D7940100
+                    ns.Write((int)chr.CharacterId); //type d
+                //size.name
+                //0600 52656D6F7461 (Remota)
+                ns.WriteUTF8Fixed(chr.CharName, chr.CharName.Length); //name S
+                ns.Write((byte)chr.CharRace); //CharRace c
+                ns.Write((byte)chr.CharGender); //CharGender c
+                ns.Write((byte)chr.Level); //level c"
+                ns.Write((int)0x02D0); //health d
+                ns.Write((int)0x029E); //mana d
+                ns.Write((int)0x012C); //zone_id d
+                ns.Write((int)0x65); //FactionId d
+                //size.factionName
+                //0000
+                string msg = "";
+                ns.WriteUTF8Fixed(msg, msg.Length);
+                ns.Write((int)0x00); //type d
+                ns.Write((int)0x00); //family d
+                ns.Write((int)0x011F8054); // validFlags d
+                //------------------------------------
+                //цикл по инвентарю герою
+                //------------------------------------
+                //0.шлем (0 голова)
+                //1.нагрудник (23387 грубая рубаха )
+                //2.пояс (0 )
+                //3.наручи (0 )
+                //4.перчатки (0 )
+                //5.плащ (0 )
+                //6.поножи (23388 грубые штаны)
+                //7.обувь (23390 грубые башмаки)
+                //8. плащ
+                //9. нижнее белье
+                //10.нижнее белье
+                //11.ожерелье
+                //12.серьга
+                //13.серьга
+                //14.кольцо
+                //15.кольцо
+                //16.двуручное оружие
+                //17.дополнительное оружие
+                //18.оружие дальноего боя
+                //19.инструмент
+                // { 7, раз, предметы на герое?
+                // {1}
+                WriteItem(0x5103); //ItemId d Head
+                // {2}
+                WriteItem(0x511E); //ItemId d Chest
+                // {3}
+                WriteItem(0x511E); //ItemID d Legs
+                // {4}
+                WriteItem(0x5154); //ItemID d Gloves
+                // {5}
+                WriteItem(0x511E); //ItemID d Feet
+                // {6}
+                WriteItem(0x17EF); //ItemID d
+                // {7}
+                WriteItem(0x1821); //ItemId d
+
+                ns.Write((int)0x4D7F); // type d
+                ns.Write((int)0x631C); // type d
+                ns.Write((int)0x021B); // type d
+                ns.Write((int)0x00); // type d
+                
+                //for (int i = 0; i < 3; i++)
+                {
+                    //ns.Write((byte)chr.Ability[i]); //"ability[] c"
+                    ns.Write((byte)0x01);
+                    ns.Write((byte)0x0D);
+                    ns.Write((byte)0x0D);
+                }
+                //pos в пакете нет, в коде 01
+                ns.Write((long)0x0007045E3D800000); //x q
+                ns.Write((long)0x0021F96715C40000); //y q
+                ns.Write((int)0x42CFA1CB);          //z d
+                ns.Write((byte)chr.Ext); //ext c
+                switch (chr.Ext)
+                {
+                    case 0:
+                        break;
+                    default:
+                        ns.Write((int)0x10CB); //type d
+                        ns.Write((int)0x00); //type d
+                        ns.Write((int)0); //defaultHairColor d
+                        ns.Write((int)0); //twoToneHair d
+                        ns.Write((int)0); //twoToneFirstWidth d
+                        ns.Write((int)0); //twoToneSecondWidth d
+                        ns.Write((int)0x04); //type d
+                        ns.Write((int)0x00); //type d
+                        ns.Write((int)0x00); //type d
+                        //ns.Write((float)chr.Weight[10]); //weight f
+                        ns.Write((int)0x3F800000);
+
+                        ns.Write((int)0x00); //type d
+                        //ns.Write((float)chr.Weight[12]); //weight f
+                        ns.Write((int)0x3F800000);
+
+                        //ns.Write((float)chr.Scale); //scale f
+                        ns.Write((int)0x3F800000);
+                        //ns.Write((float)chr.Rotate); //rotate f
+                        ns.Write((int)0x00);
+                        //ns.Write((short)chr.MoveX); //moveX h
+                        ns.Write((short)0x00);
+                        //ns.Write((short)chr.MoveY); //moveY h
+                        ns.Write((short)0x00);
+                        //pish 1
+                        ns.Write((byte)0x04);
+                        //pisc 5
+                        ns.Write((byte)0x00);
+                        ns.Write((byte)0xBC);
+                        ns.Write((byte)0x01);
+                        ns.Write((byte)0xAA);
+                        ns.Write((byte)0x00);
+                        //pish 1
+                        ns.Write((byte)0x00);
+                        //pisc 2
+                        ns.Write((byte)0x00);
+                        ns.Write((byte)0x00);
+                        //pish 1
+                        ns.Write((byte)0x00);
+                        //pisc 3
+                        ns.Write((byte)0x00);
+                        ns.Write((byte)0x00);
+                        ns.Write((byte)0x00);
+
+                        /*
+                        ns.Write((float)chr.Weight[12]); //weight f
+                        ns.Write((float)chr.Weight[12]); //weight f
+                        ns.Write((float)chr.Weight[12]); //weight f
+                        ns.Write((float)chr.Weight[12]); //weight f
+                        ns.Write((float)chr.Weight[12]); //weight f
+                        ns.Write((float)chr.Weight[12]); //weight f
+
+                        ns.Write((float)chr.Weight[12]); //weight f
+                        */
+                        ns.Write((int)0x3F800000);
+                        ns.Write((int)0x3F800000);
+                        ns.Write((int)0x3F800000);
+                        ns.Write((int)0x3F35C28F);
+                        ns.Write((int)0x3F800000);
+                        ns.Write((int)0x3F800000);
+                        ns.Write((int)0x3F800000);
+
+                        ns.Write((uint)chr.Lip); //lip d
+                        ns.Write((uint)chr.LeftPupil); //leftPupil d
+                        ns.Write((uint)chr.RightPupil); //rightPupil d
+                        ns.Write((uint)chr.Eyebrow); //eyebrow d
+                        ns.Write((int)chr.Decor); //decor d
+                        //следующая инструкция пишет: len.stringHex
+                        string subString = chr.Modifiers.Substring(0, 256); //надо отрезать в конце два символа \0\0
+                        ns.WriteHex(subString, subString.Length); //  modifiers b"
+                        break;
+                }
+                ns.Write((short)0x1388); //laborPower h
+                ns.Write((long)0x5B2D8572); //lastLaborPowerModified q
+                ns.Write((short)0x00); //deadCount h
+                ns.Write((long)0x5B29D9A2); //deadTime q
+                ns.Write((int)0x00); //rezWaitDuration d
+                ns.Write((long)0x5B29D9A2); //rezTime q
+                ns.Write((int)0x00); //rezPenaltyDuration d
+                ns.Write((long)0x5B2D8205); //lastWorldLeaveTime q
+                ns.Write((long)0x00); //moneyAmount q
+                ns.Write((long)0x00); //moneyAmount q
+                ns.Write((short)0x00); //crimePoint h
+                ns.Write((int)0x00); //crimeRecord d
+                ns.Write((short)0x00); //crimeScore h
+                ns.Write((long)0x00); //deleteRequestedTime  q
+                ns.Write((long)0x00); //transferRequestedTime q
+                ns.Write((long)0x00); //deleteDelay q
+                ns.Write((int)0x00); //consumedLp d
+                ns.Write((long)0x1E); //bmPoint q
+                ns.Write((long)0x00); //moneyAmount q
+                ns.Write((long)0x00); //moneyAmount q
+                ns.Write((byte)0x00); //autoUseAApoint c
+                ns.Write((int)0x01); //prevPoint d
+                ns.Write((int)0x01); //point d
+                ns.Write((int)0x00); //gift d
+                ns.Write((long)0x5B3F9014); //updated q
+                ns.Write((byte)0x00); //forceNameChange c
+                ns.Write((int)0x00); //highAbilityRsc d
+                }
+                ++aa;
+            }
+        }
+    }
+
+    public sealed class NP_CharacterListPacket_0x0079 : NetPacket
+    {
         public NP_CharacterListPacket_0x0079() : base(05, 0x0079)
         {
             //пакеты для входа в Лобби
@@ -26,8 +268,8 @@ namespace ArcheAge.ArcheAge.Network
             ns.Write((byte)0x01);
             //count 1
             //02
-            ns.Write((byte)0x02);
-            //{ количество героев
+            ns.Write((byte)0x01);
+            /*//{ количество героев
             //================================================================================
             //====================================== Remota ==================================
             //================================================================================
@@ -591,13 +833,13 @@ namespace ArcheAge.ArcheAge.Network
             ns.Write((int)0x3F800000);
             //lip 4
             ns.Write((uint)0xAB3E38FF); //не влезает в INTEGER
-            //leftPupil 4
+                                        //leftPupil 4
             ns.Write((uint)0x5F5B25FF); //не влезает в INTEGER
-            //rightPupil 4
+                                        //rightPupil 4
             ns.Write((uint)0x5F5B25FF); //не влезает в INTEGER
-            //eyebrow 4
+                                        //eyebrow 4
             ns.Write((uint)0x9A0E0EFF); //не влезает в INTEGER
-            //deco 4
+                                        //deco 4
             ns.Write((int)0x00);
             //size.modifiers (128)
             msg = "0000100000F10021DDCC403A0B0BFB0300F6F5CF0C00D10047000BCC9C00000000E800000000D9BF000000000000000CFA1E0012E10C003E21642323EE16000000E80018E8B9E800223700FC00000000CFCC00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
@@ -605,7 +847,7 @@ namespace ArcheAge.ArcheAge.Network
             //}
             //laborPower 2
             ns.Write((short)0x1388); //очки работы = 5000
-            //lastLaborPowerModified 8
+                                     //lastLaborPowerModified 8
             ns.Write((long)0x5B2D8572);
             //deadCount 2
             ns.Write((short)0x00);
@@ -621,9 +863,9 @@ namespace ArcheAge.ArcheAge.Network
             ns.Write((long)0x5B2D8205);
             //moneyAmount 8, Number of copper coins Automatic 1:100:10000 Convert gold coins
             ns.Write((long)0x1E); //серебро, золото и платина (начало)
-            //moneyAmount 8
+                                  //moneyAmount 8
             ns.Write((long)0x00); //серебро, золото и платина (продолжение)
-            //crimePoint 2
+                                  //crimePoint 2
             ns.Write((short)0x00);
             //crimeRecord 4
             ns.Write((int)0x00);
@@ -639,7 +881,7 @@ namespace ArcheAge.ArcheAge.Network
             ns.Write((int)0x00);
             //bmPoint 8
             ns.Write((long)0x1E); //монеты дару = 30
-            //moneyAmount 8
+                                  //moneyAmount 8
             ns.Write((long)0x00);
             //moneyAmount 8
             ns.Write((long)0x00);
@@ -658,7 +900,8 @@ namespace ArcheAge.ArcheAge.Network
             //highAbilityRsc 4
             ns.Write((int)0x00);
             //}
-            
+*/
+
             //================================================================================
             //====================================== Develo ==================================
             //================================================================================
@@ -667,7 +910,7 @@ namespace ArcheAge.ArcheAge.Network
             ns.Write((int)0x01E796);
             //size.name
             //0600 52656D6F7461 (Remota)
-            msg = "Develo";
+            string msg = "Develo";
             ns.WriteUTF8Fixed(msg, msg.Length);
             //CharRace 1
             //01 (Нуиане)
@@ -1219,13 +1462,13 @@ namespace ArcheAge.ArcheAge.Network
             ns.Write((int)0x3F800000);
             //lip 4
             ns.Write((uint)0xFF8B7BE3); //не влезает в INTEGER
-            //leftPupil 4
+                                        //leftPupil 4
             ns.Write((uint)0xFFEFECAF); //не влезает в INTEGER
-            //rightPupil 4
+                                        //rightPupil 4
             ns.Write((uint)0xFFEFECAF); //не влезает в INTEGER
-            //eyebrow 4
+                                        //eyebrow 4
             ns.Write((uint)0xFF384858); //не влезает в INTEGER
-            //deco 4
+                                        //deco 4
             ns.Write((int)0x00);
             //size.modifiers (128)
             msg = "00EF00EF00EE000103000000000000110000000000FE00063BB900D800EE00D400281BEBE100E700F037230000000000640000000000000064000000F0000000000000002BD50000006400000000F9000000E0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
@@ -1286,9 +1529,10 @@ namespace ArcheAge.ArcheAge.Network
             //highAbilityRsc 4
             ns.Write((int)0x00);
             //}
-            
+
         }
     }
+
     public sealed class NP_Packet_CharList_empty_0x0079 : NetPacket
     {
         /// <summary>

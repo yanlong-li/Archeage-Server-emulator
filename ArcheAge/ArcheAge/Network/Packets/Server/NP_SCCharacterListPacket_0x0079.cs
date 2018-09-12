@@ -44,7 +44,7 @@ namespace ArcheAge.ArcheAge.Network
         public NP_0x05_CharacterListPacket_0x0079(ClientConnection net, int num, int last) : base(05, 0x0079)
         {
             var accountId = net.CurrentAccount.AccountId;
-            List<Character> charList = CharacterHolder.LoadCharacterData((int)accountId);
+            List<Character> charList = CharacterHolder.LoadCharacterData(accountId);
             var totalChars = CharacterHolder.GetCount();
 
 
@@ -83,7 +83,7 @@ namespace ArcheAge.ArcheAge.Network
                 ns.Write((int)0x00); //family d
                 ns.Write((int)0x011F8054); // validFlags d
                 //------------------------------------
-                //цикл по инвентарю герою
+                //цикл по equio персонажа
                 //------------------------------------
                 //0.шлем (0 голова)
                 //1.нагрудник (23387 грубая рубаха )
@@ -105,7 +105,7 @@ namespace ArcheAge.ArcheAge.Network
                 //17.дополнительное оружие
                 //18.оружие дальноего боя
                 //19.инструмент
-                // { 7, раз, предметы на герое?
+                // { 7, раз, предметы на персонаже?
                 // {1}
                 WriteItem(0x5103); //ItemId d Head
                 // {2}
@@ -269,7 +269,7 @@ namespace ArcheAge.ArcheAge.Network
             //count 1
             //02
             ns.Write((byte)0x01);
-            /*//{ количество героев
+            /*//{ количество персонажей
             //================================================================================
             //====================================== Remota ==================================
             //================================================================================
@@ -316,7 +316,7 @@ namespace ArcheAge.ArcheAge.Network
             //{
             // validFlags 4
             ns.Write((int)0x011F8054);
-            // { 7, раз, предметы на герое?
+            // { 7, раз, предметы на персонаже?
             // {1}
             //     type 4 ItemID Head
             ns.Write((int)0x5052);
@@ -946,7 +946,7 @@ namespace ArcheAge.ArcheAge.Network
             //{
             // validFlags 4
             ns.Write((int)0x011F8054);
-            // { 7, раз, предметы на герое?
+            // { 7, раз, предметы на персонаже?
             // {1}
             //     type 4 ItemId Head
             ns.Write((int)0x5103);

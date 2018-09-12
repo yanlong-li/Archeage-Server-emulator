@@ -5,10 +5,10 @@ namespace ArcheAge.ArcheAge.Network
 {
     public sealed class NP_SCDeleteCharacterResponse_0x0034 : NetPacket
     {
-        public NP_SCDeleteCharacterResponse_0x0034(int characterId) : base(01, 0x0001)
+        public NP_SCDeleteCharacterResponse_0x0034(int characterId) : base(01, 0x0034)
         {
             //Немедленное удаление данных!
-            CharacterHolder.DeleteCharacterData(characterId); //удаляем запись с героем из базы
+            CharacterHolder.DeleteCharacterData(characterId); //удаляем запись с заданным UID персонажа из базы
             ns.Write((int) characterId); //characterId d
             ns.Write((byte) 0x01); //deleteStatus c
             ns.Write((long) 0x00); //deleteRequestedTime q

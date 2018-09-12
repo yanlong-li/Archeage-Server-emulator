@@ -67,6 +67,8 @@
     <Compile Include="Network\PacketWriter.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Threading\ThreadManager.cs" />
+    <Compile Include="UID\Int32UidFactory.cs" />
+    <Compile Include="UID\UInt32UidFactory.cs" />
     <Compile Include="Utilities\Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

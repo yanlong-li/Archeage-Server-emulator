@@ -5,8 +5,8 @@
     /// </summary>
     public class Character
     {
-        public long Id { get; set; }
-        public long AccountId { get; set; }
+        public uint CharacterId { get; set; }
+        public uint AccountId { get; set; }
         public byte WorldId { get; set; }
         public int Type { get; set; }
         public string CharName { get; set; }

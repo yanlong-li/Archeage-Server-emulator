@@ -77,11 +77,14 @@
   <ItemGroup>
     <Compile Include="ArcheAge\Holders\AccountHolder.cs" />
     <Compile Include="ArcheAge\Holders\CharacterHolder.cs" />
-    <Compile Include="ArcheAge\Holders\CharacterListHolder.cs" />
     <Compile Include="ArcheAge\Network\Connections\ClientConnection.cs" />
     <Compile Include="ArcheAge\Network\DelegateList.cs" />
     <Compile Include="ArcheAge\Network\Connections\LoginConnection.cs" />
     <Compile Include="ArcheAge\Network\ArcheAgePackets.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCharacterCreationFailed_0x0038.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCreateCharacterResponse_0x0033.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCharacterDeleted_0x0036.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCancelCharacterDeleteResponse_0x0037.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCLeaveWorldGrantedPacket_0x0003.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCDeleteCharacterResponse_0x0034.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCReconnectAuthPacket_0x0001.cs" />
@@ -104,8 +107,8 @@
     <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x029C.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x02C3.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x02CF.cs" />
-    <Compile Include="ArcheAge\Network\Packets\Server\NP_CharacterListPacket_0x0039.cs" />
-    <Compile Include="ArcheAge\Network\Packets\Server\NP_CharacterListPacket_0x0079.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCharacterListPacket_0x0039.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCharacterListPacket_0x0079.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_quit_0x01F1.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SetGameType_0x000F.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_Pong_0x0013.cs" />

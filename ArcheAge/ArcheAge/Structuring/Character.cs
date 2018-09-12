@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LocalCommons.UID;
 
 namespace ArcheAge.ArcheAge.Structuring
 {
@@ -13,13 +14,12 @@ namespace ArcheAge.ArcheAge.Structuring
         {
         }
 
-        public Character(long id, int accountId, int characterId, byte worldId, string charName, byte charRace, byte charGender,
+        public Character(uint Id, uint accountId, byte worldId, string charName, byte charRace, byte charGender,
             string gUid, long v, int[] type, float[] weight, float scale, float rotate, float moveX, float moveY,
             int lip, int leftPupil, int rightPupil, int eyebrow, int decor, string modifiers, byte[] ability, byte level, byte ext)
         {
-            Id = id;
+            CharacterId = Id;
             AccountId = accountId;
-            CharacterId = characterId;
             WorldId = worldId;
             CharName = charName;
             CharRace = charRace;
@@ -43,9 +43,8 @@ namespace ArcheAge.ArcheAge.Structuring
             Ext = ext;
         }
 
-        internal long Id { get; set; }
-        public int AccountId { get; set; }
-        public int CharacterId { get; set; }
+        public uint AccountId { get; set; }
+        public uint CharacterId { get; set; }
         public byte WorldId { get; set; }
         public string CharName { get; set; }
         public byte CharRace { get; set; }

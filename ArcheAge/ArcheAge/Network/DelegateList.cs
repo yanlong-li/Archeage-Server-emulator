@@ -6,23 +6,24 @@ using LocalCommons.Network;
 using LocalCommons.Utilities;
 using System.Collections.Generic;
 using System.Linq;
+using ArcheAge.ArcheAge.Network.Packets.Server;
 
 namespace ArcheAge.ArcheAge.Network
 {
-    /// <summary>
-    /// Delegate List That Contains Information About Received Packets.
-    /// Contains a list of delegates that receive packet information.
-    /// </summary>
-    public class DelegateList
+    ///<summary>
+    ///Delegate List That Contains Information About Received Packets.
+    ///Contains a list of delegates that receive packet information.
+    ///</summary>
+    public static class DelegateList
     {
-        private static string clientVersion;
-        private static int m_Maintained;
-        private static PacketHandler<LoginConnection>[] m_LHandlers;
-        //private static PacketHandler<ClientConnection>[] m_CHandlers;
-        private static Dictionary<int, PacketHandler<ClientConnection>[]> levels;
-        private static LoginConnection m_CurrentLoginServer;
+        private static string _clientVersion;
+        private static int _mMaintained;
+        private static PacketHandler<LoginConnection>[] _mLHandlers;
+        //private static PacketHandler<ClientConnection>[] _mCHandlers;
+        private static Dictionary<int, PacketHandler<ClientConnection>[]> _levels;
+        private static LoginConnection _mCurrentLoginServer;
 
-        public static List<Character> CharacterList = new List<Character>(); //здесь будет храниться список героев для текущеко account
+        public static List<Character> CharacterList = new List<Character>(); //здесь будет храниться список персонажей для текущеко account
 
         private static bool enter1;
         private static bool enter2;
@@ -41,59 +42,59 @@ namespace ArcheAge.ArcheAge.Network
 
         public static LoginConnection CurrentLoginServer
         {
-            get { return m_CurrentLoginServer; }
+            get { return _mCurrentLoginServer; }
         }
 
         public static Dictionary<int, PacketHandler<ClientConnection>[]> ClientHandlers
         {
-            get { return levels; }
+            get { return _levels; }
         }
 
         public static PacketHandler<LoginConnection>[] LHandlers
         {
-            get { return m_LHandlers; }
+            get { return _mLHandlers; }
         }
 
         public static void Initialize(string clientVersion)
         {
-            DelegateList.clientVersion = clientVersion;
-            m_LHandlers = new PacketHandler<LoginConnection>[0x20];
+            DelegateList._clientVersion = clientVersion;
+            _mLHandlers = new PacketHandler<LoginConnection>[0x20];
             //m_LHandlers = new PacketHandler<ClientConnection>[0x30];
-            levels = new Dictionary<int, PacketHandler<ClientConnection>[]>();
+            _levels = new Dictionary<int, PacketHandler<ClientConnection>[]>();
 
-            once2 = true; // если false, то больше не повторять
-            once3 = true; // если false, то больше не повторять
-            once4 = true; // если false, то больше не повторять
-            once5 = true; // если false, то больше не повторять
-            once6 = true; // если false, то больше не повторять
-            enter1 = false; // если true, то больше не повторять
-            enter4 = false; // если true, то больше не повторять
-            enter5 = false; // если true, то больше не повторять
-            enter6 = false; // если true, то больше не повторять
-            enter7 = false; // если true, то больше не повторять
-            enter8 = false; // если true, то больше не повторять
-            enter9 = false; // если true, то больше не повторять
+            once2 = true; //если false, то больше не повторять
+            once3 = true; //если false, то больше не повторять
+            once4 = true; //если false, то больше не повторять
+            once5 = true; //если false, то больше не повторять
+            once6 = true; //если false, то больше не повторять
+            enter1 = false; //если true, то больше не повторять
+            enter4 = false; //если true, то больше не повторять
+            enter5 = false; //если true, то больше не повторять
+            enter6 = false; //если true, то больше не повторять
+            enter7 = false; //если true, то больше не повторять
+            enter8 = false; //если true, то больше не повторять
+            enter9 = false; //если true, то больше не повторять
 
             RegisterDelegates();
         }
-        /// <summary>
-        /// Registration service
-        /// Using - Packet Level - Packet Opcode(short) - Receive Delegate
-        /// </summary>
+        ///<summary>
+        ///Registration service
+        ///Using - Packet Level - Packet Opcode(short) - Receive Delegate
+        ///</summary>
         private static void RegisterDelegates()
         {
             //-------------- Login - Game Communication Packets ------------
             //Game Communication Service
             Register(0x00, Handle_GameRegisterResult); //Taken Fully
-            Register(0x01, (net, reader) => Handle_AccountInfoReceived(clientVersion, net, reader)); //Taken Fully
-            switch (clientVersion)
+            Register(0x01, (net, reader) => Handle_AccountInfoReceived(_clientVersion, net, reader)); //Taken Fully
+            switch (_clientVersion)
             {
                 //-------------- Client Communication Packets ------------------
                 //Client Communication Service
                 //-------------- Using - Packet Level - Packet Opcode(short) - Receive Delegate -----
                 case "1": //1.0.1406 Feb 11 2014
                     //Using: Level-Opcode(short) ---------- Receive Delegate -----
-                    Register(0x01, 0x0000, (net, reader) => OnPacketReceive_0x01_X2EnterWorld_0x0000(clientVersion, net, reader)); //+
+                    Register(0x01, 0x0000, (net, reader) => OnPacketReceive_0x01_X2EnterWorld_0x0000(_clientVersion, net, reader)); //+
                     Register(0x01, 0x0001, OnPacketReceive_0x01_CSLeaveWorld_0x0001);
                     Register(0x01, 0x001F, OnPacketReceive_0x01_CSListCharacter_0x001F);
                     Register(0x01, 0x0021, OnPacketReceive_0x01_CSCreateCharacter_0x0021);
@@ -106,15 +107,15 @@ namespace ArcheAge.ArcheAge.Network
                     Register(0x01, 0x00FB, OnPacketReceive_0x01_CSSetLpManageCharacter_0x00FB);
                     Register(0x01, 0x0116, OnPacketReceive_0x01_CSRestrictCheck_0x0116);
                     //02
-                    Register(0x02, 0x0001, (net, reader) => OnPacketReceive_0x02_FinishState_0x0001(clientVersion, net, reader)); //+
+                    Register(0x02, 0x0001, (net, reader) => OnPacketReceive_0x02_FinishState_0x0001(_clientVersion, net, reader)); //+
                     Register(0x02, 0x0012, OnPacketReceive_0x02_Ping_0x0012); //+
 
                     break;
                 case "3": //3.0.3.0
                     //Using: Level-Opcode(short) ---------- Receive Delegate -----
-                    Register(0x01, 0x0000, (net, reader) => OnPacketReceive_0x01_X2EnterWorld_0x0000(clientVersion, net, reader)); //+
+                    Register(0x01, 0x0000, (net, reader) => OnPacketReceive_0x01_X2EnterWorld_0x0000(_clientVersion, net, reader)); //+
                     Register(0x02, 0x0012, OnPacketReceive_0x02_Ping_0x0012); //+
-                    Register(0x02, 0x0001, (net, reader) => OnPacketReceive_0x02_FinishState_0x0001(clientVersion, net, reader)); //+
+                    Register(0x02, 0x0001, (net, reader) => OnPacketReceive_0x02_FinishState_0x0001(_clientVersion, net, reader)); //+
                     Register(0x01, 0xE4FB, OnPacketReceive_ClientE4FB);
                     Register(0x01, 0x0D7C, OnPacketReceive_Client0D7C);
                     Register(0x01, 0xE17B, OnPacketReceive_ClientE17B);
@@ -134,6 +135,19 @@ namespace ArcheAge.ArcheAge.Network
         }
         #region Client Callbacks Implementation
 
+        ///<summary>
+        ///Обновить количество персонажей на аккаунте
+        ///</summary>
+        ///<param name="net"></param>
+        ///<param name="accountId"></param>
+        ///<param name="count"></param>
+        private static void Handle_UpdateCharacters(ClientConnection net, uint accountId, int totalCars)
+        {
+            Account currentAcc = AccountHolder.AccountList.FirstOrDefault(n => n.AccountId == accountId);
+            currentAcc.Characters = (byte)totalCars;
+            AccountHolder.InsertOrUpdate(currentAcc);
+        }
+
         private static void OnPacketReceive_0x01_CSSetLpManageCharacter_0x00FB(ClientConnection net, PacketReader reader)
         {
             //throw new NotImplementedException();
@@ -142,22 +156,22 @@ namespace ArcheAge.ArcheAge.Network
         private static void CharacterListPacket(string clientVersion, ClientConnection net)
         {
             var accountId = net.CurrentAccount.AccountId;
-            List<Character> charList = CharacterHolder.LoadCharacterData((int)accountId);
+            List<Character> charList = CharacterHolder.LoadCharacterData(accountId);
             var totalChars = CharacterHolder.GetCount();
             switch (clientVersion)
             {
                 case "1":
-            if (totalChars == 0)
-            {
-                net.SendAsync(new NP_CharacterListPacket_0x0039(net, 0, 1));
-            }
-            else
-            {
-                for (int i = 0; i < totalChars; i++)
-                {
-                    net.SendAsync(new NP_CharacterListPacket_0x0039(net, i, i == totalChars - 1 ? 1 : 0));
-                }
-            }
+                    if (totalChars == 0)
+                    {
+                        net.SendAsync(new NP_CharacterListPacket_0x0039(net, 0, 1));
+                    }
+                    else
+                    {
+                        for (int i = 0; i < totalChars; i++)
+                        {
+                            net.SendAsync(new NP_CharacterListPacket_0x0039(net, i, i == totalChars - 1 ? 1 : 0));
+                        }
+                    }
                     break;
                 case "3":
                     if (totalChars == 0)
@@ -179,100 +193,111 @@ namespace ArcheAge.ArcheAge.Network
         {
             //"Recv: 0800 0001 2300 FF091A00
             var characterId = reader.ReadLEInt32(); //characterId D
-            net.SendAsync(new NP_SCDeleteCharacterResponse_0x0034(characterId)); //удаляем выбранного героя
+            net.SendAsync(new NP_SCDeleteCharacterResponse_0x0034(characterId)); //удаляем выбранного персонажа
 
-            CharacterListPacket(clientVersion, net);
+            Program.CharcterUid.ReleaseUniqueInt((uint)characterId); //освобождаем неиспользуемый uid
+
+            CharacterListPacket(_clientVersion, net);
         }
 
-        /// <summary>
-        /// CSCreateCharacter_0x0021
-        /// </summary>
-        /// <param name="net"></param>
-        /// <param name="reader"></param>
+        ///<summary>
+        ///CSCreateCharacter_0x0021
+        ///</summary>
+        ///<param name="net"></param>
+        ///<param name="reader"></param>
         private static void OnPacketReceive_0x01_CSCreateCharacter_0x0021(ClientConnection net, PacketReader reader)
         {
-            Character newCharacter = new Character
-            {
-                AccountId = (int)net.CurrentAccount.AccountId
-            }; //куда записывать параметры нового героя
-            //                     len  name      
+            Character newCharacter = new Character();
+            newCharacter.AccountId = net.CurrentAccount.AccountId; //куда записывать параметры нового персонажа
+            
+            //len  name      
             //Recv: 1801 0001 2100 0900 72656D6F746164696E 01 02 7F4D0000 1C 63 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 03 CB 10 00 00 04 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F 00 00 80 3F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F BC 01 00 00 00 00 80 3F AA 00 00 00 00 00 80 3F 00 00 00 00 8F C2 35 3F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F E3 7B 8B FF AF EC EF FF AF EC EF FF 58 48 38 FF 00 00 00 00 80 00 00 EF 00 EF 00 EE 00 01 03 00 00 00 00 00 00 11 00 00 00 00 00 FE 00 06 3B B9 00 D8 00 EE 00 D4 00 28 1B EB E1 00 E7 00 F0 37 23 00 00 00 00 00 64 00 00 00 00 00 00 00 64 00 00 00 F0 00 00 00 00 00 00 00 2B D5 00 00 00 64 00 00 00 00 F9 00 00 00 E0 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 08 0B 0B 01
             //Recv: 1401 0001 2100 0500 6172747572         01 01 7E4D0000 455E0000 00000000 00000000 00000000 00000000 00000000 03 DD020000 01 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F 00 00 80 3F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F 00 00 00 00 00 00 80 3F 30 02 00 00 00 00 80 3F AA 02 00 00 00 00 80 3F 00 00 00 00 1D 00 00 00 00 00 00 00 00 00 80 3F 00 00 00 00 5A B5 F8 FF 5A B5 F8 FF 3C 23 00 FF 60 3E 48 FF 80 00 00 F5 00 00 11 DC 00 0B 00 00 00 00 17 00 00 00 00 00 F3 23 00 00 00 00 3D 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 0B 0B 01
-            short len = reader.ReadLEInt16(); //  name s
-            newCharacter.CharName = reader.ReadString(len); //имя героя
-            //  CharRace c
-            newCharacter.CharRace = reader.ReadByte(); //раса героя
-            //  CharGender c
-            newCharacter.CharGender = reader.ReadByte(); //пол героя
-            //цикл по характеристикам предметов на герое: 1.characterID, 2.unk, 3.unk, 4.unk, 5.Feetunk 6.unk, 7.unk
-            for (int i = 0; i < 7; i++) //  - <for id="-1" size="7">
+            short len = reader.ReadLEInt16(); //name s
+            newCharacter.CharName = reader.ReadString(len); //имя персонажа
+
+            //проверка на существования имя персонажа
+            Character testCharacter = CharacterHolder.GetCharacter(newCharacter.CharName);
+            if (testCharacter != null)
             {
-                newCharacter.Type[i] = reader.ReadLEInt32(); //    type[somehow_special] d
-            } //  </for>
+                net.SendAsync(new NP_SCCharacterCreationFailed_0x0038(net));
+                return; //завершаем работу, такой чар уже есть
+            }
 
-            newCharacter.CharacterId = newCharacter.Type[0];
+            //CharRace c
+            newCharacter.CharRace = reader.ReadByte(); //раса персонажа
+            //CharGender c
+            newCharacter.CharGender = reader.ReadByte(); //пол персонажа
+            //цикл по equip персонажа
+            for (int i = 0; i < 7; i++)
+            {
+                newCharacter.Type[i] = reader.ReadLEInt32(); //type[somehow_special] d
+            }
 
-            byte ext = reader.ReadByte(); //  ext c
+            newCharacter.CharacterId = Program.CharcterUid.Next();
+
+            byte ext = reader.ReadByte(); //ext c
             newCharacter.Ext = ext;
-            switch (ext) //    - <switch id="6">
+            switch (ext)
             {
-                case 0: //      <case id="0"
+                case 0:
                     break;
-                case 1: //      - <case id="1">
-                    newCharacter.Type[7] = reader.ReadLEInt32(); // type d
+                case 1:
+                    newCharacter.Type[7] = reader.ReadLEInt32(); //type d
                     break;
-                case 2: //      - <case id="2">
-                    newCharacter.Type[7] = reader.ReadLEInt32(); // type d
-                    newCharacter.Type[8] = reader.ReadLEInt32(); // type d
-                    newCharacter.Type[9] = reader.ReadLEInt32(); // type d
+                case 2:
+                    newCharacter.Type[7] = reader.ReadLEInt32(); //type d
+                    newCharacter.Type[8] = reader.ReadLEInt32(); //type d
+                    newCharacter.Type[9] = reader.ReadLEInt32(); //type d
                     break;
-                default: //      - <case id="default">
-                    newCharacter.Type[7] = reader.ReadLEInt32(); // type d
-                    newCharacter.Type[8] = reader.ReadLEInt32(); // type d
-                    newCharacter.Type[9] = reader.ReadLEInt32(); // type d
-                    newCharacter.Type[10] = reader.ReadLEInt32(); // type d
-                    newCharacter.Weight[10] = reader.ReadLESingle(); //0-9 нет данных, 10 // weight f
-                    newCharacter.Scale = reader.ReadLESingle();    // scale f
-                    newCharacter.Rotate = reader.ReadLESingle();   // rotate f
-                    newCharacter.MoveX = reader.ReadLEUInt16();    // moveX h
-                    newCharacter.MoveY = reader.ReadLEUInt16();    // moveY h
-                    for (int i = 11; i < 15; i++) //      - <for id="-1" size="4">
+                default: //- <case id="default">
+                    newCharacter.Type[7] = reader.ReadLEInt32(); //type d
+                    newCharacter.Type[8] = reader.ReadLEInt32(); //type d
+                    newCharacter.Type[9] = reader.ReadLEInt32(); //type d
+                    newCharacter.Type[10] = reader.ReadLEInt32(); //type d
+                    newCharacter.Weight[10] = reader.ReadLESingle(); //в них 0-9 нет данных, 10 //weight f
+                    newCharacter.Scale = reader.ReadLESingle();    //scale f
+                    newCharacter.Rotate = reader.ReadLESingle();   //rotate f
+                    newCharacter.MoveX = reader.ReadLEUInt16();    //moveX h
+                    newCharacter.MoveY = reader.ReadLEUInt16();    //moveY h
+                    for (int i = 11; i < 15; i++)
                     {
-                        newCharacter.Type[i] = reader.ReadLEInt32();    //11, 12, 13, 14 // type d
-                        newCharacter.Weight[i] = reader.ReadLESingle(); //11, 12, 13, 14 // weight f
+                        newCharacter.Type[i] = reader.ReadLEInt32();    //11, 12, 13, 14 //type d
+                        newCharacter.Weight[i] = reader.ReadLESingle(); //11, 12, 13, 14 //weight f
                     }
-                    newCharacter.Type[15] = reader.ReadLEInt32(); //      type d
-                    newCharacter.Type[16] = reader.ReadLEInt32(); //      type d
-                    newCharacter.Type[17] = reader.ReadLEInt32(); //      type d
-                    newCharacter.Weight[17] = reader.ReadLESingle(); //17, 15-16 нет данных // weight f
-                    newCharacter.Lip = reader.ReadLEInt32(); //      lip d
-                    newCharacter.LeftPupil = reader.ReadLEInt32(); //  leftPupil d
-                    newCharacter.RightPupil = reader.ReadLEInt32(); // rightPupil d
-                    newCharacter.Eyebrow = reader.ReadLEInt32(); //    eyebrow d
-                    newCharacter.Decor = reader.ReadLEInt32(); //      decor d
-                    short modifiersLen = reader.ReadLEInt16(); //      modifiers_len h
+                    newCharacter.Type[15] = reader.ReadLEInt32(); //type d
+                    newCharacter.Type[16] = reader.ReadLEInt32(); //type d
+                    newCharacter.Type[17] = reader.ReadLEInt32(); //type d
+                    newCharacter.Weight[17] = reader.ReadLESingle(); //в них 17, 15-16 нет данных //weight f
+                    newCharacter.Lip = reader.ReadLEInt32(); //lip d
+                    newCharacter.LeftPupil = reader.ReadLEInt32(); //leftPupil d
+                    newCharacter.RightPupil = reader.ReadLEInt32(); //rightPupil d
+                    newCharacter.Eyebrow = reader.ReadLEInt32(); //eyebrow d
+                    newCharacter.Decor = reader.ReadLEInt32(); //decor d
+                    short modifiersLen = reader.ReadLEInt16(); //modifiers_len h
                     byte[] modfr;
-                    modfr = reader.ReadByteArray(modifiersLen); //      modifiers b
+                    modfr = reader.ReadByteArray(modifiersLen); //modifiers b
                     //добавляется в конце два символа \0\0 !
                     newCharacter.Modifiers = Utility.ByteArrayToString(modfr); //newCharacter.Modifiers = reader.ReadHexString(modifiersLen);
                     break;
             }
-            newCharacter.Ability[0] = reader.ReadByte(); //0 //  a[0] c
-            newCharacter.Ability[1] = reader.ReadByte(); //1 //  a[1] c
-            newCharacter.Ability[2] = reader.ReadByte(); //2 //  a[2] c
-            newCharacter.Level = reader.ReadByte(); //  level c
+            newCharacter.Ability[0] = reader.ReadByte(); //a[0] c
+            newCharacter.Ability[1] = reader.ReadByte(); //a[1] c
+            newCharacter.Ability[2] = reader.ReadByte(); //a[2] c
+            newCharacter.Level = reader.ReadByte(); //level c
 
             CharacterHolder.InsertOrUpdate(newCharacter); //записываем в базу character
 
             //выводим созданного чара
             var accountId = net.CurrentAccount.AccountId;
-            List<Character> charList = CharacterHolder.LoadCharacterData((int)accountId);
+            List<Character> charList = CharacterHolder.LoadCharacterData(accountId);
             var totalChars = CharacterHolder.GetCount();
+
+            //Handle_UpdateCharacters(net, net.CurrentAccount.AccountId, totalChars);
+           
+            //net.SendAsync(new NP_SCCreateCharacterResponse_0x0033(net, totalChars - 1, 1));
             net.SendAsync(new NP_CharacterListPacket_0x0039(net, totalChars - 1, 1));
-
-
         }
-
 
         private static void OnPacketReceive_0x01_CSLeaveWorld_0x0001(ClientConnection net, PacketReader reader)
         {
@@ -287,7 +312,7 @@ namespace ArcheAge.ArcheAge.Network
                     break;
                 case 1:
                     //Recv: 05 00 00 01 01 00 01 смена персонажа когда находимся в игре
-                    net.SendAsync(new NP_SCReconnectAuthPacket_0x0001(net)); //reconnect
+                    net.SendAsync(new NP_SCReconnectAuthPacket_0x0001(net)); //reconnect not work
                     break;
                 case 2:
                     //Recv: 05 00 00 01 01 00 00
@@ -385,12 +410,12 @@ namespace ArcheAge.ArcheAge.Network
             }
         }
 
-        /// <summary>
-        /// Verify user login permissions
-        /// </summary>
-        /// <param name="clientVersion"></param>
-        /// <param name="net"></param>
-        /// <param name="reader"></param>
+        ///<summary>
+        ///Verify user login permissions
+        ///</summary>
+        ///<param name="clientVersion"></param>
+        ///<param name="net"></param>
+        ///<param name="reader"></param>
         public static void OnPacketReceive_0x01_X2EnterWorld_0x0000(string clientVersion, ClientConnection net, PacketReader reader)
         {
             switch (clientVersion)
@@ -399,7 +424,7 @@ namespace ArcheAge.ArcheAge.Network
                     //2100 0001 0000 B9040000BC0400001AC7000008C5B985FFFFFFFF0035CB020000000000
                     var pFrom01 = reader.ReadLEInt32(); //p_from d
                     var pTo01 = reader.ReadLEInt32(); //p_to d
-                    var accountId01 = reader.ReadLEInt32(); //AccountId d
+                    var accountId01 = reader.ReadLEUInt32(); //AccountId d
                     var cookie01 = reader.ReadLEInt32(); //cookie d
                     var zoneId01 = reader.ReadLEInt32(); //zoneId d
                     var tb01 = reader.ReadByte(); //tb c
@@ -414,7 +439,7 @@ namespace ArcheAge.ArcheAge.Network
                     {
                         net.CurrentAccount = m_Authorized;
 
-                        CharacterList = CharacterHolder.LoadCharacterData(accountId01); //запишем имеющихся героев на аккаунте
+                        CharacterList = CharacterHolder.LoadCharacterData(accountId01); //считываем данные имеющихся персонажей на аккаунте
 
                         Logger.Trace("Account ID: {0} logged in, continue...", net);
                         net.SendAsync(new NP_X2EnterWorldResponsePacket01_0x0000());
@@ -455,7 +480,8 @@ namespace ArcheAge.ArcheAge.Network
                     var type = reader.ReadLEInt16(); //type
                     var pFrom = reader.ReadLEInt32(); //p_from
                     var pTo = reader.ReadLEInt32(); //p_to
-                    var accountId = reader.ReadLEInt64(); //Account Id
+                    var accountId = reader.ReadLEUInt32(); //Account Id
+                    reader.Offset += 4; //
                     var cookie = reader.ReadLEInt32(); //cookie
                     var zoneId = reader.ReadLEInt32(); //zoneId
                     var tb = reader.ReadLEInt16(); //tb
@@ -477,7 +503,7 @@ namespace ArcheAge.ArcheAge.Network
                         //нулевой пакет DD05 S>A
                         //0x01 0x0000_X2EnterWorldPacket
                         //net.SendAsyncHex(new NP_X2EnterWorldResponsePacket());
-                        CharacterList = CharacterHolder.LoadCharacterData((int)accountId); //запишем имеющихся героев на аккаунте
+                        CharacterList = CharacterHolder.LoadCharacterData(accountId); //считываем данные имеющихся персонажей на аккаунте
                         Logger.Trace("Account ID: {0} logged in, continue...", net);
                         net.SendAsync(new NP_X2EnterWorldResponsePacket_0x0000(clientVersion));
                         //DD02 A>S
@@ -502,7 +528,7 @@ namespace ArcheAge.ArcheAge.Network
             net.SendAsyncHex(new NP_Hex("0D00DD013A00000000000000000000"));
             //SC CharacterListPacket
 
-            CharacterListPacket(clientVersion, net);
+            CharacterListPacket(_clientVersion, net);
 
             //net.SendAsyncHex(new NP_Hex("8104DD0139000101FF091A000B004A757374746F636865636B010203C4010000CE010000B3000000650000000000000000000000000000000000000000005B5B00004618C1000000000000000100000001000000005500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000B00000000000000000000000000000000000000005C5B00004718C1000000000000000100000001000000004600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000B00000000000000000000000000000000000000005E5B00004818C1000000000000000100000001000000002300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000B000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000D61700004918C1000000000000000100000001000000009100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000B0000000000000000000000000000000000000000EF1700004A18C1000000000000000100000001000000008200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000B000000000000000000000000000000003A1800004B18C1000000000000000100000001000000008200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000B000000000000000000000000000000007F4D0000D85D00000000000000000000000000001B020000000000000000000000000000070B0B00000000A8B7CF03000000006090A603EFFC104303BE1000000400000000000000000000000000803F0000803F0000000000000000000000000000803FCF0100000000803FA60000000000803F000000008FC2353F0000000000000000000000000000803FE37B8BFFAFECEFFFAFECEFFF000000FF00000000800000EF00EF00EE0017D40000000000001000000000000000063BB900D800EE00D400281BEBE100E700F037230000000000640000000000000064000000F0000000000000002BD50000006400000000F9000000E000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000036007F422F530000000000000C302B5300000000000000000C302B530000000000000000B4412F5300000000C200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001E00000000000000000000000000000000000000000000000000000000000000000000000000000000B33F2F5300000000"));
         }
@@ -573,7 +599,7 @@ namespace ArcheAge.ArcheAge.Network
             net.SendAsyncHex(new NP_Hex("0D00DD013A00000000000000000000"));
             //SC CharacterListPacket
 
-            CharacterListPacket(clientVersion, net);
+            CharacterListPacket(_clientVersion, net);
 
             //net.SendAsyncHex(new NP_Hex("8104DD0139000101FF091A000B004A757374746F636865636B010203C4010000CE010000B3000000650000000000000000000000000000000000000000005B5B00004618C1000000000000000100000001000000005500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000B00000000000000000000000000000000000000005C5B00004718C1000000000000000100000001000000004600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000B00000000000000000000000000000000000000005E5B00004818C1000000000000000100000001000000002300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000B000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000D61700004918C1000000000000000100000001000000009100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000B0000000000000000000000000000000000000000EF1700004A18C1000000000000000100000001000000008200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000B000000000000000000000000000000003A1800004B18C1000000000000000100000001000000008200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000B000000000000000000000000000000007F4D0000D85D00000000000000000000000000001B020000000000000000000000000000070B0B00000000A8B7CF03000000006090A603EFFC104303BE1000000400000000000000000000000000803F0000803F0000000000000000000000000000803FCF0100000000803FA60000000000803F000000008FC2353F0000000000000000000000000000803FE37B8BFFAFECEFFFAFECEFFF000000FF00000000800000EF00EF00EE0017D40000000000001000000000000000063BB900D800EE00D400281BEBE100E700F037230000000000640000000000000064000000F0000000000000002BD50000006400000000F9000000E000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000036007F422F530000000000000C302B5300000000000000000C302B530000000000000000B4412F5300000000C200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001E00000000000000000000000000000000000000000000000000000000000000000000000000000000B33F2F5300000000"));
         }
@@ -684,7 +710,7 @@ namespace ArcheAge.ArcheAge.Network
             {
                 //пакет №17 DD05 S>A
                 //net.SendAsync(new NP_0x05_CharacterListPacket_0x0079(net)); //0209DD051E05ACB68556F261C495603654B3CB183376E4B591B032F
-                CharacterListPacket(clientVersion, net);
+                CharacterListPacket(_clientVersion, net);
                 //net.SendAsync(new NP_CharacterListPacket_0x0079()); //0209DD051E05ACB68556F261C495603654B3CB183376E4B591B032F
                 //эти пакеты нужны когда есть чары в лобби
                 //пакет №18 DD05 S>A
@@ -703,7 +729,7 @@ namespace ArcheAge.ArcheAge.Network
                 //не забыть установить кол-во чаров в ArcheAgeLoginServer :: ArcheAgePackets.cs :: AcWorldList_0X08
                 //пакет №17 DD05 S>A
                 //net.SendAsync(new NP_Packet_CharList_empty_0x0079()); //0800DD05FEA1C9531140
-                CharacterListPacket(clientVersion, net);
+                CharacterListPacket(_clientVersion, net);
                 //пакет №18 DD05 S>A
                 net.SendAsync(new NP_Packet_0x014F()); //2400DD0564F11F825223F4C495643405D55A754516E634B7D47DF7C797704010E0B081514272
             }
@@ -716,8 +742,8 @@ namespace ArcheAge.ArcheAge.Network
         }
         public static void OnPacketReceive_Client0438(ClientConnection net, PacketReader reader)
         {
-            ///клиентский пакет на вход в мир 13000005 3804 2E8CFF98F0282A5A79DE98E9BE80B6
-            ///зашифрован - не ловится
+            //клиентский пакет на вход в мир 13000005 3804 2E8CFF98F0282A5A79DE98E9BE80B6
+            //зашифрован - не ловится
         }
         public static void OnPacketReceive_ReloginRequest_0x0088(ClientConnection net, PacketReader reader)
         {
@@ -726,11 +752,11 @@ namespace ArcheAge.ArcheAge.Network
             net.SendAsync(new NP_SCReconnectAuthPacket__0x01E5(net)); //
         }
 
-        /// <summary>
-        /// Получили клиентский пакет Ping, отвечаем серверным пакетом Pong
-        /// </summary>
-        /// <param name="net"></param>
-        /// <param name="reader"></param>
+        ///<summary>
+        ///Получили клиентский пакет Ping, отвечаем серверным пакетом Pong
+        ///</summary>
+        ///<param name="net"></param>
+        ///<param name="reader"></param>
         public static void OnPacketReceive_0x02_Ping_0x0012(ClientConnection net, PacketReader reader)
         {
             //Ping
@@ -740,18 +766,18 @@ namespace ArcheAge.ArcheAge.Network
             net.SendAsync(new NP_Pong_0x0013(tm, when, local));
         }
 
-        /// <summary>
-        /// Authenticate user login permissions I do not know how to use, discarded
-        /// </summary>
-        /// <param name="net"></param>
-        /// <param name="reader"></param>
+        ///<summary>
+        ///Authenticate user login permissions I do not know how to use, discarded
+        ///</summary>
+        ///<param name="net"></param>
+        ///<param name="reader"></param>
         public static void OnPacketReceive_ClientAuthorized(ClientConnection net, PacketReader reader)
         {
             //B3 04 00 00 B3 04 00 00 8C 28 22 00 E7 F0 0C C6 FF FF FF FF 00 
             reader.Offset += 2;
             long protocol = reader.ReadLEInt64(); //Protocols?
 
-            long accountId = reader.ReadLEInt64(); //Account Id
+            long accountId = reader.ReadLEUInt32(); //Account Id
             reader.Offset += 4;
             int sessionId = reader.ReadLEInt32(); //User Session Id
             Account m_Authorized = ClientConnection.CurrentAccounts.FirstOrDefault(kv => kv.Value.Session == sessionId && kv.Value.AccountId == accountId).Value;
@@ -769,11 +795,11 @@ namespace ArcheAge.ArcheAge.Network
             }
         }
 
-        /// <summary>
-        /// Connect game server first package
-        /// </summary>
-        /// <param name="net"></param>
-        /// <param name="reader"></param>
+        ///<summary>
+        ///Connect game server first package
+        ///</summary>
+        ///<param name="net"></param>
+        ///<param name="reader"></param>
         public static void OnPacketReceive_Client01(ClientConnection net, PacketReader reader)
         {
             net.SendAsyncHex(new NP_Hex("0700dd05f2bdb150102a00dd056f6fcc01d3a2724213e3b3e05321512c00dd0205d012452606e6b6865727f7c797704010e0b081512c00dd021300157f26060000000060bee1d96c0100000000058ef05d96663707d219375020f0b62d01007dd3e50ffe00dd058ef95d96663707d7a7775020f0c090613101d1a1724212e2b2835323f3c494643404d5a5754515e6b6865626f7c7976737fed0a0704011e1b1815122f2c292623303d3a3734414e4b4845525f5c596663606d6a7774717e7c0906030fed1a1714111e2b2825222f3c393633304d4a4744415e5b5855526f6c696663707d7a7774010e0b0815121f1c192623202d2a3734313e3b4845424f4c595653505d6a6764616e7b7875727fed0a0704011e1b1815122f2c292623303d3a3744414e4b4855525f5c596663606d6a7774717e7b0805020f0c191613101d2a2724212e3b3835323f4c494643405d5a5754516e6b680b08151860800dd0520b181510f00dd0552379ac797704010e0b08151860800dd0520a188501140"));
@@ -808,12 +834,12 @@ namespace ArcheAge.ArcheAge.Network
 
         #region LOGIN<->GAME server Callbacks Implementation
 
-        /// <summary>
-        /// Логин сервер передал Гейм серверу пакет с информацией об подключаемом аккаунте
-        /// </summary>
-        /// <param name="clientVersion"></param>
-        /// <param name="net"></param>
-        /// <param name="reader"></param>
+        ///<summary>
+        ///Логин сервер передал Гейм серверу пакет с информацией об подключаемом аккаунте
+        ///</summary>
+        ///<param name="clientVersion"></param>
+        ///<param name="net"></param>
+        ///<param name="reader"></param>
         private static void Handle_AccountInfoReceived(string clientVersion, LoginConnection net, PacketReader reader)
         {
             switch (clientVersion)
@@ -822,7 +848,7 @@ namespace ArcheAge.ArcheAge.Network
                     //Set Account Info
                     Account account = new Account
                     {
-                        AccountId = reader.ReadLEInt32(),
+                        AccountId = reader.ReadLEUInt32(),
                         Name = reader.ReadDynamicString(),
                         //Password = reader.ReadDynamicString(),
                         Token = reader.ReadDynamicString(),
@@ -869,7 +895,7 @@ namespace ArcheAge.ArcheAge.Network
                     //Set Account Info
                     account = new Account
                     {
-                        AccountId = reader.ReadLEInt64(),
+                        AccountId = reader.ReadLEUInt32(),
                         Name = reader.ReadDynamicString(),
                         //Password = reader.ReadDynamicString(),
                         Token = reader.ReadDynamicString(),
@@ -930,28 +956,28 @@ namespace ArcheAge.ArcheAge.Network
 
             if (result)
             {
-                m_CurrentLoginServer = con;
+                _mCurrentLoginServer = con;
             }
         }
         #endregion
 
         private static void Register(short opcode, OnPacketReceive<LoginConnection> e)
         {
-            m_LHandlers[opcode] = new PacketHandler<LoginConnection>(opcode, e);
-            m_Maintained++;
+            _mLHandlers[opcode] = new PacketHandler<LoginConnection>(opcode, e);
+            _mMaintained++;
         }
 
         private static void Register(byte level, ushort opcode, OnPacketReceive<ClientConnection> e)
         {
-            if (!levels.ContainsKey(level))
+            if (!_levels.ContainsKey(level))
             {
                 PacketHandler<ClientConnection>[] handlers = new PacketHandler<ClientConnection>[0xFFFF];
                 handlers[opcode] = new PacketHandler<ClientConnection>(opcode, e);
-                levels.Add(level, handlers);
+                _levels.Add(level, handlers);
             }
             else
             {
-                levels[level][opcode] = new PacketHandler<ClientConnection>(opcode, e);
+                _levels[level][opcode] = new PacketHandler<ClientConnection>(opcode, e);
             }
         }
     }

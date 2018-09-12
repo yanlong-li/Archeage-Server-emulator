@@ -1,28 +1,32 @@
-﻿using ArcheAgeLogin.ArcheAge.Structuring;
-using LocalCommons.Logging;
-using LocalCommons.Network;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using ArcheAgeLogin.ArcheAge;
+﻿using ArcheAgeLogin.ArcheAge;
 using ArcheAgeLogin.ArcheAge.Holders;
 using ArcheAgeLogin.ArcheAge.Network;
 using ArcheAgeLogin.Properties;
+using LocalCommons.Logging;
+using LocalCommons.Network;
+using LocalCommons.UID;
+using System;
+using System.Diagnostics;
+using ArcheAgeLogin.ArcheAge.Holders;
 
 namespace ArcheAgeLogin
 {
+
     /// <summary>
     /// Main Class For Program Entering.
     /// </summary>
     class Program
     {
+        public static UInt32UidFactory CharcterUid; //UID для персонажа
+        public static UInt32UidFactory AccountUid; //UID для аккаунта
+
         static string ServerClientVersion = "3";
         // .method private hidebysig static void Main(string[] args) cil managed
         static void Main(string[] args)
         {
+            AccountUid = new UInt32UidFactory(AccountHolder.MaxAccountUid());      //генерим UID для аккаунтов
+            CharcterUid = new UInt32UidFactory(CharacterHolder.MaxCharacterUid()); //генерим UID для персонажей
+
             Console.Title = "ARCHEAGE LOGIN SERVER";
             Console.CancelKeyPress += Console_CancelKeyPress;
             Stopwatch watch = Stopwatch.StartNew();
@@ -34,7 +38,7 @@ namespace ArcheAgeLogin
             Logger.Trace("ArcheAge Login Server started in {0} seconds", (watch.ElapsedMilliseconds / 1000.0).ToString("0.00"));
             watch = null;
             Key_Pressed();
-           
+
         }
 
         static void selectVersion()
@@ -53,21 +57,30 @@ namespace ArcheAgeLogin
                     Program.ServerClientVersion = "3";
                 }
             }
-            else {
+            else
+            {
                 Console.WriteLine("AutoSelectServerClientVersion:" + Settings.Default.ServerClientVersion);
                 Program.ServerClientVersion = Settings.Default.ServerClientVersion;
             }
         }
         static void Key_Pressed()
         {
-           ConsoleKeyInfo info = Console.ReadKey();
-            if (info == null) return;
+            ConsoleKeyInfo info = Console.ReadKey();
+            if (info == null)
+            {
+                return;
+            }
+
             Key_Pressed();
         }
 
         static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
         {
-            if (e.SpecialKey != ConsoleSpecialKey.ControlC) return;
+            if (e.SpecialKey != ConsoleSpecialKey.ControlC)
+            {
+                return;
+            }
+
             Shutdown();
         }
 
@@ -94,8 +107,8 @@ namespace ArcheAgeLogin
         static void LoadExecutingAssembly(string[] args)
         {
             Logger.Init();
-			
-			//Logger.Trace("TODO: REMAKE ALL CONTAINSKEY [] - TO TRYGETVALUE");
+
+            //Logger.Trace("TODO: REMAKE ALL CONTAINSKEY [] - TO TRYGETVALUE");
 
             Settings m_Current = Settings.Default;
 

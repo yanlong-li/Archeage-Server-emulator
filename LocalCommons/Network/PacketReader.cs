@@ -297,7 +297,7 @@ namespace LocalCommons.Network
         }
 
 	    /// <summary>
-	    /// Reading Little Endian 2 - Bytes - Short.
+	    /// Reading Little Endian 2 - Bytes - UShort.
 	    /// </summary>
 	    /// <returns>Readed Short</returns>
 	    public ushort ReadLEUInt16()
@@ -310,18 +310,32 @@ namespace LocalCommons.Network
 	    }
 
         /// <summary>
-        /// Reading Little Endian 4 - Bytes - Int.
+        /// Reading Little Endian 4 - Bytes - UInt.
         /// </summary>
         /// <returns>Readed Int32</returns>
-        public int ReadLEInt32()
+        public uint ReadLEUInt32()
         {
             if ((m_Index + 4) > m_Size)
                 return 0;
 
-            int value = BitConverter.ToInt32(m_Data, m_Index);
+            uint value = BitConverter.ToUInt32(m_Data, m_Index);
             m_Index += 4;
             return value;
         }
+
+	    /// <summary>
+	    /// Reading Little Endian 4 - Bytes - Int.
+	    /// </summary>
+	    /// <returns>Readed Int32</returns>
+	    public int ReadLEInt32()
+	    {
+	        if ((m_Index + 4) > m_Size)
+	            return 0;
+
+	        int value = BitConverter.ToInt32(m_Data, m_Index);
+	        m_Index += 4;
+	        return value;
+	    }
 
         /// <summary>
         /// Reading Little Endian 8 - Bytes - Long.

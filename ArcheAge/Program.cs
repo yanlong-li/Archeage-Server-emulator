@@ -10,6 +10,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using LocalCommons.UID;
+using ArcheAge.ArcheAge.Holders;
 
 namespace ArcheAge
 {
@@ -19,8 +21,14 @@ namespace ArcheAge
     class Program
     {
         static string ServerClientVersion = "3";
+        public static UInt32UidFactory CharcterUid; //UID для персонажа
+        public static UInt32UidFactory AccountUid; //UID для аккаунта
+
         static void Main(string[] args)
         {
+            AccountUid = new UInt32UidFactory(AccountHolder.MaxAccountUid());      //генерим UID для аккаунтов
+            CharcterUid = new UInt32UidFactory(CharacterHolder.MaxCharacterUid()); //генерим UID для персонажей
+
             Console.Title = "ARCHEAGE GAME SERVER";
             Console.CancelKeyPress += Console_CancelKeyPress;
             Stopwatch watch = Stopwatch.StartNew();
@@ -92,7 +100,7 @@ namespace ArcheAge
             //Logger.Section("Binary data");
 
             //------ Network ------------------------------------------
-            Logger.Section("network connection");
+            Logger.Section("Network");
             DelegateList.Initialize(Program.ServerClientVersion);
             InstallLoginServer();
             new AsyncListener(Settings.Default.ArcheAge_IP, Settings.Default.ArcheAge_Port, typeof(ClientConnection)); //Waiting For ArcheAge Connections

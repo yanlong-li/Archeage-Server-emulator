@@ -9,30 +9,20 @@ namespace ArcheAge.ArcheAge.Holders
 {
     public class CharacterHolder
     {
-        public CharacterHolder()
-        {
-            CharactersList = new List<Character>();
-        }
-
-        public CharacterHolder(List<Character> charactersList)
-        {
-            CharactersList = charactersList;
-        }
+        private static List<Character> m_DbCharacters;
 
         /// <summary>
         /// Loaded List of Characters.
         /// </summary>
-        public static List<Character> CharactersList { get; private set; }
+        public static List<Character> CharactersList
+        {
+            get { return m_DbCharacters; }
+        }
 
         public static int GetCount()
         {
             return CharactersList.Count;
         }
-
-        //public static List<Character> CharacterList()
-        //{
-        //    return CharactersList;
-        //}
 
         /// <summary>
         /// Gets Character By CharName With LINQ Or Return Null.
@@ -51,10 +41,48 @@ namespace ArcheAge.ArcheAge.Holders
             return null;
         }
 
+        /// <summary>
+        /// Возвращает максимальный использованный ID
+        /// </summary>
+        /// <returns></returns>
+        public static uint MaxCharacterUid()
+        {
+            uint uid = 0;
+            using (MySqlConnection conn = new MySqlConnection(Settings.Default.DataBaseConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    MySqlCommand command = new MySqlCommand("SELECT * FROM `characters`", conn);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Character character = new Character();
+                        character.CharacterId = reader.GetUInt32("characterid");
+                        if (uid < character.CharacterId)
+                        {
+                            uid = character.CharacterId;
+                        }
+                    }
+
+                    command.Dispose();
+                    reader.Close();
+                    reader.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Trace("Error: {0}", ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            return uid;
+        }
 
         public static void DeleteCharacterData(int characterId)
         {
-            CharactersList = new List<Character>();
             int serverid = Settings.Default.Game_Id;
             using (MySqlConnection conn = new MySqlConnection(Settings.Default.DataBaseConnectionString))
             {
@@ -63,13 +91,19 @@ namespace ArcheAge.ArcheAge.Holders
                     conn.Open(); //Устанавливаем соединение с базой данных
                     MySqlCommand cmd = new MySqlCommand();
                     cmd.Connection = conn;
-                    cmd.CommandText = "DELETE FROM `characters` WHERE `characterid` = '" + characterId + "' AND `worldid` = '" + serverid + "'";
+                    cmd.CommandText = "DELETE FROM `characters` WHERE `characterid` = '" + characterId +
+                                      "' AND `worldid` = '" + serverid + "'";
                     //выполняем sql запрос
                     cmd.ExecuteNonQuery();
+                    cmd.Dispose();
                 }
                 catch (Exception ex)
                 {
-                    Logger.Trace("MySql: Ошибка удаления данных героя charID {0}, {1}", characterId, ex.Message);
+                    Logger.Trace("MySql: Ошибка удаления данных персонажа charID {0}, {1}", characterId, ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
                 }
             }
         }
@@ -77,10 +111,9 @@ namespace ArcheAge.ArcheAge.Holders
         /// <summary>
         /// Fully Load Characters Data From Current MySql DataBase.
         /// </summary>
-        public static List<Character> LoadCharacterData(int accountId)
-
+        public static List<Character> LoadCharacterData(uint accountId)
         {
-            CharactersList = new List<Character>();
+            m_DbCharacters = new List<Character>();
             int serverid = Settings.Default.Game_Id;
             using (MySqlConnection conn = new MySqlConnection(Settings.Default.DataBaseConnectionString))
             {
@@ -89,15 +122,15 @@ namespace ArcheAge.ArcheAge.Holders
                     conn.Open();
                     MySqlCommand command =
                         new MySqlCommand(
-                            "SELECT * FROM `characters` WHERE `accountid` = '" + accountId + "' AND `worldid` = '" + serverid + "'", conn);
+                            "SELECT * FROM `characters` WHERE `accountid` = '" + accountId + "' AND `worldid` = '" +
+                            serverid + "'", conn);
                     MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         Character character = new Character();
 
-                        character.Id = reader.GetInt64("id");
-                        character.AccountId = reader.GetInt32("accountid");
-                        character.CharacterId = reader.GetInt32("characterid");
+                        character.CharacterId = reader.GetUInt32("characterid");
+                        character.AccountId = reader.GetUInt32("accountid");
                         character.CharGender = reader.GetByte("chargender");
                         character.CharName = reader.GetString("charname");
                         character.CharRace = reader.GetByte("charrace");
@@ -155,11 +188,13 @@ namespace ArcheAge.ArcheAge.Holders
                         character.Ability[0] = reader.GetByte("ability0");
                         character.Ability[1] = reader.GetByte("ability1");
                         character.Ability[2] = reader.GetByte("ability2");
-                        CharactersList.Add(character);
+
+                        m_DbCharacters.Add(character);
                     }
 
-                    command = null;
-                    reader = null;
+                    command.Dispose();
+                    reader.Close();
+                    reader.Dispose();
                 }
                 catch (Exception e)
                 {
@@ -178,10 +213,10 @@ namespace ArcheAge.ArcheAge.Holders
                 }
                 finally
                 {
+                    conn.Close();
+                    //Logger.Trace("Load to {0} characters", CharactersList.GetCount());
                 }
             }
-
-            //Logger.Trace("Load to {0} characters", CharactersList.GetCount());
             return CharactersList;
         }
 
@@ -198,10 +233,10 @@ namespace ArcheAge.ArcheAge.Holders
                     conn.Open(); //Устанавливаем соединение с базой данных
                     MySqlCommand cmd = new MySqlCommand();
                     cmd.Connection = conn;
-                    if (CharactersList.Contains(character))
+                    if (m_DbCharacters.Contains(character))
                     {
                         cmd.CommandText =
-                            "UPDATE `characters` SET `id` = @id, `accountid` = @accountid, `characterid` = @characterid, `chargender` = @chargender, `charname` = @charname," +
+                            "UPDATE `characters` SET `characterid` = @characterid, `accountid` = @accountid, `chargender` = @chargender, `charname` = @charname," +
                             " `charrace` = @charrace, `decor` = @decor, `ext` = @ext, `eyebrow` = @eyebrow, `guid` = @guid, `leftPupil` = @leftPupil, `level` = @level," +
                             " `lip` = @lip, `modifiers` = @modifiers, `movex` = @movex, `movey` = @movey, `rightpupil` = @rightpupil, `rotate` = @rotate," +
                             " `scale` = @scale, `type0` = @type0, `type1` = @type1, `type2` = @type2, `type3` = @type3, `type4` = @type4, `type5` = @type5," +
@@ -212,29 +247,28 @@ namespace ArcheAge.ArcheAge.Holders
                             " `Weight13` = @Weight13, `Weight14` = @Weight14, `Weight15` = @Weight15, `Weight16` = @Weight16, `Weight17` = @Weight17," +
                             " `worldid` = @worldid, `ability0` = @ability0, `ability1` = @ability1, `ability2` = @ability2 WHERE `charname` = @charname";
 
-                        var count = CharactersList.Count; //
-                        cmd.Parameters.Add("@id", MySqlDbType.Int64).Value = count + 1; //incr index key
+                        //cmd.Parameters.Add("@characterid", MySqlDbType.UInt32).Value = character.CharacterId;
                     }
                     else
                     {
                         cmd.CommandText =
-                            @"INSERT INTO `characters` (id, accountid, characterid, chargender, charname, charrace, decor, ext, eyebrow, guid, leftPupil, level, lip, modifiers," +
+                            @"INSERT INTO `characters` (characterid, accountid, chargender, charname, charrace, decor, ext, eyebrow, guid, leftPupil, level, lip, modifiers," +
                             " movex, movey, rightpupil, rotate, scale, type0, type1, type2, type3, type4, type5, type6, type7, type8, type9, type10, type11, type12, type13," +
                             " type14, type15, type16, type17, v, Weight0, Weight1, Weight2, Weight3, Weight4, Weight5, Weight6, Weight7, Weight8, Weight9, Weight10," +
                             " Weight11, Weight12, Weight13, Weight14, Weight15, Weight16, Weight17, Worldid, ability0, ability1, ability2) " +
 
-                            " VALUES (@id, @accountid, @characterid, @chargender, @charname, @charrace, @decor, @ext, @eyebrow, @guid, @leftPupil, @level, @lip, @modifiers, @movex, @movey," +
+                            " VALUES (@characterid, @accountid, @chargender, @charname, @charrace, @decor, @ext, @eyebrow, @guid, @leftPupil, @level, @lip, @modifiers, @movex, @movey," +
                             " @rightpupil, @rotate, @scale, @type0, @type1, @type2, @type3, @type4, @type5, @type6, @type7, @type8, @type9, @type10, @type11, @type12," +
                             " @type13, @type14, @type15, @type16, @type17, @v, @Weight0, @Weight1, @Weight2, @Weight3, @Weight4, @Weight5, @Weight6, @Weight7, @Weight8," +
                             " @Weight9, @Weight10, @Weight11, @Weight12, @Weight13, @Weight14, @Weight15, @Weight16, @Weight17, @Worldid, @ability0, @ability1, @ability2)";
 
-                        cmd.Parameters.Add("@id", MySqlDbType.Int64).Value = character.Id;
+                        //cmd.Parameters.Add("@characterid", MySqlDbType.UInt32).Value = Program.CharcterUid.Next(); //incr index key
                     }
 
                     //MySqlParameterCollection parameters = cmd.Parameters;
 
-                    cmd.Parameters.Add("@accountid", MySqlDbType.Int32).Value = character.AccountId;
-                    cmd.Parameters.Add("@characterid", MySqlDbType.Int32).Value = character.CharacterId;
+                    cmd.Parameters.Add("@characterid", MySqlDbType.UInt32).Value = character.CharacterId;
+                    cmd.Parameters.Add("@accountid", MySqlDbType.UInt32).Value = character.AccountId;
                     cmd.Parameters.Add("@chargender", MySqlDbType.Byte).Value = character.CharGender;
                     cmd.Parameters.Add("@charname", MySqlDbType.String).Value = character.CharName;
                     cmd.Parameters.Add("@charrace", MySqlDbType.Byte).Value = character.CharRace;
@@ -288,24 +322,30 @@ namespace ArcheAge.ArcheAge.Holders
                     cmd.Parameters.Add("@Weight15", MySqlDbType.Int32).Value = character.Weight[15];
                     cmd.Parameters.Add("@Weight16", MySqlDbType.Int32).Value = character.Weight[16];
                     cmd.Parameters.Add("@Weight17", MySqlDbType.Int32).Value = character.Weight[17];
-                    cmd.Parameters.Add("@worldid", MySqlDbType.Byte).Value = Settings.Default.Game_Id;  //character.WorldId;
+                    cmd.Parameters.Add("@worldid", MySqlDbType.Byte).Value =
+                        Settings.Default.Game_Id; //character.WorldId;
                     cmd.Parameters.Add("@ability0", MySqlDbType.Byte).Value = character.Ability[0];
                     cmd.Parameters.Add("@ability1", MySqlDbType.Byte).Value = character.Ability[1];
                     cmd.Parameters.Add("@ability2", MySqlDbType.Byte).Value = character.Ability[2];
 
-                    CharactersList.Add(character);
+                    m_DbCharacters.Add(character);
 
-                    if (CharactersList.Contains(character))
+                    if (m_DbCharacters.Contains(character))
                     {
                         cmd.Parameters.Add("@acharname", MySqlDbType.String).Value = character.CharName;
                     }
 
                     cmd.ExecuteNonQuery();
+                    cmd.Dispose();
                 }
                 catch (Exception ex)
                 {
                     Logger.Trace("Cannot InsertOrUpdate template for " + character.CharName + ": {0}",
                         ex); // ex.Message - написать так, если нужно только сообщение без указания строки в сурсах
+                }
+                finally
+                {
+                    conn.Close();
                 }
             }
             return CharactersList;

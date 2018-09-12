@@ -18,10 +18,10 @@ namespace ArcheAge.ArcheAge.Network.Connections
     {
         //----- Static
         private static Dictionary<int, Account> m_CurrentAccounts = new Dictionary<int, Account>();
-        private readonly byte m_Random;
+        private readonly byte _mRandom;
         //Fix by Yanlong-LI
         //Исправление входа второго пользователя, вторичный логин, счетчик повторного соединения с возвратом в лобби, вызванный ошибкой
-        public byte m_NumPck = 0;  //修复第二用户、二次登陆、大厅返回重连DD05计数器造成错误问题 BUG глобальный подсчет пакетов DD05
+        public byte NumPck = 0;  //修复第二用户、二次登陆、大厅返回重连DD05计数器造成错误问题 BUG глобальный подсчет пакетов DD05
         public static Dictionary<int, Account> CurrentAccounts
         {
             get { return m_CurrentAccounts; }
@@ -41,10 +41,10 @@ namespace ArcheAge.ArcheAge.Network.Connections
             packet.IsArcheAgePacket = true;
             //Fix by Yanlong-LI
             //Переопределяем счетчик для текущего соединения
-            NetPacket.NumPckSc = m_NumPck;//重写为当前连接的计数
+            NetPacket.NumPckSc = NumPck;//重写为当前连接的计数
             base.SendAsync(packet);
             //Записываем счетчик обратно
-            m_NumPck = NetPacket.NumPckSc;//将计数回写
+            NumPck = NetPacket.NumPckSc;//将计数回写
         }
         public void SendAsyncd(NetPacket packet)
         {

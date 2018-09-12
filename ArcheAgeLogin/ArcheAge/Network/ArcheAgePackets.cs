@@ -301,14 +301,14 @@ namespace ArcheAgeLogin.ArcheAge.Network
                                 break;
                         }
                     }
-                    int CharCount = CharacterHolder.LoadCharacterData(net.CurrentAccount.AccountId); //считываем героев и их количество
+                    int CharCount = CharacterHolder.LoadCharacterData(net.CurrentAccount.AccountId); //считываем данные персонажей и их количество
                     ns.Write((byte)CharCount); //CharCount
 
                     net.CurrentAccount.Characters = (byte)CharCount;
 
                     if (CharCount != 0)
                     {
-                        long m_AccountId = net.CurrentAccount.AccountId; //считываем только наших героев
+                        long m_AccountId = net.CurrentAccount.AccountId; //считываем данные только наших персонажей
                         foreach (Character n_Current in CharacterHolder.CharactersList)
                         {
                             if (n_Current.AccountId == m_AccountId)
@@ -363,12 +363,12 @@ namespace ArcheAgeLogin.ArcheAge.Network
                         ns.Write((byte)0x00);
                         ns.Write((byte)0x00); //War Mozu 
                     }
-                    CharCount = CharacterHolder.LoadCharacterData(net.CurrentAccount.AccountId); //считываем героев и их количество
+                    CharCount = CharacterHolder.LoadCharacterData(net.CurrentAccount.AccountId); //считываем данные персонажей и их количество
                     //Write The current user account number
                     ns.Write((byte)CharCount); //CharCount
                     if (CharCount != 0)
                     {
-                        long m_AccountId = net.CurrentAccount.AccountId; //считываем только наших героев
+                        long m_AccountId = net.CurrentAccount.AccountId; //считываем данные только наших персонажей
                         foreach (Character n_Current in CharacterHolder.CharactersList)
                         {
                             if (n_Current.AccountId == m_AccountId)

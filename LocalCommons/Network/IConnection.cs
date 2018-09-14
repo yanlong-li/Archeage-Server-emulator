@@ -152,15 +152,15 @@ namespace LocalCommons.Network
                     byte[] compiled = packet.Compile();
                     m_CurrentChannel.Send(compiled, compiled.Length, SocketFlags.None); //отправляем пакет
 
-                    ushort length = BitConverter.ToUInt16(compiled, 0); //проверяем, есть ли еще пакет
+                    //ushort length = BitConverter.ToUInt16(compiled, 0); //проверяем, есть ли еще пакет
                     //--- Console Hexadecimal 
                     //вывод лога пакетов в консоль
                     /*StringBuilder*/
                     StringBuilder builder = new StringBuilder();
                     builder.Append("Send: ");
-                    builder.Append(Utility.IntToHex(length));
-                    builder.Append(" ");
-                    for (int i = 0; i < length; i++)
+                    //builder.Append(Utility.IntToHex(compiled.Length));
+                    //builder.Append(" ");
+                    for (int i = 0; i < compiled.Length; i++)
                     {
                         builder.AppendFormat("{0:X2} ", compiled[i]);
                     }

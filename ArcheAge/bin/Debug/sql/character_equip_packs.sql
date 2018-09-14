@@ -25,7 +25,7 @@ CREATE TABLE `character_equip_packs` (
   `newbie_cloth_pack_id` int(8) DEFAULT NULL,
   `newbie_weapon_pack_id` int(8) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 -- ----------------------------
 -- Records of character_equip_packs

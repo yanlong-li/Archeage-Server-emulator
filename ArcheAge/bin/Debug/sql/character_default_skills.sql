@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS `character_default_skills`;
 CREATE TABLE `character_default_skills` (
   `character_id` int(11) DEFAULT NULL,
   `default_skill_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 -- ----------------------------
 -- Records of character_default_skills

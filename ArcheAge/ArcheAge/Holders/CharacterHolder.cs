@@ -282,6 +282,116 @@ namespace ArcheAge.ArcheAge.Holders
         }
 
         /// <summary>
+        /// Fully Load Character Data From Current MySql DataBase
+        /// </summary>
+        public static Character LoadCharacterData(uint accountId, uint chcracterId)
+        {
+            Character character = new Character();
+            int serverid = Settings.Default.Game_Id;
+            using (MySqlConnection conn = new MySqlConnection(Settings.Default.DataBaseConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    MySqlCommand command =
+                        new MySqlCommand(
+                            "SELECT * FROM `character_records` WHERE `accountid` = '" + accountId + "' AND `characterid` = '" +
+                            chcracterId + "'", conn);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        character.CharacterId = reader.GetUInt32("characterid");
+                        character.AccountId = reader.GetUInt32("accountid");
+                        character.CharGender = reader.GetByte("chargender");
+                        character.CharName = reader.GetString("charname");
+                        character.CharRace = reader.GetByte("charrace");
+                        character.Decor = reader.GetInt32("decor");
+                        character.Ext = reader.GetByte("ext");
+                        character.Eyebrow = reader.GetInt32("eyebrow");
+                        character.Guid = reader.GetString("guid");
+                        character.LeftPupil = reader.GetInt32("leftpupil");
+                        character.Level = reader.GetByte("level");
+                        character.Lip = reader.GetInt32("lip");
+                        character.Modifiers = reader.GetString("modifiers");
+                        character.MoveX = reader.GetFloat("movex");
+                        character.MoveY = reader.GetFloat("movey");
+                        character.RightPupil = reader.GetInt32("rightpupil");
+                        character.Rotate = reader.GetFloat("rotate");
+                        character.Scale = reader.GetFloat("scale");
+                        character.Type[0] = reader.GetInt32("type0");
+                        character.Type[1] = reader.GetInt32("type1");
+                        character.Type[2] = reader.GetInt32("type2");
+                        character.Type[3] = reader.GetInt32("type3");
+                        character.Type[4] = reader.GetInt32("type4");
+                        character.Type[5] = reader.GetInt32("type5");
+                        character.Type[6] = reader.GetInt32("type6");
+                        character.Type[7] = reader.GetInt32("type7");
+                        character.Type[8] = reader.GetInt32("type8");
+                        character.Type[9] = reader.GetInt32("type9");
+                        character.Type[10] = reader.GetInt32("type10");
+                        character.Type[11] = reader.GetInt32("type11");
+                        character.Type[12] = reader.GetInt32("type12");
+                        character.Type[13] = reader.GetInt32("type13");
+                        character.Type[14] = reader.GetInt32("type14");
+                        character.Type[15] = reader.GetInt32("type15");
+                        character.Type[16] = reader.GetInt32("type16");
+                        character.Type[17] = reader.GetInt32("type17");
+                        character.V = reader.GetInt64("v");
+                        character.Weight[0] = reader.GetFloat("Weight0");
+                        character.Weight[1] = reader.GetFloat("Weight1");
+                        character.Weight[2] = reader.GetFloat("Weight2");
+                        character.Weight[3] = reader.GetFloat("Weight3");
+                        character.Weight[4] = reader.GetFloat("Weight4");
+                        character.Weight[5] = reader.GetFloat("Weight5");
+                        character.Weight[6] = reader.GetFloat("Weight6");
+                        character.Weight[7] = reader.GetFloat("Weight7");
+                        character.Weight[8] = reader.GetFloat("Weight8");
+                        character.Weight[9] = reader.GetFloat("Weight9");
+                        character.Weight[10] = reader.GetFloat("Weight10");
+                        character.Weight[11] = reader.GetFloat("Weight11");
+                        character.Weight[12] = reader.GetFloat("Weight12");
+                        character.Weight[13] = reader.GetFloat("Weight13");
+                        character.Weight[14] = reader.GetFloat("Weight14");
+                        character.Weight[15] = reader.GetFloat("Weight15");
+                        character.Weight[16] = reader.GetFloat("Weight16");
+                        character.Weight[17] = reader.GetFloat("Weight17");
+                        character.WorldId = reader.GetByte("worldid");
+                        character.Ability[0] = reader.GetByte("ability0");
+                        character.Ability[1] = reader.GetByte("ability1");
+                        character.Ability[2] = reader.GetByte("ability2");
+
+                        m_DbCharacters.Add(character);
+                    }
+
+                    command.Dispose();
+                    reader.Close();
+                    reader.Dispose();
+                }
+                catch (Exception e)
+                {
+                    if (e.Message.IndexOf("using password: YES") >= 0)
+                    {
+                        Logger.Trace("Error: Incorrect username or password");
+                    }
+                    else if (e.Message.IndexOf("Unable to connect to any of the specified MySQL hosts") >= 0)
+                    {
+                        Logger.Trace("Error: Unable to connect to database");
+                    }
+                    else
+                    {
+                        Logger.Trace("Error: Unknown error +  {0}", e);
+                    }
+                }
+                finally
+                {
+                    conn.Close();
+                    //Logger.Trace("Load to {0} characters", CharactersList.GetCount());
+                }
+            }
+            return character;
+        }
+
+        /// <summary>
         /// Fully Load Characters Data From Current MySql DataBase.
         /// </summary>
         public static List<Character> LoadCharacterData(uint accountId)

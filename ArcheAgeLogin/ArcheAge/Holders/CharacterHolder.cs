@@ -48,7 +48,7 @@ namespace ArcheAgeLogin.ArcheAge.Holders
                 try
                 {
                     conn.Open();
-                    MySqlCommand command = new MySqlCommand("SELECT * FROM `characters`", conn);
+                    MySqlCommand command = new MySqlCommand("SELECT * FROM `character_records`", conn);
                     MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
@@ -86,7 +86,7 @@ namespace ArcheAgeLogin.ArcheAge.Holders
                 {
                     con.Open();
                     MySqlCommand command =
-                        new MySqlCommand("SELECT * FROM characters WHERE accountid = '" + accountId + "'", con);
+                        new MySqlCommand("SELECT * FROM `character_records` WHERE `accountid` = '" + accountId + "'", con);
                     MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
@@ -127,7 +127,7 @@ namespace ArcheAgeLogin.ArcheAge.Holders
                 finally
                 {
                     con.Close();
-                    Logger.Trace("Load to {0} characters", m_DbCharacters.Count);
+                    Logger.Trace("Load to {0} character_records", m_DbCharacters.Count);
                 }
             }
             return m_DbCharacters.Count;
@@ -144,7 +144,7 @@ namespace ArcheAgeLogin.ArcheAge.Holders
                 try
                 {
                     con.Open();
-                    MySqlCommand command = new MySqlCommand("SELECT * FROM `characters`", con);
+                    MySqlCommand command = new MySqlCommand("SELECT * FROM `character_records`", con);
                     MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
@@ -187,7 +187,7 @@ namespace ArcheAgeLogin.ArcheAge.Holders
                 finally
                 {
                     con.Close();
-                    Logger.Trace("Load to {0} characters", m_DbCharacters.Count);
+                    Logger.Trace("Load to {0} character_records", m_DbCharacters.Count);
                 }
             }
         }
@@ -207,7 +207,7 @@ namespace ArcheAgeLogin.ArcheAge.Holders
                     if (m_DbCharacters.Contains(character))
                     {
                         command = new MySqlCommand(
-                            "UPDATE `characters` SET `characterid` = @characterid, `accountid` = @accountid, `worldid` = @worldid, `type` = @type, `charname` = @charname," +
+                            "UPDATE `character_records` SET `characterid` = @characterid, `accountid` = @accountid, `worldid` = @worldid, `type` = @type, `charname` = @charname," +
                             " `charrace` = @charrace, `chargender` = @chargender, `guid` = @guid, `v` = @v" +
                             "WHERE `acharname` = @charname",
                             con);
@@ -217,7 +217,7 @@ namespace ArcheAgeLogin.ArcheAge.Holders
                     else
                     {
                         command = new MySqlCommand(
-                            "INSERT INTO `characters`(characterid, accountid, worldid, type,  type, charname, charrace, chargender, guid, v)" +
+                            "INSERT INTO `character_records`(characterid, accountid, worldid, type,  type, charname, charrace, chargender, guid, v)" +
                             "VALUES(@characterid, @accountid, @worldid, @type, @type, @charname, @charrace, @chargender, @guid, @v)",
                             con);
 

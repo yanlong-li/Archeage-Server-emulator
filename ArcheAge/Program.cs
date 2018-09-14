@@ -23,11 +23,14 @@ namespace ArcheAge
         static string ServerClientVersion = "3";
         public static UInt32UidFactory CharcterUid; //UID для персонажа
         public static UInt32UidFactory AccountUid; //UID для аккаунта
+        public static UInt32UidFactory ObjectUid; //UID для вещей
 
         static void Main(string[] args)
         {
             AccountUid = new UInt32UidFactory(AccountHolder.MaxAccountUid());      //генерим UID для аккаунтов
             CharcterUid = new UInt32UidFactory(CharacterHolder.MaxCharacterUid()); //генерим UID для персонажей
+            //ObjectUid = new UInt32UidFactory(CharacterHolder.MaxObjectUid()); //генерим UID для вещей
+            ObjectUid = new UInt32UidFactory(); //TODO: тест, пока начинаем с нуля
 
             Console.Title = "ARCHEAGE GAME SERVER";
             Console.CancelKeyPress += Console_CancelKeyPress;

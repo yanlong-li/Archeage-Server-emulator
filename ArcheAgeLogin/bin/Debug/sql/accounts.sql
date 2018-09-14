@@ -35,7 +35,5 @@ CREATE TABLE `accounts` (
 -- ----------------------------
 -- Records of accounts
 -- ----------------------------
-INSERT INTO `accounts` VALUES ('1', 'bbtest', '5f4dcc3b5aa765d61d8327deb882cf99', '1', '1', '127.0.0.1', '1536680811642', '0', '998746386');
-INSERT INTO `accounts` VALUES ('2', 'cctest', 'b57dab52b3136872d303324fdd61faab', '1', '1', '127.0.0.1', '1536680920903', '0', '1227315045');
 INSERT INTO `accounts` VALUES ('50970', 'aatest', '31e34f2b72d93bb25d5f27be8a94c478', '1', '1', '127.0.0.1', '1536705295019', '1', '-1969244686');
 SET FOREIGN_KEY_CHECKS=1;

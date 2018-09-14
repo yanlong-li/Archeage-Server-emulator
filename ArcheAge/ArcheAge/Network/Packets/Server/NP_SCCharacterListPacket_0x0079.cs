@@ -63,185 +63,191 @@ namespace ArcheAge.ArcheAge.Network
             {
                 if (num == aa) //параметр NUM отвечает, которого чара выводить в пакете (может быть от 0 до 2)
                 {
-                //D7940100
+                    CharacterHolder.LoadEquipPacksData(chr, chr.Ability[0]); //дополнительно прочитать NewbieClothPackId, NewbieWeaponPackId из таблицы character_equip_packs
+                    CharacterHolder.LoadClothsData(chr, chr.NewbieClothPackId); //дополнительно прочитать Head,Chest,Legs,Gloves,Feet из таблицы equip_pack_cloths
+                    CharacterHolder.LoadWeaponsData(chr, chr.NewbieWeaponPackId); //дополнительно прочитать Weapon,WeaponExtra,WeaponRanged,Instrument из таблицы equip_pack_weapons
+                    CharacterHolder.LoadCharacterBodyCoord(chr, chr.CharRace, chr.CharGender); //дополнительно прочитать body, x, y, z из таблицы charactermodel
+                    CharacterHolder.LoadZoneFaction(chr, chr.CharRace, chr.CharGender); //дополнительно прочитать FactionId,StartingZoneId из таблицы characters
+
+                    //D7940100
                     ns.Write((int)chr.CharacterId); //type d
-                //size.name
-                //0600 52656D6F7461 (Remota)
-                ns.WriteUTF8Fixed(chr.CharName, chr.CharName.Length); //name S
-                ns.Write((byte)chr.CharRace); //CharRace c
-                ns.Write((byte)chr.CharGender); //CharGender c
-                ns.Write((byte)chr.Level); //level c"
-                ns.Write((int)0x02D0); //health d
-                ns.Write((int)0x029E); //mana d
-                ns.Write((int)0x012C); //zone_id d
-                ns.Write((int)0x65); //FactionId d
-                //size.factionName
-                //0000
-                string msg = "";
-                ns.WriteUTF8Fixed(msg, msg.Length);
-                ns.Write((int)0x00); //type d
-                ns.Write((int)0x00); //family d
-                ns.Write((int)0x011F8054); // validFlags d
-                //------------------------------------
-                //цикл по equio персонажа
-                //------------------------------------
-                //0.шлем (0 голова)
-                //1.нагрудник (23387 грубая рубаха )
-                //2.пояс (0 )
-                //3.наручи (0 )
-                //4.перчатки (0 )
-                //5.плащ (0 )
-                //6.поножи (23388 грубые штаны)
-                //7.обувь (23390 грубые башмаки)
-                //8. плащ
-                //9. нижнее белье
-                //10.нижнее белье
-                //11.ожерелье
-                //12.серьга
-                //13.серьга
-                //14.кольцо
-                //15.кольцо
-                //16.двуручное оружие
-                //17.дополнительное оружие
-                //18.оружие дальноего боя
-                //19.инструмент
-                // { 7, раз, предметы на персонаже?
-                // {1}
-                WriteItem(0x5103); //ItemId d Head
-                // {2}
-                WriteItem(0x511E); //ItemId d Chest
-                // {3}
-                WriteItem(0x511E); //ItemID d Legs
-                // {4}
-                WriteItem(0x5154); //ItemID d Gloves
-                // {5}
-                WriteItem(0x511E); //ItemID d Feet
-                // {6}
-                WriteItem(0x17EF); //ItemID d
-                // {7}
-                WriteItem(0x1821); //ItemId d
+                                                    //size.name
+                                                    //0600 52656D6F7461 (Remota)
+                    ns.WriteUTF8Fixed(chr.CharName, chr.CharName.Length); //name S
+                    ns.Write((byte)chr.CharRace); //CharRace c
+                    ns.Write((byte)chr.CharGender); //CharGender c
+                    ns.Write((byte)chr.Level); //level c"
+                    ns.Write((int)0x02D0); //health d
+                    ns.Write((int)0x029E); //mana d
+                    ns.Write((int)chr.StartingZoneId); //zone_id d
+                    ns.Write((int)chr.FactionId); //FactionId d
+                    //size.factionName
+                    //0000
+                    string msg = "";
+                    ns.WriteUTF8Fixed(msg, msg.Length);
+                    ns.Write((int)0x00); //type d
+                    ns.Write((int)0x00); //family d
+                    ns.Write((int)0x011F8054); // validFlags d
+                    //------------------------------------
+                    //цикл по equio персонажа
+                    //------------------------------------
+                    //0.шлем (0 голова)
+                    //1.нагрудник (23387 грубая рубаха )
+                    //2.пояс (0 )
+                    //3.наручи (0 )
+                    //4.перчатки (0 )
+                    //5.плащ (0 )
+                    //6.поножи (23388 грубые штаны)
+                    //7.обувь (23390 грубые башмаки)
+                    //8. плащ
+                    //9. нижнее белье
+                    //10.нижнее белье
+                    //11.ожерелье
+                    //12.серьга
+                    //13.серьга
+                    //14.кольцо
+                    //15.кольцо
+                    //16.двуручное оружие
+                    //17.дополнительное оружие
+                    //18.оружие дальноего боя
+                    //19.инструмент
+                    // { 7, раз, предметы на персонаже?
+                    // {1}
+                    WriteItem(chr.Head); //ItemId d Head
+                    // {2}
+                    WriteItem(chr.Chest); //ItemId d Chest
+                    // {3}
+                    WriteItem(chr.Legs); //ItemID d Legs
+                    // {4}
+                    WriteItem(chr.Gloves); //ItemID d Gloves
+                    // {5}
+                    WriteItem(chr.Feet); //ItemID d Feet
+                    // {6}
+                    WriteItem(0x17EF); //ItemID d
+                    // {7}
+                    WriteItem(0x1821); //ItemId d
 
-                ns.Write((int)0x4D7F); // type d
-                ns.Write((int)0x631C); // type d
-                ns.Write((int)0x021B); // type d
-                ns.Write((int)0x00); // type d
-                
-                //for (int i = 0; i < 3; i++)
-                {
-                    //ns.Write((byte)chr.Ability[i]); //"ability[] c"
-                    ns.Write((byte)0x01);
-                    ns.Write((byte)0x0D);
-                    ns.Write((byte)0x0D);
-                }
-                //pos в пакете нет, в коде 01
-                ns.Write((long)0x0007045E3D800000); //x q
-                ns.Write((long)0x0021F96715C40000); //y q
-                ns.Write((int)0x42CFA1CB);          //z d
-                ns.Write((byte)chr.Ext); //ext c
-                switch (chr.Ext)
-                {
-                    case 0:
-                        break;
-                    default:
-                        ns.Write((int)0x10CB); //type d
-                        ns.Write((int)0x00); //type d
-                        ns.Write((int)0); //defaultHairColor d
-                        ns.Write((int)0); //twoToneHair d
-                        ns.Write((int)0); //twoToneFirstWidth d
-                        ns.Write((int)0); //twoToneSecondWidth d
-                        ns.Write((int)0x04); //type d
-                        ns.Write((int)0x00); //type d
-                        ns.Write((int)0x00); //type d
-                        //ns.Write((float)chr.Weight[10]); //weight f
-                        ns.Write((int)0x3F800000);
+                    ns.Write((int)chr.Weapon); // type d
+                    ns.Write((int)chr.WeaponExtra); // type d
+                    ns.Write((int)chr.WeaponRanged); // type d
+                    ns.Write((int)chr.Instrument); // type d
 
-                        ns.Write((int)0x00); //type d
-                        //ns.Write((float)chr.Weight[12]); //weight f
-                        ns.Write((int)0x3F800000);
+                    //for (int i = 0; i < 3; i++)
+                    {
+                        //ns.Write((byte)chr.Ability[i]); //"ability[] c"
+                        ns.Write((byte)chr.Ability[0]);
+                        ns.Write((byte)chr.Ability[1]);
+                        ns.Write((byte)chr.Ability[2]);
+                    }
+                    //pos в пакете нет, в коде 01
+                    ns.Write((long)0x0007045E3D800000); //x q
+                    ns.Write((long)0x0021F96715C40000); //y q
+                    ns.Write((int)0x42CFA1CB);          //z d
+                    ns.Write((byte)chr.Ext); //ext c
+                    switch (chr.Ext)
+                    {
+                        case 0:
+                            break;
+                        default:
+                            ns.Write((int)0x10CB); //type d
+                            ns.Write((int)0x00); //type d
+                            ns.Write((int)0); //defaultHairColor d
+                            ns.Write((int)0); //twoToneHair d
+                            ns.Write((int)0); //twoToneFirstWidth d
+                            ns.Write((int)0); //twoToneSecondWidth d
+                            ns.Write((int)0x04); //type d
+                            ns.Write((int)0x00); //type d
+                            ns.Write((int)0x00); //type d
+                            //ns.Write((float)chr.Weight[10]); //weight f
+                            ns.Write((float)0x3F800000);
 
-                        //ns.Write((float)chr.Scale); //scale f
-                        ns.Write((int)0x3F800000);
-                        //ns.Write((float)chr.Rotate); //rotate f
-                        ns.Write((int)0x00);
-                        //ns.Write((short)chr.MoveX); //moveX h
-                        ns.Write((short)0x00);
-                        //ns.Write((short)chr.MoveY); //moveY h
-                        ns.Write((short)0x00);
-                        //pish 1
-                        ns.Write((byte)0x04);
-                        //pisc 5
-                        ns.Write((byte)0x00);
-                        ns.Write((byte)0xBC);
-                        ns.Write((byte)0x01);
-                        ns.Write((byte)0xAA);
-                        ns.Write((byte)0x00);
-                        //pish 1
-                        ns.Write((byte)0x00);
-                        //pisc 2
-                        ns.Write((byte)0x00);
-                        ns.Write((byte)0x00);
-                        //pish 1
-                        ns.Write((byte)0x00);
-                        //pisc 3
-                        ns.Write((byte)0x00);
-                        ns.Write((byte)0x00);
-                        ns.Write((byte)0x00);
+                            ns.Write((int)0x00); //type d
+                            //ns.Write((float)chr.Weight[12]); //weight f
+                            ns.Write((float)0x3F800000);
 
-                        /*
-                        ns.Write((float)chr.Weight[12]); //weight f
-                        ns.Write((float)chr.Weight[12]); //weight f
-                        ns.Write((float)chr.Weight[12]); //weight f
-                        ns.Write((float)chr.Weight[12]); //weight f
-                        ns.Write((float)chr.Weight[12]); //weight f
-                        ns.Write((float)chr.Weight[12]); //weight f
+                            //ns.Write((float)chr.Scale); //scale f
+                            ns.Write((float)0x3F800000);
+                            //ns.Write((float)chr.Rotate); //rotate f
+                            ns.Write((float)0x00);
+                            //ns.Write((short)chr.MoveX); //moveX h
+                            ns.Write((short)0x00);
+                            //ns.Write((short)chr.MoveY); //moveY h
+                            ns.Write((short)0x00);
+                            //pish 1
+                            ns.Write((byte)0x04);
+                            //pisc 5
+                            ns.Write((byte)0x00);
+                            ns.Write((byte)0xBC);
+                            ns.Write((byte)0x01);
+                            ns.Write((byte)0xAA);
+                            ns.Write((byte)0x00);
+                            //pish 1
+                            ns.Write((byte)0x00);
+                            //pisc 2
+                            ns.Write((byte)0x00);
+                            ns.Write((byte)0x00);
+                            //pish 1
+                            ns.Write((byte)0x00);
+                            //pisc 3
+                            ns.Write((byte)0x00);
+                            ns.Write((byte)0x00);
+                            ns.Write((byte)0x00);
 
-                        ns.Write((float)chr.Weight[12]); //weight f
-                        */
-                        ns.Write((int)0x3F800000);
-                        ns.Write((int)0x3F800000);
-                        ns.Write((int)0x3F800000);
-                        ns.Write((int)0x3F35C28F);
-                        ns.Write((int)0x3F800000);
-                        ns.Write((int)0x3F800000);
-                        ns.Write((int)0x3F800000);
+                            /*
+                            ns.Write((float)chr.Weight[12]); //weight f
+                            ns.Write((float)chr.Weight[12]); //weight f
+                            ns.Write((float)chr.Weight[12]); //weight f
+                            ns.Write((float)chr.Weight[12]); //weight f
+                            ns.Write((float)chr.Weight[12]); //weight f
+                            ns.Write((float)chr.Weight[12]); //weight f
 
-                        ns.Write((uint)chr.Lip); //lip d
-                        ns.Write((uint)chr.LeftPupil); //leftPupil d
-                        ns.Write((uint)chr.RightPupil); //rightPupil d
-                        ns.Write((uint)chr.Eyebrow); //eyebrow d
-                        ns.Write((int)chr.Decor); //decor d
-                        //следующая инструкция пишет: len.stringHex
-                        string subString = chr.Modifiers.Substring(0, 256); //надо отрезать в конце два символа \0\0
-                        ns.WriteHex(subString, subString.Length); //  modifiers b"
-                        break;
-                }
-                ns.Write((short)0x1388); //laborPower h
-                ns.Write((long)0x5B2D8572); //lastLaborPowerModified q
-                ns.Write((short)0x00); //deadCount h
-                ns.Write((long)0x5B29D9A2); //deadTime q
-                ns.Write((int)0x00); //rezWaitDuration d
-                ns.Write((long)0x5B29D9A2); //rezTime q
-                ns.Write((int)0x00); //rezPenaltyDuration d
-                ns.Write((long)0x5B2D8205); //lastWorldLeaveTime q
-                ns.Write((long)0x00); //moneyAmount q
-                ns.Write((long)0x00); //moneyAmount q
-                ns.Write((short)0x00); //crimePoint h
-                ns.Write((int)0x00); //crimeRecord d
-                ns.Write((short)0x00); //crimeScore h
-                ns.Write((long)0x00); //deleteRequestedTime  q
-                ns.Write((long)0x00); //transferRequestedTime q
-                ns.Write((long)0x00); //deleteDelay q
-                ns.Write((int)0x00); //consumedLp d
-                ns.Write((long)0x1E); //bmPoint q
-                ns.Write((long)0x00); //moneyAmount q
-                ns.Write((long)0x00); //moneyAmount q
-                ns.Write((byte)0x00); //autoUseAApoint c
-                ns.Write((int)0x01); //prevPoint d
-                ns.Write((int)0x01); //point d
-                ns.Write((int)0x00); //gift d
-                ns.Write((long)0x5B3F9014); //updated q
-                ns.Write((byte)0x00); //forceNameChange c
-                ns.Write((int)0x00); //highAbilityRsc d
+                            ns.Write((float)chr.Weight[12]); //weight f
+                            */
+                            ns.Write((float)0x3F800000);
+                            ns.Write((float)0x3F800000);
+                            ns.Write((float)0x3F800000);
+                            ns.Write((float)0x3F35C28F);
+                            ns.Write((float)0x3F800000);
+                            ns.Write((float)0x3F800000);
+                            ns.Write((float)0x3F800000);
+
+                            ns.Write((uint)chr.Lip); //lip d
+                            ns.Write((uint)chr.LeftPupil); //leftPupil d
+                            ns.Write((uint)chr.RightPupil); //rightPupil d
+                            ns.Write((uint)chr.Eyebrow); //eyebrow d
+                            ns.Write((int)chr.Decor); //decor d
+                                                      //следующая инструкция пишет: len.stringHex
+                            string subString = chr.Modifiers.Substring(0, 256); //надо отрезать в конце два символа \0\0
+                            ns.WriteHex(subString, subString.Length); //  modifiers b"
+                            break;
+                    }
+                    ns.Write((short)0x1388); //laborPower h
+                    ns.Write((long)0x5B2D8572); //lastLaborPowerModified q
+                    ns.Write((short)0x00); //deadCount h
+                    ns.Write((long)0x5B29D9A2); //deadTime q
+                    ns.Write((int)0x00); //rezWaitDuration d
+                    ns.Write((long)0x5B29D9A2); //rezTime q
+                    ns.Write((int)0x00); //rezPenaltyDuration d
+                    ns.Write((long)0x5B2D8205); //lastWorldLeaveTime q
+                    ns.Write((long)0x00); //moneyAmount q
+                    ns.Write((long)0x00); //moneyAmount q
+                    ns.Write((short)0x00); //crimePoint h
+                    ns.Write((int)0x00); //crimeRecord d
+                    ns.Write((short)0x00); //crimeScore h
+                    ns.Write((long)0x00); //deleteRequestedTime  q
+                    ns.Write((long)0x00); //transferRequestedTime q
+                    ns.Write((long)0x00); //deleteDelay q
+                    ns.Write((int)0x00); //consumedLp d
+                    ns.Write((long)0x1E); //bmPoint q
+                    ns.Write((long)0x00); //moneyAmount q
+                    ns.Write((long)0x00); //moneyAmount q
+                    ns.Write((byte)0x00); //autoUseAApoint c
+                    ns.Write((int)0x01); //prevPoint d
+                    ns.Write((int)0x01); //point d
+                    ns.Write((int)0x00); //gift d
+                    ns.Write((long)0x5B3F9014); //updated q
+                    ns.Write((byte)0x00); //forceNameChange c
+                    ns.Write((int)0x00); //highAbilityRsc d
                 }
                 ++aa;
             }
@@ -1384,7 +1390,7 @@ namespace ArcheAge.ArcheAge.Network
             //y 8
             ns.Write((long)0x0021F96715C40000);
             //z 4
-            ns.Write((int)0x42CFA1CB);
+            ns.Write((float)0x42CFA1CB);
             //{
             //ext 1
             ns.Write((byte)0x03);
@@ -1407,16 +1413,16 @@ namespace ArcheAge.ArcheAge.Network
             //type 4
             ns.Write((int)0x00);
             //weight 4
-            ns.Write((int)0x3F800000);
+            ns.Write((float)0x3F800000);
             //{
             //type 4
             ns.Write((int)0x00);
             //weight 4
-            ns.Write((int)0x3F800000);
+            ns.Write((float)0x3F800000);
             //scale 4
-            ns.Write((int)0x3F800000);
+            ns.Write((float)0x3F800000);
             //rotate 4
-            ns.Write((int)0x00);
+            ns.Write((float)0x00);
             //moveX 2
             ns.Write((short)0x00);
             //moveY 2
@@ -1451,15 +1457,15 @@ namespace ArcheAge.ArcheAge.Network
             //}
             //{6 раз
             //weight 4
-            ns.Write((int)0x3F800000);
-            ns.Write((int)0x3F800000);
-            ns.Write((int)0x3F800000);
-            ns.Write((int)0x3F35C28F);
-            ns.Write((int)0x3F800000);
-            ns.Write((int)0x3F800000);
+            ns.Write((float)0x3F800000);
+            ns.Write((float)0x3F800000);
+            ns.Write((float)0x3F800000);
+            ns.Write((float)0x3F35C28F);
+            ns.Write((float)0x3F800000);
+            ns.Write((float)0x3F800000);
             //}
             //weight 4
-            ns.Write((int)0x3F800000);
+            ns.Write((float)0x3F800000);
             //lip 4
             ns.Write((uint)0xFF8B7BE3); //не влезает в INTEGER
                                         //leftPupil 4

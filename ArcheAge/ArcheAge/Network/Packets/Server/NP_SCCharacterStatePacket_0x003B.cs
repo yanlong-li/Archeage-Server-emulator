@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace ArcheAge.ArcheAge.Network
 {
-    public sealed class NP_CharacterListPacket_0x0039 : NetPacket
+    public sealed class NP_SCCharacterStatePacket_0x003B : NetPacket
     {
         /*private void WriteItem(int itemId)
         {
@@ -111,7 +111,7 @@ namespace ArcheAge.ArcheAge.Network
         /// <param name="net"></param>
         /// <param name="num">номер по порядку персонажа (от общего количества), которого выводим в пакете</param>
         /// <param name="last">0 - ещё ожидается пакет CharacterList, 1 - последний пакет, больше не будет</param>
-        public NP_CharacterListPacket_0x0039(ClientConnection net, int num, int last) : base(01, 0x0039)
+        public NP_SCCharacterStatePacket_0x003B(ClientConnection net, int num, int last) : base(01, 0x003B)
         {
             var accountId = net.CurrentAccount.AccountId;
             List<Character> charList = CharacterHolder.LoadCharacterData(accountId);

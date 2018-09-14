@@ -10,16 +10,16 @@ Target Server Type    : MYSQL
 Target Server Version : 80011
 File Encoding         : 65001
 
-Date: 2018-09-12 01:58:36
+Date: 2018-09-13 16:56:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for characters
+-- Table structure for character_records
 -- ----------------------------
-DROP TABLE IF EXISTS `characters`;
-CREATE TABLE `characters` (
+DROP TABLE IF EXISTS `character_records`;
+CREATE TABLE `character_records` (
   `characterid` int(11) unsigned NOT NULL,
   `accountid` int(11) unsigned DEFAULT NULL,
   `chargender` tinyint(3) unsigned DEFAULT NULL,
@@ -83,6 +83,6 @@ CREATE TABLE `characters` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
--- Records of characters
+-- Records of character_records
 -- ----------------------------
 SET FOREIGN_KEY_CHECKS=1;

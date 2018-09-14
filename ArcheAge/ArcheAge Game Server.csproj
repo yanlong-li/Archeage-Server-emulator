@@ -62,8 +62,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\LocalCommons\bin\Debug\mysql.data.dll</HintPath>
     </Reference>
-    <Reference Include="protobuf-net, Version=2.0.0.622, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="protobuf-net">
       <HintPath>..\LocalCommons\bin\Debug\protobuf-net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -81,6 +80,10 @@
     <Compile Include="ArcheAge\Network\DelegateList.cs" />
     <Compile Include="ArcheAge\Network\Connections\LoginConnection.cs" />
     <Compile Include="ArcheAge\Network\ArcheAgePackets.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCharacterStatePacket_0x003B.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCChatSpamDelayPacket_0x00CB.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCICSMenuList_0x01C4.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCInitialConfigPacket_0x0005.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCharacterCreationFailed_0x0038.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCreateCharacterResponse_0x0033.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCharacterDeleted_0x0036.cs" />
@@ -110,6 +113,7 @@
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCharacterListPacket_0x0039.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCharacterListPacket_0x0079.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_quit_0x01F1.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCResultRestrictCheck_0x01C3.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SetGameType_0x000F.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_Pong_0x0013.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_X2EnterWorldResponsePacket_0x0000.cs" />
@@ -129,10 +133,6 @@
     <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ArcheAgeLogin\ArcheAge Login Server.csproj">
-      <Project>{43BFA00B-EBD7-469F-B732-50FBAF25C6E1}</Project>
-      <Name>ArcheAge Login Server</Name>
-    </ProjectReference>
     <ProjectReference Include="..\LocalCommons\ArcheAge Commons.csproj">
       <Project>{83a1159c-4c7d-4356-8715-f9559b8bcd69}</Project>
       <Name>ArcheAge Commons</Name>

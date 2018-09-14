@@ -224,6 +224,20 @@ namespace LocalCommons.Network
             m_Stream.Write(data, 0, data.Length);
         }
 
+        /// <summary>
+        /// Разворачиваем байты LE / BE
+        /// </summary>
+        /// <param name="value"> float </param>
+        /// <param name="le">LE-true, BE-false</param>
+        public void WriteLEBE(float value, Boolean le)
+        {
+            byte[] data = BitConverter.GetBytes(value);
+            if (!le)
+                Array.Reverse(data);
+            m_Stream.Write(data, 0, data.Length);
+        }
+
+
         public void Write(float value)
         {
             byte[] data = BitConverter.GetBytes(value);

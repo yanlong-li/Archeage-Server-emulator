@@ -53,7 +53,7 @@ namespace ArcheAge.ArcheAge.Holders
                 try
                 {
                     conn.Open();
-                    MySqlCommand command = new MySqlCommand("SELECT * FROM `characters`", conn);
+                    MySqlCommand command = new MySqlCommand("SELECT * FROM `character_records`", conn);
                     MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
@@ -71,7 +71,7 @@ namespace ArcheAge.ArcheAge.Holders
                 }
                 catch (Exception ex)
                 {
-                    Logger.Trace("Error: {0}", ex.Message);
+                    Logger.Trace("Error: characters {0}", ex.Message);
                 }
                 finally
                 {
@@ -81,7 +81,7 @@ namespace ArcheAge.ArcheAge.Holders
             return uid;
         }
 
-        public static void DeleteCharacterData(int characterId)
+        public static void DeleteCharacterData(uint characterId)
         {
             int serverid = Settings.Default.Game_Id;
             using (MySqlConnection conn = new MySqlConnection(Settings.Default.DataBaseConnectionString))
@@ -91,7 +91,7 @@ namespace ArcheAge.ArcheAge.Holders
                     conn.Open(); //Устанавливаем соединение с базой данных
                     MySqlCommand cmd = new MySqlCommand();
                     cmd.Connection = conn;
-                    cmd.CommandText = "DELETE FROM `characters` WHERE `characterid` = '" + characterId +
+                    cmd.CommandText = "DELETE FROM `character_records` WHERE `characterid` = '" + characterId +
                                       "' AND `worldid` = '" + serverid + "'";
                     //выполняем sql запрос
                     cmd.ExecuteNonQuery();
@@ -100,6 +100,179 @@ namespace ArcheAge.ArcheAge.Holders
                 catch (Exception ex)
                 {
                     Logger.Trace("MySql: Ошибка удаления данных персонажа charID {0}, {1}", characterId, ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Берем из базы значение body для персонажа
+        /// </summary>
+        /// <param name="chr">куда быдем записывать данные</param>
+        /// <param name="charRace">раса персонажа</param>
+        /// <param name="charGender">пол персонажа</param>
+        /// <returns>возвращает значение body для персонажа</returns>
+        public static void LoadCharacterBodyCoord(Character chr, byte charRace, byte charGender)
+        {
+            using (MySqlConnection conn = new MySqlConnection(Settings.Default.DataBaseConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    MySqlCommand command =
+                        new MySqlCommand(
+                            "SELECT * FROM `charactermodel` WHERE `race` = '" + charRace + "' AND `gender` = '" + charGender + "'", conn);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        chr.CharBody = reader.GetInt32("body");
+                        chr.X = reader.GetInt64("start_location_x");
+                        chr.Y = reader.GetInt64("start_location_y");
+                        chr.Z = reader.GetFloat("start_location_z");
+                    }
+
+                    command.Dispose();
+                    reader.Close();
+                    reader.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Trace("MySql: Ошибка чтения данных charactermodel {0}", ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public static void LoadZoneFaction(Character chr, byte charRace, byte charGender)
+        {
+            using (MySqlConnection conn = new MySqlConnection(Settings.Default.DataBaseConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    MySqlCommand command =
+                        new MySqlCommand(
+                            "SELECT * FROM `characters` WHERE `char_race_id` = '" + charRace + "' AND `char_gender_id` = '" + charGender + "'", conn);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        chr.FactionId = reader.GetInt32("faction_id");
+                        chr.StartingZoneId = reader.GetInt32("starting_zone_id");
+                    }
+
+                    command.Dispose();
+                    reader.Close();
+                    reader.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Trace("MySql: Ошибка чтения данных charactermodel {0}", ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public static void LoadClothsData(Character chr, int itemSet)
+        {
+            using (MySqlConnection conn = new MySqlConnection(Settings.Default.DataBaseConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    MySqlCommand command =
+                        new MySqlCommand(
+                            "SELECT * FROM `equip_pack_cloths` WHERE `id` = '" + itemSet + "'", conn);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        chr.Head = reader.GetInt32("headgear_id");
+                        chr.Chest = reader.GetInt32("shirt_id");
+                        chr.Legs = reader.GetInt32("pants_id");
+                        chr.Gloves = reader.GetInt32("glove_id");
+                        chr.Feet = reader.GetInt32("shoes_id");
+                    }
+
+                    command.Dispose();
+                    reader.Close();
+                    reader.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Trace("MySql: Ошибка чтения данных equip_pack_cloths {0}", ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+        public static void LoadWeaponsData(Character chr, int itemSet)
+        {
+            using (MySqlConnection conn = new MySqlConnection(Settings.Default.DataBaseConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    MySqlCommand command =
+                        new MySqlCommand(
+                            "SELECT * FROM `equip_pack_weapons` WHERE `id` = '" + itemSet + "'", conn);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        chr.Weapon = reader.GetInt32("mainhand_id");
+                        chr.WeaponExtra = reader.GetInt32("offhand_id");
+                        chr.WeaponRanged = reader.GetInt32("ranged_id");
+                        chr.Instrument = reader.GetInt32("musical_id");
+                    }
+
+                    command.Dispose();
+                    reader.Close();
+                    reader.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Trace("MySql: Ошибка чтения данных equip_pack_weapons {0}", ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public static void LoadEquipPacksData(Character chr, int ability_id)
+        {
+            using (MySqlConnection conn = new MySqlConnection(Settings.Default.DataBaseConnectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    MySqlCommand command =
+                        new MySqlCommand(
+                            "SELECT * FROM `character_equip_packs` WHERE `ability_id` = '" + ability_id + "'", conn);
+                    MySqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        chr.NewbieClothPackId = reader.GetInt32("newbie_cloth_pack_id");
+                        chr.NewbieWeaponPackId = reader.GetInt32("newbie_weapon_pack_id");
+                    }
+
+                    command.Dispose();
+                    reader.Close();
+                    reader.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Trace("MySql: Ошибка чтения данных character_equip_packs {0}", ex.Message);
                 }
                 finally
                 {
@@ -122,7 +295,7 @@ namespace ArcheAge.ArcheAge.Holders
                     conn.Open();
                     MySqlCommand command =
                         new MySqlCommand(
-                            "SELECT * FROM `characters` WHERE `accountid` = '" + accountId + "' AND `worldid` = '" +
+                            "SELECT * FROM `character_records` WHERE `accountid` = '" + accountId + "' AND `worldid` = '" +
                             serverid + "'", conn);
                     MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
@@ -236,7 +409,7 @@ namespace ArcheAge.ArcheAge.Holders
                     if (m_DbCharacters.Contains(character))
                     {
                         cmd.CommandText =
-                            "UPDATE `characters` SET `characterid` = @characterid, `accountid` = @accountid, `chargender` = @chargender, `charname` = @charname," +
+                            "UPDATE `character_records` SET `characterid` = @characterid, `accountid` = @accountid, `chargender` = @chargender, `charname` = @charname," +
                             " `charrace` = @charrace, `decor` = @decor, `ext` = @ext, `eyebrow` = @eyebrow, `guid` = @guid, `leftPupil` = @leftPupil, `level` = @level," +
                             " `lip` = @lip, `modifiers` = @modifiers, `movex` = @movex, `movey` = @movey, `rightpupil` = @rightpupil, `rotate` = @rotate," +
                             " `scale` = @scale, `type0` = @type0, `type1` = @type1, `type2` = @type2, `type3` = @type3, `type4` = @type4, `type5` = @type5," +
@@ -252,7 +425,7 @@ namespace ArcheAge.ArcheAge.Holders
                     else
                     {
                         cmd.CommandText =
-                            @"INSERT INTO `characters` (characterid, accountid, chargender, charname, charrace, decor, ext, eyebrow, guid, leftPupil, level, lip, modifiers," +
+                            @"INSERT INTO `character_records` (characterid, accountid, chargender, charname, charrace, decor, ext, eyebrow, guid, leftPupil, level, lip, modifiers," +
                             " movex, movey, rightpupil, rotate, scale, type0, type1, type2, type3, type4, type5, type6, type7, type8, type9, type10, type11, type12, type13," +
                             " type14, type15, type16, type17, v, Weight0, Weight1, Weight2, Weight3, Weight4, Weight5, Weight6, Weight7, Weight8, Weight9, Weight10," +
                             " Weight11, Weight12, Weight13, Weight14, Weight15, Weight16, Weight17, Worldid, ability0, ability1, ability2) " +

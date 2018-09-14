@@ -30,13 +30,13 @@ namespace ArcheAge.ArcheAge.Network
             //3.0.3.0
             //"0900 DD05 1A  09  3000   010200"
 
-            //ingameShopVersion 1
+            //ingameShopVersion c
             //01
             ns.Write((byte)0x01);
-            //secondPriceType 1
+            //secondPriceType c
             //02
             ns.Write((byte)0x02);
-            //askBuyLaborPowerPotion 1
+            //askBuyLaborPowerPotion c
             //00
             ns.Write((byte)0x00);
         }

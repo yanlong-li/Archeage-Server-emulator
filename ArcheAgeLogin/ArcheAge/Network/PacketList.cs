@@ -975,13 +975,6 @@ namespace ArcheAgeLogin.ArcheAge.Network
             net.SendAsyncHex(new NP_PasswordCorrect(1));
         }
 
-        //Return server connection into packets
-        private static void Handle_0d(ArcheAgeConnection net, PacketReader reader)
-        {
-            net.SendAsync0d(new NP_PasswordCorrect(1));
-            //net.SendAsync(new NP_ServerList());
-        }
-
         private static void Handle_RequestServerList(ArcheAgeConnection net, PacketReader reader)
         {
             byte[] unknown = reader.ReadByteArray(8); //unk?

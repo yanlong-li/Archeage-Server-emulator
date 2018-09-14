@@ -43,7 +43,7 @@ namespace ArcheAge.ArcheAge.Holders
                 try
                 {
                     conn.Open();
-                    MySqlCommand command = new MySqlCommand("SELECT * FROM `characters`", conn);
+                    MySqlCommand command = new MySqlCommand("SELECT * FROM `accounts`", conn);
                     MySqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {

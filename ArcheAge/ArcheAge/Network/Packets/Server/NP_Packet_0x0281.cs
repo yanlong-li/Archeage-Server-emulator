@@ -90,11 +90,11 @@ namespace ArcheAge.ArcheAge.Network
             ns.Write((byte)0x00);
             //size.applyConfig
             //0100 0F
-            const string applyConfig = "0F";
+            string applyConfig = "0F";
             ns.WriteHex(applyConfig, applyConfig.Length);
             //size.detectConfig
             //1300  000070420500000000001644CDCC4C3F0AC803
-            const string detectConfig = "000070420500000000001644CDCC4C3F0AC803";
+            string detectConfig = "000070420500000000001644CDCC4C3F0AC803";
             ns.WriteHex(detectConfig, detectConfig.Length);
             
         }

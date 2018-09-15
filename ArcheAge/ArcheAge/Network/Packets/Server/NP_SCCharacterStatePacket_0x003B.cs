@@ -153,8 +153,8 @@ namespace ArcheAge.ArcheAge.Network
             WriteItem(0); //ES_UNDERPANTS
             WriteItem(chr.Weapon); //ES_MAINHAND Оружие
             WriteItem(chr.WeaponExtra); //ES_OFFHAND Дополнительное оружие
-            WriteItem(0); //ES_RANGED Лук
-            WriteItem(0); //ES_MUSICAL Муз. инструмент (струнный, духовой, ударный)
+            WriteItem(chr.WeaponRanged); //ES_RANGED Лук
+            WriteItem(chr.Instrument); //ES_MUSICAL Муз. инструмент (струнный, духовой, ударный)
             //}
 
             //for (int i = 0; i < 7; i++)
@@ -188,7 +188,7 @@ namespace ArcheAge.ArcheAge.Network
             */
             ns.WriteHex("00000000A8B7CF03");
             ns.WriteHex("000000006090A603");
-            ns.WriteHex("43");
+            ns.WriteHex("EFFC1043");
 
             //  <part id="6" name="ext c
             ns.Write((byte)chr.Ext); //ext c

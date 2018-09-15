@@ -34,7 +34,7 @@ CREATE TABLE `characters` (
   `default_fx_voice_sound_pack_id` int(8) DEFAULT NULL,
   `creatable` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of characters

@@ -222,17 +222,16 @@ namespace ArcheAge.ArcheAge.Network
                                                     //10-LOVE преследование, 5-DEATH мистицизм, 8-VOCATION скрытность
                     ns.Write((byte)chr.Ability[1]); //эффект класса 1
                     ns.Write((byte)chr.Ability[2]); //эффект класса 2
-                    //}
+                                                    //}
 
-/*
-                    ns.Write((long)867.27);  //x Q
-                    ns.Write((long)779.11);  //y Q
-                    ns.Write((float)247.8); //z f
-*/
-                    ns.WriteHex("00000000A8B7CF03");
-                    ns.WriteHex("000000006090A603");
-                    ns.WriteHex("EFFC1043");
-
+                    //ns.WriteHex("00000000A8B7CF03");
+                    ns.Write((int)0);
+                    ns.Write((float)867.27);  //x Q 03cfb7a8 00000000 = 0.0
+                    //ns.WriteHex("000000006090A603");
+                    ns.Write((int)0);
+                    ns.Write((float)779.11);  //y Q 03a69060 00000000 = 
+                    //ns.WriteHex("EFFC1043");
+                    ns.Write((float)247.8); //z f  4310fcef = 144.988
 
                     ns.Write((byte)chr.Ext); //ext c
                     switch (chr.Ext)

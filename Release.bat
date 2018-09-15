@@ -5,14 +5,16 @@ md AAServer\ArcheAge\bin\Debug\sql
 md AAServer\ArcheAgeLauncher\bin\Debug\
 md AAServer\ArcheAgeLogin\bin\Debug\log
 md AAServer\ArcheAgeLogin\bin\Debug\sql
+md AAServer\ArcheAgeStream\bin\Debug\log
+md AAServer\ArcheAgeStream\bin\Debug\sql
+md AAServer\packages\dll\
 cd ..
 
-copy ArcheAge\bin\Debug\*.* temp\AAServer\ArcheAge\bin\Debug\
-copy ArcheAge\bin\Debug\log\*.* temp\AAServer\ArcheAge\bin\Debug\log\
-copy ArcheAge\bin\Debug\sql\*.* temp\AAServer\ArcheAge\bin\Debug\sql\
-copy ArcheAgeLauncher\bin\Debug\*.* temp\AAServer\ArcheAgeLauncher\bin\Debug\
-copy ArcheAgeLogin\bin\Debug\*.* temp\AAServer\ArcheAgeLogin\bin\Debug\
-copy ArcheAgeLogin\bin\Debug\sql\*.* temp\AAServer\ArcheAgeLogin\bin\Debug\sql\
+xcopy ArcheAge\bin temp\AAServer\ArcheAge\bin /i /e
+xcopy ArcheAgeLauncher\bin temp\AAServer\ArcheAgeLauncher\bin /i /e
+xcopy ArcheAgeLogin\bin temp\AAServer\ArcheAgeLogin\bin /i /e
+xcopy ArcheAgeStream\bin temp\AAServer\ArcheAgeStream\bin /i /e
+xcopy packages temp\AAServer\packages /i /e
 
 copy readme.md temp\AAServer\
 copy "start AAServer.bat" temp\AAServer\

@@ -80,6 +80,10 @@
     <Compile Include="ArcheAge\Network\DelegateList.cs" />
     <Compile Include="ArcheAge\Network\Connections\LoginConnection.cs" />
     <Compile Include="ArcheAge\Network\ArcheAgePackets.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Client\NP_CSSetLpManageCharacter_0x00FB.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_DetailedTimeOfDayPacket_0x00EA.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCAiDebugPacket_0x01B8.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCharacterInvenInitPacket_0x0046.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCharacterStatePacket_0x003B.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCChatSpamDelayPacket_0x00CB.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCICSMenuList_0x01C4.cs" />
@@ -90,6 +94,7 @@
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCancelCharacterDeleteResponse_0x0037.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCLeaveWorldGrantedPacket_0x0003.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCDeleteCharacterResponse_0x0034.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCRaceCongestionPacket_0x003A.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCReconnectAuthPacket_0x0001.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_ChangeState_0x0000.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_0x0030.cs" />
@@ -114,6 +119,8 @@
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCharacterListPacket_0x0079.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_quit_0x01F1.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCResultRestrictCheck_0x01C3.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCUnitStatePacket_0x0064.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCUnitVisualOptionsPacket_0x01C0.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SetGameType_0x000F.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_Pong_0x0013.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_X2EnterWorldResponsePacket_0x0000.cs" />
@@ -170,9 +177,7 @@
   <ItemGroup>
     <Content Include="AA.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ArcheAge\Network\Packets\Client\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

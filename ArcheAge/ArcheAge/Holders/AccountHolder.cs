@@ -84,6 +84,8 @@ namespace ArcheAge.ArcheAge.Holders
                 while (reader.Read())
                 {
                     Account account = new Account();
+                    Character character = new Character();
+
                     account.AccessLevel = reader.GetByte("mainaccess");
                     account.AccountId = reader.GetUInt32("accountid");
                     account.Name = reader.GetString("name");
@@ -91,8 +93,10 @@ namespace ArcheAge.ArcheAge.Holders
                     account.LastEnteredTime = reader.GetInt64("last_online");
                     account.LastIp = reader.GetString("last_ip");
                     account.Membership = reader.GetByte("useraccess");
-                    account.Characters = reader.GetByte("characters");
+                    account.CharactersCount = reader.GetByte("characters");
                     account.Session = reader.GetInt32("cookie");
+                    account.Character = character; //заполним пустыми данными
+
                     m_DbAccounts.Add(account);
                 }
                 command.Dispose();
@@ -161,7 +165,7 @@ namespace ArcheAge.ArcheAge.Holders
                 parameters.Add("@useraccess", MySqlDbType.Byte).Value = account.Membership;
                 parameters.Add("@lastip", MySqlDbType.String).Value = account.LastIp;
                 parameters.Add("@lastonline", MySqlDbType.Int64).Value = account.LastEnteredTime;
-                parameters.Add("@characters", MySqlDbType.Byte).Value = account.Characters;
+                parameters.Add("@characters", MySqlDbType.Byte).Value = account.CharactersCount;
                 parameters.Add("@cookie", MySqlDbType.Int32).Value = account.Session;
 
                 if (m_DbAccounts.Contains(account))

@@ -30,7 +30,7 @@ CREATE TABLE `hotkeys` (
   `key_second` varchar(255) DEFAULT NULL,
   `activation` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of hotkeys

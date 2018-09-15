@@ -84,7 +84,7 @@ namespace LocalCommons.Network
         /// <returns></returns>
         public byte[] Compile()
         {
-            PacketWriter temporary = PacketWriter.CreateInstance(8192 * 4, m_littleEndian);
+            PacketWriter temporary = PacketWriter.CreateInstance(4096 * 4, m_littleEndian);
             //temporary.Write((short)(ns.Length + (m_IsArcheAge ? 6 : 2)));
             if (m_IsArcheAge)
             {
@@ -143,7 +143,7 @@ namespace LocalCommons.Network
         /// <returns></returns>
         public byte[] Compile0()
         {
-            PacketWriter temporary = PacketWriter.CreateInstance(8192 * 4, m_littleEndian);
+            PacketWriter temporary = PacketWriter.CreateInstance(4096 * 4, m_littleEndian);
             temporary.Write((short)(ns.Length + (m_IsArcheAge ? 4 : 2)));
             if (m_IsArcheAge)
             {
@@ -171,7 +171,7 @@ namespace LocalCommons.Network
         /// <returns></returns>
         public byte[] Compile2()
         {
-            PacketWriter temporary = PacketWriter.CreateInstance(8192 * 4, m_littleEndian);
+            PacketWriter temporary = PacketWriter.CreateInstance(4096 * 4, m_littleEndian);
 
             byte[] redata = ns.ToArray();
             PacketWriter.ReleaseInstance(ns);

@@ -1,12 +1,13 @@
 /*
 npc_map_data by jekadrost
 */
-CREATE TABLE IF NOT EXISTS `npc_map_data` (
+DROP TABLE IF EXISTS `npc_map_data`;
+CREATE TABLE `npc_map_data` ( 
 	`id`	INT,
 	`X`	REAL,
 	`Y`	REAL,
 	`Z`	REAL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 INSERT INTO `npc_map_data` VALUES (502,22348.59,11508.95,288.7);
 INSERT INTO `npc_map_data` VALUES (502,22253.96,11794.35,223.39);
 INSERT INTO `npc_map_data` VALUES (502,23039.76,11540.64,252.89);

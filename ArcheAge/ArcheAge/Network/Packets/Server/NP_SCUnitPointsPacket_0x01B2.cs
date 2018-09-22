@@ -1,5 +1,6 @@
 ﻿using ArcheAge.ArcheAge.Network.Connections;
 using LocalCommons.Network;
+using LocalCommons.Utilities;
 
 namespace ArcheAge.ArcheAge.Network
 {
@@ -11,7 +12,7 @@ namespace ArcheAge.ArcheAge.Network
             //SCUnitPointsPacket
             //          op   unit   hp       mp
             //0F00 DD01 B200 347F00 90650000 48710000
-            ns.Write((int)0x00);  //unit d
+            ns.Write((Uint24)net.CurrentAccount.Character.LiveObjectId);  //unit d  //liveObjectId d3 from SCUnitStatePacket
             ns.Write((int)0x00);  //preciseHealth d
             ns.Write((byte)0x00); //preciseMana d
         }

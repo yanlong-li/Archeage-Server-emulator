@@ -12,9 +12,17 @@ namespace ArcheAge.ArcheAge.Network
             //                     bc     type time     flags ix      iy      iz     vel.x vel.y vel.z rot.x rot.y rot.z a.dm.x a.dm.y a.dm.z a.stance a.alertness a.flags
             //Recv: 2500 0001 8800 F52700 01   86C20100 04    322B7A  F56D74  7DEB03 0000  0000  0000  00    00    2D    00     00     00     01       00          04
             //                                                8006450 7630325 256893
+            //      2500 0001 8800 F52700 01   F27C0900 00    877B80  F00775  880803 0000  0000  C7FC  00    00    E6    00     00     00     02       00          00
+            //Recv: 2500 0001 8800 F52700 01   A82E1000 00    B56581  30C475  FF0E03 0000  0000  0000  00    00    F2    00     00     00     01       00          04
+            //Recv: 2500 0001 8800 F52700 01   B8C71100 00    C37681  B7C575  551003 0000  0000  0000  00    00    51    00     00     00     01       00          04
+            //движение
+            //Recv: 2500 0001 8800 F52700 01   9F751900 02    0B3D82  650E76  62BD03 E107  77FA  DC03  00    00    D9    00     7F     00     01       00          04
+            //появились на карте
+            //Recv: 2500 0001 8800 F52700 01   85A80000 04    F5F679  0CD274  99BC03 0000  0000  0000  00    00    D0    00     00     00     01       00          14
+            //                                                7993077 7655948 244889
             /*
              * - <packet id="0x008801" name="CSMoveUnitPacket">
-             *  <part name="bc" type="b" size="3" /> 
+             *  <part name="bc" type="b" size="3" />  //liveObjectId d3 from SCUnitStatePacket
              *  <part name="type" type="c" id="1" /> 
              *  <part name="time" type="d" /> 
              *  <part name="flags" type="c" id="2" /> 

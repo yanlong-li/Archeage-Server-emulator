@@ -154,5 +154,17 @@ namespace ArcheAgeLogin.Properties {
                 this["SSL"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool PersistSecurityInfo {
+            get {
+                return ((bool)(this["PersistSecurityInfo"]));
+            }
+            set {
+                this["PersistSecurityInfo"] = value;
+            }
+        }
     }
 }

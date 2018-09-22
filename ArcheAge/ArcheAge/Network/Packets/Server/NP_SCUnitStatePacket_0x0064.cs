@@ -1,5 +1,6 @@
 using ArcheAge.ArcheAge.Network.Connections;
 using LocalCommons.Network;
+using LocalCommons.Utilities;
 
 namespace ArcheAge.ArcheAge.Network
 {
@@ -70,7 +71,8 @@ namespace ArcheAge.ArcheAge.Network
             //00
             //FF091A00 0000000000000000
             //- <packet id="0x006401" name="SCUnitStatePacket">
-            ns.WriteHex("F52700"); //liveObjectId d3 
+            net.CurrentAccount.Character.LiveObjectId = Program.LiveObjectUid.Next(); //liveObjectId d3
+            ns.Write((Uint24)net.CurrentAccount.Character.LiveObjectId); //liveObjectId d3 "F52700"
             ns.WriteUTF8Fixed(net.CurrentAccount.Character.CharName,
                 net.CurrentAccount.Character.CharName.Length); //name SS 
             byte type = 0x00;
@@ -131,11 +133,11 @@ namespace ArcheAge.ArcheAge.Network
             //99BC03
             ns.WriteHex("99BC03"); //z d3 
             //0000803F
-            ns.Write((float)net.CurrentAccount.Character.Scale); //x0000803F); //scale f 
+            ns.Write((float)net.CurrentAccount.Character.Scale); //scale f 
             //03
             ns.Write((byte)net.CurrentAccount.Character.Level); //level c 
             //0B000000
-            ns.Write((int)net.CurrentAccount.Character.ModelRef); //modelRef d bd:charactermodel = model_id
+            ns.Write((int)net.CurrentAccount.Character.ModelRef); //modelRef d //archeage:charactermodel = model_id
 
             //00000000
             //00000000

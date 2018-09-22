@@ -337,6 +337,7 @@ namespace ArcheAge.ArcheAge.Network
             {
                 case 0:
                     //quit from game
+
                     net.SendAsync(new NP_SCLeaveWorldGrantedPacket_0x0003()); //quit
                     break;
                 case 1:

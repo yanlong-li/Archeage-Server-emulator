@@ -182,6 +182,7 @@ namespace ArcheAge.ArcheAge.Network
             ns.Write((byte)chr.Ability[2]); //эффект класса 2
             //}
             /*
+            //position
             ns.Write((long)867.27);  //x Q
             ns.Write((long)779.11);  //y Q
             ns.Write((float)247.8); //z f

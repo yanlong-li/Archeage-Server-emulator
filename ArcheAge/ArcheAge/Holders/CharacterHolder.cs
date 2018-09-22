@@ -360,6 +360,7 @@ namespace ArcheAge.ArcheAge.Holders
                         character.Ability[0] = reader.GetByte("ability0");
                         character.Ability[1] = reader.GetByte("ability1");
                         character.Ability[2] = reader.GetByte("ability2");
+                        character.LiveObjectId = reader.GetUInt32("liveobjectid");
 
                         m_DbCharacters.Add(character);
                     }
@@ -472,6 +473,7 @@ namespace ArcheAge.ArcheAge.Holders
                         character.Ability[0] = reader.GetByte("ability0");
                         character.Ability[1] = reader.GetByte("ability1");
                         character.Ability[2] = reader.GetByte("ability2");
+                        character.LiveObjectId = reader.GetUInt32("liveobjectid");
 
                         m_DbCharacters.Add(character);
                     }
@@ -529,7 +531,7 @@ namespace ArcheAge.ArcheAge.Holders
                             " `Weight1` = @Weight1, `Weight2` = @Weight2, `Weight3` = @Weight3, `Weight4` = @Weight4, `Weight5` = @Weight5, `Weight6` = @Weight6," +
                             " `Weight7` = @Weight7, `Weight8` = @Weight8, `Weight9` = @Weight9, `Weight10` = @Weight10, `Weight11` = @Weight11, `Weight12` = @Weight12," +
                             " `Weight13` = @Weight13, `Weight14` = @Weight14, `Weight15` = @Weight15, `Weight16` = @Weight16, `Weight17` = @Weight17," +
-                            " `worldid` = @worldid, `ability0` = @ability0, `ability1` = @ability1, `ability2` = @ability2 WHERE `charname` = @charname";
+                            " `worldid` = @worldid, `ability0` = @ability0, `ability1` = @ability1, `ability2` = @ability2, `liveobjectid` = @liveobjectid WHERE `charname` = @charname";
 
                         //cmd.Parameters.Add("@characterid", MySqlDbType.UInt32).Value = character.CharacterId;
                     }
@@ -539,12 +541,12 @@ namespace ArcheAge.ArcheAge.Holders
                             @"INSERT INTO `character_records` (characterid, accountid, chargender, charname, charrace, decor, ext, eyebrow, guid, leftPupil, level, lip, modifiers," +
                             " movex, movey, rightpupil, rotate, scale, type0, type1, type2, type3, type4, type5, type6, type7, type8, type9, type10, type11, type12, type13," +
                             " type14, type15, type16, type17, v, Weight0, Weight1, Weight2, Weight3, Weight4, Weight5, Weight6, Weight7, Weight8, Weight9, Weight10," +
-                            " Weight11, Weight12, Weight13, Weight14, Weight15, Weight16, Weight17, Worldid, ability0, ability1, ability2) " +
+                            " Weight11, Weight12, Weight13, Weight14, Weight15, Weight16, Weight17, Worldid, ability0, ability1, ability2, liveobjectid) " +
 
                             " VALUES (@characterid, @accountid, @chargender, @charname, @charrace, @decor, @ext, @eyebrow, @guid, @leftPupil, @level, @lip, @modifiers, @movex, @movey," +
                             " @rightpupil, @rotate, @scale, @type0, @type1, @type2, @type3, @type4, @type5, @type6, @type7, @type8, @type9, @type10, @type11, @type12," +
                             " @type13, @type14, @type15, @type16, @type17, @v, @Weight0, @Weight1, @Weight2, @Weight3, @Weight4, @Weight5, @Weight6, @Weight7, @Weight8," +
-                            " @Weight9, @Weight10, @Weight11, @Weight12, @Weight13, @Weight14, @Weight15, @Weight16, @Weight17, @Worldid, @ability0, @ability1, @ability2)";
+                            " @Weight9, @Weight10, @Weight11, @Weight12, @Weight13, @Weight14, @Weight15, @Weight16, @Weight17, @Worldid, @ability0, @ability1, @ability2, @liveobjectid)";
 
                         //cmd.Parameters.Add("@characterid", MySqlDbType.UInt32).Value = Program.CharcterUid.Next(); //incr index key
                     }
@@ -611,6 +613,7 @@ namespace ArcheAge.ArcheAge.Holders
                     cmd.Parameters.Add("@ability0", MySqlDbType.Byte).Value = character.Ability[0];
                     cmd.Parameters.Add("@ability1", MySqlDbType.Byte).Value = character.Ability[1];
                     cmd.Parameters.Add("@ability2", MySqlDbType.Byte).Value = character.Ability[2];
+                    cmd.Parameters.Add("@liveobjectid", MySqlDbType.Int32).Value = character.LiveObjectId;
 
                     m_DbCharacters.Add(character);
 

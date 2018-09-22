@@ -1,13 +1,22 @@
+/*
+ * author: csh aka Connor Spencer Harries
+ */
 using System;
 
 namespace LocalCommons.Utilities
 {
-    /// <summary>
-    ///  author: csh aka Connor Spencer Harries
-    /// </summary>
     public struct Uint24
     {
+        /// <summary>
+        ///   Представляет наибольшее возможное значение типа
+        ///    Это поле является константой.
+        /// </summary>
         public const uint MaxValue = 0x00FFFFFF;
+        
+        /// <summary>
+        ///   Представляет минимально допустимое значение типа
+        ///    Это поле является константой.
+        /// </summary>
         public const uint MinValue = 0x00000000;
 
         private uint _val;

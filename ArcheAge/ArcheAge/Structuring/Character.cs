@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using LocalCommons.UID;
+using LocalCommons.Utilities;
 
 namespace ArcheAge.ArcheAge.Structuring
 {
@@ -55,5 +56,6 @@ namespace ArcheAge.ArcheAge.Structuring
         public int FactionId { get; set; }
         public int StartingZoneId { get; set; }
         public int ModelRef { get; set; }
+        public Uint24 LiveObjectId { get; set; }
     }
 }

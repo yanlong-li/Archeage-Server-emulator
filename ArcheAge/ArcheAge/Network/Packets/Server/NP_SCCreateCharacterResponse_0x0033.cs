@@ -135,6 +135,7 @@ namespace ArcheAge.ArcheAge.Network.Packets.Server
                         ns.Write((byte)chr.Ability[i]); //ability[] c
                     }
 
+                    //position
                     ns.Write((long)7975971); //x Q
                     ns.Write((long)7875611); //y Q
                     ns.Write((float)226392); //z f

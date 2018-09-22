@@ -223,7 +223,7 @@ namespace ArcheAge.ArcheAge.Network
                     ns.Write((byte)chr.Ability[1]); //эффект класса 1
                     ns.Write((byte)chr.Ability[2]); //эффект класса 2
                                                     //}
-
+                    //position
                     //ns.WriteHex("00000000A8B7CF03");
                     ns.Write((int)0);
                     ns.Write((float) 867.27);  //x Q 03cfb7a8 00000000 = 0.0

@@ -21,7 +21,7 @@
         {
             get
             {
-                string connection = "server=" + Settings.Default.DataBase_Host + ";user=" + Settings.Default.DataBase_User + ";database=" + Settings.Default.DataBase_Name + ";port=" + Settings.Default.DataBase_Port + ";password=" + Settings.Default.DataBase_Password + ((!Settings.Default.SSL) ? "; SslMode = none" : "");
+                string connection = "server=" + Settings.Default.DataBase_Host + ";user=" + Settings.Default.DataBase_User + ";database=" + Settings.Default.DataBase_Name + ";port=" + Settings.Default.DataBase_Port + ";password=" + Settings.Default.DataBase_Password + ((!Settings.Default.SSL) ? "; SslMode = none" : "") + ((!Settings.Default.PersistSecurityInfo) ? "; PersistSecurityInfo = none" : "");
                 return connection;
             }
         }

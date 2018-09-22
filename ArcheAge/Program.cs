@@ -24,13 +24,16 @@ namespace ArcheAge
         public static UInt32UidFactory CharcterUid; //UID для персонажа
         public static UInt32UidFactory AccountUid; //UID для аккаунта
         public static UInt32UidFactory ObjectUid; //UID для вещей
+        public static UInt24UidFactory LiveObjectUid; //UID для перемещений по карте
 
         static void Main(string[] args)
         {
             AccountUid = new UInt32UidFactory(AccountHolder.MaxAccountUid());      //генерим UID для аккаунтов
-            CharcterUid = new UInt32UidFactory(CharacterHolder.MaxCharacterUid()); //генерим UID для персонажей
+            uint uid = CharacterHolder.MaxCharacterUid();
+            CharcterUid = new UInt32UidFactory(uid); //генерим UID для персонажей
             //ObjectUid = new UInt32UidFactory(CharacterHolder.MaxObjectUid()); //генерим UID для вещей
             ObjectUid = new UInt32UidFactory(); //TODO: тест, пока начинаем с нуля
+            LiveObjectUid = new UInt24UidFactory(uid); //TODO: генерим UID как для персонажей
 
             Console.Title = "ARCHEAGE GAME SERVER";
             Console.CancelKeyPress += Console_CancelKeyPress;

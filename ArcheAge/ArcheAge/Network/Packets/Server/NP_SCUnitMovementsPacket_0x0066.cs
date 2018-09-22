@@ -12,17 +12,22 @@ namespace ArcheAge.ArcheAge.Network
             //SCUnitMovementsPacket
             //          opcode count bc     c  time     flag ix     iy     iz     vel.x vel.y vel.z rot.x rot.y rot.z s.av0    s.av1    s.av2    s.s s.t s.z  s.st 
             //3500 DD01 6600   0100  042D01 03 93560100 00   AF067B FB6A77 4E0A03 FCFF  FBFF  FFFF  1E00  EAFF  033C  78BE163A 0DAB6FBA E31E923A 00  00  B300 00
+            //          opcode count bc     c  time     flag ix     iy     iz     vel.x vel.y vel.z rot.x rot.y rot.z a.dm.x a.dm.y a.dm.x a.s a.a a.f
+            //2700 DD01 6600   0100  77C000 01 F2C90B00 00   CAAB79 AC3578 6A7303 0000  0000  0000  00    00    39    00     00     00     01  00  04
+            //2700 DD01 6600   0100  7DFA00 01 99BE1A00 00   CAA979 BA3678 6A7303 23FF  4CFE  0000  00    00    3B    00     00     00     01  00  04
+
+
             //c: 1-actor; 2-vehicle; 3-ship; 4-shipRequest; 5-transfer; 6-default;
 
             //0100
             short count = 1; //count h
-            Uint24 bc;
+            Uint24 bc = net.CurrentAccount.Character.LiveObjectId;
             ns.Write((short)count); //count h id=0 
             for (int i = 0; i < count; i++) //  - <for id="0">
             {
                 //042D01
-                bc = 0x012D04;
-                ns.Write((Uint24)bc);//bc b size=3 
+                //bc = 0x012D04;
+                ns.Write((Uint24)net.CurrentAccount.Character.LiveObjectId);//bc b size=3  //liveObjectId d3 from SCUnitStatePacket
                 byte c = 3;
                 ns.Write((byte)c); //type c id=1 
                 int time = 0;

@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
+using LocalCommons.Utilities;
 
 namespace LocalCommons.Network
 {
@@ -166,6 +168,26 @@ namespace LocalCommons.Network
                 m_Buffer[1] = (byte)value;
             }
             m_Stream.Write(m_Buffer, 0, 2);
+        }
+
+        /// <summary>
+        /// Writes a 3-byte signed integer value to the underlying stream.
+        /// </summary>
+        public void Write(Uint24 value)
+        {
+            if (m_LittleEndian)
+            {
+                m_Buffer[2] = (byte)(value >> 16);
+                m_Buffer[1] = (byte)(value >> 8);
+                m_Buffer[0] = (byte)value;
+            }
+            else
+            {
+                m_Buffer[0] = (byte)(value >> 16);
+                m_Buffer[1] = (byte)(value >> 8);
+                m_Buffer[2] = (byte)value;
+            }
+            m_Stream.Write(m_Buffer, 0, 3);
         }
 
         /// <summary>

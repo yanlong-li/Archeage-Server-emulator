@@ -131,11 +131,11 @@ namespace ArcheAge.ArcheAge.Network
             //99BC03
             ns.WriteHex("99BC03"); //z d3 
             //0000803F
-            ns.Write((float)1.0); //x0000803F); //scale f 
+            ns.Write((float)net.CurrentAccount.Character.Scale); //x0000803F); //scale f 
             //03
-            ns.Write((byte)0x03); //level c 
+            ns.Write((byte)net.CurrentAccount.Character.Level); //level c 
             //0B000000
-            ns.Write((int)0x0B); //modelRef d 
+            ns.Write((int)net.CurrentAccount.Character.ModelRef); //modelRef d bd:charactermodel = model_id
 
             //00000000
             //00000000
@@ -223,22 +223,14 @@ namespace ArcheAge.ArcheAge.Network
                     ns.Write((short)net.CurrentAccount.Character.MoveY); //moveY h       0
                     //for (int i = 11; i < 15; i++)
                     //{
-                    ns.Write((int)net.CurrentAccount.Character
-                        .Type[11]); //type d          0    face_fixed_decal_asset_0_id
-                    ns.Write((float)net.CurrentAccount.Character
-                        .Weight[11]); //weight f    1    face_fixed_decal_asset_0_weight
-                    ns.Write((int)net.CurrentAccount.Character
-                        .Type[12]); //type d          444  face_fixed_decal_asset_1_id
-                    ns.Write((float)net.CurrentAccount.Character
-                        .Weight[12]); //weight f    1    face_fixed_decal_asset_1_weight
-                    ns.Write((int)net.CurrentAccount.Character
-                        .Type[13]); //type d          170  face_fixed_decal_asset_2_id
-                    ns.Write((float)net.CurrentAccount.Character
-                        .Weight[13]); //weight f    1    face_fixed_decal_asset_2_weight)
-                    ns.Write((int)net.CurrentAccount.Character
-                        .Type[14]); //type d          0    face_fixed_decal_asset_3_id
-                    ns.Write((float)net.CurrentAccount.Character
-                        .Weight[14]); //weight f    0.71 face_fixed_decal_asset_3_weight
+                    ns.Write((int)net.CurrentAccount.Character.Type[11]); //type d          0    face_fixed_decal_asset_0_id
+                    ns.Write((float)net.CurrentAccount.Character.Weight[11]); //weight f    1    face_fixed_decal_asset_0_weight
+                    ns.Write((int)net.CurrentAccount.Character.Type[12]); //type d          444  face_fixed_decal_asset_1_id
+                    ns.Write((float)net.CurrentAccount.Character.Weight[12]); //weight f    1    face_fixed_decal_asset_1_weight
+                    ns.Write((int)net.CurrentAccount.Character.Type[13]); //type d          170  face_fixed_decal_asset_2_id
+                    ns.Write((float)net.CurrentAccount.Character.Weight[13]); //weight f    1    face_fixed_decal_asset_2_weight)
+                    ns.Write((int)net.CurrentAccount.Character.Type[14]); //type d          0    face_fixed_decal_asset_3_id
+                    ns.Write((float)net.CurrentAccount.Character.Weight[14]); //weight f    0.71 face_fixed_decal_asset_3_weight
                     //}
                     ns.Write((int)net.CurrentAccount.Character.Type[15]); //type d             0
                     ns.Write((int)net.CurrentAccount.Character.Type[16]); //type d             0 face_normal_map_id
@@ -253,9 +245,7 @@ namespace ArcheAge.ArcheAge.Network
                     //00EF00EF00EE0017D40000000000001000000000000000063BB900D800EE00D400281BEBE100E700F037230000000000640000000000000064000000F0000000000000002BD50000006400000000F9000000E0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
                     //следующая инструкция пишет: len.stringHex
                     //---ns.Write((short)0x00); //modifiers_len h
-                    string subString =
-                        net.CurrentAccount.Character.Modifiers
-                            .Substring(0, 256); //надо отрезать в конце два символа \0\0
+                    string subString = net.CurrentAccount.Character.Modifiers.Substring(0, 256); //надо отрезать в конце два символа \0\0
                     ns.WriteHex(subString, subString.Length); //modifiers b"
                     break;
             }
@@ -264,14 +254,13 @@ namespace ArcheAge.ArcheAge.Network
             //
             ns.WriteHex("000000"); //bc b" size="3 
             //90B00000
-            ns.Write((int)0x0b90); //preciseHealth d 
+            ns.Write((int)0xb090); //preciseHealth d 
             //78B40000
             ns.Write((int)0xb478); //preciseMana d 
             //<!--  this part is not 100% correct, need more sniffs --> 
-            ns.WriteHex(
-                "FFFF00000002AB29000001002A000001000000000000D02100000000000065000000000000000000000000FF00000000FF00000000FF00000000FF00000000FF00000000FF920700000000000000FF00000000FF00000000FF01070000001E3C320028640101010000000001020000007709000000F5270000000000010100204E0000000000000000000000000000010000000000000000000000000101000000B119000000F527000000000001010000000000000000000000000000000000010000000000000000000000");
             //FF
-            byte point = 0xff; //point c" id="8 
+            byte point = 0xff; 
+            ns.Write((byte)point); //point c" id="8 
             switch (point) //<switch id="8">
             {
                 case 0xff: //<case id="-1 
@@ -283,6 +272,7 @@ namespace ArcheAge.ArcheAge.Network
 
             //FF
             point = 0xff; //point c" id="9 
+            ns.Write((byte)point); //point c" id="9 
             switch (point) //<switch id="9">
             {
                 case 0xff: //<case id="-1 
@@ -300,8 +290,8 @@ namespace ArcheAge.ArcheAge.Network
             //00
             type = 0;
             ns.Write((byte)type); //<part id="60" name="type c 
-            //00
-            ns.Write((byte)0x00); //isLooted c 
+            byte isLooted = 0x00; //00
+            ns.Write((byte)isLooted); //isLooted c 
             switch (type) //<switch id="60">
             {
                 case 1: //<case id="1">
@@ -342,10 +332,11 @@ namespace ArcheAge.ArcheAge.Network
             } //</switch>
 
             //00
-            ns.Write((byte)0x00); //activeWeapon c 
+            byte activeWeapon = 0x00;
+            ns.Write((byte)activeWeapon); //activeWeapon c 
             //02
             byte learnedSkillCount = 02;
-            //<part id="16" name="learnedSkillCount c 
+            ns.Write((byte)learnedSkillCount); //<part id="16" name="learnedSkillCount c 
             //for (int i = 0; i < learnedSkillCount; i++) //<for id="16">
             //{ 
             //(1)
@@ -361,7 +352,8 @@ namespace ArcheAge.ArcheAge.Network
             //} //</for>
 
             //00000000
-            int learnedBuffCount = 0; //<part id="17" name="learnedBuffCount d 
+            int learnedBuffCount = 0;
+            ns.Write((int)learnedBuffCount); //<part id="17" name="learnedBuffCount d 
             for (int i = 0; i < learnedBuffCount; i++) //<for id="17">
             {
                 ns.Write((int)0x00);//type d 
@@ -370,12 +362,16 @@ namespace ArcheAge.ArcheAge.Network
             ns.Write((byte)0x00); //rot.x c 
             //00
             ns.Write((byte)0x00); //rot.y c 
-            //0D
-            ns.Write((byte)0x00); //rot.z c 
+            //D0
+            ns.Write((byte)0xD0); //rot.z c 
             //21
-            ns.Write((byte)net.CurrentAccount.Character.CharGender); //raceGender c 
+            int rg = 0;
+            rg += net.CurrentAccount.Character.CharGender << 4;
+            rg += net.CurrentAccount.Character.CharRace;
+            ns.Write((byte)rg); //Gender + Race c 
             //00
-            byte pish = 0;  //pish c" id="202 
+            byte pish = 0;
+            ns.Write((byte)pish); //pish c" id="202 
             switch (pish) //<switch id="202">
             {
                 case 0: //<case id="0">
@@ -402,15 +398,16 @@ namespace ArcheAge.ArcheAge.Network
                     break; //</case>
             } //</switch>
             //00
-            pish = 0;  //pish c" id="203 
+            pish = 0;
+            ns.Write((byte)pish); //pish c" id="203
             switch (pish) //<switch id="203">
             {
                 case 0: //<case id="0">
                     //65000000
-                    ns.Write((byte)net.CurrentAccount.Character.FactionId); //factionId d 
+                    ns.Write((int)net.CurrentAccount.Character.FactionId); //factionId d 
                     break; //</case>
                 case 1: //<case id="1">
-                    ns.Write((byte)net.CurrentAccount.Character.FactionId); //factionId d 
+                    ns.Write((int)net.CurrentAccount.Character.FactionId); //factionId d 
                     ns.Write((byte)0x00);//unk c 
                     break; //</case>
                 case 4: //<case id="4">
@@ -427,12 +424,12 @@ namespace ArcheAge.ArcheAge.Network
                     break; //</case>
                 case 21: //<case id="21">
                     //govId h 
-                    ns.Write((short)net.CurrentAccount.Character.FactionId); //FactionId h 
-                    ns.WriteHex("000000"); //unk b" size="3 
+                    ns.Write((int)net.CurrentAccount.Character.FactionId); //FactionId h 
+                    ns.WriteHex("00"); //unk b" size="3 
                     break; //</case>
             } //</switch>
 
-            //000000000000000000FF00000000FF00000000FF00000000FF00000000FF00000000FF920700000000000000FF00000000FF00000000FF01070000001E3C320028640101010000000001020000007709000000F5270000000000010100204E0000000000000000000000000000010000000000000000000000000101000000B119000000F527000000000001010000000000000000000000000000000000010000000000000000000000
+                       //000000000000000000FF00000000FF00000000FF00000000FF00000000FF00000000FF920700000000000000FF00000000FF00000000FF01070000001E3C320028640101010000000001020000007709000000F5270000000000010100204E0000000000000000000000000000010000000000000000000000000101000000B119000000F527000000000001010000000000000000000000000000000000010000000000000000000000
             ns.WriteHex("000000000000000000FF00000000FF00000000FF00000000FF00000000FF00000000FF920700000000000000FF00000000FF00000000FF01070000001E3C320028640101010000000001020000007709000000F5270000000000010100204E0000000000000000000000000000010000000000000000000000000101000000B119000000F527000000000001010000000000000000000000000000000000010000000000000000000000");
             //flags (SEE XML) h" id="20 
             //<!--  the rest of packet depends on some bits in some flags, need a lot of time to figure this out --> 

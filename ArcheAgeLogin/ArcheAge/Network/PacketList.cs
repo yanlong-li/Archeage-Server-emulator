@@ -7,6 +7,7 @@ using LocalCommons.Network;
 using LocalCommons.Utilities;
 using System;
 using System.Linq;
+using LocalCommons.Cookie;
 
 namespace ArcheAgeLogin.ArcheAge.Network
 {
@@ -580,11 +581,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
                     net.CurrentAccount.LastEnteredTime = Utility.CurrentTimeMilliseconds();
                     net.CurrentAccount.LastIp = net.ToString(); // IP
                     // генерируем cookie
-                    Random random = new Random();
-                    int cookie = random.Next(255);
-                    cookie += random.Next(255) << 8;
-                    cookie += random.Next(255) << 16;
-                    cookie += random.Next(255) << 24;
+                    int cookie = Cookie.Generate();
                     net.CurrentAccount.Session = cookie; //Designated session
                     //Передаем управление Гейм серверу
                     net.MovedToGame = true;
@@ -758,11 +755,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
                     //AccountHolder.AccountList.FirstOrDefault(n => n.AccId == Convert.ToInt32(cookie));
 
                     // генерируем cookie
-                    Random random = new Random();
-                    int cookie = random.Next(255);
-                    cookie += random.Next(255) << 8;
-                    cookie += random.Next(255) << 16;
-                    cookie += random.Next(255) << 24;
+                    int cookie = Cookie.Generate();
                     net.CurrentAccount.Session = cookie; //Designated session
 
                     //Передаем управление Гейм серверу
@@ -1006,11 +999,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
                     //net.CurrentAccount.Session = num= 1323126619;//Specify session
 
                     // генерируем cookie
-                    Random random = new Random();
-                    int cookie = random.Next(255);
-                    cookie += random.Next(255) << 8;
-                    cookie += random.Next(255) << 16;
-                    cookie += random.Next(255) << 24;
+                    int cookie = Cookie.Generate();
                     net.CurrentAccount.Session = cookie; //Designated session
 
                     net.MovedToGame = true;

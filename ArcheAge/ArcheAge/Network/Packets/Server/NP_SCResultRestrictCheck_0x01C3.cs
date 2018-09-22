@@ -10,7 +10,7 @@ namespace ArcheAge.ArcheAge.Network
             //1.0.1406
             //SCResultRestrictCheck
             //0D00 DD01 C301 00000000 00000000 00
-            ns.Write((float)0x00); //object d
+            ns.Write((int)0x00); //object d
             ns.Write((int)0x00);   //code d
             ns.Write((byte)0x00);  //result c
         }

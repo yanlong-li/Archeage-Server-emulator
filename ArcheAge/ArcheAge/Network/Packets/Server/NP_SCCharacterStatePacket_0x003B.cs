@@ -154,7 +154,7 @@ namespace ArcheAge.ArcheAge.Network
             WriteItem(chr.Weapon); //ES_MAINHAND Оружие
             WriteItem(chr.WeaponExtra); //ES_OFFHAND Дополнительное оружие
             WriteItem(chr.WeaponRanged); //ES_RANGED Лук
-            WriteItem(chr.Instrument); //ES_MUSICAL Муз. инструмент (струнный, духовой, ударный)
+            WriteItem(0); //chr.Instrument); //ES_MUSICAL Муз. инструмент (струнный, духовой, ударный)
             //}
 
             //for (int i = 0; i < 7; i++)

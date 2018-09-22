@@ -54,5 +54,6 @@ namespace ArcheAge.ArcheAge.Structuring
         public int NewbieWeaponPackId { get; set; }
         public int FactionId { get; set; }
         public int StartingZoneId { get; set; }
+        public int ModelRef { get; set; }
     }
 }

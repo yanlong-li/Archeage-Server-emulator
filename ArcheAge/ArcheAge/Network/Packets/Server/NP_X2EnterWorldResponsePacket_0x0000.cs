@@ -1,5 +1,6 @@
 ﻿using LocalCommons.Network;
 using System;
+using LocalCommons.Cookie;
 
 namespace ArcheAge.ArcheAge.Network
 {
@@ -15,18 +16,9 @@ namespace ArcheAge.ArcheAge.Network
             switch (clientversion)
             {
                 case "1":
-                    ////                reason      gm sc       sp   wf
-                    ////1500 DD01 0000  0000 00FA   31 8BCFE204 1795 3253000000000800 DD02000000000000
-
-                    //ns.Write((uint)0xFA000000); //reason
-                    //ns.Write((byte)0x00); //gm
-                    //ns.Write((uint)0x04e2cf8b); //sc
-                    //ns.Write((ushort)0x9517); //sp 1250
-                    //ns.Write((long)0x0008000000005332); //wf
-                    //ns.Write((long)0x02DD); //
+                    //сделал отдельный класс, так как базовый код = base(01, 0x00) для версии 1.0, а не base(05, 0x00) как для версии 3.0
                     break;
                 case "3":
-
                     /*
                     [2]             S>c             0ms.            13:15:07 .431      26.03.14
                     -------------------------------------------------------------------------------
@@ -63,17 +55,19 @@ namespace ArcheAge.ArcheAge.Network
                     //08.08.2018 0:30 [INFO] - Decode: 2901DD05 7200 0000 0000 00 954CDF8A E204 A7E6305B00000000 4CFFFFFF 04010 4010 0040000BBC0E9659E21640C4D689287322A627C63B8FD9EEDAF0C3999D14079393F023B1D6B032D574F2F787C814D90D137DAFD93E5577EDE35E1696A40B0DC031FB1D333E038A15163D278615FEFB9275D9FBD5B99E77F6890D8DA04F226267FCDC487E1A1DCAEB23A13399699B3617BF59C9DF85A81519C5093D61C5F44B8045FEEE9 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001FC73AE553AED
                     ns.Write((short) 0x00); //reason
                     ns.Write((byte) 0x00); //gm
-                    //ns.Write((uint)0x94FC3446); //sc
-                    ns.Write((uint) Environment.TickCount); //sc - пробую
+
+                    // генерируем cookie
+                    int cookie = Cookie.Generate();
+                    ns.Write((uint)cookie);     //sc        cookie
+
                     ns.Write((short) 0x04E2); //sp 1250
-                    //ns.Write((long)0x5B53424D); //wf
-                    ns.Write((long) (Environment.TickCount)); //wf - пробую
+                    ns.Write((long) 0x7F000001); //wf - пробую
                     ns.Write((uint) 0xFFFFFF4C); //tz
                     ns.Write((short) 0x0104); //pubKeySize
                     const string pubKey =
                         "00040000BBC0E9659E21640C4D689287322A627C63B8FD9EEDAF0C3999D14079393F023B1D6B032D574F2F787C814D90D137DAFD93E5577EDE35E1696A40B0DC031FB1D333E038A15163D278615FEFB9275D9FBD5B99E77F6890D8DA04F226267FCDC487E1A1DCAEB23A13399699B3617BF59C9DF85A81519C5093D61C5F44B8045FEEE90000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001";
                     ns.WriteHex(pubKey, pubKey.Length); //pubKey 260 байт
-                    ns.Write((int) 0x55AE73FC); //natAddr 773F8B05 CDC9 FC73AE55 22ED
+                    ns.Write((int)0x7F000001); //natAddr 0x55AE73FC     773F8B05 CDC9 FC73AE55 22ED
                     ns.Write((ushort) 0xED22); //natPort                FC73AE55 3AED
                     break;
                 default:
@@ -94,12 +88,17 @@ namespace ArcheAge.ArcheAge.Network
         public NP_X2EnterWorldResponsePacket01_0x0000() : base(01, 0x00)
         {
             //          opcod reason gm sc       sp   wf
-            //1500 DD01 0000  0000   00 4CA23F2B E204 79422F5300000000
+            //1500 DD01 0000  0000   00 4CA23F2B E204 79422F5300000000        IP 83 47 66 121
+            //1500 DD01 0000  0000   00 FA318BCF E204 1795325300000000        IP 83 50 149 23
             ns.Write((short)0x0000); //reason
-            ns.Write((byte)0x00); //gm
-            ns.Write((uint)0x2B3FA24C); //sc
-            ns.Write((ushort)0x04E2); //sp 1250
-            ns.Write((long)0x53324279); //wf
+            ns.Write((byte)0x00);    //gm
+
+            // генерируем cookie
+            var cookie = Cookie.Generate();
+            ns.Write((uint)cookie);     //sc        cookie
+
+            ns.Write((ushort)0x04E2);   //sp        port  1250
+            ns.Write((long)0x7F000001); //wf        IP    7F 00 00 01
         }
     }
 }

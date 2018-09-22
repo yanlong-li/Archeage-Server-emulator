@@ -129,6 +129,7 @@ namespace ArcheAge.ArcheAge.Holders
                     while (reader.Read())
                     {
                         chr.CharBody = reader.GetInt32("body");
+                        chr.ModelRef = reader.GetInt32("model_id");
                         chr.X = reader.GetInt64("start_location_x");
                         chr.Y = reader.GetInt64("start_location_y");
                         chr.Z = reader.GetFloat("start_location_z");

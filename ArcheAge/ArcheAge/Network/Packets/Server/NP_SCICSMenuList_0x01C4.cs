@@ -13,7 +13,7 @@ namespace ArcheAge.ArcheAge.Network.Packets.Server
         public NP_SCICSMenuList_0x01C4(ClientConnection net, uint characterId, byte reason) : base(01, 0x01C4)
         {
             //1.0.1406
-            //<packet id="0x01C401" name="SCICSMenuList"/>
+            //SCICSMenuList
             //0A00 DD01 C401 FF091A00 0100
             ns.Write((uint)characterId);//characterId d
             ns.Write((short)reason); //code h

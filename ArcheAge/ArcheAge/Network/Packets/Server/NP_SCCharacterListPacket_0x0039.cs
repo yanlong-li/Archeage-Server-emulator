@@ -226,7 +226,7 @@ namespace ArcheAge.ArcheAge.Network
 
                     //ns.WriteHex("00000000A8B7CF03");
                     ns.Write((int)0);
-                    ns.Write((float)867.27);  //x Q 03cfb7a8 00000000 = 0.0
+                    ns.Write((float) 867.27);  //x Q 03cfb7a8 00000000 = 0.0
                     //ns.WriteHex("000000006090A603");
                     ns.Write((int)0);
                     ns.Write((float)779.11);  //y Q 03a69060 00000000 = 

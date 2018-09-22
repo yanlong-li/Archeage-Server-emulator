@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bufferization\BinaryOperations.cs" />
+    <Compile Include="Cookie\Cookie.cs" />
     <Compile Include="Cryptography\Encrypt.cs" />
     <Compile Include="Logging\Bar.cs" />
     <Compile Include="Logging\Logger.cs" />
@@ -69,8 +70,12 @@
     <Compile Include="Threading\ThreadManager.cs" />
     <Compile Include="UID\Int32UidFactory.cs" />
     <Compile Include="UID\UInt32UidFactory.cs" />
+    <Compile Include="Utilities\Uint24.cs" />
     <Compile Include="Utilities\Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="World\Direction.cs" />
+    <Compile Include="World\Location.cs" />
+    <Compile Include="World\Position.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />

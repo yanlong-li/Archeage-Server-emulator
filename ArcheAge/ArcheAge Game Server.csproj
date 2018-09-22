@@ -80,12 +80,16 @@
     <Compile Include="ArcheAge\Network\DelegateList.cs" />
     <Compile Include="ArcheAge\Network\Connections\LoginConnection.cs" />
     <Compile Include="ArcheAge\Network\ArcheAgePackets.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Client\NP_CSHSResponsePacket_0x0110.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Client\NP_CSMoveUnitPacket_0x0088.cs" />
     <Compile Include="ArcheAge\Network\Packets\Client\NP_CSSetLpManageCharacter_0x00FB.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_DetailedTimeOfDayPacket_0x00EA.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCAiDebugPacket_0x01B8.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCharacterInvenInitPacket_0x0046.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCharacterReturnDistrictsPacket_0x0057.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCharacterStatePacket_0x003B.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCChatSpamDelayPacket_0x00CB.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCGamePointChangedPacket_0x0180.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCICSMenuList_0x01C4.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCInitialConfigPacket_0x0005.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCharacterCreationFailed_0x0038.cs" />
@@ -118,6 +122,9 @@
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCharacterListPacket_0x0039.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCharacterListPacket_0x0079.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_quit_0x01F1.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCChatMessagePacket_0x00C6.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCUnitPointsPacket_0x01B2.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCUnitMovementsPacket_0x0066.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCResultRestrictCheck_0x01C3.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCUnitStatePacket_0x0064.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCUnitVisualOptionsPacket_0x01C0.cs" />

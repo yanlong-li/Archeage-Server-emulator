@@ -738,4 +738,32 @@ namespace ArcheAgeLogin.ArcheAge.Network
         }
 
     }
+
+    internal class ACShowArsPacket_0X06 : NetPacket
+    {
+        public ACShowArsPacket_0X06() : base(0x06, true)
+        {
+            string num = "12345678";
+            ns.WriteHex(num, num.Length); //num_size.num
+            ns.Write((int)0x00);          //timeout
+        }
+    }
+
+    internal class ACEnterPcCertPacket_0X07 : NetPacket
+    {
+        public ACEnterPcCertPacket_0X07() : base(0x07, true)
+        {
+            ns.Write((int)0x01);
+            ns.Write((int)0x01);
+        }
+    }
+
+    internal class AcEnterOtpPacket_0X05 : NetPacket
+    {
+        public AcEnterOtpPacket_0X05(int mt, int ct) : base(0x05, true)
+        {
+            ns.Write((int)mt);
+            ns.Write((int)ct);
+        }
+    }
 }

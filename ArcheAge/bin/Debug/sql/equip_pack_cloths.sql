@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : AA
 Source Server Version : 80011
 Source Host           : localhost:3306
-Source Database       : archeage_world
+Source Database       : archeage
 
 Target Server Type    : MYSQL
 Target Server Version : 80011
 File Encoding         : 65001
 
-Date: 2018-09-13 15:50:01
+Date: 2018-09-23 02:31:05
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,32 +20,32 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `equip_pack_cloths`;
 CREATE TABLE `equip_pack_cloths` (
-  `id` int(8) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `headgear_id` int(8) DEFAULT NULL,
-  `necklace_id` int(8) DEFAULT NULL,
-  `shirt_id` int(8) DEFAULT NULL,
-  `belt_id` int(8) DEFAULT NULL,
-  `pants_id` int(8) DEFAULT NULL,
-  `glove_id` int(8) DEFAULT NULL,
-  `shoes_id` int(8) DEFAULT NULL,
-  `bracelet_id` int(8) DEFAULT NULL,
-  `headgear_grade_id` int(8) DEFAULT NULL,
-  `necklace_grade_id` int(8) DEFAULT NULL,
-  `shirt_grade_id` int(8) DEFAULT NULL,
-  `belt_grade_id` int(8) DEFAULT NULL,
-  `pants_grade_id` int(8) DEFAULT NULL,
-  `glove_grade_id` int(8) DEFAULT NULL,
-  `shoes_grade_id` int(8) DEFAULT NULL,
-  `bracelet_grade_id` int(8) DEFAULT NULL,
-  `back_id` int(8) DEFAULT NULL,
-  `back_grade_id` int(8) DEFAULT NULL,
-  `cosplay_id` int(8) DEFAULT NULL,
-  `cosplay_grade_id` int(8) DEFAULT NULL,
-  `undershirt_id` int(8) DEFAULT NULL,
-  `undershirt_grade_id` int(8) DEFAULT NULL,
-  `underpants_id` int(8) DEFAULT NULL,
-  `underpants_grade_id` int(8) DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `headgear_id` int(11) DEFAULT NULL,
+  `necklace_id` int(11) DEFAULT NULL,
+  `shirt_id` int(11) DEFAULT NULL,
+  `belt_id` int(11) DEFAULT NULL,
+  `pants_id` int(11) DEFAULT NULL,
+  `glove_id` int(11) DEFAULT NULL,
+  `shoes_id` int(11) DEFAULT NULL,
+  `bracelet_id` int(11) DEFAULT NULL,
+  `headgear_grade_id` int(11) DEFAULT NULL,
+  `necklace_grade_id` int(11) DEFAULT NULL,
+  `shirt_grade_id` int(11) DEFAULT NULL,
+  `belt_grade_id` int(11) DEFAULT NULL,
+  `pants_grade_id` int(11) DEFAULT NULL,
+  `glove_grade_id` int(11) DEFAULT NULL,
+  `shoes_grade_id` int(11) DEFAULT NULL,
+  `bracelet_grade_id` int(11) DEFAULT NULL,
+  `back_id` int(11) DEFAULT NULL,
+  `back_grade_id` int(11) DEFAULT NULL,
+  `cosplay_id` int(11) DEFAULT NULL,
+  `cosplay_grade_id` int(11) DEFAULT NULL,
+  `undershirt_id` int(11) DEFAULT NULL,
+  `undershirt_grade_id` int(11) DEFAULT NULL,
+  `underpants_id` int(11) DEFAULT NULL,
+  `underpants_grade_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

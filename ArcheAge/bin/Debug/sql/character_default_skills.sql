@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : AA
 Source Server Version : 80011
 Source Host           : localhost:3306
-Source Database       : archeage_world
+Source Database       : archeage
 
 Target Server Type    : MYSQL
 Target Server Version : 80011
 File Encoding         : 65001
 
-Date: 2018-09-13 15:39:48
+Date: 2018-09-23 02:23:32
 */
 
 SET FOREIGN_KEY_CHECKS=0;

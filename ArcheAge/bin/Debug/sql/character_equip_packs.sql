@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : AA
 Source Server Version : 80011
 Source Host           : localhost:3306
-Source Database       : archeage_world
+Source Database       : archeage
 
 Target Server Type    : MYSQL
 Target Server Version : 80011
 File Encoding         : 65001
 
-Date: 2018-09-13 15:39:16
+Date: 2018-09-23 02:23:41
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,10 +20,10 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `character_equip_packs`;
 CREATE TABLE `character_equip_packs` (
-  `id` int(8) NOT NULL,
-  `ability_id` int(8) DEFAULT NULL,
-  `newbie_cloth_pack_id` int(8) DEFAULT NULL,
-  `newbie_weapon_pack_id` int(8) DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `ability_id` int(11) DEFAULT NULL,
+  `newbie_cloth_pack_id` int(11) DEFAULT NULL,
+  `newbie_weapon_pack_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

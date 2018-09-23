@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : AA
 Source Server Version : 80011
 Source Host           : localhost:3306
-Source Database       : archeage_world
+Source Database       : archeage
 
 Target Server Type    : MYSQL
 Target Server Version : 80011
 File Encoding         : 65001
 
-Date: 2018-09-13 16:56:23
+Date: 2018-09-23 02:31:35
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,19 +20,19 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `characters`;
 CREATE TABLE `characters` (
-  `id` int(8) NOT NULL,
-  `char_race_id` int(8) DEFAULT NULL,
-  `char_gender_id` int(8) DEFAULT NULL,
-  `model_id` int(8) DEFAULT NULL,
-  `faction_id` int(8) DEFAULT NULL,
-  `starting_zone_id` int(8) DEFAULT NULL,
-  `preview_body_pack_id` int(8) DEFAULT NULL,
-  `preview_cloth_pack_id` int(8) DEFAULT NULL,
-  `default_return_district_id` int(8) DEFAULT NULL,
-  `default_resurrection_district_id` int(8) DEFAULT NULL,
-  `default_system_voice_sound_pack_id` int(8) DEFAULT NULL,
-  `default_fx_voice_sound_pack_id` int(8) DEFAULT NULL,
-  `creatable` int(1) DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `char_race_id` int(11) DEFAULT NULL,
+  `char_gender_id` int(11) DEFAULT NULL,
+  `model_id` int(11) DEFAULT NULL,
+  `faction_id` int(11) DEFAULT NULL,
+  `starting_zone_id` int(11) DEFAULT NULL,
+  `preview_body_pack_id` int(11) DEFAULT NULL,
+  `preview_cloth_pack_id` int(11) DEFAULT NULL,
+  `default_return_district_id` int(11) DEFAULT NULL,
+  `default_resurrection_district_id` int(11) DEFAULT NULL,
+  `default_system_voice_sound_pack_id` int(11) DEFAULT NULL,
+  `default_fx_voice_sound_pack_id` int(11) DEFAULT NULL,
+  `creatable` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

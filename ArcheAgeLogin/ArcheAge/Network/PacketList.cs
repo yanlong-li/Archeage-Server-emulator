@@ -365,8 +365,12 @@ namespace ArcheAgeLogin.ArcheAge.Network
                     Register(0x0B, Handle_CAEnterWorld_0x0B);  //
                     Register(0x0D, Handle_CARequestReconnect_0x0D);
                     //Fix by Shannon
-                    Register(0x08, Handle_CAListWorld_0x0A);  //пакет №2 от test клиента
+                    //Register(0x08, Handle_CAListWorld_0x0A);  //пакет №2 от test клиента
                     Register(0x09, Handle_CAEnterWorld_0x0B);  //пакет №3 от test клиента
+                    //v.0.5 fix by Shannon
+                    Register(0x07, Handle_CAOtpNumber_0x07);  //пакет №2 от test клиента
+                    //Register(0x07, Handle_CAListWorld_0x0A);
+                    Register(0x05, Handle_Unk_0x05);
                     break;
                 case "3": //3.0.3.0
                     Register(0x06, Handle_CAChallengeResponse2_0X06); //пакет №1 от клиента
@@ -384,6 +388,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
             //END Client Delegates Packets
             //------------------------------------------------------------------------------------------------
         }
+
 
         #region Game Server Delegates
         private static void Handle_UpdateCharacters(GameConnection net, PacketReader reader)
@@ -408,6 +413,26 @@ namespace ArcheAgeLogin.ArcheAge.Network
         #region Client Delegates
 
         #region Version1.0
+
+        private static void Handle_CAOtpNumber_0x07(ArcheAgeConnection net, PacketReader reader)
+        {
+            var mt = reader.ReadInt32();
+            var ct = reader.ReadInt32();
+            net.SendAsync(new AcEnterOtpPacket_0X05(mt, ct));
+
+            //net.SendAsync(new ACShowArsPacket_0X06());
+
+        }
+
+        private static void Handle_Unk_0x05(ArcheAgeConnection net, PacketReader reader)
+        {
+            var mt = reader.ReadInt32();
+            var ct = reader.ReadInt32();
+            //net.SendAsync(new AcEnterOtpPacket_0X05(mt, ct));
+            net.SendAsync(new ACShowArsPacket_0X06());
+            //net.SendAsync(new ACEnterPcCertPacket_0X07());
+        }
+
 
         private static void Handle_CARequestAuthPacket_0x01(ArcheAgeConnection net, PacketReader reader)
         {

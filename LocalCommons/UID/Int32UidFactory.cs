@@ -18,7 +18,7 @@ namespace LocalCommons.UID
             if (_freeUidList.TryDequeue(out result))
                 return result;
 
-            return _nextUid++;
+            return ++_nextUid;
         }
 
         public void ReleaseUniqueInt(int uid)

@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : AA
 Source Server Version : 80011
 Source Host           : localhost:3306
-Source Database       : archeage_world
+Source Database       : archeage
 
 Target Server Type    : MYSQL
 Target Server Version : 80011
 File Encoding         : 65001
 
-Date: 2018-09-13 15:49:55
+Date: 2018-09-23 02:30:47
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,16 +20,16 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `equip_pack_weapons`;
 CREATE TABLE `equip_pack_weapons` (
-  `id` int(8) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `mainhand_id` int(8) DEFAULT NULL,
-  `offhand_id` int(8) DEFAULT NULL,
-  `ranged_id` int(8) DEFAULT NULL,
-  `musical_id` int(8) DEFAULT NULL,
-  `mainhand_grade_id` int(8) DEFAULT NULL,
-  `offhand_grade_id` int(8) DEFAULT NULL,
-  `ranged_grade_id` int(8) DEFAULT NULL,
-  `musical_grade_id` int(8) DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `mainhand_id` int(11) DEFAULT NULL,
+  `offhand_id` int(11) DEFAULT NULL,
+  `ranged_id` int(11) DEFAULT NULL,
+  `musical_id` int(11) DEFAULT NULL,
+  `mainhand_grade_id` int(11) DEFAULT NULL,
+  `offhand_grade_id` int(11) DEFAULT NULL,
+  `ranged_grade_id` int(11) DEFAULT NULL,
+  `musical_grade_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

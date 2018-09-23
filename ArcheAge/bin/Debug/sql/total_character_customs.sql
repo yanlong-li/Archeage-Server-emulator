@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : AA
 Source Server Version : 80011
 Source Host           : localhost:3306
-Source Database       : archeage_world
+Source Database       : archeage
 
 Target Server Type    : MYSQL
 Target Server Version : 80011
 File Encoding         : 65001
 
-Date: 2018-09-14 00:23:19
+Date: 2018-09-23 02:30:18
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,38 +20,38 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `total_character_customs`;
 CREATE TABLE `total_character_customs` (
-  `id` int(8) NOT NULL,
-  `model_id` int(8) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `model_id` int(11) DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `npcOnly` int(1) DEFAULT NULL,
-  `hair_id` int(8) DEFAULT NULL,
-  `hair_color_id` int(8) DEFAULT NULL,
-  `skin_color_id` int(8) DEFAULT NULL,
-  `face_movable_decal_asset_id` int(8) DEFAULT NULL,
+  `hair_id` int(11) DEFAULT NULL,
+  `hair_color_id` int(11) DEFAULT NULL,
+  `skin_color_id` int(11) DEFAULT NULL,
+  `face_movable_decal_asset_id` int(11) DEFAULT NULL,
   `face_movable_decal_scale` double DEFAULT NULL,
   `face_movable_decal_rotate` double DEFAULT NULL,
-  `face_movable_decal_move_x` int(8) DEFAULT NULL,
-  `face_movable_decal_move_y` int(8) DEFAULT NULL,
-  `face_fixed_decal_asset_0_id` int(8) DEFAULT NULL,
-  `face_fixed_decal_asset_1_id` int(8) DEFAULT NULL,
-  `face_fixed_decal_asset_2_id` int(8) DEFAULT NULL,
-  `face_fixed_decal_asset_3_id` int(8) DEFAULT NULL,
-  `face_diffuse_map_id` int(8) DEFAULT NULL,
-  `face_normal_map_id` int(8) DEFAULT NULL,
-  `face_eyelash_map_id` int(8) DEFAULT NULL,
-  `lip_color` int(8) DEFAULT NULL,
-  `left_pupil_color` int(8) DEFAULT NULL,
-  `right_pupil_color` int(8) DEFAULT NULL,
-  `eyebrow_color` int(8) DEFAULT NULL,
+  `face_movable_decal_move_x` int(11) DEFAULT NULL,
+  `face_movable_decal_move_y` int(11) DEFAULT NULL,
+  `face_fixed_decal_asset_0_id` int(11) DEFAULT NULL,
+  `face_fixed_decal_asset_1_id` int(11) DEFAULT NULL,
+  `face_fixed_decal_asset_2_id` int(11) DEFAULT NULL,
+  `face_fixed_decal_asset_3_id` int(11) DEFAULT NULL,
+  `face_diffuse_map_id` int(11) DEFAULT NULL,
+  `face_normal_map_id` int(11) DEFAULT NULL,
+  `face_eyelash_map_id` int(11) DEFAULT NULL,
+  `lip_color` int(11) DEFAULT NULL,
+  `left_pupil_color` int(11) DEFAULT NULL,
+  `right_pupil_color` int(11) DEFAULT NULL,
+  `eyebrow_color` int(11) DEFAULT NULL,
   `modifier` text,
-  `owner_type_id` int(8) DEFAULT NULL,
+  `owner_type_id` int(11) DEFAULT NULL,
   `face_movable_decal_weight` double DEFAULT NULL,
   `face_fixed_decal_asset_0_weight` double DEFAULT NULL,
   `face_fixed_decal_asset_1_weight` double DEFAULT NULL,
   `face_fixed_decal_asset_2_weight` double DEFAULT NULL,
   `face_fixed_decal_asset_3_weight` double DEFAULT NULL,
   `face_normal_map_weight` double DEFAULT NULL,
-  `deco_color` int(8) DEFAULT NULL,
+  `deco_color` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

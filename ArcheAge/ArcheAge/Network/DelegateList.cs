@@ -246,8 +246,9 @@ namespace ArcheAge.ArcheAge.Network
             newCharacter.CharName = reader.ReadString(len); //имя персонажа
 
             //проверка на существования имя персонажа
-            Character testCharacter = CharacterHolder.GetCharacter(newCharacter.CharName);
-            if (testCharacter != null)
+            //Character testCharacter = CharacterHolder.GetCharacter(newCharacter.CharName);
+            Character testCharacter = CharacterHolder.LoadCharacterData(newCharacter.CharName);
+            if (testCharacter != null && testCharacter.CharName != null)
             {
                 net.SendAsync(new NP_SCCharacterCreationFailed_0x0038(net));
                 return; //завершаем работу, такой чар уже есть

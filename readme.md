@@ -4,7 +4,10 @@ Our project mainly focuses on version 1.01406.
 
 Before starting make sure to check AAServer\ArcheAge\bin\Debug\AAGameServer.exe.config, AAServer\ArcheAgeLogin\bin\Debug\AALoginServer.exe.config and AAServer\ArcheAgeStream\bin\Debug\AAStreamServer.exe.config for database password and also you can disable SSL from AAGameServer.exe.config and AALoginServer.exe.config by changing variable True to False". 
 
-Tables can change! Therefore, you need to setup them all again. Base: "archeage".
+Tables can change! Therefore, you need to setup them all again.
+
+Database must be named "archeage".
+
 The tables are here: ArcheAge\bin\Debug\sql\*.sql, ArcheAgeLogin\bin\Debug\sql\*.sql
 
 You can contact us on Discord.

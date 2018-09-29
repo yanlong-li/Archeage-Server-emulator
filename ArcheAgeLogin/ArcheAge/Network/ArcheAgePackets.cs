@@ -8,6 +8,7 @@ using System.Text;
 
 namespace ArcheAgeLogin.ArcheAge.Network
 {
+    #region Version1.0
     /// <summary>
     /// Для посылки неразобранных пакетов
     /// </summary>
@@ -120,7 +121,7 @@ namespace ArcheAgeLogin.ArcheAge.Network
                 //v.3.0.3.0
                 case "3":
                     ns.Write((long)net.CurrentAccount.AccountId); // записываем AccountID
-                                                                  //wsk - wide string key, в каждой сесии один и тот-же, даже при перелогине (выборе сервера)
+                    //wsk - wide string key, в каждой сесии один и тот-же, даже при перелогине (выборе сервера)
                     wsk = "A18D7A05E22E459BD1A819222B821030"; //для теста
                     ns.WriteUTF8Fixed(wsk, wsk.Length);
                     //slotCount
@@ -738,32 +739,31 @@ namespace ArcheAgeLogin.ArcheAge.Network
         }
 
     }
+    #endregion
 
-    internal class ACShowArsPacket_0X06 : NetPacket
-    {
-        public ACShowArsPacket_0X06() : base(0x06, true)
-        {
-            string num = "12345678";
-            ns.WriteHex(num, num.Length); //num_size.num
-            ns.Write((int)0x00);          //timeout
-        }
-    }
+    #region Version0.5
 
-    internal class ACEnterPcCertPacket_0X07 : NetPacket
-    {
-        public ACEnterPcCertPacket_0X07() : base(0x07, true)
-        {
-            ns.Write((int)0x01);
-            ns.Write((int)0x01);
-        }
-    }
+    //for 0.5 @Shannon
 
-    internal class AcEnterOtpPacket_0X05 : NetPacket
+    internal class AcEnterOtp_0X05 : NetPacket
     {
-        public AcEnterOtpPacket_0X05(int mt, int ct) : base(0x05, true)
+        public AcEnterOtp_0X05(int mt, int ct) : base(0x05, true)
         {
             ns.Write((int)mt);
             ns.Write((int)ct);
         }
     }
+
+    internal class ACChallenge_0X02 : NetPacket
+    {
+        public ACChallenge_0X02(int ch, int pw) : base(0x02, true)
+        {
+            //Size Id   salt(12345678) ch
+            //1600 0200 1AC70000       00000000000000000000000000000000
+            ns.Write((int)50970); //name="salt" type="d"
+            ns.WriteHex("00000000000000000000000000000000"); //name="ch" type="b" size="16"
+        }
+    }
+    #endregion
+
 }

@@ -34,7 +34,7 @@ namespace ArcheAge.ArcheAge.Network
             //          oc   level_len level                                          checksum         immersive
             //2600 DD02 0F00 1700      775F6461726B5F736964655F6F665F7468655F6D6F6F6E 0000000000000000 01
 
-            const string level = "w_dark_side_of_the_moon";
+            const string level = "o_temp_c";
             ns.WriteUTF8Fixed(level, level.Length);  //записываем len, name
             ns.Write((long)0x00);
             ns.Write((byte)0x01);

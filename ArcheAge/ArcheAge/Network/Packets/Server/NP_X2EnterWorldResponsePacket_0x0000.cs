@@ -88,17 +88,14 @@ namespace ArcheAge.ArcheAge.Network
         public NP_X2EnterWorldResponsePacket01_0x0000() : base(01, 0x00)
         {
             //          opcod reason gm sc       sp   wf
-            //1500 DD01 0000  0000   00 4CA23F2B E204 79422F5300000000        IP 83 47 66 121
-            //1500 DD01 0000  0000   00 FA318BCF E204 1795325300000000        IP 83 50 149 23
+            //1500 DD01 0000  0000   00 4CA23F2B E204 79422F5300000000
+            //1500 DD01 0000  0000   00 FA318BCF E204 1795325300000000
             ns.Write((short)0x0000); //reason
             ns.Write((byte)0x00);    //gm
-
-            // генерируем cookie
-            var cookie = Cookie.Generate();
-            ns.Write((uint)cookie);     //sc        cookie
-
+            ns.Write((uint)0x7F000001); //sc        IP    7F 00 00 01
             ns.Write((ushort)0x04E2);   //sp        port  1250
-            ns.Write((long)0x7F000001); //wf        IP    7F 00 00 01
+            long dateTime = DateTime.UtcNow.Ticks;
+            ns.Write((long)dateTime); //wf
         }
     }
 }

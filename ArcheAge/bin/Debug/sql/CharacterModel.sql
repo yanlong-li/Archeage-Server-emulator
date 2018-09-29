@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80011
 File Encoding         : 65001
 
-Date: 2018-09-23 02:39:43
+Date: 2018-09-29 02:29:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -56,9 +56,9 @@ CREATE TABLE `charactermodel` (
   `modifiers` varchar(512) DEFAULT NULL,
   `face_fixed_decal_asset_3_weight` double DEFAULT NULL,
   `face_fixed_decal_asset_1_weight` double DEFAULT NULL,
-  `start_location_x` bigint(24) DEFAULT NULL,
-  `start_location_y` bigint(24) DEFAULT NULL,
-  `start_location_z` float DEFAULT NULL,
+  `start_location_x` int(11) DEFAULT NULL,
+  `start_location_y` int(11) DEFAULT NULL,
+  `start_location_z` int(11) DEFAULT NULL,
   `anglez` tinyint(3) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

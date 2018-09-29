@@ -198,7 +198,7 @@ namespace ArcheAgeLogin.ArcheAge.Holders
         /// <param name="character">Your Character Which you want Insert(If Not Exist) Or Update(If Exist)</param>
         public static void InsertOrUpdate(Character character)
         {
-            using (MySqlConnection con = new MySqlConnection(Settings.Default.DataBaseConnectionString))
+            using (var con = new MySqlConnection(Settings.Default.DataBaseConnectionString))
             {
                 try
                 {
@@ -224,7 +224,7 @@ namespace ArcheAgeLogin.ArcheAge.Holders
                         //command.Parameters.Add("@characterid", MySqlDbType.UInt32).Value = Program.CharcterUid.Next(); //incr index key
                     }
 
-                    MySqlParameterCollection parameters = command.Parameters;
+                    var parameters = command.Parameters;
 
                     parameters.Add("@accountid", MySqlDbType.String).Value = character.CharacterId;
                     parameters.Add("@accountid", MySqlDbType.UInt32).Value = character.AccountId;

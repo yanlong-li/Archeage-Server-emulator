@@ -3,6 +3,7 @@ using ArcheAge.ArcheAge.Network.Connections;
 using ArcheAge.ArcheAge.Structuring;
 using LocalCommons.Network;
 using System.Collections.Generic;
+using LocalCommons.Utilities;
 
 namespace ArcheAge.ArcheAge.Network
 {
@@ -143,6 +144,11 @@ namespace ArcheAge.ArcheAge.Network
                     ns.Write((long)0x0007045E3D800000); //x q
                     ns.Write((long)0x0021F96715C40000); //y q
                     ns.Write((int)0x42CFA1CB);          //z d
+
+                    ns.Write(Helpers.ConvertX(net.CurrentAccount.Character.Position.X), 0, 3);
+                    ns.Write(Helpers.ConvertY(net.CurrentAccount.Character.Position.Y), 0, 3);
+                    ns.Write(Helpers.ConvertZ(net.CurrentAccount.Character.Position.Z), 0, 3);
+
                     ns.Write((byte)chr.Ext); //ext c
                     switch (chr.Ext)
                     {

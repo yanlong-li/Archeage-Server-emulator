@@ -12,9 +12,9 @@ namespace ArcheAge.ArcheAge.Network
             //DetailedTimeOfDayPacket
             //1400 DD01 EA00 4871B241 D171DA3A 00000000 0000C041
             ns.Write((float)DateTime.Now.Hour); //DateTime.UtcNow.Hour); //time f (время суток на сервере)(Environment.TickCount & Int32.MaxValue)
-            ns.Write((float) 0.001667); //speed f 0.001666600001044571399688720703125
-            ns.Write((float) 0.0); //start f
-            ns.Write((float) 24.0); //end f
+            ns.Write((float)0.001666600001044571399688720703125f); //speed f 
+            ns.Write((float) 0.0f);  //start f
+            ns.Write((float) 24.0f); //end f
         }
     }
 }

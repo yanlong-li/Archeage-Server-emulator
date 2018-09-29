@@ -146,7 +146,6 @@ namespace LocalCommons.World
 		    double differenceYAbs = Math.Abs(pos1.X * .00001);
 		    double differenceZAbs = Math.Abs(pos1.X * .00001);
 
-
             return (Math.Abs(pos1.X - pos2.X) < differenceXAbs && Math.Abs(pos1.Y - pos2.Y) < differenceYAbs && Math.Abs(pos1.Z - pos2.Z) < differenceZAbs);
 		}
 

@@ -259,7 +259,6 @@ namespace LocalCommons.Network
             m_Stream.Write(data, 0, data.Length);
         }
 
-
         public void Write(float value)
         {
             byte[] data = BitConverter.GetBytes(value);

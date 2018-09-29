@@ -143,6 +143,28 @@ namespace ArcheAgeLogin.ArcheAge.Network
 
         private static void Registration()
         {
+            // (00 0D 91 3F)    1.133209        FE 0C 91 3F
+            // (00 00 BF 41)    23.875          00 00 BF 41
+            // (00 0F 1B 42)    38.76465        00 0F 1B 42
+            // (00 0F 9B 41)    19.38232        00 0F 9B 41
+            // (00 E5 6C 41)    14.80591        00 E5 6C 41
+            // (00 96 43 3F)    0.7640076       00 96 43 3F
+            // (00 0F 91 3F)    1.13327         FE 0E 91 3F
+
+            //ns.Write(Float24.ToFloat24(net.CurrentAccount.Character.Position.X));
+
+            //int i1 = 0x3F910EFE;
+            //float flo = 1.13327f;
+            //Uint24 a2 = Float24.ToFloat24(flo);
+            //float f3 = Float24.ToFloat(a2);
+            ////Uint24 i24 = Float24.ToFloat24(f3);
+
+            ////float f2 = Convert.ToSingle(i1);
+            //int ii2 = Float24.ToInt32(1);
+            //int i2 = Float24.ToInt32(BitConverter.GetBytes(1));
+            //int у = 0;
+
+
 
             #region MyTestDecrypt
 
@@ -364,13 +386,14 @@ namespace ArcheAgeLogin.ArcheAge.Network
                     Register(0x0A, Handle_CAListWorld_0x0A);  //
                     Register(0x0B, Handle_CAEnterWorld_0x0B);  //
                     Register(0x0D, Handle_CARequestReconnect_0x0D);
-                    //Fix by Shannon
-                    //Register(0x08, Handle_CAListWorld_0x0A);  //пакет №2 от test клиента
+                    //for test 0.5 @Shannon
+                    Register(0x08, Handle_CAListWorld_0x0A);  //пакет №2 от test клиента
                     Register(0x09, Handle_CAEnterWorld_0x0B);  //пакет №3 от test клиента
-                    //v.0.5 fix by Shannon
-                    Register(0x07, Handle_CAOtpNumber_0x07);  //пакет №2 от test клиента
-                    //Register(0x07, Handle_CAListWorld_0x0A);
-                    Register(0x05, Handle_Unk_0x05);
+                    //for 0.5 @Shannon
+                    Register(0x01, Handle_CARequestAuth_0x01); //пакет №1 от клиента
+                    Register(0x07, Handle_CAOtpNumber_0x07); //пакет №2 от клиента
+                    Register(0x05, Handle_CAChallengeResponse_0x05); //пакет №3 от клиента
+                    //Register(0x03, Handle_CARequestAuthGameOn_0x03); //пакет №4 от клиента
                     break;
                 case "3": //3.0.3.0
                     Register(0x06, Handle_CAChallengeResponse2_0X06); //пакет №1 от клиента
@@ -412,27 +435,118 @@ namespace ArcheAgeLogin.ArcheAge.Network
 
         #region Client Delegates
 
-        #region Version1.0
+        #region Version0.5
+
+        //for 0.5 @Shannon
+        private static void Handle_CARequestAuth_0x01(ArcheAgeConnection net, PacketReader reader)
+        {
+            //From 0.5 @Shannon
+            //CARequestAuthPacket_0x01
+            //Size Id   p_from   p_to   svc dev account_len account(aatest) mac_len mac              mac_len2 mac2             cpu
+            //3000 0100 08000000 060000 00  00  0600        616174657374    0800    0000000000000000 0800     E839DF54605F0000 52060200FFFBEBBF
+            reader.Offset += 9; //скипаем 9 байт
+            int mRUidLength = reader.ReadLEInt16(); //длина строки
+            string mUid = reader.ReadString(mRUidLength); //считываем Name
+            //long accId = Convert.ToInt64(m_Uid);
+            int mRtokenLength = reader.ReadLEInt16(); // длина строки
+            string mRToken = reader.ReadHexString(mRtokenLength); //считываем токен
+            Account nCurrent = AccountHolder.AccountList.FirstOrDefault(n => n.Name == mUid);
+            if (nCurrent != null)
+            {
+                Logger.Trace("Account ID: " + nCurrent.AccountId + " & Account Name: " + nCurrent.Name + " is landing");
+                //account numberexist
+                //if (n_Current.Token.ToLower() == m_RToken.ToLower())
+                {
+                    net.CurrentAccount = nCurrent;
+                    if (GameServerController.AuthorizedAccounts.ContainsKey(net.CurrentAccount.AccountId))
+                    {
+                        //Удалим результаты предыдущего коннекта для нормального реконнекта
+                        GameServerController.AuthorizedAccounts.Remove(net.CurrentAccount.AccountId);
+                    }
+                    //Write account number information Write Online account list
+                    GameServerController.AuthorizedAccounts.Add(net.CurrentAccount.AccountId, net.CurrentAccount);
+                    Logger.Trace("Account ID: " + nCurrent.AccountId + " & Account Name: " + nCurrent.Name + " landing success");
+                    net.SendAsync(new AcJoinResponse_0X00(_clientVersion));
+                    net.SendAsync(new AcAuthResponse_0X03(_clientVersion, net));
+                    return;
+                }
+                //Logger.Trace("Account ID: " + n_Current.AccountId + " & Account Name: " + n_Current.Name + " token verification failed：" + m_RToken.ToLower());
+            }
+            else
+            {
+                Logger.Trace("Client try to login to a nonexistent account: " + mUid);
+                //Make New Temporary
+                if (Settings.Default.Account_AutoCreation)
+                {
+                    Logger.Trace("Create new account: " + mUid);
+                    Account mNew = new Account
+                    {
+                        AccountId = Program.AccountUid.Next(),
+                        LastEnteredTime = Utility.CurrentTimeMilliseconds(),
+                        AccessLevel = 1,
+                        LastIp = net.ToString(),
+                        Membership = 1,
+                        Name = mUid,
+                        //Password = "change_password_now", //заглушка
+                        Token = "m_RToken", //заглушка
+                        Characters = 0
+                    };
+                    net.CurrentAccount = mNew;
+                    AccountHolder.InsertOrUpdate(mNew);
+                    //Write account number information Write Online account list
+                    GameServerController.AuthorizedAccounts.Add(net.CurrentAccount.AccountId, net.CurrentAccount);
+                    Logger.Trace("Account ID: " + net.CurrentAccount.AccountId + " & Account Name: " + net.CurrentAccount.Name + " landing success");
+                    net.SendAsync(new AcJoinResponse_0X00(_clientVersion));
+                    net.SendAsync(new AcAuthResponse_0X03(_clientVersion, net));
+                    return;
+                }
+
+                net.CurrentAccount = null;
+                Logger.Trace("Сan not create account: " + mUid);
+            }
+            //If the front did not terminate, then the account number failed to log in
+            net.SendAsync(new NP_ACLoginDenied_0x0C());
+        }
 
         private static void Handle_CAOtpNumber_0x07(ArcheAgeConnection net, PacketReader reader)
         {
+            //Next is ACEnterOtp from server
+            //0A00 0700 0000000000000000
             var mt = reader.ReadInt32();
             var ct = reader.ReadInt32();
-            net.SendAsync(new AcEnterOtpPacket_0X05(mt, ct));
-
-            //net.SendAsync(new ACShowArsPacket_0X06());
-
+            net.SendAsync(new AcEnterOtp_0X05(mt, ct));
         }
 
-        private static void Handle_Unk_0x05(ArcheAgeConnection net, PacketReader reader)
+
+        private static void Handle_CAChallengeResponse_0x05(ArcheAgeConnection net, PacketReader reader)
         {
-            var mt = reader.ReadInt32();
-            var ct = reader.ReadInt32();
-            //net.SendAsync(new AcEnterOtpPacket_0X05(mt, ct));
-            net.SendAsync(new ACShowArsPacket_0X06());
-            //net.SendAsync(new ACEnterPcCertPacket_0X07());
+            //Size Id   otp_len otp(12345678)
+            //0C00 0500 0800    31 32 33 34 35 36 37 38
+            //Next is ACChallenge from server
+            var ch = reader.ReadInt32();
+            var pw = reader.ReadInt32();
+            net.SendAsync(new ACChallenge_0X02(ch, pw));
         }
 
+        private static void Handle_CARequestAuthGameOn_0x03(ArcheAgeConnection net, PacketReader reader)
+        {
+            /*
+            -------------------------------------------------------------------------------
+            ------ - 0  1  2  3  4  5  6  7 - 8  9  A B  C D  E F    -------------------
+            000000 34 00 03 00 AF 52 BD 29 | 88 B0 3F 1B 67 D5 6C 6B     4...¯R½)ˆ°?.gÕlk
+            000010 79 07 95 76 20 00 06 7A | C8 5D 34 4F B4 B0 D4 75     y.•v..zÈ]4O´°Ôu
+            000020 14 12 8F C7 B2 D2 F8 CF | 99 C0 26 68 89 60 D8 2A..Ç²ÒøÏ™À & h‰`Ø *
+            000030 58 24 94 9C 6B DE                                     X$”œkÞ
+            ------------------------------------------------------------------------------ -
+            Archeage: "CARequestAuthGameOn"              size: 54     prot: 2  $002
+            */
+
+            //CARequestAuthGameOn -> возможно это CARequestReconnectPacket
+        }
+
+        #endregion
+
+        #region Version1.0
 
         private static void Handle_CARequestAuthPacket_0x01(ArcheAgeConnection net, PacketReader reader)
         {

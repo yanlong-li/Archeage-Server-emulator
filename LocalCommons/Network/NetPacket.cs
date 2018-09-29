@@ -10,7 +10,7 @@ namespace LocalCommons.Network
     /// </summary>
     public abstract class NetPacket
     {
-        protected PacketWriter ns;
+        protected static PacketWriter ns;
         /// <summary>
         /// Опкод пакета
         /// </summary>

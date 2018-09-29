@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80011
 File Encoding         : 65001
 
-Date: 2018-09-23 02:40:55
+Date: 2018-09-29 02:27:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -35,5 +35,5 @@ CREATE TABLE `accounts` (
 -- ----------------------------
 -- Records of accounts
 -- ----------------------------
-INSERT INTO `accounts` VALUES ('50970', 'aatest', '31e34f2b72d93bb25d5f27be8a94c478', '1', '1', '127.0.0.1', '1537657097928', '1', '-398296628');
+INSERT INTO `accounts` VALUES ('50970', 'aatest', '31e34f2b72d93bb25d5f27be8a94c478', '1', '1', '127.0.0.1', '1538176508908', '2', '176321919');
 SET FOREIGN_KEY_CHECKS=1;

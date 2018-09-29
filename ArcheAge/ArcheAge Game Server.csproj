@@ -62,6 +62,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\LocalCommons\bin\Debug\mysql.data.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="protobuf-net">
       <HintPath>..\LocalCommons\bin\Debug\protobuf-net.dll</HintPath>
     </Reference>
@@ -123,6 +124,8 @@
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCharacterListPacket_0x0079.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_Packet_quit_0x01F1.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCChatMessagePacket_0x00C6.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCAccountInfoPacket_0x01B7.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\NP_SCCooldownsPacket_0x0045.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCUnitPointsPacket_0x01B2.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCUnitMovementsPacket_0x0066.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_SCResultRestrictCheck_0x01C3.cs" />
@@ -132,6 +135,8 @@
     <Compile Include="ArcheAge\Network\Packets\Server\NP_Pong_0x0013.cs" />
     <Compile Include="ArcheAge\Network\Packets\Server\NP_X2EnterWorldResponsePacket_0x0000.cs" />
     <Compile Include="ArcheAge\Network\Packets.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\Utils\CharacterInfo.cs" />
+    <Compile Include="ArcheAge\Network\Packets\Server\Utils\ItemInfo.cs" />
     <Compile Include="ArcheAge\Structuring\Account.cs" />
     <Compile Include="ArcheAge\Structuring\Character.cs" />
     <Compile Include="ArcheAge\Structuring\EventDefinitions.cs" />

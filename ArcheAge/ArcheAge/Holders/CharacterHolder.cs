@@ -1,9 +1,12 @@
 ﻿using ArcheAge.ArcheAge.Structuring;
 using ArcheAge.Properties;
 using LocalCommons.Logging;
+using LocalCommons.Utilities;
+using LocalCommons.World;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace ArcheAge.ArcheAge.Holders
 {
@@ -130,9 +133,9 @@ namespace ArcheAge.ArcheAge.Holders
                     {
                         chr.CharBody = reader.GetInt32("body");
                         chr.ModelRef = reader.GetInt32("model_id");
-                        chr.X = reader.GetInt64("start_location_x");
-                        chr.Y = reader.GetInt64("start_location_y");
-                        chr.Z = reader.GetFloat("start_location_z");
+                        chr.X = reader.GetInt32("start_location_x");
+                        chr.Y = reader.GetInt32("start_location_y");
+                        chr.Z = reader.GetInt32("start_location_z");
                     }
 
                     command.Dispose();
@@ -287,87 +290,23 @@ namespace ArcheAge.ArcheAge.Holders
         /// </summary>
         public static Character LoadCharacterData(uint accountId, uint chcracterId)
         {
-            Character character = new Character();
-            int serverid = Settings.Default.Game_Id;
-            using (MySqlConnection conn = new MySqlConnection(Settings.Default.DataBaseConnectionString))
+            var character = new Character();
+            var serverid = Settings.Default.Game_Id;
+            using (var conn = new MySqlConnection(Settings.Default.DataBaseConnectionString))
             {
                 try
                 {
                     conn.Open();
-                    MySqlCommand command =
-                        new MySqlCommand(
-                            "SELECT * FROM `character_records` WHERE `accountid` = '" + accountId + "' AND `characterid` = '" +
-                            chcracterId + "'", conn);
-                    MySqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
+                    using (var command = new MySqlCommand("SELECT * FROM `character_records` WHERE `accountid` = '" + accountId + "' AND `characterid` = '" + chcracterId + "'", conn))
                     {
-                        character.CharacterId = reader.GetUInt32("characterid");
-                        character.AccountId = reader.GetUInt32("accountid");
-                        character.CharGender = reader.GetByte("chargender");
-                        character.CharName = reader.GetString("charname");
-                        character.CharRace = reader.GetByte("charrace");
-                        character.Decor = reader.GetInt32("decor");
-                        character.Ext = reader.GetByte("ext");
-                        character.Eyebrow = reader.GetInt32("eyebrow");
-                        character.Guid = reader.GetString("guid");
-                        character.LeftPupil = reader.GetInt32("leftpupil");
-                        character.Level = reader.GetByte("level");
-                        character.Lip = reader.GetInt32("lip");
-                        character.Modifiers = reader.GetString("modifiers");
-                        character.MoveX = reader.GetFloat("movex");
-                        character.MoveY = reader.GetFloat("movey");
-                        character.RightPupil = reader.GetInt32("rightpupil");
-                        character.Rotate = reader.GetFloat("rotate");
-                        character.Scale = reader.GetFloat("scale");
-                        character.Type[0] = reader.GetInt32("type0");
-                        character.Type[1] = reader.GetInt32("type1");
-                        character.Type[2] = reader.GetInt32("type2");
-                        character.Type[3] = reader.GetInt32("type3");
-                        character.Type[4] = reader.GetInt32("type4");
-                        character.Type[5] = reader.GetInt32("type5");
-                        character.Type[6] = reader.GetInt32("type6");
-                        character.Type[7] = reader.GetInt32("type7");
-                        character.Type[8] = reader.GetInt32("type8");
-                        character.Type[9] = reader.GetInt32("type9");
-                        character.Type[10] = reader.GetInt32("type10");
-                        character.Type[11] = reader.GetInt32("type11");
-                        character.Type[12] = reader.GetInt32("type12");
-                        character.Type[13] = reader.GetInt32("type13");
-                        character.Type[14] = reader.GetInt32("type14");
-                        character.Type[15] = reader.GetInt32("type15");
-                        character.Type[16] = reader.GetInt32("type16");
-                        character.Type[17] = reader.GetInt32("type17");
-                        character.V = reader.GetInt64("v");
-                        character.Weight[0] = reader.GetFloat("Weight0");
-                        character.Weight[1] = reader.GetFloat("Weight1");
-                        character.Weight[2] = reader.GetFloat("Weight2");
-                        character.Weight[3] = reader.GetFloat("Weight3");
-                        character.Weight[4] = reader.GetFloat("Weight4");
-                        character.Weight[5] = reader.GetFloat("Weight5");
-                        character.Weight[6] = reader.GetFloat("Weight6");
-                        character.Weight[7] = reader.GetFloat("Weight7");
-                        character.Weight[8] = reader.GetFloat("Weight8");
-                        character.Weight[9] = reader.GetFloat("Weight9");
-                        character.Weight[10] = reader.GetFloat("Weight10");
-                        character.Weight[11] = reader.GetFloat("Weight11");
-                        character.Weight[12] = reader.GetFloat("Weight12");
-                        character.Weight[13] = reader.GetFloat("Weight13");
-                        character.Weight[14] = reader.GetFloat("Weight14");
-                        character.Weight[15] = reader.GetFloat("Weight15");
-                        character.Weight[16] = reader.GetFloat("Weight16");
-                        character.Weight[17] = reader.GetFloat("Weight17");
-                        character.WorldId = reader.GetByte("worldid");
-                        character.Ability[0] = reader.GetByte("ability0");
-                        character.Ability[1] = reader.GetByte("ability1");
-                        character.Ability[2] = reader.GetByte("ability2");
-                        //character.LiveObjectId = reader.GetUInt32("liveobjectid");
-
-                        m_DbCharacters.Add(character);
+                        using (var reader = command.ExecuteReader())
+                        {
+                            GetData(reader);
+                            command.Dispose();
+                            reader.Close();
+                            reader.Dispose();
+                        }
                     }
-
-                    command.Dispose();
-                    reader.Close();
-                    reader.Dispose();
                 }
                 catch (Exception e)
                 {
@@ -390,123 +329,30 @@ namespace ArcheAge.ArcheAge.Holders
                     //Logger.Trace("Load to {0} characters", CharactersList.GetCount());
                 }
             }
+
             return character;
         }
 
         /// <summary>
-        /// Fully Load Character Data From Current MySql DataBase
+        /// Returns true if a character with the given name exists.
         /// </summary>
-        public static Character LoadCharacterData(string charName)
+        /// <param name="charName"></param>
+        /// <returns></returns>
+        public static bool CharacterExists(string charName)
         {
-            Character character = new Character();
-            int serverid = Settings.Default.Game_Id;
-            using (MySqlConnection conn = new MySqlConnection(Settings.Default.DataBaseConnectionString))
+            using (var conn = new MySqlConnection(Settings.Default.DataBaseConnectionString))
             {
-                try
+                conn.Open();
+                using (var mc = new MySqlCommand("SELECT `characterid` FROM `character_records` WHERE `charName` = @charName", conn))
                 {
-                    conn.Open();
-                    MySqlCommand command =
-                        new MySqlCommand(
-                            "SELECT * FROM `character_records` WHERE `charname` = '" + charName + "'", conn);
-                    MySqlDataReader reader = command.ExecuteReader();
-                    if (reader.HasRows)
-                    {
-                        //проверяем, есть строки или нет
-                        while (reader.Read())
-                        {
-                            character.CharacterId = reader.GetUInt32("characterid");
-                            character.AccountId = reader.GetUInt32("accountid");
-                            character.CharGender = reader.GetByte("chargender");
-                            character.CharName = reader.GetString("charname");
-/*
-                            character.CharRace = reader.GetByte("charrace");
-                            character.Decor = reader.GetInt32("decor");
-                            character.Ext = reader.GetByte("ext");
-                            character.Eyebrow = reader.GetInt32("eyebrow");
-                            character.Guid = reader.GetString("guid");
-                            character.LeftPupil = reader.GetInt32("leftpupil");
-                            character.Level = reader.GetByte("level");
-                            character.Lip = reader.GetInt32("lip");
-                            character.Modifiers = reader.GetString("modifiers");
-                            character.MoveX = reader.GetFloat("movex");
-                            character.MoveY = reader.GetFloat("movey");
-                            character.RightPupil = reader.GetInt32("rightpupil");
-                            character.Rotate = reader.GetFloat("rotate");
-                            character.Scale = reader.GetFloat("scale");
-                            character.Type[0] = reader.GetInt32("type0");
-                            character.Type[1] = reader.GetInt32("type1");
-                            character.Type[2] = reader.GetInt32("type2");
-                            character.Type[3] = reader.GetInt32("type3");
-                            character.Type[4] = reader.GetInt32("type4");
-                            character.Type[5] = reader.GetInt32("type5");
-                            character.Type[6] = reader.GetInt32("type6");
-                            character.Type[7] = reader.GetInt32("type7");
-                            character.Type[8] = reader.GetInt32("type8");
-                            character.Type[9] = reader.GetInt32("type9");
-                            character.Type[10] = reader.GetInt32("type10");
-                            character.Type[11] = reader.GetInt32("type11");
-                            character.Type[12] = reader.GetInt32("type12");
-                            character.Type[13] = reader.GetInt32("type13");
-                            character.Type[14] = reader.GetInt32("type14");
-                            character.Type[15] = reader.GetInt32("type15");
-                            character.Type[16] = reader.GetInt32("type16");
-                            character.Type[17] = reader.GetInt32("type17");
-                            character.V = reader.GetInt64("v");
-                            character.Weight[0] = reader.GetFloat("Weight0");
-                            character.Weight[1] = reader.GetFloat("Weight1");
-                            character.Weight[2] = reader.GetFloat("Weight2");
-                            character.Weight[3] = reader.GetFloat("Weight3");
-                            character.Weight[4] = reader.GetFloat("Weight4");
-                            character.Weight[5] = reader.GetFloat("Weight5");
-                            character.Weight[6] = reader.GetFloat("Weight6");
-                            character.Weight[7] = reader.GetFloat("Weight7");
-                            character.Weight[8] = reader.GetFloat("Weight8");
-                            character.Weight[9] = reader.GetFloat("Weight9");
-                            character.Weight[10] = reader.GetFloat("Weight10");
-                            character.Weight[11] = reader.GetFloat("Weight11");
-                            character.Weight[12] = reader.GetFloat("Weight12");
-                            character.Weight[13] = reader.GetFloat("Weight13");
-                            character.Weight[14] = reader.GetFloat("Weight14");
-                            character.Weight[15] = reader.GetFloat("Weight15");
-                            character.Weight[16] = reader.GetFloat("Weight16");
-                            character.Weight[17] = reader.GetFloat("Weight17");
-                            character.WorldId = reader.GetByte("worldid");
-                            character.Ability[0] = reader.GetByte("ability0");
-                            character.Ability[1] = reader.GetByte("ability1");
-                            character.Ability[2] = reader.GetByte("ability2");
-                            //character.LiveObjectId = reader.GetUInt32("liveobjectid");
-*/
+                    mc.Parameters.AddWithValue("@charName", charName);
 
-                            m_DbCharacters.Add(character);
-                        }
-                    }
-
-                    command.Dispose();
-                    reader.Close();
-                    reader.Dispose();
-                }
-                catch (Exception e)
-                {
-                    if (e.Message.IndexOf("using password: YES") >= 0)
+                    using (var reader = mc.ExecuteReader())
                     {
-                        Logger.Trace("Error: Incorrect username or password");
+                        return reader.HasRows;
                     }
-                    else if (e.Message.IndexOf("Unable to connect to any of the specified MySQL hosts") >= 0)
-                    {
-                        Logger.Trace("Error: Unable to connect to database");
-                    }
-                    else
-                    {
-                        Logger.Trace("Error: Unknown error +  {0}", e);
-                    }
-                }
-                finally
-                {
-                    conn.Close();
-                    //Logger.Trace("Load to {0} characters", CharactersList.GetCount());
                 }
             }
-            return character;
         }
 
         /// <summary>
@@ -515,85 +361,18 @@ namespace ArcheAge.ArcheAge.Holders
         public static List<Character> LoadCharacterData(uint accountId)
         {
             m_DbCharacters = new List<Character>();
-            int serverid = Settings.Default.Game_Id;
-            using (MySqlConnection conn = new MySqlConnection(Settings.Default.DataBaseConnectionString))
+            var serverid = Settings.Default.Game_Id;
+            using (var conn = new MySqlConnection(Settings.Default.DataBaseConnectionString))
             {
                 try
                 {
                     conn.Open();
-                    MySqlCommand command =
+                    var command =
                         new MySqlCommand(
                             "SELECT * FROM `character_records` WHERE `accountid` = '" + accountId + "' AND `worldid` = '" +
                             serverid + "'", conn);
-                    MySqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        Character character = new Character();
-
-                        character.CharacterId = reader.GetUInt32("characterid");
-                        character.AccountId = reader.GetUInt32("accountid");
-                        character.CharGender = reader.GetByte("chargender");
-                        character.CharName = reader.GetString("charname");
-                        character.CharRace = reader.GetByte("charrace");
-                        character.Decor = reader.GetInt32("decor");
-                        character.Ext = reader.GetByte("ext");
-                        character.Eyebrow = reader.GetInt32("eyebrow");
-                        character.Guid = reader.GetString("guid");
-                        character.LeftPupil = reader.GetInt32("leftpupil");
-                        character.Level = reader.GetByte("level");
-                        character.Lip = reader.GetInt32("lip");
-                        character.Modifiers = reader.GetString("modifiers");
-                        character.MoveX = reader.GetFloat("movex");
-                        character.MoveY = reader.GetFloat("movey");
-                        character.RightPupil = reader.GetInt32("rightpupil");
-                        character.Rotate = reader.GetFloat("rotate");
-                        character.Scale = reader.GetFloat("scale");
-                        character.Type[0] = reader.GetInt32("type0");
-                        character.Type[1] = reader.GetInt32("type1");
-                        character.Type[2] = reader.GetInt32("type2");
-                        character.Type[3] = reader.GetInt32("type3");
-                        character.Type[4] = reader.GetInt32("type4");
-                        character.Type[5] = reader.GetInt32("type5");
-                        character.Type[6] = reader.GetInt32("type6");
-                        character.Type[7] = reader.GetInt32("type7");
-                        character.Type[8] = reader.GetInt32("type8");
-                        character.Type[9] = reader.GetInt32("type9");
-                        character.Type[10] = reader.GetInt32("type10");
-                        character.Type[11] = reader.GetInt32("type11");
-                        character.Type[12] = reader.GetInt32("type12");
-                        character.Type[13] = reader.GetInt32("type13");
-                        character.Type[14] = reader.GetInt32("type14");
-                        character.Type[15] = reader.GetInt32("type15");
-                        character.Type[16] = reader.GetInt32("type16");
-                        character.Type[17] = reader.GetInt32("type17");
-                        character.V = reader.GetInt64("v");
-                        character.Weight[0] = reader.GetFloat("Weight0");
-                        character.Weight[1] = reader.GetFloat("Weight1");
-                        character.Weight[2] = reader.GetFloat("Weight2");
-                        character.Weight[3] = reader.GetFloat("Weight3");
-                        character.Weight[4] = reader.GetFloat("Weight4");
-                        character.Weight[5] = reader.GetFloat("Weight5");
-                        character.Weight[6] = reader.GetFloat("Weight6");
-                        character.Weight[7] = reader.GetFloat("Weight7");
-                        character.Weight[8] = reader.GetFloat("Weight8");
-                        character.Weight[9] = reader.GetFloat("Weight9");
-                        character.Weight[10] = reader.GetFloat("Weight10");
-                        character.Weight[11] = reader.GetFloat("Weight11");
-                        character.Weight[12] = reader.GetFloat("Weight12");
-                        character.Weight[13] = reader.GetFloat("Weight13");
-                        character.Weight[14] = reader.GetFloat("Weight14");
-                        character.Weight[15] = reader.GetFloat("Weight15");
-                        character.Weight[16] = reader.GetFloat("Weight16");
-                        character.Weight[17] = reader.GetFloat("Weight17");
-                        character.WorldId = reader.GetByte("worldid");
-                        character.Ability[0] = reader.GetByte("ability0");
-                        character.Ability[1] = reader.GetByte("ability1");
-                        character.Ability[2] = reader.GetByte("ability2");
-                        //character.LiveObjectId = reader.GetUInt32("liveobjectid");
-
-                        m_DbCharacters.Add(character);
-                    }
-
+                    var reader = command.ExecuteReader();
+                    GetData(reader);
                     command.Dispose();
                     reader.Close();
                     reader.Dispose();
@@ -622,18 +401,115 @@ namespace ArcheAge.ArcheAge.Holders
             return CharactersList;
         }
 
+        private static void GetData(MySqlDataReader reader)
+        {
+            while (reader.Read())
+            {
+                var character = new Character();
+
+                character.CharacterId = reader.GetUInt32("characterid");
+                character.AccountId = reader.GetUInt32("accountid");
+                character.CharGender = reader.GetByte("chargender");
+                character.CharName = reader.GetString("charname");
+                character.CharRace = reader.GetByte("charrace");
+                character.Decor = reader.GetInt32("decor");
+                character.Ext = reader.GetByte("ext");
+                character.Eyebrow = reader.GetInt32("eyebrow");
+                character.Guid = reader.GetString("guid");
+                character.LeftPupil = reader.GetInt32("leftpupil");
+                character.Level = reader.GetByte("level");
+                character.Lip = reader.GetInt32("lip");
+                character.Modifiers = reader.GetString("modifiers");
+                character.MoveX = reader.GetFloat("movex");
+                character.MoveY = reader.GetFloat("movey");
+                character.RightPupil = reader.GetInt32("rightpupil");
+                character.Rotate = reader.GetFloat("rotate");
+                character.Scale = reader.GetFloat("scale");
+                character.Type[0] = reader.GetInt32("type0");
+                character.Type[1] = reader.GetInt32("type1");
+                character.Type[2] = reader.GetInt32("type2");
+                character.Type[3] = reader.GetInt32("type3");
+                character.Type[4] = reader.GetInt32("type4");
+                character.Type[5] = reader.GetInt32("type5");
+                character.Type[6] = reader.GetInt32("type6");
+                character.Type[7] = reader.GetInt32("type7");
+                character.Type[8] = reader.GetInt32("type8");
+                character.Type[9] = reader.GetInt32("type9");
+                character.Type[10] = reader.GetInt32("type10");
+                character.Type[11] = reader.GetInt32("type11");
+                character.Type[12] = reader.GetInt32("type12");
+                character.Type[13] = reader.GetInt32("type13");
+                character.Type[14] = reader.GetInt32("type14");
+                character.Type[15] = reader.GetInt32("type15");
+                character.Type[16] = reader.GetInt32("type16");
+                character.Type[17] = reader.GetInt32("type17");
+                character.V = reader.GetInt64("v");
+                character.Weight[0] = reader.GetFloat("Weight0");
+                character.Weight[1] = reader.GetFloat("Weight1");
+                character.Weight[2] = reader.GetFloat("Weight2");
+                character.Weight[3] = reader.GetFloat("Weight3");
+                character.Weight[4] = reader.GetFloat("Weight4");
+                character.Weight[5] = reader.GetFloat("Weight5");
+                character.Weight[6] = reader.GetFloat("Weight6");
+                character.Weight[7] = reader.GetFloat("Weight7");
+                character.Weight[8] = reader.GetFloat("Weight8");
+                character.Weight[9] = reader.GetFloat("Weight9");
+                character.Weight[10] = reader.GetFloat("Weight10");
+                character.Weight[11] = reader.GetFloat("Weight11");
+                character.Weight[12] = reader.GetFloat("Weight12");
+                character.Weight[13] = reader.GetFloat("Weight13");
+                character.Weight[14] = reader.GetFloat("Weight14");
+                character.Weight[15] = reader.GetFloat("Weight15");
+                character.Weight[16] = reader.GetFloat("Weight16");
+                character.Weight[17] = reader.GetFloat("Weight17");
+                character.WorldId = reader.GetByte("worldid");
+                character.Ability[0] = reader.GetByte("ability0");
+                character.Ability[1] = reader.GetByte("ability1");
+                character.Ability[2] = reader.GetByte("ability2");
+                //character.LiveObjectId = reader.GetUInt32("liveobjectid");
+                character.MapId = reader.GetInt32("zone");
+
+                short rotx = reader.GetInt16("rotx");
+                short roty = reader.GetInt16("roty");
+                short rotz = reader.GetInt16("rotz");
+                character.Heading = new Direction(rotx, roty, rotz);
+
+                float x = reader.GetFloat("x");
+                float y = reader.GetFloat("y");
+                float z = reader.GetFloat("z");
+                character.Position = new Position(x, y, z);
+
+                //character.Exp = reader.GetInt32("exp");
+                //character.MaxExp = reader.GetInt32("maxexp");
+                //character.TotalExp = reader.GetInt32("totalexp");
+                //character.Hp = reader.GetInt32("hp");
+                //character.MaxHp = reader.GetInt32("maxHp");
+                //character.Sp = reader.GetInt32("sp");
+                //character.MaxSp = reader.GetInt32("maxSp");
+                //character.Stamina = reader.GetInt32("stamina");
+                //character.MaxStamina = reader.GetInt32("maxStamina");
+                //character.Str = reader.GetInt32("str");
+                //character.Con = reader.GetInt32("con");
+                //character.Int = reader.GetInt32("int");
+                //character.Spr = reader.GetInt32("spr");
+                //character.Dex = reader.GetInt32("dex");
+                //
+                m_DbCharacters.Add(character);
+            }
+        }
+
         /// <summary>
         /// Inserts Or Update Existing Character Into your current Login Server MySql DataBase.
         /// </summary>
         /// <param name="character">Your Character Which you want Insert(If Not Exist) Or Update(If Exist)</param>
         public static List<Character> InsertOrUpdate(Character character)
         {
-            using (MySqlConnection conn = new MySqlConnection(Settings.Default.DataBaseConnectionString))
+            using (var conn = new MySqlConnection(Settings.Default.DataBaseConnectionString))
             {
                 try
                 {
                     conn.Open(); //Устанавливаем соединение с базой данных
-                    MySqlCommand cmd = new MySqlCommand();
+                    var cmd = new MySqlCommand();
                     cmd.Connection = conn;
                     if (m_DbCharacters.Contains(character))
                     {
@@ -647,9 +523,9 @@ namespace ArcheAge.ArcheAge.Holders
                             " `Weight1` = @Weight1, `Weight2` = @Weight2, `Weight3` = @Weight3, `Weight4` = @Weight4, `Weight5` = @Weight5, `Weight6` = @Weight6," +
                             " `Weight7` = @Weight7, `Weight8` = @Weight8, `Weight9` = @Weight9, `Weight10` = @Weight10, `Weight11` = @Weight11, `Weight12` = @Weight12," +
                             " `Weight13` = @Weight13, `Weight14` = @Weight14, `Weight15` = @Weight15, `Weight16` = @Weight16, `Weight17` = @Weight17," +
-                            " `worldid` = @worldid, `ability0` = @ability0, `ability1` = @ability1, `ability2` = @ability2, `liveobjectid` = @liveobjectid WHERE `charname` = @charname";
-
-                        //cmd.Parameters.Add("@characterid", MySqlDbType.UInt32).Value = character.CharacterId;
+                            " `worldid` = @worldid, `ability0` = @ability0, `ability1` = @ability1, `ability2` = @ability2," + //" `liveobjectid` = @liveobjectid," +
+                            " `zone` = @zone, `x` = @x, `y` = @y, `z` = @z, `rotx` = rotx, `roty` = roty, `rotz` = rotz " +
+                            " WHERE `charname` = @charname";
                     }
                     else
                     {
@@ -657,84 +533,111 @@ namespace ArcheAge.ArcheAge.Holders
                             @"INSERT INTO `character_records` (characterid, accountid, chargender, charname, charrace, decor, ext, eyebrow, guid, leftPupil, level, lip, modifiers," +
                             " movex, movey, rightpupil, rotate, scale, type0, type1, type2, type3, type4, type5, type6, type7, type8, type9, type10, type11, type12, type13," +
                             " type14, type15, type16, type17, v, Weight0, Weight1, Weight2, Weight3, Weight4, Weight5, Weight6, Weight7, Weight8, Weight9, Weight10," +
-                            " Weight11, Weight12, Weight13, Weight14, Weight15, Weight16, Weight17, Worldid, ability0, ability1, ability2) " + //, liveobjectid) " +
+                            " Weight11, Weight12, Weight13, Weight14, Weight15, Weight16, Weight17, Worldid, ability0, ability1, ability2, zone," +
+                            " x, y, z, rotx, roty, rotz) " + //, liveobjectid) " +
 
                             " VALUES (@characterid, @accountid, @chargender, @charname, @charrace, @decor, @ext, @eyebrow, @guid, @leftPupil, @level, @lip, @modifiers, @movex, @movey," +
                             " @rightpupil, @rotate, @scale, @type0, @type1, @type2, @type3, @type4, @type5, @type6, @type7, @type8, @type9, @type10, @type11, @type12," +
                             " @type13, @type14, @type15, @type16, @type17, @v, @Weight0, @Weight1, @Weight2, @Weight3, @Weight4, @Weight5, @Weight6, @Weight7, @Weight8," +
-                            " @Weight9, @Weight10, @Weight11, @Weight12, @Weight13, @Weight14, @Weight15, @Weight16, @Weight17, @Worldid, @ability0, @ability1, @ability2)"; //", @liveobjectid)";
-
-                        //cmd.Parameters.Add("@characterid", MySqlDbType.UInt32).Value = Program.CharcterUid.Next(); //incr index key
+                            " @Weight9, @Weight10, @Weight11, @Weight12, @Weight13, @Weight14, @Weight15, @Weight16, @Weight17, @Worldid, @ability0, @ability1, @ability2," +
+                            " @zone, @x, @y, @z, @rotx, @roty, @rotz)"; //", @liveobjectid)";
                     }
 
-                    //MySqlParameterCollection parameters = cmd.Parameters;
+                    MySqlParameterCollection parameters = cmd.Parameters;
 
-                    cmd.Parameters.Add("@characterid", MySqlDbType.UInt32).Value = character.CharacterId;
-                    cmd.Parameters.Add("@accountid", MySqlDbType.UInt32).Value = character.AccountId;
-                    cmd.Parameters.Add("@chargender", MySqlDbType.Byte).Value = character.CharGender;
-                    cmd.Parameters.Add("@charname", MySqlDbType.String).Value = character.CharName;
-                    cmd.Parameters.Add("@charrace", MySqlDbType.Byte).Value = character.CharRace;
-                    cmd.Parameters.Add("@decor", MySqlDbType.Int32).Value = character.Decor;
-                    cmd.Parameters.Add("@ext", MySqlDbType.Int32).Value = character.Ext;
-                    cmd.Parameters.Add("@eyebrow", MySqlDbType.Int32).Value = character.Eyebrow;
-                    cmd.Parameters.Add("@guid", MySqlDbType.String).Value = character.Guid;
-                    cmd.Parameters.Add("@leftPupil", MySqlDbType.Int32).Value = character.LeftPupil;
-                    cmd.Parameters.Add("@level", MySqlDbType.Byte).Value = character.Level;
-                    cmd.Parameters.Add("@lip", MySqlDbType.Int32).Value = character.Lip;
-                    cmd.Parameters.Add("@modifiers", MySqlDbType.String).Value = character.Modifiers;
-                    cmd.Parameters.Add("@movex", MySqlDbType.Float).Value = character.MoveX;
-                    cmd.Parameters.Add("@movey", MySqlDbType.Float).Value = character.MoveY;
-                    cmd.Parameters.Add("@rightpupil", MySqlDbType.Int32).Value = character.RightPupil;
-                    cmd.Parameters.Add("@rotate", MySqlDbType.Float).Value = character.Rotate;
-                    cmd.Parameters.Add("@scale", MySqlDbType.Float).Value = character.Scale;
-                    cmd.Parameters.Add("@type0", MySqlDbType.Int32).Value = character.Type[0];
-                    cmd.Parameters.Add("@type1", MySqlDbType.Int32).Value = character.Type[1];
-                    cmd.Parameters.Add("@type2", MySqlDbType.Int32).Value = character.Type[2];
-                    cmd.Parameters.Add("@type3", MySqlDbType.Int32).Value = character.Type[3];
-                    cmd.Parameters.Add("@type4", MySqlDbType.Int32).Value = character.Type[4];
-                    cmd.Parameters.Add("@type5", MySqlDbType.Int32).Value = character.Type[5];
-                    cmd.Parameters.Add("@type6", MySqlDbType.Int32).Value = character.Type[6];
-                    cmd.Parameters.Add("@type7", MySqlDbType.Int32).Value = character.Type[7];
-                    cmd.Parameters.Add("@type8", MySqlDbType.Int32).Value = character.Type[8];
-                    cmd.Parameters.Add("@type9", MySqlDbType.Int32).Value = character.Type[9];
-                    cmd.Parameters.Add("@type10", MySqlDbType.Int32).Value = character.Type[10];
-                    cmd.Parameters.Add("@type11", MySqlDbType.Int32).Value = character.Type[11];
-                    cmd.Parameters.Add("@type12", MySqlDbType.Int32).Value = character.Type[12];
-                    cmd.Parameters.Add("@type13", MySqlDbType.Int32).Value = character.Type[13];
-                    cmd.Parameters.Add("@type14", MySqlDbType.Int32).Value = character.Type[14];
-                    cmd.Parameters.Add("@type15", MySqlDbType.Int32).Value = character.Type[15];
-                    cmd.Parameters.Add("@type16", MySqlDbType.Int32).Value = character.Type[16];
-                    cmd.Parameters.Add("@type17", MySqlDbType.Int32).Value = character.Type[17];
-                    cmd.Parameters.Add("@v", MySqlDbType.Int64).Value = character.V;
-                    cmd.Parameters.Add("@Weight0", MySqlDbType.Int32).Value = character.Weight[0];
-                    cmd.Parameters.Add("@Weight1", MySqlDbType.Int32).Value = character.Weight[1];
-                    cmd.Parameters.Add("@Weight2", MySqlDbType.Int32).Value = character.Weight[2];
-                    cmd.Parameters.Add("@Weight3", MySqlDbType.Int32).Value = character.Weight[3];
-                    cmd.Parameters.Add("@Weight4", MySqlDbType.Int32).Value = character.Weight[4];
-                    cmd.Parameters.Add("@Weight5", MySqlDbType.Int32).Value = character.Weight[5];
-                    cmd.Parameters.Add("@Weight6", MySqlDbType.Int32).Value = character.Weight[6];
-                    cmd.Parameters.Add("@Weight7", MySqlDbType.Int32).Value = character.Weight[7];
-                    cmd.Parameters.Add("@Weight8", MySqlDbType.Int32).Value = character.Weight[8];
-                    cmd.Parameters.Add("@Weight9", MySqlDbType.Int32).Value = character.Weight[9];
-                    cmd.Parameters.Add("@Weight10", MySqlDbType.Int32).Value = character.Weight[10];
-                    cmd.Parameters.Add("@Weight11", MySqlDbType.Int32).Value = character.Weight[11];
-                    cmd.Parameters.Add("@Weight12", MySqlDbType.Int32).Value = character.Weight[12];
-                    cmd.Parameters.Add("@Weight13", MySqlDbType.Int32).Value = character.Weight[13];
-                    cmd.Parameters.Add("@Weight14", MySqlDbType.Int32).Value = character.Weight[14];
-                    cmd.Parameters.Add("@Weight15", MySqlDbType.Int32).Value = character.Weight[15];
-                    cmd.Parameters.Add("@Weight16", MySqlDbType.Int32).Value = character.Weight[16];
-                    cmd.Parameters.Add("@Weight17", MySqlDbType.Int32).Value = character.Weight[17];
-                    cmd.Parameters.Add("@worldid", MySqlDbType.Byte).Value = Settings.Default.Game_Id; //character.WorldId;
-                    cmd.Parameters.Add("@ability0", MySqlDbType.Byte).Value = character.Ability[0];
-                    cmd.Parameters.Add("@ability1", MySqlDbType.Byte).Value = character.Ability[1];
-                    cmd.Parameters.Add("@ability2", MySqlDbType.Byte).Value = character.Ability[2];
-                    //cmd.Parameters.Add("@liveobjectid", MySqlDbType.Int32).Value = character.LiveObjectId;
+                    parameters.Add("@characterid", MySqlDbType.UInt32).Value = character.CharacterId;
+                    parameters.Add("@accountid", MySqlDbType.UInt32).Value = character.AccountId;
+                    parameters.Add("@chargender", MySqlDbType.Byte).Value = character.CharGender;
+                    parameters.Add("@charname", MySqlDbType.String).Value = character.CharName;
+                    parameters.Add("@charrace", MySqlDbType.Byte).Value = character.CharRace;
+                    parameters.Add("@decor", MySqlDbType.Int32).Value = character.Decor;
+                    parameters.Add("@ext", MySqlDbType.Int32).Value = character.Ext;
+                    parameters.Add("@eyebrow", MySqlDbType.Int32).Value = character.Eyebrow;
+                    parameters.Add("@guid", MySqlDbType.String).Value = character.Guid;
+                    parameters.Add("@leftPupil", MySqlDbType.Int32).Value = character.LeftPupil;
+                    parameters.Add("@level", MySqlDbType.Byte).Value = character.Level;
+                    parameters.Add("@lip", MySqlDbType.Int32).Value = character.Lip;
+                    parameters.Add("@modifiers", MySqlDbType.String).Value = character.Modifiers;
+                    parameters.Add("@movex", MySqlDbType.Float).Value = character.MoveX;
+                    parameters.Add("@movey", MySqlDbType.Float).Value = character.MoveY;
+                    parameters.Add("@rightpupil", MySqlDbType.Int32).Value = character.RightPupil;
+                    parameters.Add("@rotate", MySqlDbType.Float).Value = character.Rotate;
+                    parameters.Add("@scale", MySqlDbType.Float).Value = character.Scale;
+                    parameters.Add("@type0", MySqlDbType.Int32).Value = character.Type[0];
+                    parameters.Add("@type1", MySqlDbType.Int32).Value = character.Type[1];
+                    parameters.Add("@type2", MySqlDbType.Int32).Value = character.Type[2];
+                    parameters.Add("@type3", MySqlDbType.Int32).Value = character.Type[3];
+                    parameters.Add("@type4", MySqlDbType.Int32).Value = character.Type[4];
+                    parameters.Add("@type5", MySqlDbType.Int32).Value = character.Type[5];
+                    parameters.Add("@type6", MySqlDbType.Int32).Value = character.Type[6];
+                    parameters.Add("@type7", MySqlDbType.Int32).Value = character.Type[7];
+                    parameters.Add("@type8", MySqlDbType.Int32).Value = character.Type[8];
+                    parameters.Add("@type9", MySqlDbType.Int32).Value = character.Type[9];
+                    parameters.Add("@type10", MySqlDbType.Int32).Value = character.Type[10];
+                    parameters.Add("@type11", MySqlDbType.Int32).Value = character.Type[11];
+                    parameters.Add("@type12", MySqlDbType.Int32).Value = character.Type[12];
+                    parameters.Add("@type13", MySqlDbType.Int32).Value = character.Type[13];
+                    parameters.Add("@type14", MySqlDbType.Int32).Value = character.Type[14];
+                    parameters.Add("@type15", MySqlDbType.Int32).Value = character.Type[15];
+                    parameters.Add("@type16", MySqlDbType.Int32).Value = character.Type[16];
+                    parameters.Add("@type17", MySqlDbType.Int32).Value = character.Type[17];
+                    parameters.Add("@v", MySqlDbType.Int64).Value = character.V;
+                    parameters.Add("@Weight0", MySqlDbType.Float).Value = character.Weight[0];
+                    parameters.Add("@Weight1", MySqlDbType.Float).Value = character.Weight[1];
+                    parameters.Add("@Weight2", MySqlDbType.Float).Value = character.Weight[2];
+                    parameters.Add("@Weight3", MySqlDbType.Float).Value = character.Weight[3];
+                    parameters.Add("@Weight4", MySqlDbType.Float).Value = character.Weight[4];
+                    parameters.Add("@Weight5", MySqlDbType.Float).Value = character.Weight[5];
+                    parameters.Add("@Weight6", MySqlDbType.Float).Value = character.Weight[6];
+                    parameters.Add("@Weight7", MySqlDbType.Float).Value = character.Weight[7];
+                    parameters.Add("@Weight8", MySqlDbType.Float).Value = character.Weight[8];
+                    parameters.Add("@Weight9", MySqlDbType.Float).Value = character.Weight[9];
+                    parameters.Add("@Weight10", MySqlDbType.Float).Value = character.Weight[10];
+                    parameters.Add("@Weight11", MySqlDbType.Float).Value = character.Weight[11];
+                    parameters.Add("@Weight12", MySqlDbType.Float).Value = character.Weight[12];
+                    parameters.Add("@Weight13", MySqlDbType.Float).Value = character.Weight[13];
+                    parameters.Add("@Weight14", MySqlDbType.Float).Value = character.Weight[14];
+                    parameters.Add("@Weight15", MySqlDbType.Float).Value = character.Weight[15];
+                    parameters.Add("@Weight16", MySqlDbType.Float).Value = character.Weight[16];
+                    parameters.Add("@Weight17", MySqlDbType.Float).Value = character.Weight[17];
+                    parameters.Add("@worldid", MySqlDbType.Byte).Value = Settings.Default.Game_Id; //character.WorldId;
+                    parameters.Add("@ability0", MySqlDbType.Byte).Value = character.Ability[0];
+                    parameters.Add("@ability1", MySqlDbType.Byte).Value = character.Ability[1];
+                    parameters.Add("@ability2", MySqlDbType.Byte).Value = character.Ability[2];
+                    parameters.Add("@zone", MySqlDbType.Int32).Value = character.MapId;
+                    
+                    parameters.Add("@x", MySqlDbType.Float).Value = character.Position.X;
+                    parameters.Add("@y", MySqlDbType.Float).Value = character.Position.Y;
+                    parameters.Add("@z", MySqlDbType.Float).Value = character.Position.Z;
 
+                    parameters.Add("@rotx", MySqlDbType.Int32).Value = character.Heading.X;
+                    parameters.Add("@roty", MySqlDbType.Int32).Value = character.Heading.Y;
+                    parameters.Add("@rotz", MySqlDbType.Int32).Value = character.Heading.Z;
+
+                    //parameters.Add("@liveobjectid", MySqlDbType.Int32).Value = character.LiveObjectId;
+                    //parameters.Add("@x", MySqlDbType.Float).Value = character.Position.X;
+                    //parameters.Add("@y", MySqlDbType.Float).Value = character.Position.Y;
+                    //parameters.Add("@z", MySqlDbType.Float).Value = character.Position.Z;
+                    //parameters.Add("@exp", MySqlDbType.Int32).Value = character.Exp;
+                    //parameters.Add("@maxexp", MySqlDbType.Int32).Value = character.MaxExp;
+                    //parameters.Add("@totalexp", MySqlDbType.Int32).Value = character.TotalExp;
+                    //parameters.Add("@hp", MySqlDbType.Int32).Value = character.Hp;
+                    //parameters.Add("@maxhp", MySqlDbType.Int32).Value = character.MaxHp;
+                    //parameters.Add("@sp", MySqlDbType.Int32).Value = character.Sp;
+                    //parameters.Add("@maxsp", MySqlDbType.Int32).Value = character.MaxSp;
+                    //parameters.Add("@stamina", MySqlDbType.Int32).Value = character.Stamina;
+                    //parameters.Add("@maxstamina", MySqlDbType.Int32).Value = character.MaxStamina;
+                    //parameters.Add("@str", MySqlDbType.Int32).Value = character.Str;
+                    //parameters.Add("@con", MySqlDbType.Int32).Value = character.Con;
+                    //parameters.Add("@int", MySqlDbType.Int32).Value = character.Int;
+                    //parameters.Add("@spr", MySqlDbType.Int32).Value = character.Spr;
+                    //parameters.Add("@dex", MySqlDbType.Int32).Value = character.Dex;
+                    //
                     m_DbCharacters.Add(character);
 
                     if (m_DbCharacters.Contains(character))
                     {
-                        cmd.Parameters.Add("@acharname", MySqlDbType.String).Value = character.CharName;
+                        parameters.Add("@acharname", MySqlDbType.String).Value = character.CharName;
                     }
 
                     cmd.ExecuteNonQuery();

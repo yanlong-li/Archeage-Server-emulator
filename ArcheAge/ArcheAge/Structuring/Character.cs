@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using LocalCommons.UID;
 using LocalCommons.Utilities;
+using LocalCommons.World;
 
 namespace ArcheAge.ArcheAge.Structuring
 {
@@ -39,9 +40,9 @@ namespace ArcheAge.ArcheAge.Structuring
         public byte Level { get; set; }
         public byte Ext { get; set; }
         public int CharBody { get; set; }
-        public long X { get; set; }
-        public long Y { get; set; }
-        public float Z { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Z { get; set; }
         public int Head { get; set; }
         public int Chest { get; set; }
         public int Legs { get; set; }
@@ -57,5 +58,77 @@ namespace ArcheAge.ArcheAge.Structuring
         public int StartingZoneId { get; set; }
         public int ModelRef { get; set; }
         public Uint24 LiveObjectId { get; set; }
+        
+        //add new data
+        /// <summary>
+        /// The map the character is in.
+        /// </summary>
+        public int MapId { get; set; }
+
+        /// <summary>
+        /// Character's current position.
+        /// </summary>
+        public Position Position { get; set; } = new Position(0, 0, 0);
+        public Direction Heading { get; set; } = new Direction(0, 0, 0);
+
+        public int Exp { get; set; }
+        public int MaxExp { get; set; }
+        public int TotalExp { get; set; }
+
+        /// <summary>
+        /// Current HP.
+        /// </summary>
+        public int Hp { get; set; }
+
+        /// <summary>
+        /// Maximum HP.
+        /// </summary>
+        public int MaxHp { get; set; }
+
+        /// <summary>
+        /// Current SP.
+        /// </summary>
+        public int Sp { get; set; }
+
+        /// <summary>
+        /// Maximum SP.
+        /// </summary>
+        public int MaxSp { get; set; }
+
+        /// <summary>
+        /// Current stamina.
+        /// </summary>
+        public int Stamina { get; set; }
+
+        /// <summary>
+        /// Maximum stamina.
+        /// </summary>
+        public int MaxStamina { get; set; }
+
+        /// <summary>
+        /// Gets or sets character's strength (STR).
+        /// </summary>
+        public int Str { get; set; }
+
+        /// <summary>
+        /// Gets or sets character's vitality (CON).
+        /// </summary>
+        public int Con { get; set; }
+
+        /// <summary>
+        /// Gets or sets character's intelligence (INT).
+        /// </summary>
+        public int Int { get; set; }
+
+        /// <summary>
+        /// Gets or sets character's spirit (SPR/MNA).
+        /// </summary>
+        public int Spr { get; set; }
+
+        /// <summary>
+        /// Gets or sets character's agility (DEX).
+        /// </summary>
+        public int Dex { get; set; }
+
     }
 }

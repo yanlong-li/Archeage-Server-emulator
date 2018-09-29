@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using System.IO;
+using LocalCommons.Utilities;
 
 namespace LocalCommons.Network
 {
@@ -151,16 +152,28 @@ namespace LocalCommons.Network
 		}
 
         /// <summary>
-        /// Reading Unsigned Integer From Stream.
+        /// Reading Unsigned 3 bytes From Stream.
         /// </summary>
         /// <returns>Unsigned Integer From Stream.</returns>
-		public uint ReadUInt32()
+		public Uint24 ReadUInt24()
 		{
 			if ( (m_Index + 4) > m_Size )
 				return 0;
 
-			return (uint)((m_Data[m_Index++] << 24) | (m_Data[m_Index++] << 16) | (m_Data[m_Index++] << 8) | m_Data[m_Index++]);
+			return (Uint24)((m_Data[m_Index++] << 16) | (m_Data[m_Index++] << 8) | m_Data[m_Index++]);
 		}
+
+	    /// <summary>
+	    /// Reading Unsigned Integer From Stream.
+	    /// </summary>
+	    /// <returns>Unsigned Integer From Stream.</returns>
+	    public uint ReadUInt32()
+	    {
+	        if ((m_Index + 4) > m_Size)
+	            return 0;
+
+	        return (uint)((m_Data[m_Index++] << 24) | (m_Data[m_Index++] << 16) | (m_Data[m_Index++] << 8) | m_Data[m_Index++]);
+	    }
 
         /// <summary>
         /// Reading Unsigned Short From Stream.

@@ -21,13 +21,12 @@ namespace ArcheAge.ArcheAge.Network
 
             //0100
             short count = 1; //count h
-            Uint24 bc = net.CurrentAccount.Character.LiveObjectId;
             ns.Write((short)count); //count h id=0 
             for (int i = 0; i < count; i++) //  - <for id="0">
             {
                 //042D01
                 //bc = 0x012D04;
-                ns.Write((Uint24)net.CurrentAccount.Character.LiveObjectId);//bc b size=3  //liveObjectId d3 from SCUnitStatePacket
+                ns.Write((Uint24)net.CurrentAccount.Character.LiveObjectId);//UnitID bc b size=3  //liveObjectId d3 from SCUnitStatePacket
                 byte c = 3;
                 ns.Write((byte)c); //type c id=1 
                 int time = 0;

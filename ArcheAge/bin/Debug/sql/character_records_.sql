@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80011
 File Encoding         : 65001
 
-Date: 2018-09-29 02:28:52
+Date: 2018-09-23 02:23:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,7 +21,7 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `character_records`;
 CREATE TABLE `character_records` (
   `characterid` int(11) unsigned NOT NULL,
-  `accountid` int(11) unsigned NOT NULL,
+  `accountid` int(11) unsigned DEFAULT NULL,
   `chargender` tinyint(3) unsigned DEFAULT NULL,
   `charname` varchar(80) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '',
   `charrace` tinyint(3) unsigned DEFAULT NULL,
@@ -80,17 +80,11 @@ CREATE TABLE `character_records` (
   `ability1` tinyint(3) unsigned DEFAULT NULL,
   `ability2` tinyint(3) unsigned DEFAULT NULL,
   `liveobjectid` int(11) DEFAULT NULL,
-  `zone` int(11) DEFAULT NULL,
-  `x` double DEFAULT NULL,
-  `y` double DEFAULT NULL,
-  `z` double DEFAULT NULL,
-  `rotx` smallint(6) DEFAULT NULL,
-  `roty` smallint(6) DEFAULT NULL,
-  `rotz` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`characterid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of character_records
 -- ----------------------------
+INSERT INTO `character_records` VALUES ('1', '50970', '1', 'newbie', '1', '-12042656', '3', '-12227665', 'DC0D0CFCD3E01847AD2A5D55EA471CDF', '-12356390', '1', '-4279809', '00D3000011DCF00F1D0500002000000E0000202500FAFE093DE4D70000BC00380000131D0000001FFF00150000001F0001000000D3000800D700000027000FEF01260000260C000044291500000000002DCA1D000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000\0\0', '0', '0', '-12356390', '0', '1', '19838', '24127', '0', '0', '0', '0', '0', '1537', '1', '0', '0', '316', '0', '563', '683', '0', '31', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '1', '1', '1', '1', '0', '0', '0', '1', '1', '11', '11', '1');
 SET FOREIGN_KEY_CHECKS=1;

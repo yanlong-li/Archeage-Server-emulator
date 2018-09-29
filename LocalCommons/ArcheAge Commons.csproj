@@ -71,6 +71,8 @@
     <Compile Include="UID\Int32UidFactory.cs" />
     <Compile Include="UID\UInt24UidFactory.cs" />
     <Compile Include="UID\UInt32UidFactory.cs" />
+    <Compile Include="Utilities\Float24.cs" />
+    <Compile Include="Utilities\Helpers.cs" />
     <Compile Include="Utilities\Uint24.cs" />
     <Compile Include="Utilities\Utility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

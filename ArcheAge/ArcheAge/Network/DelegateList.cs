@@ -250,7 +250,7 @@ namespace ArcheAge.ArcheAge.Network
             short rotz = reader.ReadByte();
             net.CurrentAccount.Character.Heading = new Direction(rotx, roty, rotz); //сохраним направление взгляда
 
-            //CharacterHolder.InsertOrUpdate(net.CurrentAccount.Character); //записываем в базу character_records
+            CharacterHolder.InsertOrUpdate(net.CurrentAccount.Character); //записываем в базу character_records
         }
 
         ///<summary>

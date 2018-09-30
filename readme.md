@@ -10,7 +10,7 @@ Database must be named "archeage".
 
 The tables are here: ArcheAge\bin\Debug\sql\*.sql, ArcheAgeLogin\bin\Debug\sql\*.sql
 
-You can contact us on Discord.
+You can contact us on Discord, for this, take a look at the Wiki.
 
 ![avatar](/doc/img/Screenshot_1.png)
 ![avatar](/doc/img/Screenshot_9.png)

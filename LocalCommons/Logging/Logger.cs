@@ -12,7 +12,7 @@ namespace LocalCommons.Logging
     /// </summary>
     public class Logger
     {
-        private static StreamWriter writer;
+        private static StreamWriter _writer;
 
         /// <summary>
         /// Initialized StreamWriter Which Writing All data into .log File.
@@ -21,8 +21,8 @@ namespace LocalCommons.Logging
         {
             if (!Directory.Exists(@"log"))
                 Directory.CreateDirectory(@"log");
-            writer = new StreamWriter(@"log/" + "logging" + ".log");
-            writer.AutoFlush = true;
+            _writer = new StreamWriter(@"log/" + "logging" + ".log");
+            _writer.AutoFlush = true;
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace LocalCommons.Logging
         public static void Trace(string data, params object[] prms)
         {
             Console.WriteLine(DateTime.Now.ToString("g") + " [INFO] - " + data, prms);
-            writer.WriteLine(DateTime.Now.ToString("g") + " [INFO]  - " + data, prms);
+            _writer.WriteLine(DateTime.Now.ToString("g") + " [INFO]  - " + data, prms);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace LocalCommons.Logging
         public static void Trace(string data)
         {
             Console.WriteLine(DateTime.Now.ToString("g") + " [INFO] - " + data);
-            writer.WriteLine(DateTime.Now.ToString("g") + " [INFO] - " + data);
+            _writer.WriteLine(DateTime.Now.ToString("g") + " [INFO] - " + data);
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace LocalCommons.Logging
             data = "[ " + data + " ]";
             while (data.Length < 79) data = "-" + data;
             Console.WriteLine(data);
-            writer.WriteLine(data);
+            _writer.WriteLine(data);
         }
     }
 }

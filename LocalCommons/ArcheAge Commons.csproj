@@ -57,6 +57,9 @@
     <Compile Include="Bufferization\BinaryOperations.cs" />
     <Compile Include="Cookie\Cookie.cs" />
     <Compile Include="Cryptography\Encrypt.cs" />
+    <Compile Include="Database\ArcheageDb.cs" />
+    <Compile Include="Database\Commands.cs" />
+    <Compile Include="Database\MySqlDataReaderExtension.cs" />
     <Compile Include="Logging\Bar.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Network\AsyncListener.cs" />

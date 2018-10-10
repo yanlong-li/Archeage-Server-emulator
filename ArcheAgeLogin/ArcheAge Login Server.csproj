@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArcheAge\Database\LoginDb.cs" />
     <Compile Include="ArcheAge\GameServerController.cs" />
     <Compile Include="ArcheAge\Holders\AccountHolder.cs" />
     <Compile Include="ArcheAge\Holders\CharacterHolder.cs" />

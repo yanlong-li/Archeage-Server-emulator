@@ -4,10 +4,14 @@ using ArcheAgeLogin.ArcheAge.Network;
 using ArcheAgeLogin.Properties;
 using LocalCommons.Logging;
 using LocalCommons.Network;
+using LocalCommons.Database;
+using MySql.Data.MySqlClient;
 using LocalCommons.UID;
 using System;
 using System.Diagnostics;
-using ArcheAgeLogin.ArcheAge.Holders;
+using System.IO;
+using System.Linq;
+using ArcheAgeLogin.ArcheAge.Database;
 
 namespace ArcheAgeLogin
 {
@@ -40,6 +44,11 @@ namespace ArcheAgeLogin
             Key_Pressed();
 
         }
+
+        /// <summary>
+        /// Login server's database.
+        /// </summary>
+        public static LoginDb Database { get; private set; }
 
         static void selectVersion()
         {
@@ -84,7 +93,7 @@ namespace ArcheAgeLogin
             Shutdown();
         }
 
-        static void Shutdown()
+        public static void Shutdown()
         {
             //TODO : Here Shutdowning.
         }
@@ -121,6 +130,15 @@ namespace ArcheAgeLogin
 
             //--------------- MySQL ---------------------------
             Logger.Section("MySQL");
+
+            // Database
+            ArcheageDb.Init(m_Current.DataBase_Host, m_Current.DataBase_User, m_Current.DataBase_Password, m_Current.DataBase_Name);
+
+            Database = new LoginDb();
+
+            // Check if there are any updates
+            CheckDatabaseUpdates();
+
             AccountHolder.LoadAccountData();
 
             //----------------Network ---------------------------
@@ -129,5 +147,25 @@ namespace ArcheAgeLogin
             new AsyncListener(m_Current.Main_IP, m_Current.Game_Port, defined: typeof(GameConnection)); //Waiting For GameServer Connections
             new AsyncListener(m_Current.Main_IP, m_Current.ArcheAge_Port, defined: typeof(ArcheAgeConnection)); //Waiting For ArcheAge Connections
         }
+
+        static private void CheckDatabaseUpdates()
+        {
+            Logger.Trace("Checking for updates...");
+
+            var files = Directory.GetFiles("sql");
+            foreach (var filePath in files.Where(file => Path.GetExtension(file).ToLower() == ".sql"))
+                RunUpdate(Path.GetFileName(filePath));
+        }
+
+        private static void RunUpdate(string updateFile)
+        {
+            if (Database.CheckUpdate(updateFile))
+                return;
+
+            Logger.Trace("Update '{0}' found, executing...", updateFile);
+
+            Database.RunUpdate(updateFile);
+        }
+
     }
 }
